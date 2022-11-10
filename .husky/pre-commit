@@ -1,4 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cd frontend && npm run lint && cd ../backend && mvn checkstyle:checkstyle
+echo "Linting frontend 💅"
+cd frontend && npm run lint
+echo "Linting backend ✨"
+cd ../backend && mvn checkstyle:checkstyle
