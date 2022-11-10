@@ -20,6 +20,6 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,css,md}": "cd frontend && npm run lint",
-    "**/*.{java}": "cd backend && mvn checkstyle:checkstyle"
+    "**/*.java": "cd backend && mvn checkstyle:checkstyle"
   }
 }
