@@ -9,6 +9,8 @@ export default defineConfig({
   viewportWidth: 1920,
   viewportHeight: 1080,
   e2e: {
+    //we can add support file later on
+    supportFile: false,
     baseUrl: 'http://localhost:5173/',
   },
 })
