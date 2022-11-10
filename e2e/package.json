@@ -1,16 +1,22 @@
 {
-  "name": "e2e",
+  "name": "sepm-gruppenphase-e2e",
   "version": "1.0.0",
-  "description": "",
+  "description": "e2e tests",
   "main": "index.js",
-  "scripts": {
-    "test": "npx playwright test",
-    "report": "npx playwright show-report"
+  "private": true,
+  "dependencies": {
+    "cypress": "10.11.0",
+    "cypress-mochawesome-reporter": "3.2.3",
+    "cypress-multi-reporters": "1.6.1",
+    "mocha-junit-reporter": "2.1.1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.27.1"
-  }
+    "typescript": "4.8.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress": "cypress run"
+  },
+  "author": "Heimo Stranner",
+  "license": "ISC"
 }

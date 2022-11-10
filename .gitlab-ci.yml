@@ -34,7 +34,7 @@ test-frontend:
 
 e2e-test:
   stage: test
-  image: mcr.microsoft.com/playwright:v1.27.1-focal
+  image: registry.reset.inso-w.at/pub/docker/cypress:latest
   script:
     - cd frontend
     - npm ci --legacy-peer-deps
@@ -45,18 +45,17 @@ e2e-test:
     - sleep 30
     - cd ../e2e
     - npm ci --legacy-peer-deps
-    - npx playwright install --with-deps
-    - npm test
+    - npx cypress run
   artifacts:
     when: always
     expire_in: 1 hour
-    # reports:
-    #   junit:
-    #     - "**/playwright-report/index.html"
-    # paths:
-    #   - "**/cypress/videos/*.mp4"
-    #   - "**/cypress/screenshots/*.png"
-    #   - "**/cypress/reports/html/**"
+    reports:
+      junit:
+        - "**/cypress/results/*.xml"
+    paths:
+      - "**/cypress/videos/*.mp4"
+      - "**/cypress/screenshots/*.png"
+      - "**/cypress/reports/html/**"
 
 gitinspector:
   stage: test
