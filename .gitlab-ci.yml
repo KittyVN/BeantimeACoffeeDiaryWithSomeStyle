@@ -25,7 +25,6 @@ test-frontend:
   script:
     - cd frontend
     - npm ci --legacy-peer-deps
-    # - npm run lint
     - npm run build
   artifacts:
     paths:
@@ -61,7 +60,7 @@ gitinspector:
   stage: test
   image: registry.reset.inso-w.at/pub/docker/gitinspector:latest
   script:
-    - /gitinspector/gitinspector.py -f css,html,js,json,kt,java,md,sh,ts,txt,xml,yml -F html --grading -w --since 2022-01-01 > gitinspector.html
+    - /gitinspector/gitinspector.py -f css,html,js,json,kt,java,md,sh,ts,tsx,txt,xml,yml -F html --grading -w --since 2022-01-01 > gitinspector.html
   artifacts:
     paths:
       - gitinspector.html
