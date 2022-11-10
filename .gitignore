@@ -1,22 +1,52 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Playwright
+test-results
+playwright-report
+playwright/.cache
+
 ### PDF-Files ###
 *.pdf
 
 ### Log-Files ###
-log/
+log
 
 ### Database-Files ###
-/database/
+database
 *.mv.db
 
 ### Gradle ###
 .gradle
-build/
+build
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
 
 ### Maven ###
-target/
+target
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -43,11 +73,11 @@ buildNumber.properties
 *.ipr
 
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+nbproject/private
+nbbuild
+dist
+nbdist
+.nb-gradle
 
 ### VS Code ###
-.vscode/
+.vscode
