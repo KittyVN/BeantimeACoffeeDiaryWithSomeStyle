@@ -19,7 +19,7 @@
     "lint-staged": "^13.0.3"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,css,md}": "cd frontend && npm run lint",
-    "*.{java}": "cd backend && mvn checkstyle:checkstyle"
+    "**/*.{ts,tsx,js,css,md}": "cd frontend && npm run lint",
+    "**/*.{java}": "cd backend && mvn checkstyle:checkstyle"
   }
 }
