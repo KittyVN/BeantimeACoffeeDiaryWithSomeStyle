@@ -1,4 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cd frontend && npm run build && cd ../backend && mvn clean compile
+echo "Building frontend 🏗️"
+cd frontend && npm run build
+echo "Building backend 👷‍♀️"
+cd ../backend && mvn clean compile
