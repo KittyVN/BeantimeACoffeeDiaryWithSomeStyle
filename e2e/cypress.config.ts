@@ -1,9 +1,9 @@
-import { defineConfig } from 'cypress'
+import { defineConfig } from "cypress";
 
 export default defineConfig({
-  reporter: 'cypress-multi-reporters',
+  reporter: "cypress-multi-reporters",
   reporterOptions: {
-    configFile: 'cypress/reporter-config.json',
+    configFile: "cypress/reporter-config.json",
   },
   watchForFileChanges: false,
   viewportWidth: 1920,
@@ -11,6 +11,6 @@ export default defineConfig({
   e2e: {
     //we can add support file later on
     supportFile: false,
-    baseUrl: 'http://localhost:5173/',
+    baseUrl: "http://localhost:4200/",
   },
-})
+});
