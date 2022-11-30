@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-public class UserLoginDto {
+public class UserRegisterDto {
 
     @NotNull(message = "Email must not be null")
     @Email
@@ -34,11 +34,11 @@ public class UserLoginDto {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UserLoginDto userLoginDto)) {
+        if (!(o instanceof UserRegisterDto userRegisterDto)) {
             return false;
         }
-        return Objects.equals(email, userLoginDto.email)
-            && Objects.equals(password, userLoginDto.password);
+        return Objects.equals(email, userRegisterDto.email)
+            && Objects.equals(password, userRegisterDto.password);
     }
 
     @Override
@@ -55,16 +55,16 @@ public class UserLoginDto {
     }
 
 
-    public static final class UserLoginDtoBuilder {
+    public static final class UserRegisterDtoBuilder {
         private String email;
         private String password;
 
-        public UserLoginDtoBuilder setEmail(String email) {
+        public UserRegisterDtoBuilder setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public UserLoginDtoBuilder withPassword(String password) {
+        public UserRegisterDtoBuilder withPassword(String password) {
             this.password = password;
             return this;
         }

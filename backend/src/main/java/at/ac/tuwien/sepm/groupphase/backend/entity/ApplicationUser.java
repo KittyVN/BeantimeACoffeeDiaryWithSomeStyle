@@ -1,13 +1,23 @@
 package at.ac.tuwien.sepm.groupphase.backend.entity;
 
-//TODO: replace this class with a correct ApplicationUser Entity implementation
-public class ApplicationUser {
+import javax.persistence.*;
 
+//TODO: replace this class with a correct ApplicationUser Entity implementation
+@Entity
+public class ApplicationUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private Boolean admin;
 
     public ApplicationUser() {
+
     }
 
     public ApplicationUser(String email, String password, Boolean admin) {
