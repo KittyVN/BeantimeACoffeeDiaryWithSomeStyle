@@ -31,7 +31,6 @@
             "style": "kebab-case"
           }
         ],
-        "@typescript-eslint/consistent-type-imports": ["error"],
         "import/first": ["error"],
         "import/no-useless-path-segments": ["error"],
         "import/no-duplicates": ["error"],
