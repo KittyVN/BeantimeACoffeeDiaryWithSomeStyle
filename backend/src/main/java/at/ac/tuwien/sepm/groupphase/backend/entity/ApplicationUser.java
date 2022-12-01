@@ -1,6 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 //TODO: replace this class with a correct ApplicationUser Entity implementation
 @Entity

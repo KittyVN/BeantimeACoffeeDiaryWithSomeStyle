@@ -12,8 +12,7 @@ import javax.annotation.security.PermitAll;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
-public class
-AuthenticationEndpoint {
+public class AuthenticationEndpoint {
 
     private final UserService userService;
 
