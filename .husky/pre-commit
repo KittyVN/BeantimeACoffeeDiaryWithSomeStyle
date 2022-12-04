@@ -1,8 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# echo "Linting frontend 💅"
-# cd frontend && npm run lint
-# echo "Linting backend ✨"
-# cd ../backend && mvn checkstyle:checkstyle
-npx lint-staged
+echo "Linting frontend 💅"
+cd frontend && npm run lint
+echo "Linting backend ✨"
+cd ../backend && mvn checkstyle:checkstyle
+# npx lint-staged
