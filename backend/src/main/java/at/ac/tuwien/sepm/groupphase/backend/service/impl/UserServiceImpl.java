@@ -2,7 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.endpoint.dto.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.endpoint.dto.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.ApplicationUser;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,27 +40,27 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         LOGGER.debug("Load all user by email");
         try {
-            ApplicationUser applicationUser = findApplicationUserByEmail(email);
+            User user = findApplicationUserByEmail(email);
 
             List<GrantedAuthority> grantedAuthorities;
-            if (applicationUser.getAdmin()) {
+            if (user.getAdmin()) {
                 grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
             } else {
                 grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_USER");
             }
 
-            return new User(applicationUser.getEmail(), applicationUser.getPassword(), grantedAuthorities);
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
         } catch (NotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage(), e);
         }
     }
 
     @Override
-    public ApplicationUser findApplicationUserByEmail(String email) {
+    public User findApplicationUserByEmail(String email) {
         LOGGER.debug("Find application user by email");
-        ApplicationUser applicationUser = userRepository.findByEmail(email);
-        if (applicationUser != null) {
-            return applicationUser;
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return user;
         }
         throw new NotFoundException(String.format("Could not find the user with the email address %s", email));
     }
@@ -86,12 +85,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(UserRegisterDto userRegisterDto) {
-        //create new User in database
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setEmail(userRegisterDto.getEmail());
-        applicationUser.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
-        applicationUser.setAdmin(false);
-        userRepository.save(applicationUser);
+        User user = User
+            .UserBuilder
+            .aUser()
+            .withEmail(userRegisterDto.getEmail())
+            .withPassword(passwordEncoder.encode(userRegisterDto.getPassword()))
+            .withAdmin(false)
+            .build();
+        userRepository.save(user);
 
         UserDetails userDetails = loadUserByUsername(userRegisterDto.getEmail());
         List<String> roles = userDetails.getAuthorities()
