@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(UserLoginDto userLoginDto) {
+        LOGGER.debug("Login user {}", userLoginDto);
         UserDetails userDetails = loadUserByUsername(userLoginDto.getEmail());
         if (userDetails != null
             && userDetails.isAccountNonExpired()
@@ -86,6 +87,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(UserRegisterDto userRegisterDto) {
+        LOGGER.debug("Register user {}", userRegisterDto);
         User user = User
             .UserBuilder
             .aUser()
