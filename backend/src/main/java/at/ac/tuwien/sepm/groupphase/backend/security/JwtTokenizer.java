@@ -29,6 +29,6 @@ public class JwtTokenizer {
             .setExpiration(new Date(System.currentTimeMillis() + securityProperties.getJwtExpirationTime()))
             .claim("rol", roles)
             .compact();
-        return securityProperties.getAuthTokenPrefix() + token;
+        return token;
     }
 }

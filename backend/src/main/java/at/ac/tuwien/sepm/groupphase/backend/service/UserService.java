@@ -1,7 +1,8 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.endpoint.dto.UserLoginDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.ApplicationUser;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +28,7 @@ public interface UserService extends UserDetailsService {
      * @param email the email address
      * @return a application user
      */
-    ApplicationUser findApplicationUserByEmail(String email);
+    User findApplicationUserByEmail(String email);
 
     /**
      * Log in a user.
@@ -37,4 +38,12 @@ public interface UserService extends UserDetailsService {
      * @throws org.springframework.security.authentication.BadCredentialsException if credentials are bad
      */
     String login(UserLoginDto userLoginDto);
+
+    /**
+     * Register a new user.
+     *
+     * @param userRegisterDto registration data
+     * @return the JWT, if successful
+     */
+    String register(UserRegisterDto userRegisterDto);
 }
