@@ -1,4 +1,4 @@
-package at.ac.tuwien.sepm.groupphase.backend.endpoint.dto;
+package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -13,20 +13,20 @@ public class UserLoginDto {
     @NotNull(message = "Password must not be null")
     private String password;
 
+    public UserLoginDto() {
+    }
+
+    public UserLoginDto(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -52,28 +52,5 @@ public class UserLoginDto {
             + "email='" + email + '\''
             + ", password='" + password + '\''
             + '}';
-    }
-
-
-    public static final class UserLoginDtoBuilder {
-        private String email;
-        private String password;
-
-        public UserLoginDtoBuilder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserLoginDtoBuilder withPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserRegisterDto build() {
-            UserRegisterDto userRegisterDto = new UserRegisterDto();
-            userRegisterDto.setEmail(email);
-            userRegisterDto.setPassword(password);
-            return userRegisterDto;
-        }
     }
 }

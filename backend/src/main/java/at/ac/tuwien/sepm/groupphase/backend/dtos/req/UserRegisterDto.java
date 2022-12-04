@@ -1,4 +1,4 @@
-package at.ac.tuwien.sepm.groupphase.backend.endpoint.dto;
+package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -13,20 +13,20 @@ public class UserRegisterDto {
     @NotNull(message = "Password must not be null")
     private String password;
 
+    public UserRegisterDto() {
+    }
+
+    public UserRegisterDto(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -55,25 +55,25 @@ public class UserRegisterDto {
     }
 
 
-    public static final class UserRegisterDtoBuilder {
-        private String email;
-        private String password;
-
-        public UserRegisterDtoBuilder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserRegisterDtoBuilder withPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserRegisterDto build() {
-            UserRegisterDto userRegisterDto = new UserRegisterDto();
-            userRegisterDto.setEmail(email);
-            userRegisterDto.setPassword(password);
-            return userRegisterDto;
-        }
-    }
+//    public static final class UserRegisterDtoBuilder {
+//        private String email;
+//        private String password;
+//
+//        public UserRegisterDtoBuilder setEmail(String email) {
+//            this.email = email;
+//            return this;
+//        }
+//
+//        public UserRegisterDtoBuilder withPassword(String password) {
+//            this.password = password;
+//            return this;
+//        }
+//
+//        public UserRegisterDto build() {
+//            UserRegisterDto userRegisterDto = new UserRegisterDto();
+//            userRegisterDto.setEmail(email);
+//            userRegisterDto.setPassword(password);
+//            return userRegisterDto;
+//        }
+//    }
 }

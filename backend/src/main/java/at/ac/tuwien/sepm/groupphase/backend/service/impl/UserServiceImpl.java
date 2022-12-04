@@ -1,8 +1,9 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.endpoint.dto.UserLoginDto;
-import at.ac.tuwien.sepm.groupphase.backend.endpoint.dto.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
             User user = findApplicationUserByEmail(email);
 
             List<GrantedAuthority> grantedAuthorities;
-            if (user.getAdmin()) {
+            if (user.getRole().equals(UserRole.ADMIN)) {
                 grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
             } else {
                 grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_USER");
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
             .aUser()
             .withEmail(userRegisterDto.getEmail())
             .withPassword(passwordEncoder.encode(userRegisterDto.getPassword()))
-            .withAdmin(false)
+            .withRole(UserRole.USER)
             .build();
         userRepository.save(user);
 

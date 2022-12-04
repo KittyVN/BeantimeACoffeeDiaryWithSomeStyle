@@ -1,14 +1,18 @@
 package at.ac.tuwien.sepm.groupphase.backend.entity;
 
+import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ApplicationUser")
+@Table(name = "application_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +22,8 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    private Boolean admin;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     public Long getId() {
         return id;
@@ -45,12 +49,12 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getAdmin() {
-        return admin;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     //Builder
@@ -58,7 +62,7 @@ public class User {
         private Long id;
         private String email;
         private String password;
-        private Boolean admin;
+        private UserRole role;
 
         private UserBuilder() {
         }
@@ -82,8 +86,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder withAdmin(Boolean admin) {
-            this.admin = admin;
+        public UserBuilder withRole(UserRole role) {
+            this.role = role;
             return this;
         }
 
@@ -92,7 +96,7 @@ public class User {
             user.setId(id);
             user.setEmail(email);
             user.setPassword(password);
-            user.setAdmin(admin);
+            user.setRole(role);
             return user;
         }
     }
