@@ -29,7 +29,7 @@ export class RegisterComponent {
         this.registerService.register({ email, password }).subscribe({
           next: res => {
             Cookies.set('token', res);
-            this.router.navigate(['/']);
+            this.router.navigate(['/home']);
           },
           error: err => console.log(err),
         });
