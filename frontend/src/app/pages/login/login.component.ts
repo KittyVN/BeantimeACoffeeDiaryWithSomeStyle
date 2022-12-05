@@ -4,25 +4,25 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
-export class RegisterComponent {
+export class LoginComponent {
   constructor(private userService: UserService, private router: Router) {}
 
-  registerForm = new FormGroup({
+  loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
   onSubmit() {
-    console.log(this.registerForm.value);
+    console.log(this.loginForm.value);
 
-    if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
       if (email && password) {
-        this.userService.register({ email, password }).subscribe({
+        this.userService.login({ email, password }).subscribe({
           next: res => {
             localStorage.setItem('token', res);
             this.router.navigate(['/home']);
@@ -34,11 +34,11 @@ export class RegisterComponent {
   }
 
   getErrorMessage() {
-    if (this.registerForm.hasError('required')) {
+    if (this.loginForm.hasError('required')) {
       return 'You must enter a value';
     }
 
-    return this.registerForm.controls.email.hasError('email')
+    return this.loginForm.controls.email.hasError('email')
       ? 'Not a valid email'
       : '';
   }
