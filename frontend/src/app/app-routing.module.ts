@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { RoleGuard } from 'src/services/auth/role.guard';
 
 import { RegisterComponent } from './pages/register/register.component';
+import { LoginComponent } from './pages/login/login.component';
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
     },
   },
   { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'home' },
 ];
 

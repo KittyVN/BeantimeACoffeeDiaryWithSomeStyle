@@ -2,10 +2,7 @@
   <mat-card>
     <mat-card-content>
       <h1>Login</h1>
-      <form
-        class="registerForm"
-        [formGroup]="registerForm"
-        (submit)="onSubmit()">
+      <form class="loginForm" [formGroup]="loginForm" (submit)="onSubmit()">
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input
@@ -13,19 +10,14 @@
             placeholder="m.musermann@email.at"
             required
             matInput />
-          <mat-error *ngIf="registerForm.controls.email.invalid">{{
+          <mat-error *ngIf="loginForm.controls.email.invalid">{{
             getErrorMessage()
           }}</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input
-            formControlName="password"
-            placeholder="********"
-            required
-            type="password"
-            matInput />
-          <mat-error *ngIf="registerForm.controls.email.invalid">{{
+          <input formControlName="password" required type="password" matInput />
+          <mat-error *ngIf="loginForm.controls.email.invalid">{{
             getErrorMessage()
           }}</mat-error>
         </mat-form-field>

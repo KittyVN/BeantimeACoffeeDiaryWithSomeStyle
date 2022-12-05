@@ -19,14 +19,14 @@ export class RoleGuard implements CanActivate {
 
     const token = localStorage.getItem('token');
     if (!token) {
-      this.router.navigate(['/register']);
+      this.router.navigate(['/login']);
       return false;
     }
 
     const tokenPayload = this.jwtHelper.decodeToken(token);
 
     if (!this.auth.isAuthenticated() || tokenPayload.rol[0] !== expectedRole) {
-      this.router.navigate(['/register']);
+      this.router.navigate(['/login']);
       return false;
     }
     return true;
