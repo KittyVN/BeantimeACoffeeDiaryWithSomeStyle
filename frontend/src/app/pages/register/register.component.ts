@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterService } from 'src/services/register.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -9,10 +9,7 @@ import { RegisterService } from 'src/services/register.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  constructor(
-    private registerService: RegisterService,
-    private router: Router
-  ) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   registerForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -25,7 +22,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       const { email, password } = this.registerForm.value;
       if (email && password) {
-        this.registerService.register({ email, password }).subscribe({
+        this.userService.register({ email, password }).subscribe({
           next: res => {
             localStorage.setItem('token', res);
             this.router.navigate(['/home']);
