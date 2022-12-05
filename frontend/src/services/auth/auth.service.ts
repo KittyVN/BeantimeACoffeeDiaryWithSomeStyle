@@ -7,6 +7,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   constructor(private jwtHelper: JwtHelperService) {}
 
+  /**
+   * Check if the user is authenticated
+   * @returns True if a valid token is present
+   */
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
 
