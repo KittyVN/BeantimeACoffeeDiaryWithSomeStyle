@@ -24,6 +24,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ContainerComponent } from './components/ui/container/container.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { TestHomeComponent } from './pages/test-home/test-home.component';
+import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { TestHomeComponent } from './pages/test-home/test-home.component';
     ContainerComponent,
     NavigationComponent,
     TestHomeComponent,
+    TestAdminPageComponent,
   ],
   imports: [
     BrowserModule,
