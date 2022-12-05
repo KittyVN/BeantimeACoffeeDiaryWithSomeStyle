@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import Cookies from 'js-cookie';
 import { RegisterService } from 'src/services/register.service';
 
 @Component({
@@ -28,7 +27,7 @@ export class RegisterComponent {
       if (email && password) {
         this.registerService.register({ email, password }).subscribe({
           next: res => {
-            Cookies.set('token', res);
+            localStorage.setItem('token', res);
             this.router.navigate(['/home']);
           },
           error: err => console.log(err),

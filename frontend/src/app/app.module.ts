@@ -15,6 +15,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from 'src/util';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { JwtModule } from '@auth0/angular-jwt';
+import Cookies from 'js-cookie';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,6 +48,11 @@ import { TestHomeComponent } from './pages/test-home/test-home.component';
     ReactiveFormsModule,
     MatGridListModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('token'),
+      },
+    }),
   ],
   providers: [
     {
