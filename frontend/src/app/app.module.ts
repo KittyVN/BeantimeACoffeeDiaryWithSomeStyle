@@ -25,6 +25,7 @@ import { ContainerComponent } from './components/ui/container/container.componen
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.
     NavigationComponent,
     TestHomeComponent,
     TestAdminPageComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
