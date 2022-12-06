@@ -37,7 +37,7 @@ public class CoffeeBean {
     @Column
     private String description;
 
-    @Column
+    @Column(nullable = false)
     private Boolean custom;
 
     public Long getId() {
