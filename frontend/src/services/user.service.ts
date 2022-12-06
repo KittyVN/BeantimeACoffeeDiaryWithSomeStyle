@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RegisterUserDto, LoginUserDto } from 'src/dtos';
+import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -22,5 +22,14 @@ export class UserService {
    */
   public login(user: LoginUserDto) {
     return this.http.post('auth/login', user, { responseType: 'text' });
+  }
+
+  /**
+   * Reset the password of an existing user
+   * @param user The user to login
+   * @returns the email
+   */
+  public resetPassword(email: EmailDto) {
+    return this.http.put('auth/resetpassword', email, { responseType: 'text' });
   }
 }

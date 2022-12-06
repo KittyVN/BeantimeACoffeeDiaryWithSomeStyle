@@ -2,12 +2,15 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +32,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
+    private final UserValidator validator;
+
+
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer, UserValidator validator) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenizer = jwtTokenizer;
+        this.validator = validator;
     }
 
     @Override
@@ -65,6 +72,8 @@ public class UserServiceImpl implements UserService {
         }
         throw new NotFoundException(String.format("Could not find the user with the email address %s", email));
     }
+
+
 
     @Override
     public String login(UserLoginDto userLoginDto) {
@@ -104,4 +113,35 @@ public class UserServiceImpl implements UserService {
             .toList();
         return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
     }
+
+    @Override
+    public String resetPassword(UserResetPasswordDto userToReset) throws ValidationException {
+        String randomPassword = RandomStringUtils.randomAlphanumeric(10);
+        validator.validateEmail(userToReset.getEmail());
+        User user = userRepository.findByEmail(userToReset.getEmail());
+        if (user != null) {
+            userRepository.updatePasswordByEmail(userToReset.getEmail(), randomPassword);
+
+            String subject = "Your Password has been reset";
+            String content = "Hi, this is your new password: " + randomPassword;
+            content += "\nNote: for security reason, "
+                + "you must change your password after logging in.";
+
+            String message = "";
+
+            try {
+                EmailUtility.sendEmail("smtp.gmail.com", "587", "noreplybeantime@gmail.com", "Beantime", "xnpkqllidlxxeoqh",
+                    userToReset.getEmail(), subject, content);
+                message = "Your password has been reset. Please check your e-mail.";
+                return message;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                message = "There were an error: " + ex.getMessage();
+                return message;
+            }
+        }
+        return "This email doesnt exist";
+    }
+
+
 }
