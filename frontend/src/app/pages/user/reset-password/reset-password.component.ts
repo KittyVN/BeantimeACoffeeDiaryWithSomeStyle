@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-password',
@@ -9,7 +10,11 @@ import { UserService } from 'src/services/user.service';
   styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private notification: ToastrService
+  ) {}
 
   resetForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -23,10 +28,17 @@ export class ResetPasswordComponent {
       if (email) {
         this.userService.resetPassword({ email }).subscribe({
           next: res => {
+            if (res !== 'This email doesnt exist') {
+              this.notification.success(`password was successfully changed }.`);
+              this.router.navigate(['/home']);
+            }
             console.log(res);
-            this.router.navigate(['/home']);
+            this.notification.info(`this email doesnt exist.`);
           },
-          error: err => console.log(err),
+          error: err => {
+            console.log(err);
+            this.notification.error(`${err}`);
+          },
         });
       }
     }
