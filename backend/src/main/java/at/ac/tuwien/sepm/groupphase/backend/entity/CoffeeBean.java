@@ -23,7 +23,7 @@ public class CoffeeBean {
     private String name;
 
     @Column
-    private Integer price;
+    private Float price;
 
     @Column
     private String origin;
@@ -56,11 +56,11 @@ public class CoffeeBean {
         this.name = name;
     }
 
-    public Integer getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -107,7 +107,7 @@ public class CoffeeBean {
     public static class CoffeeBeanBuilder {
         private Long id;
         private String name;
-        private Integer price;
+        private Float price;
         private String origin;
         private Integer height;
         private CoffeeRoast coffeeRoast;
@@ -131,7 +131,7 @@ public class CoffeeBean {
             return this;
         }
 
-        public CoffeeBeanBuilder withPrice(Integer price) {
+        public CoffeeBeanBuilder withPrice(Float price) {
             this.price = price;
             return this;
         }
