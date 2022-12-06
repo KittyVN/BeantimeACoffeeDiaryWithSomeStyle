@@ -19,7 +19,7 @@ public class CoffeeBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column
@@ -117,9 +117,7 @@ public class CoffeeBean {
         private CoffeeBeanBuilder() {
         }
 
-        public static CoffeeBeanBuilder aCoffeeBean
-
-        {
+        public static CoffeeBeanBuilder aCoffeeBean() {
             return new CoffeeBeanBuilder();
         }
 
@@ -153,17 +151,17 @@ public class CoffeeBean {
             return this;
         }
 
-        public CoffeeBeanBuilder withDescription (String description){
+        public CoffeeBeanBuilder withDescription(String description) {
             this.description = description;
             return this;
         }
 
-        public CoffeeBeanBuilder withCustom (Boolean custom){
+        public CoffeeBeanBuilder withCustom(Boolean custom) {
             this.custom = custom;
             return this;
         }
 
-        public CoffeeBean build(){
+        public CoffeeBean build() {
             CoffeeBean bean = new CoffeeBean();
             bean.setId(id);
             bean.setName(name);
