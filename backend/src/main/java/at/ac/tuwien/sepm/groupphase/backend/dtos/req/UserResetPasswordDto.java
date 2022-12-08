@@ -11,8 +11,6 @@ public class UserResetPasswordDto {
     @Email
     private String email;
 
-    @Null(message = "Password can be null here")
-    private String password;
 
     public UserResetPasswordDto() {
     }
@@ -25,28 +23,23 @@ public class UserResetPasswordDto {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserResetPasswordDto that = (UserResetPasswordDto) o;
-        return Objects.equals(email, that.email) && Objects.equals(password, that.password);
+        return Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, password);
+        return Objects.hash(email);
     }
 
     @Override
     public String toString() {
         return "UserResetPasswordDto{"
             + "email='" + email + '\''
-            + ", password='" + password + '\''
             + '}';
     }
 }
