@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Stream<UserDto> search(UserDto searchParameters) {
-        LOGGER.debug("Search users by parameters {}", searchParameters);
+        LOGGER.trace("Search users by parameters {}", searchParameters);
         return userRepository.search(searchParameters).stream().map(mapper::entityToDto);
     }
 }
