@@ -30,4 +30,9 @@ public class UserDto {
     public UserRole getRole() {
         return role;
     }
+
+    @Override
+    public String toString() {
+        return String.format("UserDto{id=%d,email='%s',role='%s'}", this.id, this.email, this.role);
+    }
 }
