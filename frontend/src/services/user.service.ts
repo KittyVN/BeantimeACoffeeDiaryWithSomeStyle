@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
 
 @Injectable({ providedIn: 'root' })
@@ -26,10 +26,20 @@ export class UserService {
 
   /**
    * Reset the password of an existing user
-   * @param user The user to login
+   * @param email The email to the password to reset
    * @returns the email
    */
   public resetPassword(email: EmailDto) {
     return this.http.put('auth/resetpassword', email, { responseType: 'text' });
+  }
+
+  /**
+   * Checks if email links to an existing user
+   * @param email The email to check for
+   * @returns the email
+   */
+  public checkEmail(email: EmailDto) {
+    const params = new HttpParams().set('email', email.email);
+    return this.http.get('auth/checkemail', { params });
   }
 }
