@@ -1,10 +1,12 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
+import at.ac.tuwien.sepm.groupphase.backend.mapper.UserMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,12 +32,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
+    private final UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenizer = jwtTokenizer;
+        this.mapper = mapper;
     }
 
     @Override
@@ -103,5 +108,11 @@ public class UserServiceImpl implements UserService {
             .map(GrantedAuthority::getAuthority)
             .toList();
         return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
+    }
+
+    @Override
+    public Stream<UserDto> search(UserDto searchParameters) {
+        LOGGER.debug("Search users by parameters {}", searchParameters);
+        return userRepository.search(searchParameters).stream().map(mapper::entityToDto);
     }
 }
