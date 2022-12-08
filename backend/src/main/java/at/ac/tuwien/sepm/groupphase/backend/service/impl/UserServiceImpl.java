@@ -6,7 +6,6 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
@@ -21,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -115,12 +115,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String resetPassword(UserResetPasswordDto userToReset) throws ValidationException {
+    public String resetPassword(UserResetPasswordDto userToReset) {
         String randomPassword = RandomStringUtils.randomAlphanumeric(10);
-        validator.validateEmail(userToReset.getEmail());
         User user = userRepository.findByEmail(userToReset.getEmail());
         if (user != null) {
-            userRepository.updatePasswordByEmail(userToReset.getEmail(), randomPassword);
+            userRepository.updatePasswordByEmail(userToReset.getEmail(), passwordEncoder.encode(randomPassword));
 
             String subject = "Your Password has been reset";
             String content = "Hi, this is your new password: " + randomPassword;
@@ -141,6 +140,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return "This email doesnt exist";
+    }
+
+    @Override
+    public void deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
     }
 
 

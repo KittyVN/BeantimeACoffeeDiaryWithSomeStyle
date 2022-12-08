@@ -18,6 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 import Cookies from 'js-cookie';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -53,6 +54,7 @@ import { ResetPasswordComponent } from './pages/user/reset-password/reset-passwo
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     FormsModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,

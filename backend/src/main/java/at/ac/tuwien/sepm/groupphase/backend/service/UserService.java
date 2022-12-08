@@ -57,4 +57,11 @@ public interface UserService extends UserDetailsService {
      * @throws ValidationException if validation of email fails
      */
     String resetPassword(UserResetPasswordDto email) throws ValidationException;
+
+    /**
+     * Deletes an account
+     *
+     * @param id account Id
+     */
+    void deleteUser(Long id);
 }

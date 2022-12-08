@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -41,5 +42,15 @@ export class UserService {
   public checkEmail(email: EmailDto) {
     const params = new HttpParams().set('email', email.email);
     return this.http.get('auth/checkemail', { params });
+  }
+
+  /**
+   * Deletes an existing user in the system.
+   *
+   * @param id the id of the account that should be deleted
+   * @return a string giving information
+   */
+  delete(id: number): Observable<string> {
+    return this.http.delete<string>('auth/' + id);
   }
 }
