@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.repository.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepositoryCustom;
 
 import javax.persistence.EntityManager;
@@ -21,9 +22,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> user = query.from(User.class);
 
-        Path<String> idPath = user.get("id");
+        Path<Long> idPath = user.get("id");
         Path<String> emailPath = user.get("email");
-        Path<String> rolePath = user.get("role");
+        Path<UserRole> rolePath = user.get("role");
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -32,14 +33,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         }
 
         if (searchParameters.getEmail() != null) {
-            predicates.add(cb.like(emailPath, searchParameters.getEmail()));
+            predicates.add(cb.like(cb.upper(emailPath), String.format("%%%s%%", searchParameters.getEmail().toUpperCase())));
         }
 
         if (searchParameters.getRole() != null) {
-            predicates.add(cb.like(rolePath, searchParameters.getRole().toString()));
+            predicates.add(cb.equal(rolePath, searchParameters.getRole()));
         }
 
-        query.select(user).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+        query.select(user).where(cb.and(predicates.toArray(new Predicate[predicates.size()]))).orderBy(cb.desc(idPath));
 
         return entityManager.createQuery(query).getResultList();
     }
