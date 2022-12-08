@@ -2,12 +2,9 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 
-import javax.validation.constraints.Email;
-
 public class UserDto {
     private Long id;
 
-    @Email
     private String email;
 
     private UserRole role;
@@ -20,5 +17,17 @@ public class UserDto {
         this.id = id;
         this.email = email;
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 }
