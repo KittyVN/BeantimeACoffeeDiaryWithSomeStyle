@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
@@ -63,5 +64,10 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             .withCustom(coffeeBeanDto.custom())
             .build();
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
+    }
+
+    @Override
+    public void delete(Long id) throws NotFoundException {
+        coffeeBeanRepository.deleteById(id);
     }
 }

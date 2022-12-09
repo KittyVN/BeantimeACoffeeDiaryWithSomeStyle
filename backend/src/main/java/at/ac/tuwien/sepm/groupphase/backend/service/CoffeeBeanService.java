@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 
 public interface CoffeeBeanService {
@@ -22,6 +23,14 @@ public interface CoffeeBeanService {
      * @throws ValidationException if something fails to be validated
      */
     CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) throws ValidationException;
+
+    /**
+     * Deletes a already persisted coffee bean by its id
+     *
+     * @param id of the coffee bean to be deleted
+     * @throws NotFoundException in case the coffee bean with given id is not found
+     */
+    void delete(Long id) throws NotFoundException;
 
 
 }
