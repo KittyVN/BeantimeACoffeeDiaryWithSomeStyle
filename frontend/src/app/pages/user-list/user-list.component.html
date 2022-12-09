@@ -1,4 +1,43 @@
 <app-container>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Search and filter</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>ID</mat-label>
+        <input
+          type="number"
+          matInput
+          name="searchParameterId"
+          [(ngModel)]="this.searchParameters.id"
+          (change)="keyUp.next($event)"
+          (keyup)="keyUp.next($event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>E-Mail</mat-label>
+        <input
+          type="text"
+          matInput
+          name="searchParameterEmail"
+          [(ngModel)]="this.searchParameters.email"
+          (keyup)="keyUp.next($event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Role</mat-label>
+        <select
+          matNativeControl
+          name="searchParameterRole"
+          [(ngModel)]="this.searchParameters.role"
+          (change)="keyUp.next($event)">
+          <option value="" selected>All</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="USER">USER</option>
+        </select>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+  <br />
   <table mat-table [dataSource]="users" class="mat-elevation-z1">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>ID</th>

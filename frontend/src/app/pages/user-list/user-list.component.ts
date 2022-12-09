@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { debounce, interval, scan, Subject } from 'rxjs';
 
 import { UserDto } from '../../../dtos/req/user.dto';
 import { UserService } from '../../../services/user.service';
@@ -13,10 +14,22 @@ export class UserListComponent implements OnInit {
   users: UserDto[] = [];
   columnsToDisplay = ['id', 'email', 'role'];
 
-  constructor(private service: UserService) {}
+  constructor(
+    private service: UserService,
+    public keyUp: Subject<KeyboardEvent | Event>
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
+    this.keyUp
+      .pipe(
+        scan(i => ++i, 1),
+        debounce(i => interval(40 * i))
+      )
+      .subscribe(() => {
+        console.log(this.searchParameters);
+        this.loadUsers();
+      });
   }
 
   loadUsers() {
