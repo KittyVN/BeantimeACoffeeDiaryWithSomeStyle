@@ -46,4 +46,22 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             .build();
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
     }
+
+    @Override
+    public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) throws ValidationException {
+        LOGGER.trace("update {}", coffeeBeanDto);
+        CoffeeBean coffeeBean = CoffeeBean
+            .CoffeeBeanBuilder
+            .aCoffeeBean()
+            .withId(coffeeBeanDto.id())
+            .withName(coffeeBeanDto.name())
+            .withPrice(coffeeBeanDto.price())
+            .withOrigin(coffeeBeanDto.origin())
+            .withHeight(coffeeBeanDto.height())
+            .withCoffeeRoast(coffeeBeanDto.coffeeRoast())
+            .withDescription(coffeeBeanDto.description())
+            .withCustom(coffeeBeanDto.custom())
+            .build();
+        return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
+    }
 }

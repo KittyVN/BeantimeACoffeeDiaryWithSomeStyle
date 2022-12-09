@@ -15,6 +15,7 @@ public class CoffeeBeanMapper {
      */
     public CoffeeBeanDto entityToDto(CoffeeBean coffeeBean) {
         return new CoffeeBeanDto(
+            coffeeBean.getId(),
             coffeeBean.getName(),
             coffeeBean.getPrice(),
             coffeeBean.getOrigin(),

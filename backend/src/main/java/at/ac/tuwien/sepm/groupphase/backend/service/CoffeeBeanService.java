@@ -14,4 +14,14 @@ public interface CoffeeBeanService {
      */
     CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto) throws ValidationException;
 
+    /**
+     * Updates a CoffeeBean that is already persistent in data storage
+     *
+     * @param coffeeBeanDto to update
+     * @return the updated CoffeeBean
+     * @throws ValidationException if something fails to be validated
+     */
+    CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) throws ValidationException;
+
+
 }
