@@ -28,16 +28,16 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (searchParameters.getId() != null) {
-            predicates.add(cb.equal(idPath, searchParameters.getId()));
+        if (searchParameters.id() != null) {
+            predicates.add(cb.equal(idPath, searchParameters.id()));
         }
 
-        if (searchParameters.getEmail() != null) {
-            predicates.add(cb.like(cb.upper(emailPath), String.format("%%%s%%", searchParameters.getEmail().toUpperCase())));
+        if (searchParameters.email() != null) {
+            predicates.add(cb.like(cb.upper(emailPath), String.format("%%%s%%", searchParameters.email().toUpperCase())));
         }
 
-        if (searchParameters.getRole() != null) {
-            predicates.add(cb.equal(rolePath, searchParameters.getRole()));
+        if (searchParameters.role() != null) {
+            predicates.add(cb.equal(rolePath, searchParameters.role()));
         }
 
         query.select(user).where(cb.and(predicates.toArray(new Predicate[predicates.size()]))).orderBy(cb.desc(idPath));
