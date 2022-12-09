@@ -17,16 +17,15 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping(path = UserEndpoint.BASE_PATH)
 public class UserEndpoint {
-    static final String BASE_PATH = "/users";
+    static final String BASE_PATH = "/api/v1/users";
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserService service;
 
     public UserEndpoint(UserService service) { this.service = service; }
 
-    // TODO: Change to @Secured("ROLE_ADMIN") when finished
-    @PermitAll
+    @Secured("ROLE_ADMIN")
     @GetMapping
-    public Stream<UserDto> searchUsers(@RequestBody UserDto searchParameters) {
+    public Stream<UserDto> searchUsers(UserDto searchParameters) {
         LOGGER.info("GET " + BASE_PATH);
         LOGGER.info("Request parameters: {}", searchParameters);
         return service.search(searchParameters);
