@@ -4,9 +4,6 @@ import { RegisterUserDto, LoginUserDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
 import { UserDto } from '../dtos/req/user.dto';
-import { environment } from '../environment/environment';
-
-const baseUri = environment.apiBase + '/users';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -50,6 +47,6 @@ export class UserService {
       params = params.set('role', searchParameters.role);
     }
 
-    return this.http.get<UserDto[]>(baseUri, { params });
+    return this.http.get<UserDto[]>('users', { params });
   }
 }
