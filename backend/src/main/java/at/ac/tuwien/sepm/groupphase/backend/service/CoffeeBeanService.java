@@ -1,9 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 
 public interface CoffeeBeanService {
     /**
@@ -11,18 +9,16 @@ public interface CoffeeBeanService {
      *
      * @param coffeeBeanDto to add
      * @return the created coffee bean
-     * @throws ValidationException if something fails to be validated
      */
-    CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto) throws ValidationException;
+    CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto);
 
     /**
      * Updates a CoffeeBean that is already persistent in data storage
      *
      * @param coffeeBeanDto to update
      * @return the updated CoffeeBean
-     * @throws ValidationException if something fails to be validated
      */
-    CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) throws ValidationException;
+    CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto);
 
     /**
      * Deletes a already persisted coffee bean by its id

@@ -40,6 +40,9 @@ public class CoffeeBean {
     @Column(nullable = false)
     private Boolean custom;
 
+    @Column
+    private Long userId;
+
     public Long getId() {
         return id;
     }
@@ -104,6 +107,14 @@ public class CoffeeBean {
         this.custom = custom;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public static class CoffeeBeanBuilder {
         private Long id;
         private String name;
@@ -113,6 +124,8 @@ public class CoffeeBean {
         private CoffeeRoast coffeeRoast;
         private String description;
         private Boolean custom;
+
+        private Long userId;
 
         private CoffeeBeanBuilder() {
         }
@@ -161,6 +174,13 @@ public class CoffeeBean {
             return this;
         }
 
+        public CoffeeBeanBuilder withUserId(Long userId) {
+            this.userId = userId;
+            return this;
+        }
+
+
+
         public CoffeeBean build() {
             CoffeeBean bean = new CoffeeBean();
             bean.setId(id);
@@ -171,7 +191,10 @@ public class CoffeeBean {
             bean.setCoffeeRoast(coffeeRoast);
             bean.setDescription(description);
             bean.setCustom(custom);
+            bean.setUserId(userId);
             return bean;
         }
     }
+
+
 }

@@ -2,7 +2,6 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,16 +31,10 @@ public class CoffeeBeanEndpoint {
         this.coffeeBeanService = coffeeBeanService;
     }
 
-    @PostMapping
+    @PostMapping("create")
     public CoffeeBeanDto create(@RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
-        try {
-            return coffeeBeanService.create(coffeeBeanDto);
-        } catch (ValidationException e) {
-            LOGGER.debug(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
-        }
-
+        return coffeeBeanService.create(coffeeBeanDto);
     }
 
     @PutMapping
@@ -49,8 +42,6 @@ public class CoffeeBeanEndpoint {
         LOGGER.info("PUT "+ BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         try{
             return coffeeBeanService.update(coffeeBeanDto);
-        }catch (ValidationException e){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
         }catch (NotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

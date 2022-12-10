@@ -3,11 +3,9 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.CoffeeBeanMapper;
-import at.ac.tuwien.sepm.groupphase.backend.service.validation.CoffeeBeanValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +19,17 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private CoffeeBeanRepository coffeeBeanRepository;
     private final CoffeeBeanMapper mapper;
-    private final CoffeeBeanValidator validator;
 
     @Autowired
-    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, CoffeeBeanMapper mapper, CoffeeBeanValidator validator) {
+    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, CoffeeBeanMapper mapper) {
         this.coffeeBeanRepository = coffeeBeanRepository;
         this.mapper = mapper;
-        this.validator = validator;
     }
 
     @Override
-    public CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto) throws ValidationException {
+    public CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto){
         LOGGER.trace("create {}", coffeeBeanDto);
-        this.validator.validateForUpdate(coffeeBeanDto);
+
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
             .aCoffeeBean()
@@ -49,7 +45,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) throws ValidationException {
+    public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto){
         LOGGER.trace("update {}", coffeeBeanDto);
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
@@ -62,6 +58,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             .withCoffeeRoast(coffeeBeanDto.coffeeRoast())
             .withDescription(coffeeBeanDto.description())
             .withCustom(coffeeBeanDto.custom())
+            .withUserId(coffeeBeanDto.userId())
             .build();
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
     }
