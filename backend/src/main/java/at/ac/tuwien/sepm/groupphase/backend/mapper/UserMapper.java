@@ -17,6 +17,6 @@ public class UserMapper {
 
     public UserDto entityToDto(User user) {
         LOGGER.debug("entityToDto({})", user);
-        return new UserDto(user.getId(), user.getEmail(), user.getRole());
+        return new UserDto(user.getId(), user.getEmail(), user.getRole(), user.isActive());
     }
 }
