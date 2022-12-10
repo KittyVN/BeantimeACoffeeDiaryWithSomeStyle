@@ -40,7 +40,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             predicates.add(cb.equal(rolePath, searchParameters.role()));
         }
 
-        query.select(user).where(cb.and(predicates.toArray(new Predicate[predicates.size()]))).orderBy(cb.desc(idPath));
+        query.select(user).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
 
         return entityManager.createQuery(query).getResultList();
     }
