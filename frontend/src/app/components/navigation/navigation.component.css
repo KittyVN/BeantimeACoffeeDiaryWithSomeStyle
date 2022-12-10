@@ -1,0 +1,21 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.toolbar-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.toolbar-container a {
+  margin: 0 10px;
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+}

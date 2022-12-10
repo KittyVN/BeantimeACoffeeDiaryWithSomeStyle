@@ -1,0 +1,23 @@
+<mat-drawer-container class="layout" autosize>
+  <mat-toolbar class="toolbar-container" color="primary">
+    <div class="logo-wrapper">
+      <button
+        (click)="drawer.toggle()"
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>{{ appName }}</span>
+    </div>
+    <div>
+      <a routerLink="/login"> Login </a>
+      <a routerLink="/register"> Register </a>
+    </div>
+  </mat-toolbar>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>Auto-resizing sidenav</p>
+  </mat-drawer>
+  <!-- display angular content -->
+  <ng-content></ng-content>
+</mat-drawer-container>
