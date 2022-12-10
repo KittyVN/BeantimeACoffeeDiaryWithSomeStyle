@@ -1,0 +1,4 @@
+.createEditBeanForm {
+    display: flex;
+    flex-direction: column; 
+}
