@@ -24,6 +24,8 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @Column(nullable = false)
+    private boolean isActive;
 
     public Long getId() {
         return id;
@@ -52,6 +54,10 @@ public class User {
     public UserRole getRole() {
         return role;
     }
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 
     public void setRole(UserRole role) {
         this.role = role;
@@ -63,6 +69,7 @@ public class User {
         private String email;
         private String password;
         private UserRole role;
+        private boolean isActive = true;
 
         private UserBuilder() {
         }
@@ -91,12 +98,18 @@ public class User {
             return this;
         }
 
+        public UserBuilder withActive(boolean isActive) {
+            this.isActive = isActive;
+            return this;
+        }
+
         public User build() {
             User user = new User();
             user.setId(id);
             user.setEmail(email);
             user.setPassword(password);
             user.setRole(role);
+            user.setActive(isActive);
             return user;
         }
     }
