@@ -20,7 +20,7 @@ public class UserServiceTest {
 
     @Test
     public void searchWithoutParametersReturnsAllUsers() {
-        List<UserDto> users = userService.search(new UserDto(null, null, null)).toList();
+        List<UserDto> users = userService.search(new UserDto(null, null, null, null)).toList();
 
         assertThat(users.size()).isGreaterThanOrEqualTo(8);
         assertThat(users)
@@ -37,7 +37,7 @@ public class UserServiceTest {
 
     @Test
     public void searchForEmailLikeDoeReturnsMin2Users() {
-        List<UserDto> users = userService.search(new UserDto(null, "doe", null)).toList();
+        List<UserDto> users = userService.search(new UserDto(null, "doe", null, null)).toList();
 
         assertThat(users.size()).isGreaterThanOrEqualTo(2);
         assertThat(users)
@@ -48,7 +48,7 @@ public class UserServiceTest {
 
     @Test
     public void searchForEmailLikeDoeAndRoleAdminReturnsMin1User() {
-        List<UserDto> users = userService.search(new UserDto(null, "doe", UserRole.ADMIN)).toList();
+        List<UserDto> users = userService.search(new UserDto(null, "doe", UserRole.ADMIN, null)).toList();
 
         assertThat(users.size()).isGreaterThanOrEqualTo(1);
         assertThat(users)
