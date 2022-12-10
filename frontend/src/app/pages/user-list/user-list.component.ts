@@ -12,7 +12,7 @@ import { UserService } from '../../../services/user.service';
 export class UserListComponent implements OnInit {
   searchParameters: UserSearchDto = {};
   users: UserSearchDto[] = [];
-  columnsToDisplay = ['id', 'email', 'role'];
+  columnsToDisplay = ['id', 'email', 'role', 'isActive'];
 
   constructor(
     private service: UserService,
