@@ -116,4 +116,13 @@ public class UserServiceImpl implements UserService {
         LOGGER.trace("Search users by parameters {}", searchParameters);
         return userRepository.search(searchParameters).stream().map(mapper::entityToDto);
     }
+
+    @Override
+    public UserDto toggleActive(Long id) {
+        User user = userRepository.getUserById(id);
+        user.setActive(!user.isActive());
+        userRepository.save(user);
+
+        return mapper.entityToDto(user);
+    }
 }
