@@ -49,4 +49,15 @@ export class UserService {
 
     return this.http.get<UserDto[]>('users', { params });
   }
+
+  /**
+   * Toggle the active state of the user with the given id.
+   *
+   * @param id of the given user
+   * @return Observable of the toggled user
+   */
+  public toggleActive(user: UserDto): Observable<UserDto> {
+    console.log(`users/${user.id}`);
+    return this.http.patch<UserDto>(`users/${user.id}`, user);
+  }
 }

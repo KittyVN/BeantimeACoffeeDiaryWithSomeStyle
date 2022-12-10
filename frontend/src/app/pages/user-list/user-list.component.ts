@@ -39,4 +39,9 @@ export class UserListComponent implements OnInit {
       },
     });
   }
+
+  toggleActive(user: UserDto) {
+    user.isActive = !user.isActive;
+    this.service.toggleActive(user);
+  }
 }
