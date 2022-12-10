@@ -1,9 +1,19 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
+import java.util.stream.Stream;
+
 public interface CoffeeBeanService {
+    /**
+     * Fetches all saved coffee beans from the persistent data storage
+     *
+     * @return a stream of the found coffee beans
+     */
+    Stream<CoffeBeanDashboardDto> getAll();
+
     /**
      * Adds a new CoffeeBean to the persistent data storage
      *

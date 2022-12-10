@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.invoke.MethodHandles;
+import java.util.stream.Stream;
 
 
 @RestController
@@ -29,6 +32,12 @@ public class CoffeeBeanEndpoint {
 
     public CoffeeBeanEndpoint(CoffeeBeanService coffeeBeanService) {
         this.coffeeBeanService = coffeeBeanService;
+    }
+
+    @GetMapping
+    public Stream<CoffeBeanDashboardDto> getAll() throws ResponseStatusException {
+        LOGGER.info("GET " + BASE_PATH);
+        return coffeeBeanService.getAll();
     }
 
     @PostMapping("create")

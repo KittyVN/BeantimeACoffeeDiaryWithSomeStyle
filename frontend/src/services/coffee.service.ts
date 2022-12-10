@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CoffeeBeanDashboardDto } from 'src/dtos';
 
 
 @Injectable({ providedIn: 'root' })
@@ -8,11 +9,11 @@ export class CoffeeService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Fetch all coffees tied to the current user 
-   * @param userId The ID of the user
+   * Fetch all coffees 
+
    * @returns An observable list of coffee entitys
    */
-  public getall(): Observable<CoffeeBean[]> {
-    return this.http.get<CoffeeBean[]>('coffee/userCoffees');
+  public getall(): Observable<CoffeeBeanDashboardDto[]> {
+    return this.http.get<CoffeeBeanDashboardDto[]>('coffee-bean');
   }
 }
