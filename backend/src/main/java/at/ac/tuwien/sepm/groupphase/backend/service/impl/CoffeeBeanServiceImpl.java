@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Optional;
 
 @Service
 public class CoffeeBeanServiceImpl implements CoffeeBeanService {
@@ -67,4 +68,13 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     public void delete(Long id) throws NotFoundException {
         coffeeBeanRepository.deleteById(id);
     }
+
+    @Override
+    public CoffeeBeanDto getById(Long id) throws NotFoundException {
+        Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(id);
+        if(!coffeeBean.isPresent()) throw new NotFoundException();
+        return mapper.entityToDto(coffeeBean.get());
+    }
+
+
 }
