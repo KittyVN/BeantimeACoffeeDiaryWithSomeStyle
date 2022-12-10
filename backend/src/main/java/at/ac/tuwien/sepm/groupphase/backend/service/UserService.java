@@ -64,4 +64,12 @@ public interface UserService extends UserDetailsService {
      * @return a stream containing users matching the criteria in {@code searchParameters}
      */
     Stream<UserDto> search(UserDto searchParameters);
+
+    /**
+     * Toggle active of the user matching {@code userDto.email}.
+     *
+     * @param id id of the user to be activated or deactivated.
+     * @return the DTO of the user
+     */
+    UserDto toggleActive(Long id);
 }
