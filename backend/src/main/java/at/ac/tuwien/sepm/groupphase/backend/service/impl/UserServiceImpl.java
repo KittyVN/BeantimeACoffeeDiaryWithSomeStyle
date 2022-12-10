@@ -55,7 +55,8 @@ public class UserServiceImpl implements UserService {
                 grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_USER");
             }
 
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
+            return new org.springframework.security.core.userdetails
+                .User(user.getEmail(), user.getPassword(), user.isActive(), true, true, true, grantedAuthorities);
         } catch (NotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage(), e);
         }
