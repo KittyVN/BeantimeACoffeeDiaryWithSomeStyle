@@ -9,11 +9,12 @@ import { AuthGuard } from '../services/auth/auth.guard';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 
 import type { Routes } from '@angular/router';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: 'home',
-    component: TestHomeComponent,
+    component: DashboardComponent,
     canActivate: [AuthGuard],
   },
   {

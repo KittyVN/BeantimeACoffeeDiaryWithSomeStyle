@@ -26,6 +26,9 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,7 @@ import { LoginComponent } from './pages/login/login.component';
     TestHomeComponent,
     TestAdminPageComponent,
     LoginComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +61,8 @@ import { LoginComponent } from './pages/login/login.component';
         tokenGetter: () => localStorage.getItem('token'),
       },
     }),
+    MatMenuModule,
+    LayoutModule,
   ],
   providers: [
     {
