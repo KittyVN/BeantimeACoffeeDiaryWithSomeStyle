@@ -18,6 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
 import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -61,6 +62,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
       },
     }),
     MatTableModule,
+    MatSlideToggleModule,
   ],
   providers: [
     Subject,
