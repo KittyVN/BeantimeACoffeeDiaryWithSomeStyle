@@ -14,9 +14,12 @@
               <button mat-menu-item>Remove</button>
             </mat-menu>
           </mat-card-title>
+          <mat-card-subtitle>
+            {{coffee.coffeeRoast === 'DARK' ? 'Dark roast' : coffee.coffeeRoast === 'MEDIUM' ? 'Medium roast' : 'Light roast'}}
+          </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
+          <div>{{coffee.description}}</div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

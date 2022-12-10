@@ -1,5 +1,7 @@
 .grid-container {
   margin: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .dashboard-card {
@@ -17,5 +19,7 @@
 }
 
 .dashboard-card-content {
-  text-align: center;
+  text-align: left;
+  margin-top: 10px;
+  max-width: 150px;
 }
