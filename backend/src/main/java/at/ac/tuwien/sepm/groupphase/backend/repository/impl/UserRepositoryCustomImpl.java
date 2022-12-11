@@ -25,6 +25,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         Path<Long> idPath = user.get("id");
         Path<String> emailPath = user.get("email");
         Path<UserRole> rolePath = user.get("role");
+        Path<Boolean> activePath = user.get("active");
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -38,6 +39,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         if (searchParameters.getRole() != null) {
             predicates.add(cb.equal(rolePath, searchParameters.getRole()));
+        }
+
+        if (searchParameters.getActive() != null) {
+            predicates.add(cb.equal(activePath, searchParameters.getActive()));
         }
 
         query.select(user).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
