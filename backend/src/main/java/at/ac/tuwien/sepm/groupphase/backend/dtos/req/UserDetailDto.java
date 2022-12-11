@@ -13,7 +13,8 @@ public class UserDetailDto {
     @NotNull
     private UserRole role;
 
-    public UserDetailDto() { }
+    public UserDetailDto() {
+    }
 
     public UserDetailDto(Long id, String email, UserRole role) {
         this.id = id;

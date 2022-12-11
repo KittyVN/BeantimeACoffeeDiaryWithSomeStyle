@@ -9,11 +9,11 @@ public interface UserRepositoryCustom {
     /**
      * Search for users matching the criteria in {@code searchParameters}.
      * <p>
-     *     A user is considered matched,
-     *     if its id matches {@code searchParameters.id},
-     *     if its email contains {@code searchParameters.email},
-     *     if its role matches {@code searchParameters.role}.
-     *     All parameters are optional.
+     * A user is considered matched,
+     * if its id matches {@code searchParameters.id},
+     * if its email contains {@code searchParameters.email},
+     * if its role matches {@code searchParameters.role}.
+     * All parameters are optional.
      * </p>
      *
      * @param searchParameters object containing the search parameters to match

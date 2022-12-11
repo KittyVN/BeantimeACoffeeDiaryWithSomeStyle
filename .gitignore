@@ -83,3 +83,7 @@ nbdist
 .vscode
 
 reports
+
+**/cypress/videos/
+**/cypress/screenshots/
+**/cypress/results/

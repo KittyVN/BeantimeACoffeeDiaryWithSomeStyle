@@ -46,6 +46,7 @@ public class AuthenticationEndpoint {
 
     @PermitAll
     @PostMapping("register")
+    @ResponseStatus(HttpStatus.CREATED)
     public String register(@RequestBody UserRegisterDto userRegisterDto) {
         return userService.register(userRegisterDto);
     }
