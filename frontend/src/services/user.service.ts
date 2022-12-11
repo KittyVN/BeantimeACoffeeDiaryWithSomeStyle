@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { RegisterUserDto, LoginUserDto } from 'src/dtos';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
 import { UserDetailDto } from '../dtos/req/userDetail.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   /**
    * Register a new user
@@ -26,6 +27,15 @@ export class UserService {
    */
   public login(user: LoginUserDto) {
     return this.http.post('auth/login', user, { responseType: 'text' });
+  }
+
+  /**
+   * Logout the current user and redirect to the login page
+   * @returns void
+   */
+  public logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 
   /**
