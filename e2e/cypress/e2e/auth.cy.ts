@@ -1,10 +1,21 @@
 describe("Authentication", () => {
+  it("should be able to register", () => {
+    cy.intercept("POST", "**/auth/register").as("register");
+
+    cy.visit("/register");
+    cy.get("input[name=email]").type("admin@test.com");
+    cy.get("input[name=password]").type("password");
+    cy.get("button[type=submit]").click();
+
+    cy.wait("@register").its("response.statusCode").should("eq", 201);
+  });
+
   it("should be able to login", () => {
     //intercept POST /api/auth/login
     cy.intercept("POST", "**/auth/login").as("login");
 
     cy.visit("/login");
-    cy.get("input[name=email]").type("admin@email.com");
+    cy.get("input[name=email]").type("admin@test.com");
     cy.get("input[name=password]").type("password");
     cy.get("button[type=submit]").click();
 
@@ -13,6 +24,12 @@ describe("Authentication", () => {
   });
 
   it("should be able to logout", () => {
+    cy.visit("/login");
+
+    cy.get("input[name=email]").type("admin@test.com");
+    cy.get("input[name=password]").type("password");
+    cy.get("button[type=submit]").click();
+
     cy.get("button").contains("Logout").click();
     //check if the user is redirected to the login page
     cy.url().should("include", "/login");
