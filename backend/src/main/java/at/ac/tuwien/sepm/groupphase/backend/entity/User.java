@@ -25,7 +25,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     @Column(nullable = false)
-    private boolean isActive;
+    private boolean active;
 
     public Long getId() {
         return id;
@@ -54,9 +54,9 @@ public class User {
     public UserRole getRole() {
         return role;
     }
-    public boolean isActive() { return isActive; }
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public void setRole(UserRole role) {
