@@ -1,0 +1,8 @@
+.createEditBeanForm {
+    display: flex;
+    flex-direction: column; 
+}
+
+.delete{
+    margin-top: 1em;
+}

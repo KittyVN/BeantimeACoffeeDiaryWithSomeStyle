@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 import java.util.stream.Stream;
 
@@ -41,29 +42,38 @@ public class CoffeeBeanEndpoint {
     }
 
     @PostMapping("create")
-    public CoffeeBeanDto create(@RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
+    public CoffeeBeanDto create(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         return coffeeBeanService.create(coffeeBeanDto);
     }
 
-    @PutMapping
-    public CoffeeBeanDto update(@RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
-        LOGGER.info("PUT "+ BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
-        try{
+    @PutMapping("edit")
+    public CoffeeBeanDto update(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
+        LOGGER.info("PUT " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
+        try {
             return coffeeBeanService.update(coffeeBeanDto);
-        }catch (NotFoundException e){
+        } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
-        LOGGER.info("DELETE "+ BASE_PATH + " with id: {}", id);
+        LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         try {
             coffeeBeanService.delete(id);
-        }catch (NotFoundException e){
+        } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
+    @GetMapping("/{id}")
+    public CoffeeBeanDto getById(@PathVariable("id") long id) {
+        LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
+        try {
+            return coffeeBeanService.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

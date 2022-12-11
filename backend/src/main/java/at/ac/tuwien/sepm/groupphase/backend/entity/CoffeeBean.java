@@ -115,6 +115,7 @@ public class CoffeeBean {
         this.userId = userId;
     }
 
+
     public static class CoffeeBeanBuilder {
         private Long id;
         private String name;

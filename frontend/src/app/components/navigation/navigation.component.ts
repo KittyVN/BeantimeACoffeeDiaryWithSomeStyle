@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { environment } from 'src/environment/environment';
+import { AuthService } from 'src/services/auth/auth.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,4 +11,22 @@ import { environment } from 'src/environment/environment';
 })
 export class NavigationComponent {
   appName = environment.appName;
+  isAuthenticated = false;
+
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {
+    this.router.events.subscribe(event => {
+      // check if the event is of type NavigationEnd
+      if (event instanceof NavigationEnd) {
+        this.isAuthenticated = this.authService.isAuthenticated();
+      }
+    });
+  }
+
+  public logout() {
+    this.userService.logout();
+  }
 }

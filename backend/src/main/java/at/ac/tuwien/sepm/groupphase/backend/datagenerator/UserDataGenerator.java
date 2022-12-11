@@ -31,7 +31,7 @@ public class UserDataGenerator {
             LOGGER.debug("Users already generated");
         } else {
             LOGGER.debug("Generating users");
-            User admin = User
+            User admin1 = User
                 .UserBuilder
                 .aUser()
                 .withEmail("admin@email.com")
@@ -39,16 +39,70 @@ public class UserDataGenerator {
                 .withRole(UserRole.ADMIN)
                 .build();
 
-            User user = User
+            User admin2 = User
                 .UserBuilder
                 .aUser()
-                .withEmail("user@email.com")
+                .withEmail("john.doe@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.ADMIN)
+                .build();
+
+            User user1 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("martina.musterfrau@example.com")
                 .withPassword(passwordEncoder.encode("password"))
                 .withRole(UserRole.USER)
                 .build();
 
-            userRepository.save(admin);
-            userRepository.save(user);
+            User user2 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("ola.nordmann@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .build();
+
+            User user3 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("tommy.atkins@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .build();
+
+            User user4 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("jane.doe@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .build();
+
+            User user5 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("jan.jansen@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .build();
+
+            User user6 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("olaf.olaf@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .build();
+
+            userRepository.save(admin1);
+            userRepository.save(admin2);
+            userRepository.save(user1);
+            userRepository.save(user2);
+            userRepository.save(user3);
+            userRepository.save(user4);
+            userRepository.save(user5);
+            userRepository.save(user6);
         }
     }
 }

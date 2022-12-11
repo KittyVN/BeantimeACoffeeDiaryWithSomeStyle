@@ -1,5 +1,5 @@
 {
   "adminUser": "admin@email.com",
   "adminPw": "password",
-  "baseUrl": "localhost:3000"
+  "baseUrl": "localhost:4200"
 }

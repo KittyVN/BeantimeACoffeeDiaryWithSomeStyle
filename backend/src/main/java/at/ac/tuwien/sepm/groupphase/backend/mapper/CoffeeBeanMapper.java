@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class CoffeeBeanMapper {
 
     /**
-     * Converts a CoffeeBean Entity object to a {@link CoffeeBeanDto}
+     * Converts a CoffeeBean Entity object to a {@link CoffeeBeanDto}.
      *
      * @param coffeeBean the object to convert
      * @return the converted CoffeeBean {@link CoffeeBeanDto}

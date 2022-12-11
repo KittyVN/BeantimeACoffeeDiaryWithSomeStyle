@@ -1,0 +1,84 @@
+<app-container>
+  <mat-card>
+    <mat-card-content>
+      <h1>{{ heading }}</h1>
+      <form
+        class="createEditBeanForm"
+        [formGroup]="createEditBeanForm"
+        (submit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input
+            placeholder="Name"
+            required
+            matInput
+            formControlName="name"
+            [(ngModel)]="coffeeBeanDto.name" />
+        </mat-form-field>
+        <mat-error *ngIf="createEditBeanForm.controls.name.invalid">{{
+          getErrorMessage()
+        }}</mat-error>
+        <mat-form-field>
+          <mat-label>Price</mat-label>
+          <input
+            placeholder="0.00"
+            matInput
+            type="number"
+            step="0.01"
+            formControlName="price"
+            [(ngModel)]="coffeeBeanDto.price" />
+          <span matTextPrefix>€&nbsp;</span>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Origin</mat-label>
+          <input
+            placeholder="Origin"
+            matInput
+            formControlName="origin"
+            [(ngModel)]="coffeeBeanDto.origin" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Height in meters</mat-label>
+          <input
+            placeholder="3000 m"
+            matInput
+            type="number"
+            min="0"
+            formControlName="height"
+            [(ngModel)]="coffeeBeanDto.height" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Roast</mat-label>
+          <select
+            matNativeControl
+            [(ngModel)]="coffeeBeanDto.coffeeRoast"
+            formControlName="coffeeRoast">
+            <option value=""></option>
+            <option value="LIGHT">Light</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="DARK">Dark</option>
+          </select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="coffeeBeanDto.description"
+            formControlName="description"></textarea>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary">
+          {{ submitButtonText }}
+        </button>
+        <button
+          class="delete"
+          type="submit"
+          *ngIf="!modeIsCreate"
+          mat-raised-button
+          color="primary"
+          (click)="delete()">
+          Delete
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</app-container>
