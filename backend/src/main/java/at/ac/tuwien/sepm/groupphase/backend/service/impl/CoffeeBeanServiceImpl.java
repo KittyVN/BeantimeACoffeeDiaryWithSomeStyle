@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.stream.Stream;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,12 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, CoffeeBeanMapper mapper) {
         this.coffeeBeanRepository = coffeeBeanRepository;
         this.mapper = mapper;
+    }
+
+    @Override
+    public Stream<CoffeBeanDashboardDto> getAll() {
+        LOGGER.trace("getAll()");
+        return coffeeBeanRepository.findAll().stream().map(coffeeBean -> mapper.entityToDashboardDto(coffeeBean));
     }
 
     @Override

@@ -16,6 +16,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from 'src/util';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MatMenuModule } from '@angular/material/menu';
+import { LayoutModule } from '@angular/cdk/layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
@@ -29,6 +31,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CoffeeBeanCreateEditComponent } from './pages/coffee-bean-create-edit/coffee-bean-create-edit.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
@@ -42,6 +45,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
     TestHomeComponent,
     TestAdminPageComponent,
     LoginComponent,
+    DashboardComponent,
     CoffeeBeanCreateEditComponent,
     ResetPasswordComponent,
     UserListComponent,
@@ -68,6 +72,8 @@ import { UserListComponent } from './pages/user-list/user-list.component';
         tokenGetter: () => localStorage.getItem('token'),
       },
     }),
+    MatMenuModule,
+    LayoutModule,
     MatTableModule,
   ],
   providers: [

@@ -11,6 +11,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 
@@ -19,7 +20,7 @@ import type { Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    component: TestHomeComponent,
+    component: DashboardComponent,
     canActivate: [AuthGuard],
   },
   {

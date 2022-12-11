@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
+import java.util.stream.Stream;
 
 
 @RestController
@@ -31,6 +33,12 @@ public class CoffeeBeanEndpoint {
 
     public CoffeeBeanEndpoint(CoffeeBeanService coffeeBeanService) {
         this.coffeeBeanService = coffeeBeanService;
+    }
+
+    @GetMapping
+    public Stream<CoffeBeanDashboardDto> getAll() throws ResponseStatusException {
+        LOGGER.info("GET " + BASE_PATH);
+        return coffeeBeanService.getAll();
     }
 
     @PostMapping("create")
