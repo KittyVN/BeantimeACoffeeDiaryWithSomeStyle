@@ -65,9 +65,10 @@ public interface UserService extends UserDetailsService {
      * Deletes an account
      *
      * @param id account Id
-     * @return nothing
      */
     void deleteUser(Long id);
+
+    /**
      * Search for users matching the criteria in {@code searchParameters}.
      * <p>
      *     A user is considered matched,

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
-import { Observable } from 'rxjs/internal/Observable';
-import { RegisterUserDto, LoginUserDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
@@ -57,6 +55,9 @@ export class UserService {
    */
   delete(id: number): Observable<string> {
     return this.http.delete<string>('auth/' + id);
+  }
+
+  /**
    * Get a list of users with the given search parameters.
    * @param searchParameters: parameters that can be combined as required
    * @return observable list of found users.
