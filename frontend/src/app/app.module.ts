@@ -16,6 +16,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from 'src/util';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
 
@@ -27,6 +29,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 
 @NgModule({
@@ -38,6 +41,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
     TestHomeComponent,
     TestAdminPageComponent,
     LoginComponent,
+    ResetPasswordComponent,
     UserListComponent,
   ],
   imports: [
@@ -48,9 +52,11 @@ import { UserListComponent } from './pages/user-list/user-list.component';
     MatFormFieldModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     MatGridListModule,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { RegisterUserDto, LoginUserDto } from 'src/dtos';
+import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
@@ -26,6 +26,35 @@ export class UserService {
    */
   public login(user: LoginUserDto) {
     return this.http.post('auth/login', user, { responseType: 'text' });
+  }
+
+  /**
+   * Reset the password of an existing user
+   * @param email The email to the password to reset
+   * @returns the email
+   */
+  public resetPassword(email: EmailDto) {
+    return this.http.put('auth/resetpassword', email, { responseType: 'text' });
+  }
+
+  /**
+   * Checks if email links to an existing user
+   * @param email The email to check for
+   * @returns the email
+   */
+  public checkEmail(email: EmailDto) {
+    const params = new HttpParams().set('email', email.email);
+    return this.http.get('auth/checkemail', { params });
+  }
+
+  /**
+   * Deletes an existing user in the system.
+   *
+   * @param id the id of the account that should be deleted
+   * @return a string giving information
+   */
+  delete(id: number): Observable<string> {
+    return this.http.delete<string>('auth/' + id);
   }
 
   /**
