@@ -16,7 +16,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from 'src/util';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
-import { ToastrModule } from 'ngx-toastr';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import Cookies from 'js-cookie';
@@ -56,7 +55,6 @@ import { ResetPasswordComponent } from './pages/user/reset-password/reset-passwo
     MatCardModule,
     MatDialogModule,
     FormsModule,
-    ToastrModule.forRoot(),
     ReactiveFormsModule,
     MatGridListModule,
     HttpClientModule,
