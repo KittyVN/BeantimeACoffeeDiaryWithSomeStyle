@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CoffeeBeanCreateEditComponent } from './coffee-bean-create-edit.component';
 
-describe('CreateCoffeeBeanComponent', () => {
+describe('CoffeeBeanCreateEditComponent', () => {
   let component: CoffeeBeanCreateEditComponent;
   let fixture: ComponentFixture<CoffeeBeanCreateEditComponent>;
 
