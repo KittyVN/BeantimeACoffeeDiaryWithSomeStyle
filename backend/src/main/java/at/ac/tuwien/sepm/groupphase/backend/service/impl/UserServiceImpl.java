@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -98,6 +99,27 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         UserDetails userDetails = loadUserByUsername(userRegisterDto.getEmail());
+        List<String> roles = userDetails.getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .toList();
+        return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
+    }
+
+    @Override
+    public String updateUser(UserUpdateDto userUpdateDto) {
+        LOGGER.debug("Update user {}", userUpdateDto);
+        User user = User
+            .UserBuilder
+            .aUser()
+            .withId(userUpdateDto.getId())
+            .withEmail(userUpdateDto.getEmail())
+            .withPassword(passwordEncoder.encode(userUpdateDto.getPassword()))
+            .withRole(UserRole.USER)
+            .build();
+        userRepository.save(user);
+
+        UserDetails userDetails = loadUserByUsername(userUpdateDto.getEmail());
         List<String> roles = userDetails.getAuthorities()
             .stream()
             .map(GrantedAuthority::getAuthority)
