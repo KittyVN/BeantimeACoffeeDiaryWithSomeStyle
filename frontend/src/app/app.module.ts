@@ -16,7 +16,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from 'src/util';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
-import Cookies from 'js-cookie';
+import { MatTableModule } from '@angular/material/table';
+import { Subject } from 'rxjs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +27,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { LoginComponent } from './pages/login/login.component';
     TestHomeComponent,
     TestAdminPageComponent,
     LoginComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,8 +60,10 @@ import { LoginComponent } from './pages/login/login.component';
         tokenGetter: () => localStorage.getItem('token'),
       },
     }),
+    MatTableModule,
   ],
   providers: [
+    Subject,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
