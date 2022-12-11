@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 
 @RestController
@@ -52,26 +53,20 @@ public class AuthenticationEndpoint {
     @PermitAll
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/resetpassword")
-    public String resetPassword(@RequestBody UserResetPasswordDto emailToReset) {
-        try {
-            return userService.resetPassword(emailToReset);
-        } catch (ValidationException e) {
-            HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
-            logClientError(status, "Email failed validation", e);
-            throw new ResponseStatusException(status, e.getMessage(), e);
-        }
+    public String resetPassword(@Valid @RequestBody UserResetPasswordDto emailToReset) {
+        return userService.resetPassword(emailToReset);
     }
 
     @PermitAll
     @GetMapping("/checkemail")
-    public UserResetPasswordDto checkEmail(@RequestParam String email) {
+    public UserResetPasswordDto checkEmail(@Valid @RequestParam String email) {
         UserResetPasswordDto tempuser = new UserResetPasswordDto(userService.findApplicationUserByEmail(email.trim()).getEmail());
         return tempuser;
     }
     @PermitAll
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
+    public void delete(@Valid @PathVariable Long id) {
         userService.deleteUser(id);
     }
 

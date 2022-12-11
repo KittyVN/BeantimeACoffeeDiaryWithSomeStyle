@@ -54,14 +54,14 @@ public interface UserService extends UserDetailsService {
      *
      * @param email emailaddress
      * @return the emailaddress
-     * @throws ValidationException if validation of email fails
      */
-    String resetPassword(UserResetPasswordDto email) throws ValidationException;
+    String resetPassword(UserResetPasswordDto email);
 
     /**
      * Deletes an account
      *
      * @param id account Id
+     * @return nothing
      */
     void deleteUser(Long id);
 }
