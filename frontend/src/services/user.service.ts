@@ -48,6 +48,10 @@ export class UserService {
       params = params.set('role', searchParameters.role);
     }
 
+    if (searchParameters.active != null) {
+      params = params.set('active', searchParameters.active);
+    }
+
     return this.http.get<UserDetailDto[]>('users', { params });
   }
 }

@@ -35,6 +35,18 @@
           <option value="USER">USER</option>
         </select>
       </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Is Active</mat-label>
+        <select
+          matNativeControl
+          name="searchParameterActive"
+          [(ngModel)]="this.searchParameters.active"
+          (change)="keyUp.next($event)">
+          <option value="" selected>Both</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </mat-form-field>
     </mat-card-content>
   </mat-card>
   <br />
