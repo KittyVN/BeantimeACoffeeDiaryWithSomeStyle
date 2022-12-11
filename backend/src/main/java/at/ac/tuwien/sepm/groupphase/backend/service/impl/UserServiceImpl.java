@@ -1,9 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -122,5 +119,15 @@ public class UserServiceImpl implements UserService {
     public UserDetailDto getById(Long id) {
         LOGGER.trace("Get user by id {}", id);
         return mapper.entityToDto(userRepository.findFirstById(id));
+    }
+
+    @Override
+    public UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) {
+        User user = userRepository.findFirstById(id);
+        user.setRole(userDto.getRole());
+        user.setActive(userDto.isActive());
+        userRepository.save(user);
+
+        return mapper.entityToDto(user);
     }
 }

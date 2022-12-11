@@ -1,9 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -73,4 +70,13 @@ public interface UserService extends UserDetailsService {
      * @return a UserDetailDto of the matching user.
      */
     UserDetailDto getById(Long id);
+
+    /**
+     * Update user by id with the UserDetailDto provided
+     *
+     * @param id of the user to be updated
+     * @param userDetail attributes to update (only {@code userDetail.role} and {@code userDetail.active}
+     * @return the new UserDetailDto of the user
+     */
+    UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto);
 }
