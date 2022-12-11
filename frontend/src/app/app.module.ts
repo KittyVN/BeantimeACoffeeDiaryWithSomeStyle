@@ -16,6 +16,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from 'src/util';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { Subject } from 'rxjs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +30,8 @@ import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
 import { CoffeeBeanCreateEditComponent } from './pages/coffee-bean-create-edit/coffee-bean-create-edit.component';
+import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +43,8 @@ import { CoffeeBeanCreateEditComponent } from './pages/coffee-bean-create-edit/c
     TestAdminPageComponent,
     LoginComponent,
     CoffeeBeanCreateEditComponent,
+    ResetPasswordComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,9 +54,11 @@ import { CoffeeBeanCreateEditComponent } from './pages/coffee-bean-create-edit/c
     MatFormFieldModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     MatGridListModule,
@@ -58,8 +68,10 @@ import { CoffeeBeanCreateEditComponent } from './pages/coffee-bean-create-edit/c
         tokenGetter: () => localStorage.getItem('token'),
       },
     }),
+    MatTableModule,
   ],
   providers: [
+    Subject,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
