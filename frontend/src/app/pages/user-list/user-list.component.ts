@@ -12,7 +12,7 @@ import { UserService } from '../../../services/user.service';
 export class UserListComponent implements OnInit {
   searchParameters: UserSearchDto = {};
   users: UserSearchDto[] = [];
-  columnsToDisplay = ['id', 'email', 'role', 'isActive'];
+  columnsToDisplay = ['id', 'email', 'role', 'isActive', 'buttons'];
 
   constructor(
     private service: UserService,
@@ -37,10 +37,5 @@ export class UserListComponent implements OnInit {
         this.users = data;
       },
     });
-  }
-
-  toggleActive(user: UserDto) {
-    user.isActive = !user.isActive;
-    this.service.toggleActive(user);
   }
 }
