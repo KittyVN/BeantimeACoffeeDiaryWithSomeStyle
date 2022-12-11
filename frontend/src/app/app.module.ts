@@ -29,6 +29,7 @@ import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
     TestAdminPageComponent,
     LoginComponent,
     UserListComponent,
+    UserDetailComponent,
   ],
   imports: [
     BrowserModule,
