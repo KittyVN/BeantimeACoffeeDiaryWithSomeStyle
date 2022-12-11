@@ -1,4 +1,4 @@
-export interface UserDto {
+export interface UserSearchDto {
   id?: number;
   email?: string;
   role?: string;
