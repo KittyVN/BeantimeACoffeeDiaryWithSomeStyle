@@ -65,4 +65,12 @@ public interface UserService extends UserDetailsService {
      * @return a stream containing users matching the criteria in {@code searchParameters}
      */
     Stream<UserDetailDto> search(UserSearchDto searchParameters);
+
+    /**
+     * Get UserDetailDto by id
+     *
+     * @param id of the user to be retrieved
+     * @return a UserDetailDto of the matching user.
+     */
+    UserDetailDto getById(Long id);
 }

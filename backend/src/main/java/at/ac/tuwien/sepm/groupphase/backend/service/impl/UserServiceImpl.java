@@ -119,11 +119,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto toggleActive(Long id) {
-        User user = userRepository.getUserById(id);
-        user.setActive(!user.isActive());
-        userRepository.save(user);
-
-        return mapper.entityToDto(user);
+    public UserDetailDto getById(Long id) {
+        LOGGER.trace("Get user by id {}", id);
+        return mapper.entityToDto(userRepository.findFirstById(id));
     }
 }
