@@ -5,6 +5,7 @@ import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,8 +46,8 @@ public class AuthenticationEndpoint {
     }
 
     @PermitAll
-    @GetMapping("find")
-    public UserRegisterDto findApplicationUserByEmail(@RequestBody String token) {
+    @GetMapping("find/:token")
+    public UserRegisterDto findApplicationUserByToken(@PathVariable String token) {
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String payload = new String(decoder.decode(chunks[1]));
