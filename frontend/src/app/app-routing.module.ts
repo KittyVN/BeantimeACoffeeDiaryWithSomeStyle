@@ -10,6 +10,7 @@ import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.
 import { UserListComponent } from './pages/user-list/user-list.component';
 
 import type { Routes } from '@angular/router';
+import {UserDetailComponent} from "./pages/user-list/user-detail/user-detail.component";
 
 const routes: Routes = [
   {
@@ -25,7 +26,12 @@ const routes: Routes = [
     },
     children: [
       { path: '', component: TestAdminPageComponent },
-      { path: 'users', children: [{ path: '', component: UserListComponent }] },
+      { path: 'users', children:
+          [
+            { path: '', component: UserListComponent },
+            { path: ':id/edit', component: UserDetailComponent }
+          ]
+      },
     ],
   },
   { path: 'register', component: RegisterComponent },
