@@ -42,6 +42,6 @@ public class UserDetailDto {
 
     @Override
     public String toString() {
-        return String.format("UserDto{id=%d,email='%s',role='%s'}", id, email, role);
+        return String.format("UserDetailDto{id=%d,email='%s',role='%s',active=%s}", id, email, role, active);
     }
 }
