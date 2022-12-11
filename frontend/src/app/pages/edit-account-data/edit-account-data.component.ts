@@ -44,7 +44,9 @@ export class EditAccountDataComponent implements OnInit {
     password: new FormControl('', [Validators.required]),
   });
 
-  onSubmit() {}
+  onSubmit() {
+    this.userService.changeCredentials(this.user);
+  }
 
   getErrorMessage() {
     if (this.changeCredentialsForm.hasError('required')) {
