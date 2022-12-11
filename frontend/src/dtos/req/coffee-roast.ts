@@ -1,5 +1,5 @@
 export enum CoffeeRoast {
-    light = 'LIGHT',
-    medium = 'MEDIUM',
-    dark = 'DARK'
+  light = 'LIGHT',
+  medium = 'MEDIUM',
+  dark = 'DARK',
 }

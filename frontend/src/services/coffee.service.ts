@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CoffeeBeanDashboardDto } from 'src/dtos';
 
-
 @Injectable({ providedIn: 'root' })
 export class CoffeeService {
   constructor(private http: HttpClient) {}

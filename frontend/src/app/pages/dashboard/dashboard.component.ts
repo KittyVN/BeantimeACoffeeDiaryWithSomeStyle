@@ -7,16 +7,15 @@ import { CoffeeBeanDashboardDto } from 'src/dtos';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-
   coffees: CoffeeBeanDashboardDto[] = [];
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private coffeeService: CoffeeService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.coffeeService.getall().subscribe({
@@ -25,8 +24,7 @@ export class DashboardComponent {
       },
       error: error => {
         console.error('Error fetching coffee data', error);
-      }
+      },
     });
   }
 }
-
