@@ -57,10 +57,16 @@
     <ng-container matColumnDef="isActive">
       <th mat-header-cell *matHeaderCellDef>Active</th>
       <td mat-cell *matCellDef="let user">
-        <mat-slide-toggle
-          aria-label="isActive"
-          (change)="toggleActive(user)"
-          [checked]="user.isActive"></mat-slide-toggle>
+        <mat-icon [classList]="user.active ? 'user-active' : 'user-inactive'">circle</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let user">
+        <a mat-icon-button [routerLink]="['edit', user.id]" aria-label="Edit user">
+          <mat-icon>edit</mat-icon>
+        </a>
       </td>
     </ng-container>
 

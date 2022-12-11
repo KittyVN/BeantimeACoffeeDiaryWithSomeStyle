@@ -6,3 +6,11 @@
 .form mat-form-field {
   flex: 1 0 auto;
 }
+
+mat-icon.user-active {
+  color: forestgreen;
+}
+
+mat-icon.user-inactive {
+  color: indianred;
+}
