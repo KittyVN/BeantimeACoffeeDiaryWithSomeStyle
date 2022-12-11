@@ -46,7 +46,7 @@ public class AuthenticationEndpoint {
     }
 
     @PermitAll
-    @GetMapping("find/:token")
+    @GetMapping("find/{token}")
     public UserRegisterDto findApplicationUserByToken(@PathVariable String token) {
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
