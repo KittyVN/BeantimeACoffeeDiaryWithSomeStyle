@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { debounce, interval, scan, Subject } from 'rxjs';
 
-import { UserDto } from '../../../dtos/req/user.dto';
+import { UserSearchDto } from '../../../dtos/req/userSearch.dto';
 import { UserService } from '../../../services/user.service';
 
 @Component({
@@ -10,8 +10,8 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./user-list.component.css'],
 })
 export class UserListComponent implements OnInit {
-  searchParameters: UserDto = {};
-  users: UserDto[] = [];
+  searchParameters: UserSearchDto = {};
+  users: UserSearchDto[] = [];
   columnsToDisplay = ['id', 'email', 'role'];
 
   constructor(
@@ -27,7 +27,6 @@ export class UserListComponent implements OnInit {
         debounce(i => interval(40 * i))
       )
       .subscribe(() => {
-        console.log(this.searchParameters);
         this.loadUsers();
       });
   }

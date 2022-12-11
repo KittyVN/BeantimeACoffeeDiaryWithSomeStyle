@@ -3,7 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { RegisterUserDto, LoginUserDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
-import { UserDto } from '../dtos/req/user.dto';
+import { UserSearchDto } from '../dtos/req/userSearch.dto';
+import { UserDetailDto } from '../dtos/req/userDetail.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -32,7 +33,7 @@ export class UserService {
    * @param searchParameters: parameters that can be combined as required
    * @return observable list of found users.
    */
-  public search(searchParameters: UserDto): Observable<UserDto[]> {
+  public search(searchParameters: UserSearchDto): Observable<UserDetailDto[]> {
     let params = new HttpParams();
 
     if (searchParameters.id != null) {
@@ -47,6 +48,6 @@ export class UserService {
       params = params.set('role', searchParameters.role);
     }
 
-    return this.http.get<UserDto[]>('users', { params });
+    return this.http.get<UserDetailDto[]>('users', { params });
   }
 }
