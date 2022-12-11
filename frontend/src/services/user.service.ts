@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
 import { UserDetailDto } from '../dtos/req/userDetail.dto';
+import {UserAdminEditDto} from "../dtos/req/userAdminEdit.dto";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -53,5 +54,27 @@ export class UserService {
     }
 
     return this.http.get<UserDetailDto[]>('users', { params });
+  }
+
+  /**
+   * Get the Observable of the user with the specified ID.
+   *
+   * @param id of the user to get
+   * @return the Observable of the user with the specified ID.
+   */
+  public getById(id: number): Observable<UserDetailDto> {
+    return this.http.get<UserDetailDto>(`users/${id}`);
+  }
+
+  /**
+   * Update the role and active status for the user with the specified id.
+   *
+   * @param id of the user to update
+   * @param userDto contains the attributes to update
+   * @return the Observable for the updated user.
+   */
+  public updateByAdmin(id: number, userDto: UserAdminEditDto): Observable<UserDetailDto> {
+    console.log(`users/${id}`, userDto);
+    return this.http.put<UserDetailDto>(`users/${id}`, userDto);
   }
 }
