@@ -7,7 +7,7 @@ import org.aspectj.weaver.ast.Not;
 
 public interface CoffeeBeanService {
     /**
-     * Adds a new CoffeeBean to the persistent data storage
+     * Adds a new CoffeeBean to the persistent data storage.
      *
      * @param coffeeBeanDto to add
      * @return the created coffee bean
@@ -15,7 +15,7 @@ public interface CoffeeBeanService {
     CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto);
 
     /**
-     * Updates a CoffeeBean that is already persistent in data storage
+     * Updates a CoffeeBean that is already persistent in data storage.
      *
      * @param coffeeBeanDto to update
      * @return the updated CoffeeBean
@@ -23,7 +23,7 @@ public interface CoffeeBeanService {
     CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto);
 
     /**
-     * Deletes an already persisted coffee bean by its id
+     * Deletes an already persisted coffee bean by its id.
      *
      * @param id of the coffee bean to be deleted
      * @throws NotFoundException in case the coffee bean with given id is not found
@@ -31,7 +31,7 @@ public interface CoffeeBeanService {
     void delete(Long id) throws NotFoundException;
 
     /**
-     * Gets an already persisted coffee bean by its id
+     * Gets an already persisted coffee bean by its id.
      *
      * @param id the id of the coffee bean to get
      * @return the coffee bean that has been found

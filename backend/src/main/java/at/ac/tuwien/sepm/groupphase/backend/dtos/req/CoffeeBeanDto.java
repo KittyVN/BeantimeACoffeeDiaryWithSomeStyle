@@ -27,7 +27,7 @@ public record CoffeeBeanDto(
     Boolean custom,
     Long userId
 ) {
-    public CoffeeBeanDto withName(String name){
+    public CoffeeBeanDto withName(String name) {
         return new CoffeeBeanDto(id(), name, price(), origin(), height(), coffeeRoast(), description(), custom(), userId());
     }
 }

@@ -28,7 +28,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto){
+    public CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto) {
         LOGGER.trace("create {}", coffeeBeanDto);
 
         CoffeeBean coffeeBean = CoffeeBean
@@ -46,7 +46,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto){
+    public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) {
         LOGGER.trace("update {}", coffeeBeanDto);
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
@@ -72,7 +72,9 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     @Override
     public CoffeeBeanDto getById(Long id) throws NotFoundException {
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(id);
-        if(!coffeeBean.isPresent()) throw new NotFoundException();
+        if (!coffeeBean.isPresent()) {
+            throw new NotFoundException();
+        }
         return mapper.entityToDto(coffeeBean.get());
     }
 
