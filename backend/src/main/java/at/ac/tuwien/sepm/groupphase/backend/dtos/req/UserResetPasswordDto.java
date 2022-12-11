@@ -25,8 +25,12 @@ public class UserResetPasswordDto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UserResetPasswordDto that = (UserResetPasswordDto) o;
         return Objects.equals(email, that.email);
     }

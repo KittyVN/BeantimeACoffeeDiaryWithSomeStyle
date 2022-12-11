@@ -20,7 +20,9 @@ public class UserEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserService service;
 
-    public UserEndpoint(UserService service) { this.service = service; }
+    public UserEndpoint(UserService service) {
+        this.service = service;
+    }
 
     @Secured("ROLE_ADMIN")
     @GetMapping

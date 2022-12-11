@@ -63,6 +63,7 @@ public class AuthenticationEndpoint {
         UserResetPasswordDto tempuser = new UserResetPasswordDto(userService.findApplicationUserByEmail(email.trim()).getEmail());
         return tempuser;
     }
+
     @PermitAll
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

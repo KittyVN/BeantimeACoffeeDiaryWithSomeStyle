@@ -62,7 +62,7 @@ public interface UserService extends UserDetailsService {
     String resetPassword(UserResetPasswordDto email);
 
     /**
-     * Deletes an account
+     * Deletes an account.
      *
      * @param id account Id
      */
