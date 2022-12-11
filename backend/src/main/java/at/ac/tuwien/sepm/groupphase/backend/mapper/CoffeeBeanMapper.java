@@ -29,7 +29,7 @@ public class CoffeeBeanMapper {
     }
 
     /**
-     * Converts a CoffeeBean Entity object to a {@link CoffeBeanDashboardDto}
+     * Converts a CoffeeBean Entity object to a {@link CoffeBeanDashboardDto}.
      *
      * @param coffeeBean the object to convert
      * @return the converted CoffeeBean {@link CoffeBeanDashboardDto}

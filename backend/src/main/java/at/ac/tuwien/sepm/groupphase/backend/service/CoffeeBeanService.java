@@ -10,14 +10,14 @@ import java.util.stream.Stream;
 
 public interface CoffeeBeanService {
     /**
-     * Fetches all saved coffee beans from the persistent data storage
+     * Fetches all saved coffee beans from the persistent data storage.
      *
      * @return a stream of the found coffee beans
      */
     Stream<CoffeBeanDashboardDto> getAll();
 
     /**
-     * Adds a new CoffeeBean to the persistent data storage
+     * Adds a new CoffeeBean to the persistent data storage.
      *
      * @param coffeeBeanDto to add
      * @return the created coffee bean

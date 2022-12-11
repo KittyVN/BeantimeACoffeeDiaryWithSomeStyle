@@ -30,7 +30,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public Stream<CoffeBeanDashboardDto> getAll(){
+    public Stream<CoffeBeanDashboardDto> getAll() {
         LOGGER.trace("getAll()");
         return coffeeBeanRepository.findAll().stream().map(coffeeBean -> mapper.entityToDashboardDto(coffeeBean));
     }
