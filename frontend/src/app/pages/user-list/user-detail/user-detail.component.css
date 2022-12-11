@@ -1,0 +1,12 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-form-field, mat-slide-toggle, mat-card-actions {
+  margin-top: 8px;
+}
+
+mat-card-actions button {
+  margin-left: 8px;
+}
