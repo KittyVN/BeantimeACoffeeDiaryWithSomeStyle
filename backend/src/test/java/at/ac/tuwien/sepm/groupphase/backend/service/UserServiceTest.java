@@ -25,7 +25,7 @@ public class UserServiceTest {
 
         assertThat(users.size()).isGreaterThanOrEqualTo(8);
         assertThat(users)
-            .map(UserDto::email, UserDto::role, UserDto::isActive)
+            .map(UserDetailDto::getEmail, UserDetailDto::getRole, UserDetailDto::isActive)
             .contains(tuple("admin@email.com", UserRole.ADMIN, true))
             .contains(tuple("john.doe@example.com", UserRole.ADMIN, true))
             .contains(tuple("martina.musterfrau@example.com", UserRole.USER, true))

@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,11 +51,11 @@ public class UserEndpointTest {
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
-        List<UserSearchDto> userResult = objectMapper.readerFor(UserSearchDto.class).<UserSearchDto>readValues(body).readAll();
+        List<UserDetailDto> userResult = objectMapper.readerFor(UserDetailDto.class).<UserDetailDto>readValues(body).readAll();
 
         assertThat(userResult.size()).isGreaterThanOrEqualTo(10);
         assertThat(userResult)
-            .map(UserDto::email, UserDto::role, UserDto::isActive)
+            .map(UserDetailDto::getEmail, UserDetailDto::getRole, UserDetailDto::isActive)
             .contains(tuple("admin@email.com", UserRole.ADMIN, true))
             .contains(tuple("john.doe@example.com", UserRole.ADMIN, true))
             .contains(tuple("martina.musterfrau@example.com", UserRole.USER, true))
