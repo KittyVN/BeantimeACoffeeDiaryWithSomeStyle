@@ -18,7 +18,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { JwtModule } from '@auth0/angular-jwt';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-import Cookies from 'js-cookie';
+import { MatTableModule } from '@angular/material/table';
+import { Subject } from 'rxjs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +30,7 @@ import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { ResetPasswordComponent } from './pages/user/reset-password/reset-passwo
     TestAdminPageComponent,
     LoginComponent,
     ResetPasswordComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,8 +66,10 @@ import { ResetPasswordComponent } from './pages/user/reset-password/reset-passwo
         tokenGetter: () => localStorage.getItem('token'),
       },
     }),
+    MatTableModule,
   ],
   providers: [
+    Subject,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
