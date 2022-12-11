@@ -7,7 +7,8 @@ public class UserSearchDto {
     private String email;
     private UserRole role;
 
-    public UserSearchDto() { }
+    public UserSearchDto() {
+    }
 
     public UserSearchDto(Long id, String email, UserRole role) {
         this.id = id;
@@ -19,20 +20,20 @@ public class UserSearchDto {
         return this.id;
     }
 
-    public String getEmail() {
-        return this.email;
-    }
-
-    public UserRole getRole() {
-        return this.role;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserRole getRole() {
+        return this.role;
     }
 
     public void setRole(UserRole role) {
