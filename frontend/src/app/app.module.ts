@@ -26,6 +26,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
+import { EditAccountDataComponent } from './pages/edit-account-data/edit-account-data.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { LoginComponent } from './pages/login/login.component';
     TestHomeComponent,
     TestAdminPageComponent,
     LoginComponent,
+    EditAccountDataComponent,
   ],
   imports: [
     BrowserModule,
