@@ -1,12 +1,18 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.stream.Stream;
 
 public interface UserService extends UserDetailsService {
 
@@ -55,4 +61,34 @@ public interface UserService extends UserDetailsService {
      * @return
      */
     String updateUser(UserUpdateDto userUpdateDto);
+
+    /**
+     * Reset the password for a given email.
+     *
+     * @param email emailaddress
+     * @return the emailaddress
+     */
+    String resetPassword(UserResetPasswordDto email);
+
+    /**
+     * Deletes an account.
+     *
+     * @param id account Id
+     */
+    void deleteUser(Long id);
+
+    /**
+     * Search for users matching the criteria in {@code searchParameters}.
+     * <p>
+     * A user is considered matched,
+     * if its id matches {@code searchParameters.id},
+     * if its email contains {@code searchParameters.email},
+     * if its role matches {@code searchParameters.role}.
+     * All parameters are optional.
+     * </p>
+     *
+     * @param searchParameters object containing the search parameters to match
+     * @return a stream containing users matching the criteria in {@code searchParameters}
+     */
+    Stream<UserDetailDto> search(UserSearchDto searchParameters);
 }

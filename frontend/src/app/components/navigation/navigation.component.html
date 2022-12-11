@@ -10,9 +10,14 @@
       </button>
       <span>{{ appName }}</span>
     </div>
-    <div>
-      <a routerLink="/login"> Login </a>
-      <a routerLink="/register"> Register </a>
+    <div [ngSwitch]="isAuthenticated">
+      <div *ngSwitchCase="false">
+        <a routerLink="/login"> Login </a>
+        <a routerLink="/register"> Register </a>
+      </div>
+      <div *ngSwitchCase="true">
+        <button mat-raised-button (click)="this.logout()">Logout</button>
+      </div>
     </div>
   </mat-toolbar>
   <mat-drawer #drawer class="example-sidenav" mode="side">
