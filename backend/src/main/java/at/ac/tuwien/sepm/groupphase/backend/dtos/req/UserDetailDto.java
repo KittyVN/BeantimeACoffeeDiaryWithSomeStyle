@@ -12,13 +12,16 @@ public class UserDetailDto {
     private String email;
     @NotNull
     private UserRole role;
+    @NotNull
+    private Boolean active;
 
     public UserDetailDto() { }
 
-    public UserDetailDto(Long id, String email, UserRole role) {
+    public UserDetailDto(Long id, String email, UserRole role, Boolean active) {
         this.id = id;
         this.email = email;
         this.role = role;
+        this.active = active;
     }
 
     public Long getId() {
@@ -31,6 +34,10 @@ public class UserDetailDto {
 
     public UserRole getRole() {
         return this.role;
+    }
+
+    public Boolean isActive() {
+        return this.active;
     }
 
     @Override
