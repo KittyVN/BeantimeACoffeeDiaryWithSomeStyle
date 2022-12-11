@@ -27,6 +27,18 @@ public class UserSearchDto {
         return this.role;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return String.format("UserDto{id=%d,email='%s',role='%s'}", id, email, role);
