@@ -73,6 +73,10 @@ export class CoffeeBeanCreateEditComponent {
     }
   }
 
+  get modeIsCreate(): boolean {
+    return this.mode === CoffeeBeanCreateEditMode.create;
+  }
+
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
@@ -89,6 +93,7 @@ export class CoffeeBeanCreateEditComponent {
           },
           error: (error: { message: any }) => {
             console.error('Error fetching coffee bean: ', error.message);
+            this.router.navigate(['**']);
           },
         });
       } else {
@@ -123,6 +128,22 @@ export class CoffeeBeanCreateEditComponent {
           console.log('Error');
         },
       });
+    }
+  }
+
+  delete() {
+    if (this.id != null) {
+      this.coffeeBeanService.delete(this.id).subscribe({
+        next: (data: any) => {
+          console.log('deleted coffee bean: ', data);
+          this.router.navigate(['**']);
+        },
+        error: (error: { message: any }) => {
+          console.error('Error deleting coffee bean: ', error.message);
+        },
+      });
+    } else {
+      console.error('Error deleting coffee bean: id cannot be null');
     }
   }
 

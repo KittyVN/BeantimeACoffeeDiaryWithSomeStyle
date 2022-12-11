@@ -36,4 +36,13 @@ export class CoffeeBeanService {
   public getById(id: string): Observable<CoffeeBeanDto> {
     return this.http.get<CoffeeBeanDto>('coffee-bean/' + id);
   }
+
+  /**
+   * Delete a coffee bean out of the data storage by its id
+   *
+   * @param id the id of the coffee bean to delete
+   */
+  public delete(id: string) {
+    return this.http.delete<CoffeeBeanDto>('coffee-bean/' + id);
+  }
 }

@@ -69,6 +69,15 @@
         <button type="submit" mat-raised-button color="primary">
           {{ submitButtonText }}
         </button>
+        <button
+          class="delete"
+          type="submit"
+          *ngIf="!modeIsCreate"
+          mat-raised-button
+          color="primary"
+          (click)="delete()">
+          Delete
+        </button>
       </form>
     </mat-card-content>
   </mat-card>
