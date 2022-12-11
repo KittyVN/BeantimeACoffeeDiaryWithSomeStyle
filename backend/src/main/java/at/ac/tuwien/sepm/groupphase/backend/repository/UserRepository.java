@@ -19,6 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
      * @param id the id of the user
      * @return the user with the given id
      */
-    User getUserById(Long id);
+    User findFirstById(Long id);
 }
 
