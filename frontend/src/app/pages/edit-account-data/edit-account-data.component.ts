@@ -26,6 +26,7 @@ export class EditAccountDataComponent implements OnInit {
       this.userService.getByToken(token).subscribe({
         next: data => {
           this.user = data;
+          this.user.password = '';
           console.log(data);
         },
         error: err => {
