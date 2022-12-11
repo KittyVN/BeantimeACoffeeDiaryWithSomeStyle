@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Stream<UserDto> search(UserDto searchParameters) {
+    public Stream<UserDetailDto> search(UserSearchDto searchParameters) {
         LOGGER.trace("Search users by parameters {}", searchParameters);
         return userRepository.search(searchParameters).stream().map(mapper::entityToDto);
     }

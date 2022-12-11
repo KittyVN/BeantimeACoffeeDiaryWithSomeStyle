@@ -1,6 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.repository;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class UserRepositoryTest {
 
     @Test
     public void searchWithoutParametersReturnsAllUsers() {
-        List<User> users = (List<User>) userRepository.search(new UserDto(null, null, null));
+        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, null, null));
 
         assertThat(users.size()).isGreaterThanOrEqualTo(8);
         assertThat(users)
@@ -38,7 +38,7 @@ public class UserRepositoryTest {
 
     @Test
     public void searchForEmailLikeDoeReturnsMin2Users() {
-        List<User> users = (List<User>) userRepository.search(new UserDto(null, "doe", null));
+        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, "doe", null));
 
         assertThat(users.size()).isGreaterThanOrEqualTo(2);
         assertThat(users)
@@ -49,7 +49,7 @@ public class UserRepositoryTest {
 
     @Test
     public void searchForEmailLikeDoeAndRoleAdminReturnsMin1User() {
-        List<User> users = (List<User>) userRepository.search(new UserDto(null, "doe", UserRole.ADMIN));
+        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, "doe", UserRole.ADMIN));
 
         assertThat(users.size()).isGreaterThanOrEqualTo(1);
         assertThat(users)

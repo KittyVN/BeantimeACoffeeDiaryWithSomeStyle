@@ -1,16 +1,15 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
 import java.lang.invoke.MethodHandles;
 import java.util.stream.Stream;
 
@@ -25,7 +24,7 @@ public class UserEndpoint {
 
     @Secured("ROLE_ADMIN")
     @GetMapping
-    public Stream<UserDto> searchUsers(UserDto searchParameters) {
+    public Stream<UserDetailDto> searchUsers(UserSearchDto searchParameters) {
         LOGGER.info("GET " + BASE_PATH);
         LOGGER.info("Request parameters: {}", searchParameters);
         return service.search(searchParameters);

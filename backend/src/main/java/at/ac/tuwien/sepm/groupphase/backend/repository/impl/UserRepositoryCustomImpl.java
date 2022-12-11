@@ -1,6 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.repository.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepositoryCustom;
@@ -17,7 +17,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public Collection<User> search(UserDto searchParameters) {
+    public Collection<User> search(UserSearchDto searchParameters) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> user = query.from(User.class);
@@ -28,16 +28,16 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (searchParameters.id() != null) {
-            predicates.add(cb.equal(idPath, searchParameters.id()));
+        if (searchParameters.getId() != null) {
+            predicates.add(cb.equal(idPath, searchParameters.getId()));
         }
 
-        if (searchParameters.email() != null) {
-            predicates.add(cb.like(cb.upper(emailPath), String.format("%%%s%%", searchParameters.email().toUpperCase())));
+        if (searchParameters.getEmail() != null) {
+            predicates.add(cb.like(cb.upper(emailPath), String.format("%%%s%%", searchParameters.getEmail().toUpperCase())));
         }
 
-        if (searchParameters.role() != null) {
-            predicates.add(cb.equal(rolePath, searchParameters.role()));
+        if (searchParameters.getRole() != null) {
+            predicates.add(cb.equal(rolePath, searchParameters.getRole()));
         }
 
         query.select(user).where(cb.and(predicates.toArray(new Predicate[predicates.size()]))).orderBy(cb.desc(idPath));

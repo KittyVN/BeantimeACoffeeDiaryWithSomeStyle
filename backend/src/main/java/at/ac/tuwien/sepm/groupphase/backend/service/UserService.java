@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
@@ -63,5 +64,5 @@ public interface UserService extends UserDetailsService {
      * @param searchParameters object containing the search parameters to match
      * @return a stream containing users matching the criteria in {@code searchParameters}
      */
-    Stream<UserDto> search(UserDto searchParameters);
+    Stream<UserDetailDto> search(UserSearchDto searchParameters);
 }

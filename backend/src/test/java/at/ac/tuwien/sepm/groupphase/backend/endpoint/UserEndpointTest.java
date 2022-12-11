@@ -1,6 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,11 +50,11 @@ public class UserEndpointTest {
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
-        List<UserDto> userResult = objectMapper.readerFor(UserDto.class).<UserDto>readValues(body).readAll();
+        List<UserSearchDto> userResult = objectMapper.readerFor(UserSearchDto.class).<UserSearchDto>readValues(body).readAll();
 
         assertThat(userResult.size()).isGreaterThanOrEqualTo(8);
         assertThat(userResult)
-            .map(UserDto::email, UserDto::role)
+            .map(UserSearchDto::getEmail, UserSearchDto::getRole)
             .contains(tuple("admin@email.com", UserRole.ADMIN))
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .contains(tuple("martina.musterfrau@example.com", UserRole.USER))
@@ -75,11 +75,11 @@ public class UserEndpointTest {
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
-        List<UserDto> userResult = objectMapper.readerFor(UserDto.class).<UserDto>readValues(body).readAll();
+        List<UserSearchDto> userResult = objectMapper.readerFor(UserSearchDto.class).<UserSearchDto>readValues(body).readAll();
 
         assertThat(userResult.size()).isGreaterThanOrEqualTo(2);
         assertThat(userResult)
-            .map(UserDto::email, UserDto::role)
+            .map(UserSearchDto::getEmail, UserSearchDto::getRole)
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .contains(tuple("jane.doe@example.com", UserRole.USER));
     }
@@ -94,11 +94,11 @@ public class UserEndpointTest {
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
-        List<UserDto> userResult = objectMapper.readerFor(UserDto.class).<UserDto>readValues(body).readAll();
+        List<UserSearchDto> userResult = objectMapper.readerFor(UserSearchDto.class).<UserSearchDto>readValues(body).readAll();
 
         assertThat(userResult.size()).isGreaterThanOrEqualTo(1);
         assertThat(userResult)
-            .map(UserDto::email, UserDto::role)
+            .map(UserSearchDto::getEmail, UserSearchDto::getRole)
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .doesNotContain(tuple("jane.doe@example.com", UserRole.USER));
     }

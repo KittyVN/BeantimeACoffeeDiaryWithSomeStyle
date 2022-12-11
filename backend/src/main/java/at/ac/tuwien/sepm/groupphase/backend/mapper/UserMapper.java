@@ -1,6 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.mapper;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,8 @@ public class UserMapper {
     public UserMapper() {
     }
 
-    public UserDto entityToDto(User user) {
+    public UserDetailDto entityToDto(User user) {
         LOGGER.debug("entityToDto({})", user);
-        return new UserDto(user.getId(), user.getEmail(), user.getRole());
+        return new UserDetailDto(user.getId(), user.getEmail(), user.getRole());
     }
 }
