@@ -4,6 +4,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -11,6 +12,7 @@ import at.ac.tuwien.sepm.groupphase.backend.mapper.UserMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -34,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final UserMapper mapper;
+
+
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
@@ -71,6 +76,8 @@ public class UserServiceImpl implements UserService {
         }
         throw new NotFoundException(String.format("Could not find the user with the email address %s", email));
     }
+
+
 
     @Override
     public String login(UserLoginDto userLoginDto) {
@@ -112,6 +119,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String resetPassword(UserResetPasswordDto userToReset) {
+        String randomPassword = RandomStringUtils.randomAlphanumeric(10);
+        User user = userRepository.findByEmail(userToReset.getEmail());
+        if (user != null) {
+            userRepository.updatePasswordByEmail(userToReset.getEmail(), passwordEncoder.encode(randomPassword));
+
+            String subject = "Your Password has been reset";
+            String content = "Hi, this is your new password: " + randomPassword;
+            content += "\nNote: for security reason, "
+                + "you must change your password after logging in.";
+
+            String message = "";
+
+            try {
+                EmailUtility.sendEmail("smtp.gmail.com", "587", "noreplybeantime@gmail.com", "Beantime", "xnpkqllidlxxeoqh",
+                    userToReset.getEmail(), subject, content);
+                message = "Your password has been reset. Please check your e-mail.";
+                return message;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                message = "There were an error: " + ex.getMessage();
+                return message;
+            }
+        }
+        return "This email doesnt exist";
+    }
+
+    @Override
+    public void deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
+    }
+
     public Stream<UserDetailDto> search(UserSearchDto searchParameters) {
         LOGGER.trace("Search users by parameters {}", searchParameters);
         return userRepository.search(searchParameters).stream().map(mapper::entityToDto);
