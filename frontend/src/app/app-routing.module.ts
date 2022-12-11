@@ -11,6 +11,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
+import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 import type { Routes } from '@angular/router';
 
@@ -22,11 +24,14 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: TestAdminPageComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: {
       expectedRole: 'ROLE_ADMIN',
     },
+    children: [
+      { path: '', component: TestAdminPageComponent },
+      { path: 'users', children: [{ path: '', component: UserListComponent }] },
+    ],
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -40,6 +45,7 @@ const routes: Routes = [
     component: CoffeeBeanCreateEditComponent,
     data: { mode: CoffeeBeanCreateEditMode.edit },
   },
+  { path: 'resetpassword', component: ResetPasswordComponent },
   { path: '**', redirectTo: 'home' },
 ];
 
