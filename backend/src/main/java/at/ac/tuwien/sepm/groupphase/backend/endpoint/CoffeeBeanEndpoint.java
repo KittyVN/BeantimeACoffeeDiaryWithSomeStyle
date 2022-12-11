@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 
 
@@ -33,13 +34,13 @@ public class CoffeeBeanEndpoint {
     }
 
     @PostMapping("create")
-    public CoffeeBeanDto create(@RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
+    public CoffeeBeanDto create(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         return coffeeBeanService.create(coffeeBeanDto);
     }
 
     @PutMapping("edit")
-    public CoffeeBeanDto update(@RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
+    public CoffeeBeanDto update(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("PUT "+ BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         try{
             return coffeeBeanService.update(coffeeBeanDto);
