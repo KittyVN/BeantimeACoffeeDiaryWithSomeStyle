@@ -26,8 +26,10 @@ export class UserService {
     return this.http.post('auth/login', user, { responseType: 'text' });
   }
 
-  public changeCredentials(user: RegisterUserDto) {
-    return this.http.put('auth/change', user, { responseType: 'text' });
+  public changeCredentials(user: RegisterUserDto, token: string) {
+    return this.http.put('auth/change/' + token, user, {
+      responseType: 'text',
+    });
   }
 
   public getByToken(token: string): Observable<RegisterUserDto> {

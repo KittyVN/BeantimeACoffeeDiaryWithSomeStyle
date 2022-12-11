@@ -45,7 +45,8 @@ export class EditAccountDataComponent implements OnInit {
   });
 
   onSubmit() {
-    this.userService.changeCredentials(this.user);
+    const token = localStorage.getItem('token');
+    this.userService.changeCredentials(this.user, token);
   }
 
   getErrorMessage() {
