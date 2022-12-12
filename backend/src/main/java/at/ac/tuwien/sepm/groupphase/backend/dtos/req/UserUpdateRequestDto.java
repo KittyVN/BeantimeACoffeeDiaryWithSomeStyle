@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-public class UserUpdateDto {
+public class UserUpdateRequestDto {
 
     @NotNull(message = "Id must not be null")
     private Long id;
@@ -15,10 +15,10 @@ public class UserUpdateDto {
     @NotNull(message = "Password must not be null")
     private String password;
 
-    public UserUpdateDto() {
+    public UserUpdateRequestDto() {
     }
 
-    public UserUpdateDto(String email, String password) {
+    public UserUpdateRequestDto(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -32,23 +32,6 @@ public class UserUpdateDto {
     }
 
     public Long getId() { return  id; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof UserUpdateDto userUpdateDto)) {
-            return false;
-        }
-        return Objects.equals(email, userUpdateDto.email)
-            && Objects.equals(password, userUpdateDto.password);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, password);
-    }
 
     @Override
     public String toString() {
