@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
 import { UserDetailDto } from '../dtos/req/userDetail.dto';
-import {UserAdminEditDto} from "../dtos/req/userAdminEdit.dto";
+import { UserAdminEditDto } from '../dtos/req/userAdminEdit.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -53,7 +53,7 @@ export class UserService {
       params = params.set('active', searchParameters.active);
     }
 
-    return this.http.get<UserDetailDto[]>('users', { params });
+    return this.http.get<UserDetailDto[]>('users', { params }).pipe();
   }
 
   /**
@@ -63,7 +63,7 @@ export class UserService {
    * @return the Observable of the user with the specified ID.
    */
   public getById(id: number): Observable<UserDetailDto> {
-    return this.http.get<UserDetailDto>(`users/${id}`);
+    return this.http.get<UserDetailDto>(`users/${id}`).pipe();
   }
 
   /**
@@ -73,19 +73,10 @@ export class UserService {
    * @param userDto contains the attributes to update
    * @return the Observable for the updated user.
    */
-  public updateByAdmin(id: number, userDto: UserAdminEditDto): Observable<UserDetailDto> {
-    console.log(`users/${id}`, userDto);
-    return this.http.put<UserDetailDto>(`users/${id}`, userDto);
-  }
-
-  /**
-   * Toggle the active state of the user with the given id.
-   *
-   * @param id of the given user
-   * @return Observable of the toggled user
-   */
-  public toggleActive(user: UserDto): Observable<UserDto> {
-    console.log(`users/${user.id}`);
-    return this.http.patch<UserDto>(`users/${user.id}`, user);
+  public updateByAdmin(
+    id: number,
+    userDto: UserAdminEditDto
+  ): Observable<UserDetailDto> {
+    return this.http.put<UserDetailDto>(`users/${id}`, userDto).pipe();
   }
 }
