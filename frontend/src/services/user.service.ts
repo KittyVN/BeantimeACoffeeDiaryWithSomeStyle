@@ -40,6 +40,12 @@ export class UserService {
     return this.http.post('auth/login', user, { responseType: 'text' });
   }
 
+  /**
+   * Change data of an existing user
+   * @param user the new user data
+   * @param id the id of the user to be changed
+   * @returns the user's token
+   */
   public changeCredentials(user: UpdateUserDto, id: number) {
     return this.http.put('users/' + id, user, {
       responseType: 'text',
