@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
+import {
+  RegisterUserDto,
+  LoginUserDto,
+  EmailDto,
+  UpdateUserDto,
+} from 'src/dtos';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -35,15 +40,12 @@ export class UserService {
     return this.http.post('auth/login', user, { responseType: 'text' });
   }
 
-  public changeCredentials(user: RegisterUserDto, token: string) {
-    return this.http.put('users/' + token, user, {
+  public changeCredentials(user: UpdateUserDto, id: number) {
+    return this.http.put('users/' + id, user, {
       responseType: 'text',
     });
   }
 
-  public getByToken(token: string): Observable<RegisterUserDto> {
-    return this.http.get<RegisterUserDto>('users/' + token);
-  }
   /**
    * Logout the current user and redirect to the login page
    * @returns void

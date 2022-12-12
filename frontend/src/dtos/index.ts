@@ -4,3 +4,4 @@ export * from './req/coffee-bean-dashboard.dto';
 export * from './req/coffee-roast';
 export * from './req/coffee-bean.dto';
 export * from './req/email.dto';
+export * from './req/update-user.dto';

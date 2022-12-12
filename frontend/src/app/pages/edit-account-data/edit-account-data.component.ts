@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
 import { AuthService } from 'src/services/auth/auth.service';
-import { RegisterUserDto } from 'src/dtos';
+import { UpdateUserDto } from 'src/dtos';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-edit-account-data',
@@ -14,27 +15,18 @@ export class EditAccountDataComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private jwtHelper: JwtHelperService
   ) {}
 
-  user: RegisterUserDto = { email: '', password: '' };
+  user: UpdateUserDto = { id: -999, email: '', password: '' };
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token !== null) {
-      this.userService.getByToken(token).subscribe({
-        next: data => {
-          this.user = data;
-          this.user.password = '';
-          console.log(data);
-        },
-        error: err => {
-          console.log('Error fetching User: ', err.getErrorMessage);
-        },
-      });
-    } else {
-      console.log('Not logged in');
+      const payload = this.jwtHelper.decodeToken(token);
+      this.user.id = payload.jti;
+      this.user.email = payload.sub;
     }
     console.log(this.user);
   }
@@ -46,7 +38,19 @@ export class EditAccountDataComponent implements OnInit {
 
   onSubmit() {
     const token = localStorage.getItem('token');
-    this.userService.changeCredentials(this.user, token);
+    if (token != null) {
+      this.userService.changeCredentials(this.user, this.user.id).subscribe({
+        next: res => {
+          localStorage.removeItem('token');
+          localStorage.setItem('token', res);
+        },
+        error: err => {
+          console.log('error occured');
+        },
+      });
+    } else {
+      console.log('Not logged in');
+    }
   }
 
   getErrorMessage() {
