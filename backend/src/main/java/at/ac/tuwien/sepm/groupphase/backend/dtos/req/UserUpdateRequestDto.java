@@ -31,7 +31,9 @@ public class UserUpdateRequestDto {
         return password;
     }
 
-    public Long getId() { return  id; }
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public String toString() {

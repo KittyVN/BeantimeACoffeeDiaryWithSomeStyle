@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_USER");
             }
-            return new UserCredentialsDto(user.getId(),user.getEmail(), user.getPassword(), grantedAuthorities);
+            return new UserCredentialsDto(user.getId(), user.getEmail(), user.getPassword(), grantedAuthorities);
         } catch (NotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage(), e);
         }
