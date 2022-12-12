@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CoffeeBeanService } from 'src/services/cofffee-bean.service';
+import { CoffeeBeanService } from 'src/services/coffee-bean.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
