@@ -3,11 +3,10 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -57,10 +56,10 @@ public interface UserService extends UserDetailsService {
     /**
      * Updates an already existing user.
      *
-     * @param userUpdateDto the user to update
-     * @return
+     * @param userUpdateRequestDto the new user data
+     * @return the new JWT, if successful
      */
-    String updateUser(UserUpdateDto userUpdateDto);
+    String updateUser(UserUpdateRequestDto userUpdateRequestDto);
 
     /**
      * Reset the password for a given email.

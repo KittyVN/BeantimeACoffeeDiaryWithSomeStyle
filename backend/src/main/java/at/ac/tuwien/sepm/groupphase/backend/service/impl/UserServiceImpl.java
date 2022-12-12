@@ -3,7 +3,8 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateResponseDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
@@ -118,19 +119,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUser(UserUpdateDto userUpdateDto) {
-        LOGGER.debug("Update user {}", userUpdateDto);
+    public String updateUser(UserUpdateRequestDto userUpdateRequestDto) {
+        LOGGER.debug("Update user {}", userUpdateRequestDto);
         User user = User
             .UserBuilder
             .aUser()
-            .withId(userUpdateDto.getId())
-            .withEmail(userUpdateDto.getEmail())
-            .withPassword(passwordEncoder.encode(userUpdateDto.getPassword()))
+            .withId(userUpdateRequestDto.getId())
+            .withEmail(userUpdateRequestDto.getEmail())
+            .withPassword(passwordEncoder.encode(userUpdateRequestDto.getPassword()))
             .withRole(UserRole.USER)
             .build();
         userRepository.save(user);
 
-        UserDetails userDetails = loadUserByUsername(userUpdateDto.getEmail());
+        UserDetails userDetails = loadUserByUsername(userUpdateRequestDto.getEmail());
         List<String> roles = userDetails.getAuthorities()
             .stream()
             .map(GrantedAuthority::getAuthority)
