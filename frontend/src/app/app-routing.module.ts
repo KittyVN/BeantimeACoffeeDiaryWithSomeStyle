@@ -8,9 +8,9 @@ import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 
 import type { Routes } from '@angular/router';
-import {UserDetailComponent} from "./pages/user-list/user-detail/user-detail.component";
 
 const routes: Routes = [
   {
@@ -26,11 +26,12 @@ const routes: Routes = [
     },
     children: [
       { path: '', component: TestAdminPageComponent },
-      { path: 'users', children:
-          [
-            { path: '', component: UserListComponent },
-            { path: ':id/edit', component: UserDetailComponent }
-          ]
+      {
+        path: 'users',
+        children: [
+          { path: '', component: UserListComponent },
+          { path: ':id/edit', component: UserDetailComponent },
+        ],
       },
     ],
   },

@@ -19,6 +19,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,6 @@ import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.
 import { LoginComponent } from './pages/login/login.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
-import {MatSnackBar} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
