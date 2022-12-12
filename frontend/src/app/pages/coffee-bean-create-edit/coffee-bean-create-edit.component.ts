@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CoffeeBeanService } from 'src/services/coffee-bean.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ export enum CoffeeBeanCreateEditMode {
   templateUrl: './coffee-bean-create-edit.component.html',
   styleUrls: ['./coffee-bean-create-edit.component.css'],
 })
-export class CoffeeBeanCreateEditComponent {
+export class CoffeeBeanCreateEditComponent implements OnInit {
   constructor(
     private coffeeBeanService: CoffeeBeanService,
     private router: Router,
