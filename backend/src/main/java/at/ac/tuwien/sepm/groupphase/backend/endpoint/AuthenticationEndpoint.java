@@ -2,11 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.User;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import io.jsonwebtoken.Claims;
+
 
 import javax.annotation.security.PermitAll;
-import java.util.Base64;
 
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 
@@ -87,35 +79,7 @@ public class AuthenticationEndpoint {
         return "it works";
     }
 
-    //TODO: move to right class
-    @PermitAll
-    @GetMapping("find/{token}")
-    public UserRegisterDto findApplicationUserByToken(@PathVariable String token) {
-        String[] chunks = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String payload = new String(decoder.decode(chunks[1]));
-        System.out.println(payload);
-        String email = payload.split(",")[2].split(":")[1].replace("\"", "");
-        System.out.println(email);
-        User user = userService.findApplicationUserByEmail(email);
-        return new UserRegisterDto(user.getEmail(), user.getPassword());
-    }
 
-    @PermitAll
-    @PutMapping("update/{token}")
-    public String updateUser(@PathVariable String token, @RequestBody UserUpdateDto userUpdateDto) {
-        String[] chunks = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String payload = new String(decoder.decode(chunks[1]));
-        System.out.println(payload);
-        String email = payload.split(",")[2].split(":")[1].replace("\"", "");
-        System.out.println(email);
-        if (email.equals(userUpdateDto.getEmail())) {
-            return userService.updateUser(userUpdateDto);
-        }
-        User user = userService.findApplicationUserByEmail(email);
-        return "";
-    }
 
     private void logClientError(HttpStatus status, String message, Exception e) {
         LOG.warn("{} {}: {}: {}", status.value(), message, e.getClass().getSimpleName(), e.getMessage());
