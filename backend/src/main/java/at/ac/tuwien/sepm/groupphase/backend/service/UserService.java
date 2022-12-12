@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -68,15 +69,17 @@ public interface UserService extends UserDetailsService {
      *
      * @param id of the user to be retrieved
      * @return a UserDetailDto of the matching user.
+     * @throws NotFoundException if no user with the given ID exists.
      */
-    UserDetailDto getById(Long id);
+    UserDetailDto getById(Long id) throws NotFoundException;
 
     /**
      * Update user by id with the UserDetailDto provided
      *
      * @param id of the user to be updated
-     * @param userDetail attributes to update (only {@code userDetail.role} and {@code userDetail.active}
+     * @param userDto attributes to update (only {@code userDetail.role} and {@code userDetail.active}
      * @return the new UserDetailDto of the user
+     * @throws NotFoundException if no user with the given ID exists.
      */
-    UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto);
+    UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) throws NotFoundException;
 }

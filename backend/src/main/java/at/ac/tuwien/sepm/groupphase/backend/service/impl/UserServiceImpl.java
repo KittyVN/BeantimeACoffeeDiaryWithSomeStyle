@@ -118,11 +118,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailDto getById(Long id) {
         LOGGER.trace("Get user by id {}", id);
+        User user = userRepository.findFirstById(id);
+        if (user == null) {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
         return mapper.entityToDto(userRepository.findFirstById(id));
     }
 
     @Override
-    public UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) {
+    public UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) throws NotFoundException {
         User user = userRepository.findFirstById(id);
         user.setRole(userDto.getRole());
         user.setActive(userDto.isActive());
