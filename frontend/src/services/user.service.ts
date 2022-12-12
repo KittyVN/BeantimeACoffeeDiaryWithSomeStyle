@@ -4,6 +4,7 @@ import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { STRING_TYPE } from '@angular/compiler';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
 import { UserDetailDto } from '../dtos/req/userDetail.dto';
@@ -35,13 +36,13 @@ export class UserService {
   }
 
   public changeCredentials(user: RegisterUserDto, token: string) {
-    return this.http.put('auth/change/' + token, user, {
+    return this.http.put('users/' + token, user, {
       responseType: 'text',
     });
   }
 
   public getByToken(token: string): Observable<RegisterUserDto> {
-    return this.http.get<RegisterUserDto>('auth/find/' + token);
+    return this.http.get<RegisterUserDto>('users/' + token);
   }
   /**
    * Logout the current user and redirect to the login page
