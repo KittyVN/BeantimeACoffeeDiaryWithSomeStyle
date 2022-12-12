@@ -1,11 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,11 +12,16 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 @ActiveProfiles({"test", "generateData"}) // enable "test" spring profile during test execution in order to pick up configuration from application-test.yml
 @SpringBootTest
 public class UserServiceTest {
     @Autowired
     UserService userService;
+
+    /* Tests for search() */
 
     @Test
     public void searchWithoutParametersReturnsAllUsers() {
@@ -58,5 +62,51 @@ public class UserServiceTest {
             .map(UserDetailDto::getEmail, UserDetailDto::getRole)
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .doesNotContain(tuple("jane.doe@example.com", UserRole.USER));
+    }
+
+    /* Tests for getById() */
+
+    @Test
+    public void getByIdReturnsUser() {
+        UserDetailDto userResult = userService.getById(3L);
+
+        assertThat(userResult).isNotNull();
+        assertThat(userResult.getId()).isEqualTo(3L);
+        assertThat(userResult.getEmail()).isEqualTo("martina.musterfrau@example.com");
+        assertThat(userResult.getRole()).isEqualTo(UserRole.USER);
+        assertThat(userResult.isActive()).isTrue();
+    }
+
+    @Test
+    public void getUserByNonExistentIdThrowsNotFoundException() {
+        try {
+            userService.getById(0L);
+        } catch (Exception e) {
+            assertThat(e instanceof NotFoundException);
+        }
+    }
+
+    /* Tests for updateByAdmin() */
+
+    @Test
+    public void updateByAdminReturnsUser() throws Exception {
+        UserDetailDto userResult = userService.updateByAdmin(5L, new UserAdminEditDto(UserRole.USER, false));
+
+        assertThat(userResult).isNotNull();
+        assertThat(userResult.getId()).isEqualTo(5L);
+        assertThat(userResult.getEmail()).isEqualTo("tommy.atkins@example.com");
+        assertThat(userResult.getRole()).isEqualTo(UserRole.USER);
+        assertThat(userResult.isActive()).isFalse();
+
+        userService.updateByAdmin(5L, new UserAdminEditDto(UserRole.USER, true));
+    }
+
+    @Test
+    public void updateByAdminWithNonexistentIdThrowsNotFoundException() {
+        try {
+            userService.updateByAdmin(0L, new UserAdminEditDto(UserRole.USER, false));
+        } catch (Exception e) {
+            assertThat(e instanceof NotFoundException);
+        }
     }
 }
