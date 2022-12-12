@@ -178,6 +178,12 @@ public class UserEndpointTest {
         assertThat(userResult)
             .map(UserDetailDto::getId, UserDetailDto::getEmail, UserDetailDto::getRole, UserDetailDto::isActive)
             .contains(tuple(4L, "ola.nordmann@example.com", UserRole.ADMIN, true));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/api/v1/users/4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"role\":\"ADMIN\",\"active\":false}")
+                .accept(MediaType.APPLICATION_JSON));
     }
 
     @Test
