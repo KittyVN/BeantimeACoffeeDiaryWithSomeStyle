@@ -83,7 +83,6 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
     });
-    console.log(this.mode);
     if (this.mode === CoffeeBeanCreateEditMode.edit) {
       this.route.paramMap.subscribe(paramMap => {
         this.id = paramMap.get('id');
