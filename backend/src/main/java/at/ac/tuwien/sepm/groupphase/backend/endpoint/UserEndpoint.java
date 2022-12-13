@@ -7,6 +7,7 @@ import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
-import java.util.Base64;
 import java.util.stream.Stream;
 
 @RestController
@@ -42,23 +42,14 @@ public class UserEndpoint {
         return service.search(searchParameters);
     }
 
-    //TODO: proper response handling
     @Secured("ROLE_USER")
     @PutMapping("/{id}")
-    public String updateUser(@RequestHeader("Authorization") String token, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
-        LOGGER.info(String.valueOf(userUpdateRequestDto));
-        Long id = getUserId(token);
-        if (id.equals(userUpdateRequestDto.getId())) {
-            return service.updateUser(userUpdateRequestDto);
-        } else {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    public void updateUser(@RequestHeader("Authorization") String token, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        try {
+            service.updateUser(token, userUpdateRequestDto);
+        } catch (AccessDeniedException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ex.getMessage(), ex);
         }
-    }
 
-    private Long getUserId(String token) {
-        String[] chunks = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String payload = new String(decoder.decode(chunks[1]));
-        return Long.parseLong(payload.split(",")[2].split(":")[1].replace("\"", ""));
     }
 }

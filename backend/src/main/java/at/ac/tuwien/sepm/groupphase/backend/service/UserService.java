@@ -8,10 +8,10 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import org.springframework.security.access.AccessDeniedException;
 import java.util.stream.Stream;
 
 public interface UserService extends UserDetailsService {
@@ -56,11 +56,13 @@ public interface UserService extends UserDetailsService {
 
     /**
      * Updates an already existing user.
+     * Checks if the request sender is not trying to change someone else's data
      *
+     * @param token of the user that is sending the requests
      * @param userUpdateRequestDto the new user data
-     * @return the new JWT, if successful
+     * @throws AccessDeniedException in case the sender of the request is trying to change data of another user
      */
-    String updateUser(UserUpdateRequestDto userUpdateRequestDto);
+    void updateUser(String token, UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException;
 
     /**
      * Reset the password for a given email.
