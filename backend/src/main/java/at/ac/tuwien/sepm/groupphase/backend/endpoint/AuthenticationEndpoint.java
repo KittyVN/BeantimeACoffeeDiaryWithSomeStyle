@@ -80,8 +80,4 @@ public class AuthenticationEndpoint {
         return "it works";
     }
 
-    private void logClientError(HttpStatus status, String message, Exception e) {
-        LOG.warn("{} {}: {}: {}", status.value(), message, e.getClass().getSimpleName(), e.getMessage());
-    }
-
 }

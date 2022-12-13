@@ -47,6 +47,7 @@ const routes: Routes = [
     data: { mode: CoffeeBeanCreateEditMode.edit },
   },
   { path: 'resetpassword', component: ResetPasswordComponent },
+  { path: 'test', component: TestHomeComponent },
   { path: '**', redirectTo: 'home' },
 ];
 

@@ -115,4 +115,17 @@ public class UserEndpointTest {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
     }
+
+    @Test
+    @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")
+    public void tryDeleteExistingUserWithWrongId() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/users/-1")
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isForbidden());
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof AccessDeniedException);
+        }
+    }
 }

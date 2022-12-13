@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
@@ -56,5 +57,10 @@ public class UserServiceTest {
             .map(UserDetailDto::getEmail, UserDetailDto::getRole)
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .doesNotContain(tuple("jane.doe@example.com", UserRole.USER));
+    }
+
+    @Test
+    public void deleteExistingUserWithId() {
+        assertDoesNotThrow(() -> userService.deleteUser(1L));
     }
 }
