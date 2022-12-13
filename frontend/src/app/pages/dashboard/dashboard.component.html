@@ -1,5 +1,8 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
+  <button mat-raised-button [routerLink]="['/create-coffee-bean']">
+    Add custom coffee bean
+  </button>
   <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let coffee of coffees">
       <mat-card class="dashboard-card">

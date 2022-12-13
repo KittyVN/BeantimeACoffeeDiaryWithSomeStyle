@@ -12,7 +12,7 @@ export class CoffeeBeanService {
    * @param coffeeBean The bean to add
    */
   public create(coffeeBean: CoffeeBeanDto) {
-    return this.http.post('coffee-beans/create', coffeeBean, {
+    return this.http.post('coffee-beans', coffeeBean, {
       responseType: 'text',
     });
   }
@@ -31,7 +31,7 @@ export class CoffeeBeanService {
    * @param coffeeBean The edited bean
    */
   public edit(coffeeBean: CoffeeBeanDto) {
-    return this.http.put('coffee-beans/edit', coffeeBean, {
+    return this.http.put('coffee-beans' + coffeeBean.id, coffeeBean, {
       responseType: 'text',
     });
   }

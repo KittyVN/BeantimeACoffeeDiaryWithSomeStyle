@@ -17,6 +17,7 @@ public record CoffeeBeanDto(
     @Size(max = 255, message = "Name cannot be longer than 255 characters")
     String name,
     @Min(value = 0, message = "Price cannot be negative")
+    @Digits(integer = Integer.MAX_VALUE, fraction = 2)
     Float price,
     @Size(max = 255, message = "Origin cannot be longer than 255 characters")
     String origin,
