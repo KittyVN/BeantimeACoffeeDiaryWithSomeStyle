@@ -75,7 +75,7 @@
           *ngIf="!modeIsCreate"
           mat-raised-button
           color="primary"
-          (click)="delete()">
+          [routerLink]="['/' + coffeeBeanDto.id + '/delete-coffee-bean']">
           Delete
         </button>
       </form>

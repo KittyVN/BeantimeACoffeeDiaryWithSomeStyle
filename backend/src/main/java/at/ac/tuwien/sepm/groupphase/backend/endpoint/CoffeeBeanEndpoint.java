@@ -47,7 +47,7 @@ public class CoffeeBeanEndpoint {
         return coffeeBeanService.create(coffeeBeanDto);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public CoffeeBeanDto update(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("PUT " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         try {

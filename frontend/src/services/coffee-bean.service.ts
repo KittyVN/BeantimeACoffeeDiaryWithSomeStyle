@@ -31,7 +31,7 @@ export class CoffeeBeanService {
    * @param coffeeBean The edited bean
    */
   public edit(coffeeBean: CoffeeBeanDto) {
-    return this.http.put('coffee-beans' + coffeeBean.id, coffeeBean, {
+    return this.http.put('coffee-beans/' + coffeeBean.id, coffeeBean, {
       responseType: 'text',
     });
   }

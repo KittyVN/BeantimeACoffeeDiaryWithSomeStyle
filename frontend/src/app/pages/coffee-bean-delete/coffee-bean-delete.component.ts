@@ -25,7 +25,7 @@ export class CoffeeBeanDeleteComponent implements OnInit {
             this.router.navigate(['/home']);
           },
           error: err => {
-            this.snackBar.open(err.error, 'Close', {
+            this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
               duration: 5000,
             });
           },
