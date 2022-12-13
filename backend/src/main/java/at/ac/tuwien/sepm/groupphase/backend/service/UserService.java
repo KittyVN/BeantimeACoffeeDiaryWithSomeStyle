@@ -6,7 +6,6 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -57,9 +56,8 @@ public interface UserService extends UserDetailsService {
      * Reset the password for a given email.
      *
      * @param email emailaddress
-     * @return the emailaddress
      */
-    String resetPassword(UserResetPasswordDto email);
+    void resetPassword(UserResetPasswordDto email);
 
     /**
      * Deletes an account.

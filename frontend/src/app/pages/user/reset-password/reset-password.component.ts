@@ -10,7 +10,6 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
   styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent {
-  bannerMessage: string | null = null;
   constructor(
     private userService: UserService,
     private router: Router,
@@ -38,15 +37,10 @@ export class ResetPasswordComponent {
             this.router.navigate(['/home']);
             this.userService.resetPassword({ email }).subscribe({
               next: res => {
-                if (res !== 'This email doesnt exist') {
-                  this.bannerMessage = `password was successfully changed.`;
-                }
                 console.log(res);
-                this.bannerMessage = `this email doesnt exist.`;
               },
               error: err => {
                 console.log(err);
-                this.bannerMessage = `${err}`;
                 this.snackBar.open(
                   'Something went wrong while resetting your password. Please try again later',
                   'Close',

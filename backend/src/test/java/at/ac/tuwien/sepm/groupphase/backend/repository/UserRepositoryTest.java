@@ -57,4 +57,13 @@ public class UserRepositoryTest {
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .doesNotContain(tuple("jane.doe@example.com", UserRole.USER));
     }
+
+    @Test
+    public void findAnExistingUserByEmail() {
+        User user = userRepository.findByEmail("martina.musterfrau@example.com");
+
+        assertThat(user).isNotNull();
+        assertThat(user.getEmail()).isEqualTo("martina.musterfrau@example.com");
+    }
+
 }
