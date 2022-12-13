@@ -42,13 +42,13 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
             .aCoffeeBean()
-            .withName(coffeeBeanDto.name())
-            .withPrice(coffeeBeanDto.price())
-            .withOrigin(coffeeBeanDto.origin())
-            .withHeight(coffeeBeanDto.height())
-            .withCoffeeRoast(coffeeBeanDto.coffeeRoast())
-            .withDescription(coffeeBeanDto.description())
-            .withCustom(coffeeBeanDto.custom())
+            .withName(coffeeBeanDto.getName())
+            .withPrice(coffeeBeanDto.getPrice())
+            .withOrigin(coffeeBeanDto.getOrigin())
+            .withHeight(coffeeBeanDto.getHeight())
+            .withCoffeeRoast(coffeeBeanDto.getCoffeeRoast())
+            .withDescription(coffeeBeanDto.getDescription())
+            .withCustom(coffeeBeanDto.getCustom())
             .build();
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
     }
@@ -59,15 +59,15 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
             .aCoffeeBean()
-            .withId(coffeeBeanDto.id())
-            .withName(coffeeBeanDto.name())
-            .withPrice(coffeeBeanDto.price())
-            .withOrigin(coffeeBeanDto.origin())
-            .withHeight(coffeeBeanDto.height())
-            .withCoffeeRoast(coffeeBeanDto.coffeeRoast())
-            .withDescription(coffeeBeanDto.description())
-            .withCustom(coffeeBeanDto.custom())
-            .withUserId(coffeeBeanDto.userId())
+            .withId(coffeeBeanDto.getId())
+            .withName(coffeeBeanDto.getName())
+            .withPrice(coffeeBeanDto.getPrice())
+            .withOrigin(coffeeBeanDto.getOrigin())
+            .withHeight(coffeeBeanDto.getHeight())
+            .withCoffeeRoast(coffeeBeanDto.getCoffeeRoast())
+            .withDescription(coffeeBeanDto.getDescription())
+            .withCustom(coffeeBeanDto.getCustom())
+            .withUserId(coffeeBeanDto.getUserId())
             .build();
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
     }
