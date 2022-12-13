@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 import java.util.Base64;
 import java.util.stream.Stream;
@@ -44,7 +45,8 @@ public class UserEndpoint {
     //TODO: proper response handling
     @Secured("ROLE_USER")
     @PutMapping("/{id}")
-    public String updateUser(@RequestHeader("Authorization") String token, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+    public String updateUser(@RequestHeader("Authorization") String token, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        LOGGER.info(String.valueOf(userUpdateRequestDto));
         Long id = getUserId(token);
         if (id.equals(userUpdateRequestDto.getId())) {
             return service.updateUser(userUpdateRequestDto);
