@@ -15,6 +15,7 @@ import { EditAccountDataComponent } from './pages/edit-account-data/edit-account
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bean-delete.component';
 
 import type { Routes } from '@angular/router';
 
@@ -48,6 +49,7 @@ const routes: Routes = [
     component: CoffeeBeanCreateEditComponent,
     data: { mode: CoffeeBeanCreateEditMode.edit },
   },
+  { path: ':id/delete-coffee-bean', component: CoffeeBeanDeleteComponent },
   { path: 'resetpassword', component: ResetPasswordComponent },
   { path: '**', redirectTo: 'home' },
 ];

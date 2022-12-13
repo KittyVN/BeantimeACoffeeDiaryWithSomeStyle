@@ -36,6 +36,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CoffeeBeanCreateEditComponent } from './pages/coffee-bean-create-edit/coffee-bean-create-edit.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bean-delete.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
     CoffeeBeanCreateEditComponent,
     ResetPasswordComponent,
     UserListComponent,
+    CoffeeBeanDeleteComponent,
   ],
   imports: [
     BrowserModule,

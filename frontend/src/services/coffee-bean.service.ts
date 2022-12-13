@@ -43,6 +43,7 @@ export class CoffeeBeanService {
    * @param id the id of the coffee bean to delete
    */
   public delete(id: string) {
-    return this.http.delete<CoffeeBeanDto>('coffee-bean/' + id);
+    console.log(id);
+    return this.http.delete('coffee-bean/' + id);
   }
 }
