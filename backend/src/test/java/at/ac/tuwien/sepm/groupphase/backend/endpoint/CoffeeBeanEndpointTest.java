@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,6 +42,7 @@ public class CoffeeBeanEndpointTest {
     private CoffeeBeanEndpoint coffeeBeanEndpoint;
 
     @Test
+    @Rollback
     public void createValidCoffee() throws Exception {
         CoffeeBean requestJson =
             CoffeeBean.CoffeeBeanBuilder
@@ -77,6 +79,7 @@ public class CoffeeBeanEndpointTest {
     }
 
     @Test
+    @Rollback
     public void editCoffeeToValid() throws Exception {
         CoffeeBean requestJson =
             CoffeeBean.CoffeeBeanBuilder
@@ -115,6 +118,7 @@ public class CoffeeBeanEndpointTest {
     }
 
     @Test
+    @Rollback
     public void deleteExistingCoffee() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
             .delete("/api/v1/coffee-beans/1")
