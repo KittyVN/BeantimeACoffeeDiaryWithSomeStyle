@@ -96,7 +96,7 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
             this.snackBar.open(err.error, 'Close', {
               duration: 5000,
             });
-            this.router.navigate(['**']);
+            this.router.navigate(['/home']);
           },
         });
       } else {
@@ -134,6 +134,7 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
               duration: 5000,
             }
           );
+          this.router.navigate(['/home']);
         },
         error: err => {
           this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {

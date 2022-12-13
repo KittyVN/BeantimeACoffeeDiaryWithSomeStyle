@@ -34,7 +34,6 @@ export class EditAccountDataComponent implements OnInit {
         duration: 5000,
       });
     }
-    console.log(this.user);
   }
 
   changeCredentialsForm = new FormGroup({
@@ -55,14 +54,15 @@ export class EditAccountDataComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error: err => {
-          console.log(err);
           this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
             duration: 5000,
           });
         },
       });
     } else {
-      console.log('Not logged in');
+      this.snackBar.open('Not logged in.', 'Close', {
+        duration: 5000,
+      });
     }
   }
 
