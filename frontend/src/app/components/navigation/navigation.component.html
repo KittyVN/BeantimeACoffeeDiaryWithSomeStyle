@@ -8,7 +8,7 @@
         aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>{{ appName }}</span>
+      <a [routerLink]="['/home']">{{ appName }}</a>
     </div>
     <div [ngSwitch]="isAuthenticated">
       <div *ngSwitchCase="false">
