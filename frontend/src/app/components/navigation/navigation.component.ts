@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { environment } from 'src/environment/environment';
 import { AuthService } from 'src/services/auth/auth.service';
 import { UserService } from 'src/services/user.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-navigation',

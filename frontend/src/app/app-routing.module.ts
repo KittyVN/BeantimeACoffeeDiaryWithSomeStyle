@@ -16,6 +16,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bean-delete.component';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 
 import type { Routes } from '@angular/router';
 
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'change', component: EditAccountDataComponent },
+  { path: 'profile', component: ProfilePageComponent },
   {
     path: 'create-coffee-bean',
     component: CoffeeBeanCreateEditComponent,

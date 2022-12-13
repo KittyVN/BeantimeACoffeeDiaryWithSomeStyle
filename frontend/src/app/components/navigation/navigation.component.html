@@ -16,6 +16,7 @@
         <a routerLink="/register"> Register </a>
       </div>
       <div *ngSwitchCase="true">
+        <mat-icon [routerLink]="['/profile']">account_circle</mat-icon>
         <button mat-raised-button (click)="this.logout()">Logout</button>
       </div>
     </div>
