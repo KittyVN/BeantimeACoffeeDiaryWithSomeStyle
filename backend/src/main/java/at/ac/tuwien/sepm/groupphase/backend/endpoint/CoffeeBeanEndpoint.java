@@ -29,7 +29,7 @@ public class CoffeeBeanEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final CoffeeBeanService coffeeBeanService;
 
-    static final String BASE_PATH = "/api/v1/coffee-bean";
+    static final String BASE_PATH = "/api/v1/coffee-beans";
 
     public CoffeeBeanEndpoint(CoffeeBeanService coffeeBeanService) {
         this.coffeeBeanService = coffeeBeanService;
@@ -41,13 +41,13 @@ public class CoffeeBeanEndpoint {
         return coffeeBeanService.getAll();
     }
 
-    @PostMapping("create")
+    @PostMapping
     public CoffeeBeanDto create(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         return coffeeBeanService.create(coffeeBeanDto);
     }
 
-    @PutMapping("edit")
+    @PutMapping
     public CoffeeBeanDto update(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("PUT " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         try {
@@ -57,7 +57,7 @@ public class CoffeeBeanEndpoint {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public void delete(@PathVariable("id") long id) {
         LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         try {
@@ -67,7 +67,7 @@ public class CoffeeBeanEndpoint {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public CoffeeBeanDto getById(@PathVariable("id") long id) {
         LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
         try {
