@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }else {
+        } else {
             throw new UsernameNotFoundException("User doesnt exist");
         }
     }
