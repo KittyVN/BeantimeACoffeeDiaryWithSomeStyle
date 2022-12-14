@@ -1,12 +1,13 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
-import at.ac.tuwien.sepm.groupphase.backend.exception.ValidationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +27,7 @@ public interface UserService extends UserDetailsService {
      * @throws UsernameNotFoundException is thrown if the specified user does not exists
      */
     @Override
-    UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
+    UserCredentialsDto loadUserByUsername(String email) throws UsernameNotFoundException;
 
     /**
      * Find an application user based on the email address.
@@ -52,6 +53,14 @@ public interface UserService extends UserDetailsService {
      * @return the JWT, if successful
      */
     String register(UserRegisterDto userRegisterDto);
+
+    /**
+     * Updates an already existing user.
+     *
+     * @param userUpdateRequestDto the new user data
+     * @return the new JWT, if successful
+     */
+    String updateUser(UserUpdateRequestDto userUpdateRequestDto);
 
     /**
      * Reset the password for a given email.

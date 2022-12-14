@@ -1,0 +1,39 @@
+<app-container>
+  <mat-card>
+    <mat-card-content>
+      <h1>Change Credentials</h1>
+      <form
+        class="changeCredentialsForm"
+        [formGroup]="changeCredentialsForm"
+        (submit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input
+            formControlName="email"
+            placeholder="m.musermann@email.at"
+            required
+            matInput
+            [(ngModel)]="user.email" />
+          <mat-error *ngIf="changeCredentialsForm.controls.email.invalid">{{
+            getErrorMessage()
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>New Password</mat-label>
+          <input
+            formControlName="password"
+            required
+            type="password"
+            matInput
+            [(ngModel)]="user.password" />
+          <mat-error *ngIf="changeCredentialsForm.controls.email.invalid">{{
+            getErrorMessage()
+          }}</mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary">
+          Confirm changes
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</app-container>

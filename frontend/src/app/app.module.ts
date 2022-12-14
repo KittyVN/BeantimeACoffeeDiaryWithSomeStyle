@@ -31,6 +31,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
+import { EditAccountDataComponent } from './pages/edit-account-data/edit-account-data.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CoffeeBeanCreateEditComponent } from './pages/coffee-bean-create-edit/coffee-bean-create-edit.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
@@ -45,6 +46,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
     TestHomeComponent,
     TestAdminPageComponent,
     LoginComponent,
+    EditAccountDataComponent,
     DashboardComponent,
     CoffeeBeanCreateEditComponent,
     ResetPasswordComponent,

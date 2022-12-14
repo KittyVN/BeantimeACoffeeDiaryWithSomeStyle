@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { CoffeeService } from 'src/services/coffee.service';
@@ -9,7 +9,7 @@ import { CoffeeBeanDashboardDto } from 'src/dtos';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   coffees: CoffeeBeanDashboardDto[] = [];
 
   constructor(

@@ -1,8 +1,11 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateResponseDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
@@ -39,7 +42,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
 
-
     @Autowired
     public UserServiceImpl(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
         this.userRepository = userRepository;
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserCredentialsDto loadUserByUsername(String email) throws UsernameNotFoundException {
         LOGGER.debug("Load all user by email");
         try {
             User user = findApplicationUserByEmail(email);
@@ -60,8 +62,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_USER");
             }
-
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
+            return new UserCredentialsDto(user.getId(), user.getEmail(), user.getPassword(), grantedAuthorities);
         } catch (NotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage(), e);
         }
@@ -78,11 +79,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public String login(UserLoginDto userLoginDto) {
         LOGGER.debug("Login user {}", userLoginDto);
-        UserDetails userDetails = loadUserByUsername(userLoginDto.getEmail());
+        UserCredentialsDto userDetails = loadUserByUsername(userLoginDto.getEmail());
         if (userDetails != null
             && userDetails.isAccountNonExpired()
             && userDetails.isAccountNonLocked()
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-            return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
+            return jwtTokenizer.getAuthToken(userDetails.getId().toString(), userDetails.getUsername(), roles);
         }
         throw new BadCredentialsException("Username or password is incorrect or account is locked");
     }
@@ -110,15 +110,35 @@ public class UserServiceImpl implements UserService {
             .build();
         userRepository.save(user);
 
-        UserDetails userDetails = loadUserByUsername(userRegisterDto.getEmail());
+        UserCredentialsDto userDetails = loadUserByUsername(userRegisterDto.getEmail());
         List<String> roles = userDetails.getAuthorities()
             .stream()
             .map(GrantedAuthority::getAuthority)
             .toList();
-        return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
+        return jwtTokenizer.getAuthToken(userDetails.getId().toString(), userDetails.getUsername(), roles);
     }
 
     @Override
+    public String updateUser(UserUpdateRequestDto userUpdateRequestDto) {
+        LOGGER.debug("Update user {}", userUpdateRequestDto);
+        User user = User
+            .UserBuilder
+            .aUser()
+            .withId(userUpdateRequestDto.getId())
+            .withEmail(userUpdateRequestDto.getEmail())
+            .withPassword(passwordEncoder.encode(userUpdateRequestDto.getPassword()))
+            .withRole(UserRole.USER)
+            .build();
+        userRepository.save(user);
+
+        UserCredentialsDto userDetails = loadUserByUsername(userUpdateRequestDto.getEmail());
+        List<String> roles = userDetails.getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .toList();
+        return jwtTokenizer.getAuthToken(userDetails.getId().toString(), userDetails.getUsername(), roles);
+    }
+
     public String resetPassword(UserResetPasswordDto userToReset) {
         String randomPassword = RandomStringUtils.randomAlphanumeric(10);
         User user = userRepository.findByEmail(userToReset.getEmail());

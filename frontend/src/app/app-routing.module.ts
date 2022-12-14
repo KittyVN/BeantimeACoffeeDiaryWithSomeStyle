@@ -11,6 +11,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { TestHomeComponent } from './pages/test-home/test-home.component';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
+import { EditAccountDataComponent } from './pages/edit-account-data/edit-account-data.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ResetPasswordComponent } from './pages/user/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'change', component: EditAccountDataComponent },
   {
     path: 'create-coffee-bean',
     component: CoffeeBeanCreateEditComponent,
