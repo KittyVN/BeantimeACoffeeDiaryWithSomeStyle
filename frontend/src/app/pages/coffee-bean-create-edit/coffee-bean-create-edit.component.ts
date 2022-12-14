@@ -144,12 +144,4 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
       });
     }
   }
-
-  getErrorMessage() {
-    if (this.createEditBeanForm.hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return '';
-  }
 }

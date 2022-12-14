@@ -39,20 +39,38 @@ const routes: Routes = [
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'change', component: EditAccountDataComponent },
-  { path: 'profile', component: ProfilePageComponent },
+  {
+    path: 'change',
+    canActivate: [AuthGuard],
+    component: EditAccountDataComponent,
+  },
+  {
+    path: 'profile',
+    canActivate: [AuthGuard],
+    component: ProfilePageComponent,
+  },
   {
     path: 'create-coffee-bean',
+    canActivate: [AuthGuard],
     component: CoffeeBeanCreateEditComponent,
     data: { mode: CoffeeBeanCreateEditMode.create },
   },
   {
     path: ':id/edit-coffee-bean',
+    canActivate: [AuthGuard],
     component: CoffeeBeanCreateEditComponent,
     data: { mode: CoffeeBeanCreateEditMode.edit },
   },
-  { path: ':id/delete-coffee-bean', component: CoffeeBeanDeleteComponent },
-  { path: 'resetpassword', component: ResetPasswordComponent },
+  {
+    path: ':id/delete-coffee-bean',
+    canActivate: [AuthGuard],
+    component: CoffeeBeanDeleteComponent,
+  },
+  {
+    path: 'resetpassword',
+    canActivate: [AuthGuard],
+    component: ResetPasswordComponent,
+  },
   { path: '**', redirectTo: 'home' },
 ];
 

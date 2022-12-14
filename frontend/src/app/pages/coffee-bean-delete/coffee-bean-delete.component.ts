@@ -22,6 +22,9 @@ export class CoffeeBeanDeleteComponent implements OnInit {
       if (this.id !== null) {
         this.coffeeBeanService.delete(this.id).subscribe({
           next: res => {
+            this.snackBar.open('Successfully deleted coffee bean', 'Close', {
+              duration: 5000,
+            });
             this.router.navigate(['/home']);
           },
           error: err => {
@@ -30,11 +33,6 @@ export class CoffeeBeanDeleteComponent implements OnInit {
             });
           },
         });
-      } else {
-        this.snackBar.open('This coffee bean does not exist.', 'Close', {
-          duration: 5000,
-        });
-        this.router.navigate(['/home']);
       }
     });
   }
