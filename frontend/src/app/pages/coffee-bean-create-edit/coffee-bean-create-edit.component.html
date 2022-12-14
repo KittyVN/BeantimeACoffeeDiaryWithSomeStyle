@@ -15,9 +15,6 @@
             formControlName="name"
             [(ngModel)]="coffeeBeanDto.name" />
         </mat-form-field>
-        <mat-error *ngIf="createEditBeanForm.controls.name.invalid">{{
-          getErrorMessage()
-        }}</mat-error>
         <mat-form-field>
           <mat-label>Price</mat-label>
           <input
