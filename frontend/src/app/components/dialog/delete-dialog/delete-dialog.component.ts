@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'src/services/user.service';
 
@@ -15,6 +16,7 @@ export class DeleteDialogComponent {
     public dialogRef: MatDialogRef<DeleteDialogComponent>,
     private userService: UserService,
     private snackBar: MatSnackBar,
+    private router: Router,
     private jwtHelper: JwtHelperService
   ) {}
 
@@ -54,6 +56,8 @@ export class DeleteDialogComponent {
           },
         });
       }
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 }

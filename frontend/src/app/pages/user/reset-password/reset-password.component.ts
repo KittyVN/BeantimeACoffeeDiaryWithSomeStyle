@@ -34,7 +34,7 @@ export class ResetPasswordComponent {
                 duration: 5000,
               }
             );
-            this.router.navigate(['/home']);
+            this.router.navigate(['/login']);
             this.userService.resetPassword({ email }).subscribe({
               next: res => {
                 console.log(res);
