@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles({"test", "generateData"}) // enable "test" spring profile during test execution in order to pick up configuration from application-test.yml
 @SpringBootTest
@@ -22,6 +22,7 @@ public class UserRepositoryTest {
     UserRepository userRepository;
 
     @Test
+    @Transactional
     public void searchWithoutParametersReturnsAllUsers() {
         List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, null, null));
 
@@ -39,6 +40,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void searchForEmailLikeDoeReturnsMin2Users() {
         List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, "doe", null));
 
@@ -50,6 +52,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void searchForEmailLikeDoeAndRoleAdminReturnsMin1User() {
         List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, "doe", UserRole.ADMIN));
 
@@ -61,6 +64,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void findAnExistingUserByEmail() {
         User user = userRepository.findByEmail("martina.musterfrau@example.com");
 
@@ -70,6 +74,7 @@ public class UserRepositoryTest {
 
 
     @Test
+    @Transactional
     public void deleteExistingUserWithId() {
         assertDoesNotThrow(() -> userRepository.deleteById(1L));
     }

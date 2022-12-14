@@ -15,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -42,6 +43,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void searchWithoutParametersWithRoleAdminReturnsAllUsers() throws Exception {
         byte[] body = mockMvc
@@ -67,6 +69,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void searchForEmailLikeDoeWithRoleAdminReturnsMin2Users() throws Exception {
         byte[] body = mockMvc
@@ -86,6 +89,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void searchForEmailLikeDoeAndRoleAdminWithRoleAdminReturnsMin1User() throws Exception {
         byte[] body = mockMvc
@@ -105,6 +109,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")
     public void searchWithoutParametersWithRoleAdminReturns403() {
         try {
@@ -118,6 +123,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void checkIfEmailExistsOfAnUserAccount() throws Exception {
         byte[] body = mockMvc
@@ -134,6 +140,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void resetPasswordOfAnExistingAccount() throws Exception {
         mockMvc
@@ -157,13 +164,14 @@ public class UserEndpointTest {
 
 
     @Test
+    @Transactional
     @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")
-    public void tryDeleteExistingUserWithWrongId() {
+    public void tryDeleteExistingUserWithWrongHeader() {
         try {
             mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/v1/users/-1")
+                .delete("/api/v1/users/1")
                 .accept(MediaType.APPLICATION_JSON)
-            ).andExpect(status().isForbidden());
+            ).andExpect(status().isBadRequest());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
