@@ -49,19 +49,6 @@ public class AuthenticationEndpoint {
         return userService.register(userRegisterDto);
     }
 
-    @PermitAll
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping("/resetpassword")
-    public String resetPassword(@Valid @RequestBody UserResetPasswordDto emailToReset) {
-        return userService.resetPassword(emailToReset);
-    }
-
-    @PermitAll
-    @GetMapping("/checkemail")
-    public UserResetPasswordDto checkEmail(@Valid @RequestParam String email) {
-        UserResetPasswordDto tempuser = new UserResetPasswordDto(userService.findApplicationUserByEmail(email.trim()).getEmail());
-        return tempuser;
-    }
 
     @PermitAll
     @DeleteMapping("{id}")

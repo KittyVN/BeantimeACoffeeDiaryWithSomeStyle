@@ -61,6 +61,15 @@ public class UserRepositoryTest {
     }
 
     @Test
+    public void findAnExistingUserByEmail() {
+        User user = userRepository.findByEmail("martina.musterfrau@example.com");
+
+        assertThat(user).isNotNull();
+        assertThat(user.getEmail()).isEqualTo("martina.musterfrau@example.com");
+    }
+
+
+    @Test
     public void deleteExistingUserWithId() {
         assertDoesNotThrow(() -> userRepository.deleteById(1L));
     }

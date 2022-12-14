@@ -138,8 +138,8 @@ public class UserServiceImpl implements UserService {
             .toList();
         return jwtTokenizer.getAuthToken(userDetails.getId().toString(), userDetails.getUsername(), roles);
     }
-
-    public String resetPassword(UserResetPasswordDto userToReset) {
+    @Override
+    public void resetPassword(UserResetPasswordDto userToReset) {
         String randomPassword = RandomStringUtils.randomAlphanumeric(10);
         User user = userRepository.findByEmail(userToReset.getEmail());
         if (user != null) {
@@ -149,21 +149,15 @@ public class UserServiceImpl implements UserService {
             String content = "Hi, this is your new password: " + randomPassword;
             content += "\nNote: for security reason, "
                 + "you must change your password after logging in.";
-
-            String message = "";
-
             try {
                 EmailUtility.sendEmail("smtp.gmail.com", "587", "noreplybeantime@gmail.com", "Beantime", "xnpkqllidlxxeoqh",
                     userToReset.getEmail(), subject, content);
-                message = "Your password has been reset. Please check your e-mail.";
-                return message;
             } catch (Exception ex) {
                 ex.printStackTrace();
-                message = "There were an error: " + ex.getMessage();
-                return message;
             }
+        } else {
+            throw new UsernameNotFoundException("User doesnt exist");
         }
-        return "This email doesnt exist";
     }
 
     @Override

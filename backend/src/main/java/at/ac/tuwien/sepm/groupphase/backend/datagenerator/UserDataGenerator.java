@@ -95,6 +95,14 @@ public class UserDataGenerator {
                 .withRole(UserRole.USER)
                 .build();
 
+            User userDaniel = User
+                .UserBuilder
+                .aUser()
+                .withEmail("daniel.schermann12@gmail.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .build();
+
             userRepository.save(admin1);
             userRepository.save(admin2);
             userRepository.save(user1);
@@ -103,6 +111,7 @@ public class UserDataGenerator {
             userRepository.save(user4);
             userRepository.save(user5);
             userRepository.save(user6);
+            userRepository.save(userDaniel);
         }
     }
 }

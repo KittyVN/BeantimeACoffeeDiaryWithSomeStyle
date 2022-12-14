@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,6 +116,45 @@ public class UserEndpointTest {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
     }
+
+    @Test
+    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    public void checkIfEmailExistsOfAnUserAccount() throws Exception {
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .get("/api/v1/users/checkemail?email=martina.musterfrau@example.com")
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        List<UserResetPasswordDto> userResult = objectMapper.readerFor(UserResetPasswordDto.class).<UserResetPasswordDto>readValues(body).readAll();
+
+        assertThat(userResult.size()).isEqualTo(1);
+        assertThat(userResult.get(0).getEmail()).isEqualTo("martina.musterfrau@example.com");
+    }
+
+    @Test
+    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    public void resetPasswordOfAnExistingAccount() throws Exception {
+        mockMvc
+            .perform(MockMvcRequestBuilders
+                .put("/api/v1/users/resetpassword")
+                .content(asJsonString(new UserResetPasswordDto("martina.musterfrau@example.com")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk());
+    }
+
+    public static String asJsonString(UserResetPasswordDto obj) {
+        try {
+            UserResetPasswordDto temp =
+                new UserResetPasswordDto(obj.getEmail());
+            return new ObjectMapper().writeValueAsString(temp);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Test
     @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")

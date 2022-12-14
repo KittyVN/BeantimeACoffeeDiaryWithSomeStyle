@@ -67,7 +67,9 @@ export class UserService {
    * @returns nothing
    */
   public resetPassword(email: EmailDto) {
-    return this.http.put('auth/resetpassword', email, { responseType: 'text' });
+    return this.http.put('users/resetpassword', email, {
+      responseType: 'text',
+    });
   }
 
   /**
@@ -77,7 +79,7 @@ export class UserService {
    */
   public checkEmail(email: EmailDto) {
     const params = new HttpParams().set('email', email.email);
-    return this.http.get('auth/checkemail', { params });
+    return this.http.get('users/checkemail', { params });
   }
 
   /**

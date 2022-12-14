@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
@@ -12,14 +13,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
 
 import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
@@ -44,6 +47,19 @@ public class UserEndpoint {
         LOGGER.info("GET " + BASE_PATH);
         LOGGER.info("Request parameters: {}", searchParameters);
         return service.search(searchParameters);
+    }
+
+    @PermitAll
+    @GetMapping("/checkemail")
+    public UserResetPasswordDto checkEmail(@Valid @RequestParam String email) {
+        return new UserResetPasswordDto(service.findApplicationUserByEmail(email.trim()).getEmail());
+    }
+
+    @PermitAll
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/resetpassword")
+    public void resetPassword(@Valid @RequestBody UserResetPasswordDto emailToReset) {
+        service.resetPassword(emailToReset);
     }
 
     @Secured("ROLE_USER")
