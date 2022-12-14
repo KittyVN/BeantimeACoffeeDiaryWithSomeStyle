@@ -29,31 +29,31 @@ export class DeleteDialogComponent {
     if (token !== null) {
       const payload = this.jwtHelper.decodeToken(token);
       this.id = payload.jti;
+
+      this.userService.delete(this.id).subscribe({
+        next: data => {
+          console.log(data);
+          localStorage.removeItem('token');
+          this.snackBar.open(
+            'Your account has been permanentely deleted',
+            'Close',
+            {
+              duration: 5000,
+            }
+          );
+          this.dialogRef.close('closed');
+        },
+        error: error => {
+          console.log(error);
+          this.snackBar.open(
+            'Something went wrong during the deletion',
+            'Close',
+            {
+              duration: 5000,
+            }
+          );
+        },
+      });
     }
-    console.log(this.id);
-    this.userService.delete(this.id).subscribe({
-      next: data => {
-        console.log(data);
-        localStorage.removeItem('token');
-        this.snackBar.open(
-          'Your account has been permanentely deleted',
-          'Close',
-          {
-            duration: 5000,
-          }
-        );
-        this.dialogRef.close('closed');
-      },
-      error: error => {
-        console.log(error);
-        this.snackBar.open(
-          'Something went wrong during the deletion',
-          'Close',
-          {
-            duration: 5000,
-          }
-        );
-      },
-    });
   }
 }

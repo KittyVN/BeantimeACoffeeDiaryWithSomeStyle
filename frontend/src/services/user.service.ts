@@ -86,8 +86,8 @@ export class UserService {
    * @param id the id of the account that should be deleted
    * @return nothing
    */
-  delete(id: number): Observable<string> {
-    return this.http.delete<string>('users/' + id);
+  public delete(id: number) {
+    return this.http.delete('users/' + id);
   }
 
   /**
