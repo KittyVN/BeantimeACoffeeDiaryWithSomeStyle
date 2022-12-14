@@ -44,7 +44,7 @@ export class EditAccountDataComponent implements OnInit {
   onSubmit() {
     const token = localStorage.getItem('token');
     if (token != null) {
-      this.userService.changeCredentials(this.user, this.user.id).subscribe({
+      this.userService.update(this.user, this.user.id).subscribe({
         next: res => {
           localStorage.removeItem('token');
           localStorage.setItem('token', res);
