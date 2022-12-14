@@ -5,7 +5,6 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateResponseDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
@@ -22,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -138,6 +136,7 @@ public class UserServiceImpl implements UserService {
             .toList();
         return jwtTokenizer.getAuthToken(userDetails.getId().toString(), userDetails.getUsername(), roles);
     }
+
     @Override
     public void resetPassword(UserResetPasswordDto userToReset) {
         String randomPassword = RandomStringUtils.randomAlphanumeric(10);
