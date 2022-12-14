@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'src/services/user.service';
@@ -10,11 +10,9 @@ import { UserService } from 'src/services/user.service';
   styleUrls: ['./delete-dialog.component.css'],
 })
 export class DeleteDialogComponent {
-  id = 0;
-
+  id: number | undefined;
   constructor(
     public dialogRef: MatDialogRef<DeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA)
     private userService: UserService,
     private snackBar: MatSnackBar,
     private jwtHelper: JwtHelperService
@@ -29,31 +27,33 @@ export class DeleteDialogComponent {
     if (token !== null) {
       const payload = this.jwtHelper.decodeToken(token);
       this.id = payload.jti;
-
-      this.userService.delete(this.id).subscribe({
-        next: data => {
-          console.log(data);
-          localStorage.removeItem('token');
-          this.snackBar.open(
-            'Your account has been permanentely deleted',
-            'Close',
-            {
-              duration: 5000,
-            }
-          );
-          this.dialogRef.close('closed');
-        },
-        error: error => {
-          console.log(error);
-          this.snackBar.open(
-            'Something went wrong during the deletion',
-            'Close',
-            {
-              duration: 5000,
-            }
-          );
-        },
-      });
+      console.log(this.id);
+      if (this.id !== undefined) {
+        this.userService.delete(this.id).subscribe({
+          next: data => {
+            console.log(data);
+            localStorage.removeItem('token');
+            this.snackBar.open(
+              'Your account has been permanentely deleted',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+            this.dialogRef.close('closed');
+          },
+          error: error => {
+            console.log(error);
+            this.snackBar.open(
+              'Something went wrong during the deletion',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+          },
+        });
+      }
     }
   }
 }
