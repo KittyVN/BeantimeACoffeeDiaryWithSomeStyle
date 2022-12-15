@@ -66,11 +66,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: CoffeeBeanDeleteComponent,
   },
-  {
-    path: 'resetpassword',
-    canActivate: [AuthGuard],
-    component: ResetPasswordComponent,
-  },
+  { path: 'resetpassword', component: ResetPasswordComponent },
   { path: '**', redirectTo: 'home' },
 ];
 
