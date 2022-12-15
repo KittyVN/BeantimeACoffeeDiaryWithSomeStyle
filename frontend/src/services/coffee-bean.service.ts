@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CoffeeBeanDto } from 'src/dtos';
+import { CoffeeBeanDashboardDto, CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -12,9 +12,18 @@ export class CoffeeBeanService {
    * @param coffeeBean The bean to add
    */
   public create(coffeeBean: CoffeeBeanDto) {
-    return this.http.post('coffee-bean/create', coffeeBean, {
+    return this.http.post('coffee-beans', coffeeBean, {
       responseType: 'text',
     });
+  }
+
+  /**
+   * Fetch all coffees 
+
+   * @returns An observable list of coffee entitys
+   */
+  public getall(): Observable<CoffeeBeanDashboardDto[]> {
+    return this.http.get<CoffeeBeanDashboardDto[]>('coffee-beans');
   }
 
   /**
@@ -22,7 +31,7 @@ export class CoffeeBeanService {
    * @param coffeeBean The edited bean
    */
   public edit(coffeeBean: CoffeeBeanDto) {
-    return this.http.put('coffee-bean/edit', coffeeBean, {
+    return this.http.put('coffee-beans/' + coffeeBean.id, coffeeBean, {
       responseType: 'text',
     });
   }
@@ -34,7 +43,7 @@ export class CoffeeBeanService {
    * @returns the coffee bean as an Observable
    */
   public getById(id: string): Observable<CoffeeBeanDto> {
-    return this.http.get<CoffeeBeanDto>('coffee-bean/' + id);
+    return this.http.get<CoffeeBeanDto>('coffee-beans/' + id);
   }
 
   /**
@@ -43,6 +52,7 @@ export class CoffeeBeanService {
    * @param id the id of the coffee bean to delete
    */
   public delete(id: string) {
-    return this.http.delete<CoffeeBeanDto>('coffee-bean/' + id);
+    console.log(id);
+    return this.http.delete('coffee-beans/' + id);
   }
 }

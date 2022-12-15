@@ -14,9 +14,6 @@
             required
             matInput
             [(ngModel)]="user.email" />
-          <mat-error *ngIf="changeCredentialsForm.controls.email.invalid">{{
-            getErrorMessage()
-          }}</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>New Password</mat-label>
@@ -26,9 +23,6 @@
             type="password"
             matInput
             [(ngModel)]="user.password" />
-          <mat-error *ngIf="changeCredentialsForm.controls.email.invalid">{{
-            getErrorMessage()
-          }}</mat-error>
         </mat-form-field>
         <button type="submit" mat-raised-button color="primary">
           Confirm changes

@@ -46,7 +46,7 @@ export class UserService {
    * @param id the id of the user to be changed
    * @returns the user's token
    */
-  public changeCredentials(user: UpdateUserDto, id: number) {
+  public update(user: UpdateUserDto, id: number) {
     return this.http.put('users/' + id, user, {
       responseType: 'text',
     });

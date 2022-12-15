@@ -8,7 +8,7 @@
         aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>{{ appName }}</span>
+      <a [routerLink]="['/home']">{{ appName }}</a>
     </div>
     <div [ngSwitch]="isAuthenticated">
       <div *ngSwitchCase="false">
@@ -16,6 +16,7 @@
         <a routerLink="/register"> Register </a>
       </div>
       <div *ngSwitchCase="true">
+        <mat-icon [routerLink]="['/profile']">account_circle</mat-icon>
         <button mat-raised-button (click)="this.logout()">Logout</button>
       </div>
     </div>

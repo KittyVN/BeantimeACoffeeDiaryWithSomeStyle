@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 import { Roast } from 'src/dtos/req/roast-type.enum';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export enum CoffeeBeanCreateEditMode {
   create,
@@ -20,7 +21,8 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
   constructor(
     private coffeeBeanService: CoffeeBeanService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {}
 
   id: string | null = null;
@@ -81,7 +83,6 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
     });
-    console.log(this.mode);
     if (this.mode === CoffeeBeanCreateEditMode.edit) {
       this.route.paramMap.subscribe(paramMap => {
         this.id = paramMap.get('id');
@@ -91,20 +92,26 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
           next: (data: CoffeeBeanDto) => {
             this.coffeeBeanDto = data;
           },
-          error: (error: { message: any }) => {
-            console.error('Error fetching coffee bean: ', error.message);
-            this.router.navigate(['**']);
+          error: err => {
+            this.snackBar.open(err.error, 'Close', {
+              duration: 5000,
+            });
+            this.router.navigate(['/home']);
           },
         });
       } else {
-        console.error('Error fetching coffeeBean: id cannot be null');
+        this.snackBar.open(
+          'The coffee bean you tried to edit does not exist',
+          'Close',
+          {
+            duration: 5000,
+          }
+        );
       }
     }
   }
 
   onSubmit() {
-    console.log(this.createEditBeanForm.value);
-    console.log(this.createEditBeanForm.valid);
     if (this.createEditBeanForm.valid) {
       let observable: Observable<string>;
       switch (this.mode) {
@@ -120,38 +127,21 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
       }
       observable.subscribe({
         next: data => {
-          console.log(
-            'Coffee bean was successfully ' + this.modeActionFinished
+          this.snackBar.open(
+            'Coffee bean was successfully ' + this.modeActionFinished,
+            'Close',
+            {
+              duration: 5000,
+            }
           );
+          this.router.navigate(['/home']);
         },
         error: err => {
-          console.log('Error');
+          this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
+            duration: 5000,
+          });
         },
       });
     }
-  }
-
-  delete() {
-    if (this.id != null) {
-      this.coffeeBeanService.delete(this.id).subscribe({
-        next: (data: any) => {
-          console.log('deleted coffee bean: ', data);
-          this.router.navigate(['**']);
-        },
-        error: (error: { message: any }) => {
-          console.error('Error deleting coffee bean: ', error.message);
-        },
-      });
-    } else {
-      console.error('Error deleting coffee bean: id cannot be null');
-    }
-  }
-
-  getErrorMessage() {
-    if (this.createEditBeanForm.hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return '';
   }
 }

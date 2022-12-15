@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { CoffeeService } from 'src/services/coffee.service';
+import { CoffeeBeanService } from 'src/services/coffee-bean.service';
 import { CoffeeBeanDashboardDto } from 'src/dtos';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +15,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private coffeeService: CoffeeService
+    private coffeeBeanService: CoffeeBeanService
   ) {}
 
   ngOnInit(): void {
-    this.coffeeService.getall().subscribe({
+    this.coffeeBeanService.getall().subscribe({
       next: data => {
         this.coffees = data;
       },

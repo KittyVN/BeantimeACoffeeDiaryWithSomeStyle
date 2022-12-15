@@ -15,9 +15,6 @@
             formControlName="name"
             [(ngModel)]="coffeeBeanDto.name" />
         </mat-form-field>
-        <mat-error *ngIf="createEditBeanForm.controls.name.invalid">{{
-          getErrorMessage()
-        }}</mat-error>
         <mat-form-field>
           <mat-label>Price</mat-label>
           <input
@@ -75,7 +72,7 @@
           *ngIf="!modeIsCreate"
           mat-raised-button
           color="primary"
-          (click)="delete()">
+          [routerLink]="['/' + coffeeBeanDto.id + '/delete-coffee-bean']">
           Delete
         </button>
       </form>

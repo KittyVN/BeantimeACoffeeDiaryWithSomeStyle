@@ -27,6 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.invoke.MethodHandles;
+
+import org.springframework.security.access.AccessDeniedException;
+
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -117,8 +121,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUser(UserUpdateRequestDto userUpdateRequestDto) {
+    public void updateUser(String token, UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
+        if (!getUserId(token).equals(userUpdateRequestDto.getId())) {
+            throw new AccessDeniedException("Not authorized to change another users data!");
+        }
         User user = User
             .UserBuilder
             .aUser()
@@ -128,13 +135,13 @@ public class UserServiceImpl implements UserService {
             .withRole(UserRole.USER)
             .build();
         userRepository.save(user);
+    }
 
-        UserCredentialsDto userDetails = loadUserByUsername(userUpdateRequestDto.getEmail());
-        List<String> roles = userDetails.getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority)
-            .toList();
-        return jwtTokenizer.getAuthToken(userDetails.getId().toString(), userDetails.getUsername(), roles);
+    private Long getUserId(String token) {
+        String[] chunks = token.split("\\.");
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+        String payload = new String(decoder.decode(chunks[1]));
+        return Long.parseLong(payload.split(",")[2].split(":")[1].replace("\"", ""));
     }
 
     @Override

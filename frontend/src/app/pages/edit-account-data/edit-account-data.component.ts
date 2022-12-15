@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
-import { AuthService } from 'src/services/auth/auth.service';
 import { UpdateUserDto } from 'src/dtos';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-account-data',
@@ -14,9 +13,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class EditAccountDataComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private router: Router,
-    private authService: AuthService,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
+    private snackBar: MatSnackBar
   ) {}
 
   user: UpdateUserDto = { id: -999, email: '', password: '' };
@@ -28,7 +26,6 @@ export class EditAccountDataComponent implements OnInit {
       this.user.id = payload.jti;
       this.user.email = payload.sub;
     }
-    console.log(this.user);
   }
 
   changeCredentialsForm = new FormGroup({
@@ -38,28 +35,19 @@ export class EditAccountDataComponent implements OnInit {
 
   onSubmit() {
     const token = localStorage.getItem('token');
-    if (token != null) {
-      this.userService.changeCredentials(this.user, this.user.id).subscribe({
-        next: res => {
-          localStorage.removeItem('token');
-          localStorage.setItem('token', res);
-        },
-        error: err => {
-          console.log('error occured');
-        },
-      });
-    } else {
-      console.log('Not logged in');
-    }
-  }
-
-  getErrorMessage() {
-    if (this.changeCredentialsForm.hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return this.changeCredentialsForm.controls.email.hasError('email')
-      ? 'Not a valid email'
-      : '';
+    this.userService.update(this.user, this.user.id).subscribe({
+      next: res => {
+        localStorage.removeItem('token');
+        localStorage.setItem('token', res);
+        this.snackBar.open('Successfully changed account data.', 'Close', {
+          duration: 5000,
+        });
+      },
+      error: err => {
+        this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
+          duration: 5000,
+        });
+      },
+    });
   }
 }
