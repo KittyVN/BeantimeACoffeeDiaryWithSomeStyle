@@ -63,12 +63,7 @@ public class UserEndpoint {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-        Long tokenId = getUserId(token);
-        if (id.equals(tokenId)) {
             service.deleteUser(id);
-        } else {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
     }
 
 
