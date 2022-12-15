@@ -1,0 +1,8 @@
+.changeCredentialsForm {
+    display: flex;
+    flex-direction: column; 
+}
+
+.changeCredentialsForm p {
+    margin: 10px auto 0 auto;
+}

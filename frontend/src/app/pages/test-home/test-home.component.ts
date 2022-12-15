@@ -15,13 +15,10 @@ export class TestHomeComponent {
     private router: Router,
     private userService: UserService
   ) {}
-  openDialog(id: number): void {
+  openDialog(): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '300px',
       hasBackdrop: true,
-      data: {
-        id: id,
-      },
     });
 
     dialogRef.afterClosed().subscribe(result => {

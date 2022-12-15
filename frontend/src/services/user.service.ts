@@ -1,15 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { RegisterUserDto, LoginUserDto, EmailDto } from 'src/dtos';
+import {
+  RegisterUserDto,
+  LoginUserDto,
+  EmailDto,
+  UpdateUserDto,
+} from 'src/dtos';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { STRING_TYPE } from '@angular/compiler';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
 import { UserDetailDto } from '../dtos/req/userDetail.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private jwtHelper: JwtHelperService
+  ) {}
 
   /**
    * Register a new user
@@ -30,6 +41,18 @@ export class UserService {
   }
 
   /**
+   * Change data of an existing user
+   * @param user the new user data
+   * @param id the id of the user to be changed
+   * @returns the user's token
+   */
+  public changeCredentials(user: UpdateUserDto, id: number) {
+    return this.http.put('users/' + id, user, {
+      responseType: 'text',
+    });
+  }
+
+  /**
    * Logout the current user and redirect to the login page
    * @returns void
    */
@@ -41,7 +64,7 @@ export class UserService {
   /**
    * Reset the password of an existing user
    * @param email The email to the password to reset
-   * @returns the email
+   * @returns nothing
    */
   public resetPassword(email: EmailDto) {
     return this.http.put('users/resetpassword', email, {
@@ -63,10 +86,10 @@ export class UserService {
    * Deletes an existing user in the system.
    *
    * @param id the id of the account that should be deleted
-   * @return a string giving information
+   * @return nothing
    */
-  delete(id: number): Observable<string> {
-    return this.http.delete<string>('auth/' + id);
+  public delete(id: number) {
+    return this.http.delete('users/' + id);
   }
 
   /**
