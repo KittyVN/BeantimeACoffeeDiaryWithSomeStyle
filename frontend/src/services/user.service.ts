@@ -64,10 +64,12 @@ export class UserService {
   /**
    * Reset the password of an existing user
    * @param email The email to the password to reset
-   * @returns the email
+   * @returns nothing
    */
   public resetPassword(email: EmailDto) {
-    return this.http.put('auth/resetpassword', email, { responseType: 'text' });
+    return this.http.put('users/resetpassword', email, {
+      responseType: 'text',
+    });
   }
 
   /**
@@ -77,17 +79,17 @@ export class UserService {
    */
   public checkEmail(email: EmailDto) {
     const params = new HttpParams().set('email', email.email);
-    return this.http.get('auth/checkemail', { params });
+    return this.http.get('users/checkemail', { params });
   }
 
   /**
    * Deletes an existing user in the system.
    *
    * @param id the id of the account that should be deleted
-   * @return a string giving information
+   * @return nothing
    */
-  delete(id: number): Observable<string> {
-    return this.http.delete<string>('auth/' + id);
+  public delete(id: number) {
+    return this.http.delete('users/' + id);
   }
 
   /**

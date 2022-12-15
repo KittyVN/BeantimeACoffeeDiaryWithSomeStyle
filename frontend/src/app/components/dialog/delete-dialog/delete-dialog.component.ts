@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'src/services/user.service';
 
 @Component({
@@ -9,41 +11,53 @@ import { UserService } from 'src/services/user.service';
   styleUrls: ['./delete-dialog.component.css'],
 })
 export class DeleteDialogComponent {
+  id: number | undefined;
   constructor(
     public dialogRef: MatDialogRef<DeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { id: number },
     private userService: UserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private jwtHelper: JwtHelperService
   ) {}
 
   onNoClick(): void {
     this.dialogRef.close('open');
   }
 
-  deleteAccount(id: number) {
-    this.userService.delete(id).subscribe({
-      next: data => {
-        console.log(data);
-        this.snackBar.open(
-          'Your account has been permanentely deleted',
-          'Close',
-          {
-            duration: 5000,
-          }
-        );
-        this.dialogRef.close('closed');
-      },
-      error: error => {
-        console.log(error);
-        this.snackBar.open(
-          'Something went wrong during the deletion',
-          'Close',
-          {
-            duration: 5000,
-          }
-        );
-      },
-    });
+  deleteAccount() {
+    const token = localStorage.getItem('token');
+    if (token !== null) {
+      const payload = this.jwtHelper.decodeToken(token);
+      this.id = payload.jti;
+      console.log(this.id);
+      if (this.id !== undefined) {
+        this.userService.delete(this.id).subscribe({
+          next: data => {
+            console.log(data);
+            localStorage.removeItem('token');
+            this.snackBar.open(
+              'Your account has been permanentely deleted',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+            this.dialogRef.close('closed');
+          },
+          error: error => {
+            console.log(error);
+            this.snackBar.open(
+              'Something went wrong during the deletion',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+          },
+        });
+      }
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -41,6 +43,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void searchWithoutParametersWithRoleAdminReturnsAllUsers() throws Exception {
         byte[] body = mockMvc
@@ -66,6 +69,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void searchForEmailLikeDoeWithRoleAdminReturnsMin2Users() throws Exception {
         byte[] body = mockMvc
@@ -85,6 +89,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
     public void searchForEmailLikeDoeAndRoleAdminWithRoleAdminReturnsMin1User() throws Exception {
         byte[] body = mockMvc
@@ -104,6 +109,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")
     public void searchWithoutParametersWithRoleAdminReturns403() {
         try {
@@ -111,6 +117,61 @@ public class UserEndpointTest {
                 .get("/api/v1/users")
                 .accept(MediaType.APPLICATION_JSON)
             ).andExpect(status().isForbidden());
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof AccessDeniedException);
+        }
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    public void checkIfEmailExistsOfAnUserAccount() throws Exception {
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .get("/api/v1/users/checkemail?email=martina.musterfrau@example.com")
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        List<UserResetPasswordDto> userResult = objectMapper.readerFor(UserResetPasswordDto.class).<UserResetPasswordDto>readValues(body).readAll();
+
+        assertThat(userResult.size()).isEqualTo(1);
+        assertThat(userResult.get(0).getEmail()).isEqualTo("martina.musterfrau@example.com");
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    public void resetPasswordOfAnExistingAccount() throws Exception {
+        mockMvc
+            .perform(MockMvcRequestBuilders
+                .put("/api/v1/users/resetpassword")
+                .content(asJsonString(new UserResetPasswordDto("martina.musterfrau@example.com")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk());
+    }
+
+    public static String asJsonString(UserResetPasswordDto obj) {
+        try {
+            UserResetPasswordDto temp =
+                new UserResetPasswordDto(obj.getEmail());
+            return new ObjectMapper().writeValueAsString(temp);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Test
+    @Transactional
+    @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")
+    public void tryDeleteExistingUserWithWrongHeader() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/users/1")
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isBadRequest());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }

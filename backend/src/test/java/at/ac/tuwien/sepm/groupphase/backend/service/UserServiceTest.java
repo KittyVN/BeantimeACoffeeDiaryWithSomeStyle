@@ -2,14 +2,20 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +26,7 @@ public class UserServiceTest {
     UserService userService;
 
     @Test
+    @Transactional
     public void searchWithoutParametersReturnsAllUsers() {
         List<UserDetailDto> users = userService.search(new UserSearchDto(null, null, null)).toList();
 
@@ -37,6 +44,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void searchForEmailLikeDoeReturnsMin2Users() {
         List<UserDetailDto> users = userService.search(new UserSearchDto(null, "doe", null)).toList();
 
@@ -48,6 +56,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void searchForEmailLikeDoeAndRoleAdminReturnsMin1User() {
         List<UserDetailDto> users = userService.search(new UserSearchDto(null, "doe", UserRole.ADMIN)).toList();
 
@@ -56,5 +65,26 @@ public class UserServiceTest {
             .map(UserDetailDto::getEmail, UserDetailDto::getRole)
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .doesNotContain(tuple("jane.doe@example.com", UserRole.USER));
+    }
+
+    @Test
+    @Transactional
+    public void resetPasswordOfNoneExistingUser() {
+        assertThrows(UsernameNotFoundException.class, () -> userService.resetPassword(new UserResetPasswordDto("martia.musterfrau@example.com")));
+    }
+
+    @Test
+    @Transactional
+    public void findAnExistingUserByEmail() {
+        User user = userService.findApplicationUserByEmail("martina.musterfrau@example.com");
+
+        assertThat(user).isNotNull();
+        assertThat(user.getEmail()).isEqualTo("martina.musterfrau@example.com");
+    }
+
+    @Test
+    @Transactional
+    public void deleteExistingUserWithId() {
+        assertDoesNotThrow(() -> userService.deleteUser(1L));
     }
 }

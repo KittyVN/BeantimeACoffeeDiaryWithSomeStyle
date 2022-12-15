@@ -68,9 +68,8 @@ public interface UserService extends UserDetailsService {
      * Reset the password for a given email.
      *
      * @param email emailaddress
-     * @return the emailaddress
      */
-    String resetPassword(UserResetPasswordDto email);
+    void resetPassword(UserResetPasswordDto email);
 
     /**
      * Deletes an account.
