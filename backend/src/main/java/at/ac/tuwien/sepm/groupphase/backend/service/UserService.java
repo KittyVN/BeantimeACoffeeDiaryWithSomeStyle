@@ -1,6 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,7 +69,7 @@ public interface UserService extends UserDetailsService {
     Stream<UserDetailDto> search(UserSearchDto searchParameters);
 
     /**
-     * Get UserDetailDto by id
+     * Get UserDetailDto by id.
      *
      * @param id of the user to be retrieved
      * @return a UserDetailDto of the matching user.
@@ -74,7 +78,7 @@ public interface UserService extends UserDetailsService {
     UserDetailDto getById(Long id) throws NotFoundException;
 
     /**
-     * Update user by id with the UserDetailDto provided
+     * Update user by id with the UserDetailDto provided.
      *
      * @param id of the user to be updated
      * @param userDto attributes to update (only {@code userDetail.role} and {@code userDetail.active}

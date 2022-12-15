@@ -16,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
 
     /**
      * Get a user by id.
+     *
      * @param id the id of the user
      * @return the user with the given id
      */
