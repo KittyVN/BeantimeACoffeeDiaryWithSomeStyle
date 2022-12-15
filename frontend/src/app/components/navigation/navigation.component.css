@@ -19,3 +19,19 @@
   display: flex;
   align-items: center;
 }
+
+.profile-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-container mat-icon{
+  margin-right: 1em;
+  transform: scale(1.5);
+}
+
+.profile-container mat-icon:hover{
+  cursor: pointer;
+  transform: scale(1.6);
+}
