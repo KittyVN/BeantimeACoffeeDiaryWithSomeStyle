@@ -164,7 +164,7 @@ public class UserEndpointTest {
     public void updateByAdminReturnsUser() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
-                .put("/api/v1/users/4")
+                .patch("/api/v1/users/4")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"role\":\"ADMIN\",\"active\":true}")
                 .accept(MediaType.APPLICATION_JSON)
@@ -180,7 +180,7 @@ public class UserEndpointTest {
             .contains(tuple(4L, "ola.nordmann@example.com", UserRole.ADMIN, true));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .put("/api/v1/users/4")
+                .patch("/api/v1/users/4")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"role\":\"ADMIN\",\"active\":false}")
                 .accept(MediaType.APPLICATION_JSON));
@@ -190,7 +190,7 @@ public class UserEndpointTest {
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void updateByAdminWithNonexistentIdReturns404() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/users/0").contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/users/0").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"role\": \"ADMIN\"}")).andExpect(status().isNotFound());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof NotFoundException);
@@ -201,7 +201,7 @@ public class UserEndpointTest {
     @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
     public void updateByAdminWithoutRoleAdminReturns403() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/users/3").contentType(MediaType.APPLICATION_JSON)
+            mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/users/3").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"role\": \"ADMIN\"}")).andExpect(status().isForbidden());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof AccessDeniedException);
