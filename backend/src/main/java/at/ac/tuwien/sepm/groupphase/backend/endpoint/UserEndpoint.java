@@ -10,11 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.invoke.MethodHandles;
@@ -52,7 +52,7 @@ public class UserEndpoint {
     }
 
     @Secured("ROLE_ADMIN")
-    @PutMapping("{id}")
+    @PatchMapping("{id}")
     public UserDetailDto updateByAdmin(@PathVariable Long id, @RequestBody UserAdminEditDto userDto) {
         LOGGER.info(String.format("PUT %s/%d", BASE_PATH, id));
         LOGGER.info("Request id: {}, Request body {}", id, userDto);

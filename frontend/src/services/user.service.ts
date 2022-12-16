@@ -77,6 +77,6 @@ export class UserService {
     id: number,
     userDto: UserAdminEditDto
   ): Observable<UserDetailDto> {
-    return this.http.put<UserDetailDto>(`users/${id}`, userDto).pipe();
+    return this.http.patch<UserDetailDto>(`users/${id}`, userDto).pipe();
   }
 }
