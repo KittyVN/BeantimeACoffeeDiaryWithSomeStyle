@@ -6,6 +6,7 @@ public class UserSearchDto {
     private Long id;
     private String email;
     private UserRole role;
+    private Boolean active;
 
     public UserSearchDto() {
     }
@@ -20,28 +21,36 @@ public class UserSearchDto {
         return this.id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public UserRole getRole() {
         return this.role;
     }
 
+    public Boolean getActive() {
+        return this.active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setRole(UserRole role) {
         this.role = role;
     }
 
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     @Override
     public String toString() {
-        return String.format("UserDto{id=%d,email='%s',role='%s'}", id, email, role);
+        return String.format("UserSearchDto{id=%d,email='%s',role='%s',active=%s}", id, email, role, active);
     }
 }

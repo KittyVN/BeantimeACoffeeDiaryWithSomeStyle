@@ -13,6 +13,7 @@ import { STRING_TYPE } from '@angular/compiler';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
 import { UserDetailDto } from '../dtos/req/userDetail.dto';
+import { UserAdminEditDto } from '../dtos/req/userAdminEdit.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -112,6 +113,34 @@ export class UserService {
       params = params.set('role', searchParameters.role);
     }
 
-    return this.http.get<UserDetailDto[]>('users', { params });
+    if (searchParameters.active != null) {
+      params = params.set('active', searchParameters.active);
+    }
+
+    return this.http.get<UserDetailDto[]>('users', { params }).pipe();
+  }
+
+  /**
+   * Get the Observable of the user with the specified ID.
+   *
+   * @param id of the user to get
+   * @return the Observable of the user with the specified ID.
+   */
+  public getById(id: number): Observable<UserDetailDto> {
+    return this.http.get<UserDetailDto>(`users/${id}`).pipe();
+  }
+
+  /**
+   * Update the role and active status for the user with the specified id.
+   *
+   * @param id of the user to update
+   * @param userDto contains the attributes to update
+   * @return the Observable for the updated user.
+   */
+  public updateByAdmin(
+    id: number,
+    userDto: UserAdminEditDto
+  ): Observable<UserDetailDto> {
+    return this.http.patch<UserDetailDto>(`users/${id}`, userDto).pipe();
   }
 }

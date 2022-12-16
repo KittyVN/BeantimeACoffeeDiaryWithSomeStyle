@@ -95,6 +95,24 @@ public class UserDataGenerator {
                 .withRole(UserRole.USER)
                 .build();
 
+            User user7 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("user@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .withActive(false)
+                .build();
+
+            User user8 = User
+                .UserBuilder
+                .aUser()
+                .withEmail("john.smith@example.com")
+                .withPassword(passwordEncoder.encode("password"))
+                .withRole(UserRole.USER)
+                .withActive(false)
+                .build();
+
             User userDaniel = User
                 .UserBuilder
                 .aUser()
@@ -111,6 +129,8 @@ public class UserDataGenerator {
             userRepository.save(user4);
             userRepository.save(user5);
             userRepository.save(user6);
+            userRepository.save(user7);
+            userRepository.save(user8);
             userRepository.save(userDaniel);
         }
     }

@@ -25,5 +25,13 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
 
     void deleteById(Long id);
 
+
+    /**
+     * Get a user by id.
+     *
+     * @param id the id of the user
+     * @return the user with the given id
+     */
+    User findFirstById(Long id);
 }
 
