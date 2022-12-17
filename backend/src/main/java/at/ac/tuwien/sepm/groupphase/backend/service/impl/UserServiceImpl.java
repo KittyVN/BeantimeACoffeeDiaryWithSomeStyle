@@ -118,11 +118,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(String token, UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException {
+    public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
-        if (!getUserId(token).equals(userUpdateRequestDto.getId())) {
-            throw new AccessDeniedException("Not authorized to change another users data!");
-        }
         User user = User
             .UserBuilder
             .aUser()
@@ -132,13 +129,6 @@ public class UserServiceImpl implements UserService {
             .withRole(UserRole.USER)
             .build();
         userRepository.save(user);
-    }
-
-    private Long getUserId(String token) {
-        String[] chunks = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String payload = new String(decoder.decode(chunks[1]));
-        return Long.parseLong(payload.split(",")[2].split(":")[1].replace("\"", ""));
     }
 
     @Override

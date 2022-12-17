@@ -60,11 +60,10 @@ public interface UserService extends UserDetailsService {
      * Updates an already existing user.
      * Checks if the request sender is not trying to change someone else's data
      *
-     * @param token of the user that is sending the requests
      * @param userUpdateRequestDto the new user data
      * @throws AccessDeniedException in case the sender of the request is trying to change data of another user
      */
-    void updateUser(String token, UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException;
+    void updateUser(UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException;
 
     /**
      * Reset the password for a given email.
