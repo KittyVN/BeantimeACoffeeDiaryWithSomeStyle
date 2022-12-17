@@ -24,7 +24,6 @@ export class EditAccountDataComponent implements OnInit {
     if (token !== null) {
       const payload = this.jwtHelper.decodeToken(token);
       this.user.id = payload.jti;
-      this.user.email = payload.sub;
     }
   }
 
