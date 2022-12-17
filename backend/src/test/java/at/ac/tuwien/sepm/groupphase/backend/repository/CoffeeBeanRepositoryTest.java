@@ -12,6 +12,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 
+import javax.transaction.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -22,6 +24,7 @@ public class CoffeeBeanRepositoryTest {
     private CoffeeBeanRepository coffeeBeanRepository;
 
     @Test
+    @Transactional
     @Rollback
     public void createValidCoffee() {
         CoffeeBean coffeeBean = CoffeeBean
@@ -37,6 +40,7 @@ public class CoffeeBeanRepositoryTest {
     }
 
     @Test
+    @Transactional
     @Rollback
     public void editCoffeeToValid() {
         CoffeeBean coffeeBean = CoffeeBean
@@ -52,6 +56,7 @@ public class CoffeeBeanRepositoryTest {
     }
 
     @Test
+    @Transactional
     @Rollback
     public void deleteExistentCoffeeBean() {
         assertDoesNotThrow(() -> coffeeBeanRepository.deleteById(1L));
