@@ -1,7 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.repository;
 
 
-
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
@@ -14,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @ActiveProfiles({"test", "generateData"}) // enable "test" spring profile during test execution in order to pick up configuration from application-test.yml
 @SpringBootTest
@@ -23,7 +23,7 @@ public class CoffeeBeanRepositoryTest {
 
     @Test
     @Rollback
-    public void createValidCoffee() throws Exception {
+    public void createValidCoffee() {
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
             .aCoffeeBean()
@@ -38,7 +38,7 @@ public class CoffeeBeanRepositoryTest {
 
     @Test
     @Rollback
-    public void editCoffeeToValid() throws Exception {
+    public void editCoffeeToValid() {
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
             .aCoffeeBean()
@@ -49,6 +49,12 @@ public class CoffeeBeanRepositoryTest {
             .build();
         CoffeeBean result = coffeeBeanRepository.save(coffeeBean);
         assertThat(result.getName()).isEqualTo(coffeeBean.getName());
+    }
+
+    @Test
+    @Rollback
+    public void deleteExistentCoffeeBean() {
+        assertDoesNotThrow(() -> coffeeBeanRepository.deleteById(1L));
     }
 
 }

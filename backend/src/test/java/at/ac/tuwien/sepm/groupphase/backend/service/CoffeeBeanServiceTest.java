@@ -61,7 +61,7 @@ public class CoffeeBeanServiceTest {
     @Test
     @Rollback
     public void deleteExistentCoffee() {
-        assertDoesNotThrow(() -> coffeeBeanService.delete(1L));
+        assertDoesNotThrow(() -> coffeeBeanService.delete(2L));
     }
 
 }
