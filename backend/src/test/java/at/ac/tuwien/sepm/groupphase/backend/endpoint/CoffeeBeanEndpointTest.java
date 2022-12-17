@@ -2,7 +2,6 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
-import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -131,15 +130,15 @@ public class CoffeeBeanEndpointTest {
                 .withName("")
                 .build();
         //Send coffee bean with invalid name
-        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
         //Send coffee bean with invalid roast
         requestBean.setName("Test");
         requestBean.setCoffeeRoast(null);
-        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
         //Send coffee bean with invalid custom boolean
         requestBean.setCoffeeRoast(CoffeeRoast.DARK);
         requestBean.setCustom(null);
-        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
     }
 
     private void sendInvalidCoffeeBeanUpdateRequest(CoffeeBean requestBean) throws Exception {
