@@ -123,25 +123,28 @@ public class CoffeeBeanEndpointTest {
 
     @Test
     public void editCoffeeToInvalid() throws Exception {
-        CoffeeBean requestBean =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withId(1L)
-                .withName("")
-                .build();
+        requestJson.setId(1L);
+        requestJson.setUserId(1L);
+        requestJson.setName("");
+        requestJson.setCoffeeRoast(CoffeeRoast.LIGHT);
+        requestJson.setCustom(true);
         //Send coffee bean with invalid name
-        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
         //Send coffee bean with invalid roast
-        requestBean.setName("Test");
-        requestBean.setCoffeeRoast(null);
-        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        requestJson.setName("ValidName");
+        requestJson.setCoffeeRoast(null);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
         //Send coffee bean with invalid custom boolean
-        requestBean.setCoffeeRoast(CoffeeRoast.DARK);
-        requestBean.setCustom(null);
-        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(null);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+        //Send coffee bean with invalid user
+        requestJson.setCustom(true);
+        requestJson.setUserId(-99L);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
     }
 
-    private void sendInvalidCoffeeBeanUpdateRequest(CoffeeBean requestBean) throws Exception {
+    private void sendInvalidCoffeeBeanUpdateRequest(CoffeeBeanDto requestBean) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders

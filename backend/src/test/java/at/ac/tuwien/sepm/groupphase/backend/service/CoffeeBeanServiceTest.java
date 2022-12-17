@@ -57,7 +57,7 @@ public class CoffeeBeanServiceTest {
             CoffeeRoast.DARK,
             null,
             true,
-            null
+            1L
         );
         CoffeeBeanDto result = coffeeBeanService.update(coffeeBeanDto);
         result.setId(null);
