@@ -24,7 +24,7 @@ public class CoffeeBeanMapper {
             coffeeBean.getCoffeeRoast(),
             coffeeBean.getDescription(),
             coffeeBean.getCustom(),
-            coffeeBean.getUserId()
+            coffeeBean.getUser().getId()
         );
     }
 

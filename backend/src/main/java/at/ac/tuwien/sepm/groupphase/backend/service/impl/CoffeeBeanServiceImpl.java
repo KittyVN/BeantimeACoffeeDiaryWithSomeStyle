@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
@@ -67,7 +68,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             .withCoffeeRoast(coffeeBeanDto.getCoffeeRoast())
             .withDescription(coffeeBeanDto.getDescription())
             .withCustom(coffeeBeanDto.getCustom())
-            .withUserId(coffeeBeanDto.getUserId())
+            .withUser(User.UserBuilder.aUser().withId(coffeeBeanDto.getUserId()).build())
             .build();
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
     }

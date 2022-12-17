@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.datagenerator;
 
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class CoffeeBeanDataGenerator {
                 .withCoffeeRoast(CoffeeRoast.MEDIUM)
                 .withDescription("A description goes here")
                 .withCustom(true)
-                .withUserId(1L)
+                //.withUser(User.UserBuilder.aUser().withId(1L).build())
                 .build();
 
             CoffeeBean cb2 = CoffeeBean
@@ -51,7 +52,7 @@ public class CoffeeBeanDataGenerator {
                 .withCoffeeRoast(CoffeeRoast.LIGHT)
                 .withDescription("A longer description goes here because I need characters for testing")
                 .withCustom(true)
-                .withUserId(1L)
+                //.withUser(User.UserBuilder.aUser().withId(1L).build())
                 .build();
 
             CoffeeBean cb3 = CoffeeBean
@@ -64,7 +65,7 @@ public class CoffeeBeanDataGenerator {
                 .withCoffeeRoast(CoffeeRoast.DARK)
                 .withDescription("A normal description goes here again")
                 .withCustom(true)
-                .withUserId(1L)
+                //.withUser(User.UserBuilder.aUser().withId(1L).build())
                 .build();
 
             coffeeBeanRepository.save(cb1);
