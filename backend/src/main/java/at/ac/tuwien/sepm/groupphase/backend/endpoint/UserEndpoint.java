@@ -63,7 +63,7 @@ public class UserEndpoint {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-            service.deleteUser(id);
+        service.deleteUser(id);
     }
 
 
