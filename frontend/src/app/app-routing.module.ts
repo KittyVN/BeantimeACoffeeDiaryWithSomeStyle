@@ -18,6 +18,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
 import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bean-delete.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
+import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bean-detail.component';
 
 import type { Routes } from '@angular/router';
 
@@ -55,6 +56,10 @@ const routes: Routes = [
     path: 'profile',
     canActivate: [AuthGuard],
     component: ProfilePageComponent,
+  },
+  {
+    path: 'coffee/:id',
+    component: CoffeeBeanDetailComponent,
   },
   {
     path: 'create-coffee-bean',
