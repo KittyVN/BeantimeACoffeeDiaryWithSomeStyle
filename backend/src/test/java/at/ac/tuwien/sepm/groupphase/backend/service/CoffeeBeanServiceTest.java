@@ -63,5 +63,5 @@ public class CoffeeBeanServiceTest {
     public void deleteExistentCoffee() {
         assertDoesNotThrow(() -> coffeeBeanService.delete(1L));
     }
-add
+
 }
