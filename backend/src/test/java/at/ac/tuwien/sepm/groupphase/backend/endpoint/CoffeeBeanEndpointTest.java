@@ -86,7 +86,7 @@ public class CoffeeBeanEndpointTest {
         sendInvalidCoffeeBeanCreateRequest(requestBean);
     }
 
-    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBean requestBean) throws Exception{
+    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBean requestBean) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
