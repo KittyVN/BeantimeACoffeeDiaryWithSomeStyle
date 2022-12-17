@@ -20,4 +20,18 @@ export class AuthService {
       return false;
     }
   }
+
+  /**
+   * Check if the user has ROLE_ADMIN
+   * @returns true if user has the role admin
+   */
+  isAdmin(): boolean {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      return this.jwtHelper.decodeToken(token).rol.includes('ROLE_ADMIN');
+    } else {
+      return false;
+    }
+  }
 }
