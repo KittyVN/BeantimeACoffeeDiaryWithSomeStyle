@@ -26,6 +26,7 @@ public class CoffeeBeanDto {
     private String description;
     @NotNull
     private Boolean custom;
+    @NotNull
     private Long userId;
 
     public CoffeeBeanDto() {

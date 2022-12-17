@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +20,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
+import javax.transaction.Transactional;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,9 +36,12 @@ public class CoffeeBeanEndpointTest {
     private WebApplicationContext webAppContext;
     private MockMvc mockMvc;
 
+    private CoffeeBeanDto requestJson;
+
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        this.requestJson = new CoffeeBeanDto(null, null, null, null, null, null, null, null, null);
     }
 
 
@@ -42,15 +49,13 @@ public class CoffeeBeanEndpointTest {
     private CoffeeBeanEndpoint coffeeBeanEndpoint;
 
     @Test
+    @Transactional
     @Rollback
     public void createValidCoffee() throws Exception {
-        CoffeeBean requestJson =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("test")
-                .withCoffeeRoast(CoffeeRoast.DARK)
-                .withCustom(true)
-                .build();
+        requestJson.setName("TestBean");
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(true);
+        requestJson.setUserId(1L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
@@ -63,11 +68,7 @@ public class CoffeeBeanEndpointTest {
 
     @Test
     public void createInValidCoffee() throws Exception {
-        CoffeeBean requestJson =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("")
-                .build();
+        requestJson.setName("");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
@@ -79,16 +80,14 @@ public class CoffeeBeanEndpointTest {
     }
 
     @Test
+    @Transactional
     @Rollback
     public void editCoffeeToValid() throws Exception {
-        CoffeeBean requestJson =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withId(1L)
-                .withName("New name")
-                .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withCustom(true)
-                .build();
+        requestJson.setName("Test");
+        requestJson.setId(1L);
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(true);
+        requestJson.setUserId(1L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
@@ -118,6 +117,7 @@ public class CoffeeBeanEndpointTest {
     }
 
     @Test
+    @Transactional
     @Rollback
     public void deleteExistingCoffee() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders

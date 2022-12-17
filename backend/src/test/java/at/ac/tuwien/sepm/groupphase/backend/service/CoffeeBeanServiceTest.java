@@ -9,6 +9,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import javax.transaction.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -21,6 +23,7 @@ public class CoffeeBeanServiceTest {
 
 
     @Test
+    @Transactional
     @Rollback
     public void createValidCoffee() throws Exception {
         CoffeeBeanDto coffeeBeanDto = new CoffeeBeanDto(
@@ -40,7 +43,7 @@ public class CoffeeBeanServiceTest {
     }
 
     @Test
-    @Rollback
+    @Transactional
     public void editCoffeeToValid() throws Exception {
         CoffeeBeanDto coffeeBeanDto = new CoffeeBeanDto(
             1L,

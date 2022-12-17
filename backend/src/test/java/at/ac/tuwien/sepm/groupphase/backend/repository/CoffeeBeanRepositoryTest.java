@@ -13,6 +13,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 
+import javax.transaction.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles({"test", "generateData"}) // enable "test" spring profile during test execution in order to pick up configuration from application-test.yml
@@ -22,6 +24,7 @@ public class CoffeeBeanRepositoryTest {
     private CoffeeBeanRepository coffeeBeanRepository;
 
     @Test
+    @Transactional
     @Rollback
     public void createValidCoffee() throws Exception {
         CoffeeBean coffeeBean = CoffeeBean
@@ -37,6 +40,7 @@ public class CoffeeBeanRepositoryTest {
     }
 
     @Test
+    @Transactional
     @Rollback
     public void editCoffeeToValid() throws Exception {
         CoffeeBean coffeeBean = CoffeeBean
