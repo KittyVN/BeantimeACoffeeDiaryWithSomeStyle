@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.entity;
 
+import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeGrindSetting;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
 
@@ -28,13 +29,13 @@ public class Extraction {
     private ExtractionBrewMethod brewMethod;
 
     @Column(name = "grind_setting")
-    private String grindSetting;
+    private CoffeeGrindSetting grindSetting;
 
     @Column(name = "water_temperature")
-    private String waterTemperature;
+    private Double waterTemperature;
 
     @Column(name = "dose")
-    private String dose;
+    private Double dose;
 
     @Column(name = "brew_time")
     private Duration brewTime;
@@ -55,7 +56,7 @@ public class Extraction {
     private Integer aftertaste;
 
     @Column(name = "rating_notes")
-    private Integer ratingNotes;
+    private String ratingNotes;
 
     @ManyToOne
     @JoinColumn(name = "coffee_bean_id")

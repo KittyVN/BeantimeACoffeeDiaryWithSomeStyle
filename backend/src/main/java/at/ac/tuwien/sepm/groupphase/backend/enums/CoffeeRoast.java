@@ -3,5 +3,8 @@ package at.ac.tuwien.sepm.groupphase.backend.enums;
 public enum CoffeeRoast {
     LIGHT,
     MEDIUM,
-    DARK
+    DARK,
+    DOUBLE,
+    ESPRESSO,
+    SPANISH
 }
