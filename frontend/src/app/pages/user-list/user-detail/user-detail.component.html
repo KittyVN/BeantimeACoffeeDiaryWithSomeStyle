@@ -1,0 +1,47 @@
+<app-container>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>({{ user.id }}) {{ user.email }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <mat-form-field appearance="outline">
+          <mat-label>ID</mat-label>
+          <input matInput disabled [value]="user.id.toString()" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>E-Mail</mat-label>
+          <input matInput disabled [value]="user.email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <select matNativeControl name="role" [(ngModel)]="user.role">
+            <option value="ADMIN" [selected]="user.role === 'ADMIN'">
+              ADMIN
+            </option>
+            <option value="USER" [selected]="user.role === 'USER'">USER</option>
+          </select>
+        </mat-form-field>
+        <mat-slide-toggle
+          name="active"
+          color="primary"
+          [(ngModel)]="user.active"
+          [checked]="user.active"
+          >User enabled</mat-slide-toggle
+        >
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <a type="button" color="accent" mat-flat-button [routerLink]="['../../']"
+        >Back</a
+      >
+      <button
+        (click)="onSubmit()"
+        type="submit"
+        color="primary"
+        mat-flat-button>
+        Save
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</app-container>

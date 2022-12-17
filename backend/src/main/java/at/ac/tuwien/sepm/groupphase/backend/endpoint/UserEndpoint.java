@@ -1,21 +1,23 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -59,23 +61,44 @@ public class UserEndpoint {
         service.resetPassword(emailToReset);
     }
 
-    @Secured("ROLE_USER")
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
+        + "and authentication.principal.equals(#id.toString())")
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         service.deleteUser(id);
     }
 
 
-    //TODO: proper response handling
-    @Secured("ROLE_USER")
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
+        + "and authentication.principal.equals(#id.toString()) "
+        + "and authentication.principal.equals(#userUpdateRequestDto.getId().toString())")
     @PutMapping("/{id}")
-    public void updateUser(@RequestHeader("Authorization") String token, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
-        try {
-            service.updateUser(token, userUpdateRequestDto);
-        } catch (AccessDeniedException ex) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ex.getMessage(), ex);
-        }
+    public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        service.updateUser(userUpdateRequestDto);
+    }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("{id}")
+    public UserDetailDto getById(@PathVariable Long id) {
+        LOGGER.info(String.format("GET %s/%d", BASE_PATH, id));
+        LOGGER.info("Request id: {}", id);
+        try {
+            return service.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+        }
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PatchMapping("{id}")
+    public UserDetailDto updateByAdmin(@PathVariable Long id, @RequestBody UserAdminEditDto userDto) {
+        LOGGER.info(String.format("PUT %s/%d", BASE_PATH, id));
+        LOGGER.info("Request id: {}, Request body {}", id, userDto);
+        try {
+            return service.updateByAdmin(id, userDto);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+        }
     }
 }

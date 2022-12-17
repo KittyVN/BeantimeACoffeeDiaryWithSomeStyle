@@ -71,19 +71,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             .parseClaimsJws(token.replace(securityProperties.getAuthTokenPrefix(), ""))
             .getBody();
 
-        String username = claims.getSubject();
+        String id = claims.getId();
 
         List<SimpleGrantedAuthority> authorities = ((List<?>) claims
             .get("rol")).stream()
             .map(authority -> new SimpleGrantedAuthority((String) authority))
             .toList();
 
-        if (username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Token contains no user");
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("Token contains no id");
         }
 
-        MDC.put("u", username);
+        MDC.put("u", id);
 
-        return new UsernamePasswordAuthenticationToken(username, null, authorities);
+        return new UsernamePasswordAuthenticationToken(id, null, authorities);
     }
 }

@@ -17,6 +17,7 @@ import { ResetPasswordComponent } from './pages/user/reset-password/reset-passwo
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bean-delete.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 
 import type { Routes } from '@angular/router';
 
@@ -34,7 +35,13 @@ const routes: Routes = [
     },
     children: [
       { path: '', component: TestAdminPageComponent },
-      { path: 'users', children: [{ path: '', component: UserListComponent }] },
+      {
+        path: 'users',
+        children: [
+          { path: '', component: UserListComponent },
+          { path: ':id/edit', component: UserDetailComponent },
+        ],
+      },
     ],
   },
   { path: 'register', component: RegisterComponent },
@@ -66,11 +73,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: CoffeeBeanDeleteComponent,
   },
-  {
-    path: 'resetpassword',
-    canActivate: [AuthGuard],
-    component: ResetPasswordComponent,
-  },
+  { path: 'resetpassword', component: ResetPasswordComponent },
   { path: '**', redirectTo: 'home' },
 ];
 

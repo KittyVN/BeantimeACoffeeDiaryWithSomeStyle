@@ -26,7 +26,6 @@ public class JwtTokenizer {
             .setIssuer(securityProperties.getJwtIssuer())
             .setAudience(securityProperties.getJwtAudience())
             .setId(userId)
-            .setSubject(user)
             .setExpiration(new Date(System.currentTimeMillis() + securityProperties.getJwtExpirationTime()))
             .claim("rol", roles)
             .compact();

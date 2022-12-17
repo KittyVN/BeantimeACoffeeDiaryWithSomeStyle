@@ -5,32 +5,17 @@ import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-public class UserDetailDto {
-    private Long id;
-    @Email
-    @NotNull
-    private String email;
+public class UserAdminEditDto {
     @NotNull
     private UserRole role;
     @NotNull
     private Boolean active;
 
-    public UserDetailDto() {
-    }
+    public UserAdminEditDto() { }
 
-    public UserDetailDto(Long id, String email, UserRole role, Boolean active) {
-        this.id = id;
-        this.email = email;
+    public UserAdminEditDto(UserRole role, Boolean active) {
         this.role = role;
         this.active = active;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public String getEmail() {
-        return this.email;
     }
 
     public UserRole getRole() {
@@ -43,6 +28,6 @@ public class UserDetailDto {
 
     @Override
     public String toString() {
-        return String.format("UserDetailDto{id=%d,email='%s',role='%s',active=%s}", id, email, role, active);
+        return String.format("UserAdminEditDto{role='%s',active=%s}", role, active);
     }
 }

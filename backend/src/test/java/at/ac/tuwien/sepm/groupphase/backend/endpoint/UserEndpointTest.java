@@ -1,8 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ActiveProfiles({"test", "generateData"}) // enable "test" spring profile during test execution in order to pick up configuration from application-test.yml
+@ActiveProfiles({"test", "generateData"})
+// enable "test" spring profile during test execution in order to pick up configuration from application-test.yml
 @SpringBootTest
 @EnableWebMvc
 @WebAppConfiguration
@@ -42,9 +45,11 @@ public class UserEndpointTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
+    /* Tests for GET /users */
+
     @Test
     @Transactional
-    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void searchWithoutParametersWithRoleAdminReturnsAllUsers() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
@@ -53,24 +58,26 @@ public class UserEndpointTest {
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
-        List<UserSearchDto> userResult = objectMapper.readerFor(UserSearchDto.class).<UserSearchDto>readValues(body).readAll();
+        List<UserDetailDto> userResult = objectMapper.readerFor(UserDetailDto.class).<UserDetailDto>readValues(body).readAll();
 
-        assertThat(userResult.size()).isGreaterThanOrEqualTo(8);
+        assertThat(userResult.size()).isGreaterThanOrEqualTo(10);
         assertThat(userResult)
-            .map(UserSearchDto::getEmail, UserSearchDto::getRole)
-            .contains(tuple("admin@email.com", UserRole.ADMIN))
-            .contains(tuple("john.doe@example.com", UserRole.ADMIN))
-            .contains(tuple("martina.musterfrau@example.com", UserRole.USER))
-            .contains(tuple("ola.nordmann@example.com", UserRole.USER))
-            .contains(tuple("tommy.atkins@example.com", UserRole.USER))
-            .contains(tuple("jane.doe@example.com", UserRole.USER))
-            .contains(tuple("jan.jansen@example.com", UserRole.USER))
-            .contains(tuple("olaf.olaf@example.com", UserRole.USER));
+            .map(UserDetailDto::getEmail, UserDetailDto::getRole, UserDetailDto::isActive)
+            .contains(tuple("admin@email.com", UserRole.ADMIN, true))
+            .contains(tuple("john.doe@example.com", UserRole.ADMIN, true))
+            .contains(tuple("martina.musterfrau@example.com", UserRole.USER, true))
+            .contains(tuple("ola.nordmann@example.com", UserRole.USER, true))
+            .contains(tuple("tommy.atkins@example.com", UserRole.USER, true))
+            .contains(tuple("jane.doe@example.com", UserRole.USER, true))
+            .contains(tuple("jan.jansen@example.com", UserRole.USER, true))
+            .contains(tuple("olaf.olaf@example.com", UserRole.USER, true))
+            .contains(tuple("user@example.com", UserRole.USER, false))
+            .contains(tuple("john.smith@example.com", UserRole.USER, false));
     }
 
     @Test
     @Transactional
-    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void searchForEmailLikeDoeWithRoleAdminReturnsMin2Users() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
@@ -79,18 +86,18 @@ public class UserEndpointTest {
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
-        List<UserSearchDto> userResult = objectMapper.readerFor(UserSearchDto.class).<UserSearchDto>readValues(body).readAll();
+        List<UserDetailDto> userResult = objectMapper.readerFor(UserDetailDto.class).<UserDetailDto>readValues(body).readAll();
 
         assertThat(userResult.size()).isGreaterThanOrEqualTo(2);
         assertThat(userResult)
-            .map(UserSearchDto::getEmail, UserSearchDto::getRole)
+            .map(UserDetailDto::getEmail, UserDetailDto::getRole)
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .contains(tuple("jane.doe@example.com", UserRole.USER));
     }
 
     @Test
     @Transactional
-    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void searchForEmailLikeDoeAndRoleAdminWithRoleAdminReturnsMin1User() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
@@ -99,24 +106,109 @@ public class UserEndpointTest {
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
-        List<UserSearchDto> userResult = objectMapper.readerFor(UserSearchDto.class).<UserSearchDto>readValues(body).readAll();
+        List<UserDetailDto> userResult = objectMapper.readerFor(UserDetailDto.class).<UserDetailDto>readValues(body).readAll();
 
         assertThat(userResult.size()).isGreaterThanOrEqualTo(1);
         assertThat(userResult)
-            .map(UserSearchDto::getEmail, UserSearchDto::getRole)
+            .map(UserDetailDto::getEmail, UserDetailDto::getRole)
             .contains(tuple("john.doe@example.com", UserRole.ADMIN))
             .doesNotContain(tuple("jane.doe@example.com", UserRole.USER));
     }
 
     @Test
     @Transactional
-    @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")
-    public void searchWithoutParametersWithRoleAdminReturns403() {
+    @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
+    public void searchWithoutParametersWithoutRoleAdminReturns403() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/v1/users")
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")).andExpect(status().isForbidden());
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof AccessDeniedException);
+        }
+    }
+
+    /* Tests for GET /users/{id} */
+
+    @Test
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void getByIdReturnsUser() throws Exception {
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .get("/api/v1/users/3")
                 .accept(MediaType.APPLICATION_JSON)
-            ).andExpect(status().isForbidden());
+            ).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        List<UserDetailDto> userResult = objectMapper.readerFor(UserDetailDto.class).<UserDetailDto>readValues(body).readAll();
+
+        assertThat(userResult).isNotNull();
+        assertThat(userResult.size()).isEqualTo(1);
+        assertThat(userResult)
+            .map(UserDetailDto::getId, UserDetailDto::getEmail, UserDetailDto::getRole, UserDetailDto::isActive)
+            .contains(tuple(3L, "martina.musterfrau@example.com", UserRole.USER, true));
+    }
+
+    @Test
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void getUserByNonExistentIdReturns404() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/0")).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
+    public void getByIdWithoutRoleAdminReturns403() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/5")).andExpect(status().isForbidden());
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof AccessDeniedException);
+        }
+    }
+
+    /* Tests for PUT /users/{id} */
+
+    @Test
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void updateByAdminReturnsUser() throws Exception {
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .patch("/api/v1/users/4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"role\":\"ADMIN\",\"active\":true}")
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        List<UserDetailDto> userResult = objectMapper.readerFor(UserDetailDto.class).<UserDetailDto>readValues(body).readAll();
+
+        assertThat(userResult).isNotNull();
+        assertThat(userResult.size()).isEqualTo(1);
+        assertThat(userResult)
+            .map(UserDetailDto::getId, UserDetailDto::getEmail, UserDetailDto::getRole, UserDetailDto::isActive)
+            .contains(tuple(4L, "ola.nordmann@example.com", UserRole.ADMIN, true));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .patch("/api/v1/users/4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"role\":\"ADMIN\",\"active\":false}")
+                .accept(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void updateByAdminWithNonexistentIdReturns404() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/users/0").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"role\": \"ADMIN\"}")).andExpect(status().isNotFound());
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof NotFoundException);
+        }
+    }
+
+    @Test
+    @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
+    public void updateByAdminWithoutRoleAdminReturns403() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/users/3").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"role\": \"ADMIN\"}")).andExpect(status().isForbidden());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
@@ -124,7 +216,7 @@ public class UserEndpointTest {
 
     @Test
     @Transactional
-    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void checkIfEmailExistsOfAnUserAccount() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
@@ -141,7 +233,7 @@ public class UserEndpointTest {
 
     @Test
     @Transactional
-    @WithMockUser(username="admin@example.com", password="password", roles="ADMIN")
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void resetPasswordOfAnExistingAccount() throws Exception {
         mockMvc
             .perform(MockMvcRequestBuilders
@@ -165,7 +257,7 @@ public class UserEndpointTest {
 
     @Test
     @Transactional
-    @WithMockUser(username="martina.musterfrau@example.com", password="password", roles="USER")
+    @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
     public void tryDeleteExistingUserWithWrongHeader() {
         try {
             mockMvc.perform(MockMvcRequestBuilders

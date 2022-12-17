@@ -35,6 +35,18 @@
           <option value="USER">USER</option>
         </select>
       </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Is Active</mat-label>
+        <select
+          matNativeControl
+          name="searchParameterActive"
+          [(ngModel)]="this.searchParameters.active"
+          (change)="keyUp.next($event)">
+          <option value="" selected>Both</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </mat-form-field>
     </mat-card-content>
   </mat-card>
   <br />
@@ -52,6 +64,27 @@
     <ng-container matColumnDef="role">
       <th mat-header-cell *matHeaderCellDef>Role</th>
       <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <th mat-header-cell *matHeaderCellDef>Active</th>
+      <td mat-cell *matCellDef="let user">
+        <mat-icon [classList]="user.active ? 'user-active' : 'user-inactive'"
+          >circle</mat-icon
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let user">
+        <a
+          mat-icon-button
+          [routerLink]="[user.id, 'edit']"
+          aria-label="Edit user">
+          <mat-icon>edit</mat-icon>
+        </a>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

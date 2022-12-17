@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,11 @@ import { UserService } from 'src/services/user.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -27,7 +32,15 @@ export class LoginComponent {
             localStorage.setItem('token', res);
             this.router.navigate(['/home']);
           },
-          error: err => console.log(err),
+          error: err => {
+            this.snackBar.open(
+              'The credentials did not match a user in the system',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+          },
         });
       }
     }

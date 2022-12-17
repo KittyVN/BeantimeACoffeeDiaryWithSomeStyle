@@ -22,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +39,7 @@ import { ResetPasswordComponent } from './pages/user/reset-password/reset-passwo
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bean-delete.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
     UserListComponent,
     CoffeeBeanDeleteComponent,
     ProfilePageComponent,
+    UserDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
     MatMenuModule,
     LayoutModule,
     MatTableModule,
+    MatSlideToggleModule,
   ],
   providers: [
     Subject,

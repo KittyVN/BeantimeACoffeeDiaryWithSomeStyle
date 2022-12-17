@@ -1,12 +1,13 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -27,9 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.invoke.MethodHandles;
-
-import org.springframework.security.access.AccessDeniedException;
-
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Stream;
@@ -42,7 +41,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final UserMapper mapper;
-
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
@@ -79,7 +77,6 @@ public class UserServiceImpl implements UserService {
         }
         throw new NotFoundException(String.format("Could not find the user with the email address %s", email));
     }
-
 
     @Override
     public String login(UserLoginDto userLoginDto) {
@@ -121,11 +118,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(String token, UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException {
+    public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
-        if (!getUserId(token).equals(userUpdateRequestDto.getId())) {
-            throw new AccessDeniedException("Not authorized to change another users data!");
-        }
         User user = User
             .UserBuilder
             .aUser()
@@ -135,13 +129,6 @@ public class UserServiceImpl implements UserService {
             .withRole(UserRole.USER)
             .build();
         userRepository.save(user);
-    }
-
-    private Long getUserId(String token) {
-        String[] chunks = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String payload = new String(decoder.decode(chunks[1]));
-        return Long.parseLong(payload.split(",")[2].split(":")[1].replace("\"", ""));
     }
 
     @Override
@@ -167,12 +154,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
     public Stream<UserDetailDto> search(UserSearchDto searchParameters) {
         LOGGER.trace("Search users by parameters {}", searchParameters);
         return userRepository.search(searchParameters).stream().map(mapper::entityToDto);
+    }
+
+    @Override
+    public UserDetailDto getById(Long id) {
+        LOGGER.trace("Get user by id {}", id);
+        User user = userRepository.findFirstById(id);
+        if (user == null) {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
+        return mapper.entityToDto(userRepository.findFirstById(id));
+    }
+
+    @Override
+    public UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) throws NotFoundException {
+        User user = userRepository.findFirstById(id);
+        user.setRole(userDto.getRole());
+        user.setActive(userDto.isActive());
+        userRepository.save(user);
+
+        return mapper.entityToDto(user);
     }
 }
