@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
+import at.ac.tuwien.sepm.groupphase.backend.validation.ValidCoffeeRoast;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -20,6 +21,7 @@ public class CoffeeBeanDto {
     @Size(max = 255, message = "Origin cannot be longer than 255 characters")
     private String origin;
     private Integer height;
+    @ValidCoffeeRoast
     private CoffeeRoast coffeeRoast;
     @Size(max = 255, message = "Description cannot be longer than 255 characters")
     private String description;

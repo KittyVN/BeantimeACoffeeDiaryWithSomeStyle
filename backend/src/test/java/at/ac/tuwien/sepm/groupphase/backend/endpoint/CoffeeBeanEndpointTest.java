@@ -61,15 +61,34 @@ public class CoffeeBeanEndpointTest {
         ).andDo(print()).andExpect(status().isOk());
     }
 
+
     @Test
     public void createInValidCoffee() throws Exception {
-        CoffeeBean requestJson =
+        CoffeeBean requestBean =
             CoffeeBean.CoffeeBeanBuilder
                 .aCoffeeBean()
                 .withName("")
+                .withCoffeeRoast(CoffeeRoast.DARK)
+                .withCustom(true)
                 .build();
+
+        //send request with valid parameters but invalid name
+        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        requestBean.setName(null);
+        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        //send request with valid parameters but invalid CoffeeRoast
+        requestBean.setName("Test");
+        requestBean.setCoffeeRoast(null);
+        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        //send request with valid parameters but invalid custom boolean
+        requestBean.setCoffeeRoast(CoffeeRoast.DARK);
+        requestBean.setCustom(null);
+        sendInvalidCoffeeBeanCreateRequest(requestBean);
+    }
+
+    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBean requestBean) throws Exception{
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(requestJson);
+        String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
             .post("/api/v1/coffee-beans")
             .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +100,7 @@ public class CoffeeBeanEndpointTest {
     @Test
     @Rollback
     public void editCoffeeToValid() throws Exception {
-        CoffeeBean requestJson =
+        CoffeeBean requestBean =
             CoffeeBean.CoffeeBeanBuilder
                 .aCoffeeBean()
                 .withId(1L)
@@ -90,25 +109,40 @@ public class CoffeeBeanEndpointTest {
                 .withCustom(true)
                 .build();
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(requestJson);
+        String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
             .put("/api/v1/coffee-beans/1")
             .contentType(MediaType.APPLICATION_JSON)
             .content(String.valueOf(jsonString))
             .characterEncoding("utf-8")
         ).andDo(print()).andExpect(status().isOk());
+
     }
+
 
     @Test
     public void editCoffeeToInvalid() throws Exception {
-        CoffeeBean requestJson =
+        CoffeeBean requestBean =
             CoffeeBean.CoffeeBeanBuilder
                 .aCoffeeBean()
                 .withId(1L)
                 .withName("")
                 .build();
+        //Send coffee bean with invalid name
+        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        //Send coffee bean with invalid roast
+        requestBean.setName("Test");
+        requestBean.setCoffeeRoast(null);
+        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        //Send coffee bean with invalid custom boolean
+        requestBean.setCoffeeRoast(CoffeeRoast.DARK);
+        requestBean.setCustom(null);
+        sendInvalidCoffeeBeanCreateRequest(requestBean);
+    }
+
+    private void sendInvalidCoffeeBeanUpdateRequest(CoffeeBean requestBean) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(requestJson);
+        String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
             .put("/api/v1/coffee-beans/1")
             .contentType(MediaType.APPLICATION_JSON)
