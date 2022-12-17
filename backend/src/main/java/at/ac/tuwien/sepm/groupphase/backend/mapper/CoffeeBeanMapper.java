@@ -15,6 +15,12 @@ public class CoffeeBeanMapper {
      * @return the converted CoffeeBean {@link CoffeeBeanDto}
      */
     public CoffeeBeanDto entityToDto(CoffeeBean coffeeBean) {
+        Long id;
+        if (coffeeBean.getUser() == null) {
+            id = null;
+        } else {
+            id = coffeeBean.getUser().getId();
+        }
         return new CoffeeBeanDto(
             coffeeBean.getId(),
             coffeeBean.getName(),
@@ -24,7 +30,7 @@ public class CoffeeBeanMapper {
             coffeeBean.getCoffeeRoast(),
             coffeeBean.getDescription(),
             coffeeBean.getCustom(),
-            coffeeBean.getUserId()
+            id
         );
     }
 

@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +36,12 @@ public class CoffeeBeanEndpointTest {
     private WebApplicationContext webAppContext;
     private MockMvc mockMvc;
 
+    private CoffeeBeanDto requestJson;
+
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        this.requestJson = new CoffeeBeanDto(null, null, null, null, null, null, null, null, null);
     }
 
 
@@ -47,13 +52,10 @@ public class CoffeeBeanEndpointTest {
     @Transactional
     @Rollback
     public void createValidCoffee() throws Exception {
-        CoffeeBean requestJson =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("test")
-                .withCoffeeRoast(CoffeeRoast.DARK)
-                .withCustom(true)
-                .build();
+        requestJson.setName("TestBean");
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(true);
+        requestJson.setUserId(1L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
@@ -67,29 +69,28 @@ public class CoffeeBeanEndpointTest {
 
     @Test
     public void createInValidCoffee() throws Exception {
-        CoffeeBean requestBean =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("")
-                .withCoffeeRoast(CoffeeRoast.DARK)
-                .withCustom(true)
-                .build();
-
+        requestJson.setName("");
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(true);
+        requestJson.setUserId(1L);
         //send request with valid parameters but invalid name
-        sendInvalidCoffeeBeanCreateRequest(requestBean);
-        requestBean.setName(null);
-        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        requestJson.setName(null);
         //send request with valid parameters but invalid CoffeeRoast
-        requestBean.setName("Test");
-        requestBean.setCoffeeRoast(null);
-        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        requestJson.setName("Test");
+        requestJson.setCoffeeRoast(null);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
         //send request with valid parameters but invalid custom boolean
-        requestBean.setCoffeeRoast(CoffeeRoast.DARK);
-        requestBean.setCustom(null);
-        sendInvalidCoffeeBeanCreateRequest(requestBean);
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(null);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        //send request with valid parameters but invalid user
+        requestJson.setCustom(true);
+        requestJson.setUserId(-99L);
+
     }
 
-    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBean requestBean) throws Exception {
+    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBeanDto requestBean) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
@@ -104,16 +105,13 @@ public class CoffeeBeanEndpointTest {
     @Transactional
     @Rollback
     public void editCoffeeToValid() throws Exception {
-        CoffeeBean requestBean =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withId(1L)
-                .withName("New name")
-                .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withCustom(true)
-                .build();
+        requestJson.setName("Test");
+        requestJson.setId(1L);
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(true);
+        requestJson.setUserId(1L);
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(requestBean);
+        String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
             .put("/api/v1/coffee-beans/1")
             .contentType(MediaType.APPLICATION_JSON)

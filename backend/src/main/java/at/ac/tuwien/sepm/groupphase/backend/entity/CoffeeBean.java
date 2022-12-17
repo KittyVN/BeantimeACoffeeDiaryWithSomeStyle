@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +19,7 @@ public class CoffeeBean {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -40,8 +43,17 @@ public class CoffeeBean {
     @Column(nullable = false)
     private Boolean custom;
 
-    @Column
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
@@ -107,14 +119,6 @@ public class CoffeeBean {
         this.custom = custom;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
 
     public static class CoffeeBeanBuilder {
         private Long id;
@@ -126,7 +130,7 @@ public class CoffeeBean {
         private String description;
         private Boolean custom;
 
-        private Long userId;
+        private User user;
 
         private CoffeeBeanBuilder() {
         }
@@ -175,8 +179,8 @@ public class CoffeeBean {
             return this;
         }
 
-        public CoffeeBeanBuilder withUserId(Long userId) {
-            this.userId = userId;
+        public CoffeeBeanBuilder withUser(User user) {
+            this.user = user;
             return this;
         }
 
@@ -192,7 +196,7 @@ public class CoffeeBean {
             bean.setCoffeeRoast(coffeeRoast);
             bean.setDescription(description);
             bean.setCustom(custom);
-            bean.setUserId(userId);
+            bean.setUser(user);
             return bean;
         }
     }

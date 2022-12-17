@@ -11,6 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 
+import javax.transaction.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 

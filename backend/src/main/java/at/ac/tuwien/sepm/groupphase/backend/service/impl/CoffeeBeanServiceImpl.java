@@ -3,8 +3,10 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
+import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.CoffeeBeanMapper;
 import org.slf4j.Logger;
@@ -21,11 +23,14 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private CoffeeBeanRepository coffeeBeanRepository;
+
+    private UserRepository userRepository;
     private final CoffeeBeanMapper mapper;
 
     @Autowired
-    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, CoffeeBeanMapper mapper) {
+    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, CoffeeBeanMapper mapper, UserRepository userRepository) {
         this.coffeeBeanRepository = coffeeBeanRepository;
+        this.userRepository = userRepository;
         this.mapper = mapper;
     }
 
@@ -38,7 +43,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     @Override
     public CoffeeBeanDto create(CoffeeBeanDto coffeeBeanDto) {
         LOGGER.trace("create {}", coffeeBeanDto);
-
+        User user = this.userRepository.findFirstById(coffeeBeanDto.getUserId());
         CoffeeBean coffeeBean = CoffeeBean
             .CoffeeBeanBuilder
             .aCoffeeBean()
@@ -49,6 +54,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             .withCoffeeRoast(coffeeBeanDto.getCoffeeRoast())
             .withDescription(coffeeBeanDto.getDescription())
             .withCustom(coffeeBeanDto.getCustom())
+            .withUser(user)
             .build();
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
     }
@@ -56,20 +62,19 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     @Override
     public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) {
         LOGGER.trace("update {}", coffeeBeanDto);
-        CoffeeBean coffeeBean = CoffeeBean
-            .CoffeeBeanBuilder
-            .aCoffeeBean()
-            .withId(coffeeBeanDto.getId())
-            .withName(coffeeBeanDto.getName())
-            .withPrice(coffeeBeanDto.getPrice())
-            .withOrigin(coffeeBeanDto.getOrigin())
-            .withHeight(coffeeBeanDto.getHeight())
-            .withCoffeeRoast(coffeeBeanDto.getCoffeeRoast())
-            .withDescription(coffeeBeanDto.getDescription())
-            .withCustom(coffeeBeanDto.getCustom())
-            .withUserId(coffeeBeanDto.getUserId())
-            .build();
-        return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
+        Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(coffeeBeanDto.getId());
+        if (!coffeeBean.isPresent()) {
+            throw new NotFoundException(String.format("No coffee bean with ID %d found", coffeeBeanDto.getId()));
+        } else {
+            CoffeeBean newBean = coffeeBean.get();
+            newBean.setName(coffeeBeanDto.getName());
+            newBean.setPrice(coffeeBeanDto.getPrice());
+            newBean.setOrigin(coffeeBeanDto.getOrigin());
+            newBean.setHeight(coffeeBeanDto.getHeight());
+            newBean.setCoffeeRoast(coffeeBeanDto.getCoffeeRoast());
+            newBean.setDescription(coffeeBeanDto.getDescription());
+            return mapper.entityToDto(coffeeBeanRepository.save(newBean));
+        }
     }
 
     @Override
