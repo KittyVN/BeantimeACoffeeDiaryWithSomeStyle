@@ -66,7 +66,7 @@ public class Extraction {
 
     public Extraction(ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting, Double waterTemperature,
                       Double dose, Duration brewTime, Integer body, Integer acidity, Integer sweetness,
-                      Integer aftertaste, String ratingNotes) {
+                      Integer aromatics, Integer aftertaste, String ratingNotes, CoffeeBean coffeeBean) {
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
         this.waterTemperature = waterTemperature;
@@ -75,8 +75,10 @@ public class Extraction {
         this.body = body;
         this.acidity = acidity;
         this.sweetness = sweetness;
+        this.aromatics = aromatics;
         this.aftertaste = aftertaste;
         this.ratingNotes = ratingNotes;
+        this.coffeeBean = coffeeBean;
     }
 
     public Integer getBody() {
