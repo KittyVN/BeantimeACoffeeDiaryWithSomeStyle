@@ -69,13 +69,13 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             throw new NotFoundException(String.format("No coffee bean with ID %d found", coffeeBeanDto.getId()));
         } else {
             CoffeeBean newBean = coffeeBean.get();
-            if(coffeeBeanDto.getUserId()!=null){
-                if(newBean.getUser()==null){
+            if (coffeeBeanDto.getUserId() != null) {
+                if (newBean.getUser() == null) {
                     throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This coffee bean has no creator");
-                }else if(newBean.getUser().getId()!=coffeeBeanDto.getUserId()){
+                } else if (newBean.getUser().getId() != coffeeBeanDto.getUserId()) {
                     throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User who created the bean cannot be changed");
                 }
-            }else{
+            } else {
                 throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User who created the bean cannot be changed");
             }
             newBean.setName(coffeeBeanDto.getName());
