@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "coffee_extraction")
@@ -23,6 +24,9 @@ public class Extraction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "datetime")
+    private LocalDateTime dateTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "brew_method")
@@ -64,9 +68,11 @@ public class Extraction {
 
     public Extraction() {}
 
-    public Extraction(ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting, Double waterTemperature,
-                      Double dose, Duration brewTime, Integer body, Integer acidity, Integer sweetness,
-                      Integer aromatics, Integer aftertaste, String ratingNotes, CoffeeBean coffeeBean) {
+    public Extraction(LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
+                      Double waterTemperature, Double dose, Duration brewTime, Integer body, Integer acidity,
+                      Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes,
+                      CoffeeBean coffeeBean) {
+        this.dateTime = dateTime;
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
         this.waterTemperature = waterTemperature;

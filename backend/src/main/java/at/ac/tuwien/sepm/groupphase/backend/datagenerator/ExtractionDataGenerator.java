@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Profile("generateData")
@@ -33,6 +34,7 @@ public class ExtractionDataGenerator {
             LOGGER.debug("Generating extractions");
 
             Extraction e1 = new Extraction(
+                LocalDateTime.of(2022, 12, 11, 14, 50),
                 ExtractionBrewMethod.ESPRESSO,
                 CoffeeGrindSetting.MEDIUM,
                 100D,
@@ -43,6 +45,7 @@ public class ExtractionDataGenerator {
             );
 
             Extraction e2 = new Extraction(
+                LocalDateTime.of(2022, 12, 12, 9, 0),
                 ExtractionBrewMethod.ESPRESSO,
                 CoffeeGrindSetting.MEDIUM,
                 100D,
@@ -53,6 +56,7 @@ public class ExtractionDataGenerator {
             );
 
             Extraction e3 = new Extraction(
+                LocalDateTime.of(2022, 12, 13, 14, 50),
                 ExtractionBrewMethod.ESPRESSO,
                 CoffeeGrindSetting.MEDIUM,
                 100D,
@@ -63,6 +67,7 @@ public class ExtractionDataGenerator {
             );
 
             Extraction e4 = new Extraction(
+                LocalDateTime.of(2022, 12, 14, 14, 50),
                 ExtractionBrewMethod.ESPRESSO,
                 CoffeeGrindSetting.MEDIUM,
                 100D,
@@ -73,6 +78,7 @@ public class ExtractionDataGenerator {
             );
 
             Extraction e5 = new Extraction(
+                LocalDateTime.of(2022, 12, 15, 14, 50),
                 ExtractionBrewMethod.ESPRESSO,
                 CoffeeGrindSetting.MEDIUM,
                 100D,
@@ -83,6 +89,7 @@ public class ExtractionDataGenerator {
             );
 
             Extraction e6 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
                 ExtractionBrewMethod.ESPRESSO,
                 CoffeeGrindSetting.MEDIUM,
                 100D,
