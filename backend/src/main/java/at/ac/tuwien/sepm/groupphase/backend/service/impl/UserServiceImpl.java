@@ -12,6 +12,7 @@ import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.UserMapper;
+import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
@@ -19,17 +20,14 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.invoke.MethodHandles;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -38,13 +36,16 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserRepository userRepository;
+    private final CoffeeBeanRepository beanRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
+    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
         this.userRepository = userRepository;
+        this.beanRepository = beanRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenizer = jwtTokenizer;
         this.mapper = mapper;
@@ -120,14 +121,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
-        User user = User
-            .UserBuilder
-            .aUser()
-            .withId(userUpdateRequestDto.getId())
-            .withEmail(userUpdateRequestDto.getEmail())
-            .withPassword(passwordEncoder.encode(userUpdateRequestDto.getPassword()))
-            .withRole(UserRole.USER)
-            .build();
+        User user = userRepository.findFirstById(userUpdateRequestDto.getId());
+        user.setEmail(userUpdateRequestDto.getEmail());
+        user.setPassword(userUpdateRequestDto.getPassword());
         userRepository.save(user);
     }
 
@@ -155,6 +151,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
+        beanRepository.deleteCoffeeBeanById(id);
         userRepository.deleteById(id);
     }
 
