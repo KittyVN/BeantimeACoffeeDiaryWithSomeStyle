@@ -29,8 +29,6 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ContainerComponent } from './components/ui/container/container.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
-import { TestHomeComponent } from './pages/test-home/test-home.component';
-import { TestAdminPageComponent } from './pages/test-admin-page/test-admin-page.component';
 import { LoginComponent } from './pages/login/login.component';
 import { EditAccountDataComponent } from './pages/edit-account-data/edit-account-data.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -47,8 +45,6 @@ import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.c
     RegisterComponent,
     ContainerComponent,
     NavigationComponent,
-    TestHomeComponent,
-    TestAdminPageComponent,
     LoginComponent,
     EditAccountDataComponent,
     DashboardComponent,

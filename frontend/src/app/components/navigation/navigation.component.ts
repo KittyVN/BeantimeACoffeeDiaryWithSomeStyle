@@ -12,6 +12,7 @@ import { UserService } from 'src/services/user.service';
 export class NavigationComponent {
   appName = environment.appName;
   isAuthenticated = false;
+  isAdmin = false;
 
   constructor(
     private authService: AuthService,
@@ -21,6 +22,7 @@ export class NavigationComponent {
     this.router.events.subscribe(event => {
       // check if the event is of type NavigationEnd
       if (event instanceof NavigationEnd) {
+        this.isAdmin = this.authService.isAdmin();
         this.isAuthenticated = this.authService.isAuthenticated();
       }
     });
