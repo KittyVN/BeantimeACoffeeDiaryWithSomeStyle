@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { CoffeeBeanDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
@@ -26,19 +27,24 @@ export class CoffeeBeanDetailComponent implements OnInit {
   constructor(
     private service: CoffeeBeanService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(({ id }) => {
+      this.coffee.id = id;
       this.service.getById(id).subscribe({
         next: data => {
           this.coffee = data;
-          console.log(this.coffee);
         },
         error: error => {
           if (error.status == 404) {
-            // TODO: Error handling
+            this.router.navigate(['/home']);
+            this.snackBar.open(
+              `Coffee Bean with ID ${this.coffee.id} not found.`,
+              'OK'
+            );
           }
         },
       });
