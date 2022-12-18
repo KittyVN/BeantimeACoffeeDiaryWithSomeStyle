@@ -1,6 +1,9 @@
 package at.ac.tuwien.sepm.groupphase.backend.datagenerator;
 
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
+import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeGrindSetting;
+import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
+import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,15 +11,19 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandles;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 @Profile("generateData")
 @Component
 public class ExtractionDataGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final ExtractionRepository extractionRepository;
+    private final CoffeeBeanRepository coffeeBeanRepository;
 
-    public ExtractionDataGenerator(ExtractionRepository extractionRepository) {
+    public ExtractionDataGenerator(ExtractionRepository extractionRepository, CoffeeBeanRepository coffeeBeanRepository) {
         this.extractionRepository = extractionRepository;
+        this.coffeeBeanRepository = coffeeBeanRepository;
     }
 
     public void generateExtractions() {
@@ -24,6 +31,73 @@ public class ExtractionDataGenerator {
             LOGGER.debug("Extractions already generated");
         } else {
             LOGGER.debug("Generating extractions");
+
+            Extraction e1 = new Extraction(
+                ExtractionBrewMethod.ESPRESSO,
+                CoffeeGrindSetting.MEDIUM,
+                100D,
+                200D,
+                Duration.of(5L, ChronoUnit.MINUTES),
+                5, 5, 5, 5, 5, "Very good!",
+                this.coffeeBeanRepository.findById(2L).get()
+            );
+
+            Extraction e2 = new Extraction(
+                ExtractionBrewMethod.ESPRESSO,
+                CoffeeGrindSetting.MEDIUM,
+                100D,
+                200D,
+                Duration.of(5L, ChronoUnit.MINUTES),
+                1, 2, 3, 4, 5, "Ascending!",
+                this.coffeeBeanRepository.findById(2L).get()
+            );
+
+            Extraction e3 = new Extraction(
+                ExtractionBrewMethod.ESPRESSO,
+                CoffeeGrindSetting.MEDIUM,
+                100D,
+                200D,
+                Duration.of(5L, ChronoUnit.MINUTES),
+                5, 4, 3, 2, 1, "Descending!",
+                this.coffeeBeanRepository.findById(2L).get()
+            );
+
+            Extraction e4 = new Extraction(
+                ExtractionBrewMethod.ESPRESSO,
+                CoffeeGrindSetting.MEDIUM,
+                100D,
+                200D,
+                Duration.of(5L, ChronoUnit.MINUTES),
+                1, 3, 5, 3, 1, "Triangular!",
+                this.coffeeBeanRepository.findById(2L).get()
+            );
+
+            Extraction e5 = new Extraction(
+                ExtractionBrewMethod.ESPRESSO,
+                CoffeeGrindSetting.MEDIUM,
+                100D,
+                200D,
+                Duration.of(5L, ChronoUnit.MINUTES),
+                4, 4, 5, 5, 5, "Wild",
+                this.coffeeBeanRepository.findById(2L).get()
+            );
+
+            Extraction e6 = new Extraction(
+                ExtractionBrewMethod.ESPRESSO,
+                CoffeeGrindSetting.MEDIUM,
+                100D,
+                200D,
+                Duration.of(5L, ChronoUnit.MINUTES),
+                1, 2, 2, 1, 4, "Bad",
+                this.coffeeBeanRepository.findById(2L).get()
+            );
+
+            this.extractionRepository.save(e1);
+            this.extractionRepository.save(e2);
+            this.extractionRepository.save(e3);
+            this.extractionRepository.save(e4);
+            this.extractionRepository.save(e5);
+            this.extractionRepository.save(e6);
         }
     }
 }
