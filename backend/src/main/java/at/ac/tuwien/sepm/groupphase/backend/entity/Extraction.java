@@ -62,6 +62,23 @@ public class Extraction {
     @JoinColumn(name = "coffee_bean_id")
     private CoffeeBean coffeeBean;
 
+    public Extraction() {}
+
+    public Extraction(ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting, Double waterTemperature,
+                      Double dose, Duration brewTime, Integer body, Integer acidity, Integer sweetness,
+                      Integer aftertaste, String ratingNotes) {
+        this.brewMethod = brewMethod;
+        this.grindSetting = grindSetting;
+        this.waterTemperature = waterTemperature;
+        this.dose = dose;
+        this.brewTime = brewTime;
+        this.body = body;
+        this.acidity = acidity;
+        this.sweetness = sweetness;
+        this.aftertaste = aftertaste;
+        this.ratingNotes = ratingNotes;
+    }
+
     public Integer getBody() {
         return body;
     }
