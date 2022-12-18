@@ -3,38 +3,36 @@
     <mat-card-header>
       <mat-card-title>{{ coffee.name }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <mat-grid-list cols="2" rowHeight="40px">
-        <mat-grid-tile rowspan="4" class="description">
-          <p>
-            <mat-icon fontIcon="description"></mat-icon>
-            <strong>Description</strong>
-          </p>
-          <p>{{ coffee.description }}</p>
-        </mat-grid-tile>
-        <mat-grid-tile class="attribute">
-          <mat-icon fontIcon="payments"></mat-icon>
-          <strong>Price</strong>
-          <span>€ {{ coffee.price }}</span>
-        </mat-grid-tile>
-        <mat-grid-tile class="attribute">
-          <mat-icon fontIcon="public"></mat-icon>
-          <strong>Origin</strong>
-          <span>{{ coffee.origin }}</span>
-        </mat-grid-tile>
-        <mat-grid-tile class="attribute">
-          <mat-icon fontIcon="height"></mat-icon>
-          <strong>Height</strong>
-          <span>{{ coffee.height }}m</span>
-        </mat-grid-tile>
-        <mat-grid-tile class="attribute">
-          <mat-icon fontIcon="grain"></mat-icon>
-          <strong>Roast</strong>
-          <span>{{ coffee.coffeeRoast }}</span>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2" rowspan="5">Stats</mat-grid-tile>
-      </mat-grid-list>
+    <mat-card-content class="attributes">
+      <div class="description">
+        <div>
+          <mat-icon fontIcon="description"></mat-icon>
+          <strong>Description</strong>
+        </div>
+        <p>{{ coffee.description }}</p>
+      </div>
+      <div class="attribute">
+        <mat-icon fontIcon="payments"></mat-icon>
+        <strong>Price</strong>
+        <span>€ {{ coffee.price }}</span>
+      </div>
+      <div class="attribute">
+        <mat-icon fontIcon="public"></mat-icon>
+        <strong>Origin</strong>
+        <span>{{ coffee.origin }}</span>
+      </div>
+      <div class="attribute">
+        <mat-icon fontIcon="height"></mat-icon>
+        <strong>Height</strong>
+        <span>{{ coffee.height }}m</span>
+      </div>
+      <div class="attribute">
+        <mat-icon fontIcon="grain"></mat-icon>
+        <strong>Roast</strong>
+        <span>{{ coffee.coffeeRoast }}</span>
+      </div>
+      <div class="stats">Stats be here</div>
     </mat-card-content>
   </mat-card>
-  <mat-card> Extractions be here </mat-card>
+  <mat-card>*~Extractions be here~*</mat-card>
 </app-container>
