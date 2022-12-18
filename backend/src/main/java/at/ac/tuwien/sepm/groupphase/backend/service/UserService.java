@@ -104,6 +104,15 @@ public interface UserService extends UserDetailsService {
     UserDetailDto getById(Long id) throws NotFoundException;
 
     /**
+     * Get UserDetailDto by id.
+     *
+     * @param id of the user to be retrieved
+     * @return a UserDetailDto of the matching user.
+     * @throws NotFoundException if no user with the given ID exists.
+     */
+    UserDetailDto getSelf(Long id) throws NotFoundException;
+
+    /**
      * Update user by id with the UserDetailDto provided.
      *
      * @param id of the user to be updated
