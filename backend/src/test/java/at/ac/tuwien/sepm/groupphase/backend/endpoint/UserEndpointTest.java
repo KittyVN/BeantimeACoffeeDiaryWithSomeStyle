@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "generateData"})
@@ -115,6 +117,7 @@ public class UserEndpointTest {
             .doesNotContain(tuple("jane.doe@example.com", UserRole.USER));
     }
 
+
     @Test
     @Transactional
     @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
@@ -133,7 +136,7 @@ public class UserEndpointTest {
     public void getByIdReturnsUser() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
-                .get("/api/v1/users/3")
+                .get("/api/v1/users/admin/3")
                 .accept(MediaType.APPLICATION_JSON)
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
@@ -150,7 +153,7 @@ public class UserEndpointTest {
     @Test
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void getUserByNonExistentIdReturns404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/0")).andExpect(status().isNotFound());
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/admin/0")).andExpect(status().isNotFound());
     }
 
     @Test
@@ -162,6 +165,7 @@ public class UserEndpointTest {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
     }
+
 
     /* Tests for PUT /users/{id} */
 

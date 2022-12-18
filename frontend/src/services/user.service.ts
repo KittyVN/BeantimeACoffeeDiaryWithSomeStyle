@@ -127,6 +127,16 @@ export class UserService {
    * @return the Observable of the user with the specified ID.
    */
   public getById(id: number): Observable<UserDetailDto> {
+    return this.http.get<UserDetailDto>(`users/admin/${id}`).pipe();
+  }
+
+  /**
+   * Get the Observable of the user with the specified ID.
+   *
+   * @param id of the user to get
+   * @return the Observable of the user with the specified ID.
+   */
+  public getSelf(id: number): Observable<UserDetailDto> {
     return this.http.get<UserDetailDto>(`users/${id}`).pipe();
   }
 

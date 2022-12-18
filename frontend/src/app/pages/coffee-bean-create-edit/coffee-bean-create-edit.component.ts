@@ -6,6 +6,7 @@ import { CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 import { Roast } from 'src/dtos/req/roast-type.enum';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 export enum CoffeeBeanCreateEditMode {
   create,
@@ -22,7 +23,8 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
     private coffeeBeanService: CoffeeBeanService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private jwtHelper: JwtHelperService
   ) {}
 
   id: string | null = null;
@@ -83,6 +85,11 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
     });
+    const token = localStorage.getItem('token');
+    if (token != null) {
+      const payload = this.jwtHelper.decodeToken(token);
+      this.coffeeBeanDto.userId = payload.jti;
+    }
     if (this.mode === CoffeeBeanCreateEditMode.edit) {
       this.route.paramMap.subscribe(paramMap => {
         this.id = paramMap.get('id');
