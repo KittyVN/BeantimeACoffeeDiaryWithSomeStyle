@@ -4,6 +4,7 @@ import { UserService } from 'src/services/user.service';
 import { UpdateUserDto } from 'src/dtos';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-account-data',
@@ -14,7 +15,8 @@ export class EditAccountDataComponent implements OnInit {
   constructor(
     private userService: UserService,
     private jwtHelper: JwtHelperService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   user: UpdateUserDto = { id: -999, email: '', password: '' };
@@ -24,7 +26,16 @@ export class EditAccountDataComponent implements OnInit {
     if (token !== null) {
       const payload = this.jwtHelper.decodeToken(token);
       this.user.id = payload.jti;
-      this.user.email = payload.sub;
+      this.userService.getSelf(this.user.id).subscribe({
+        next: data => {
+          this.user.email = data.email;
+        },
+        error: err => {
+          this.snackBar.open(err.error, 'Close', {
+            duration: 5000,
+          });
+        },
+      });
     }
   }
 
@@ -38,10 +49,10 @@ export class EditAccountDataComponent implements OnInit {
     this.userService.update(this.user, this.user.id).subscribe({
       next: res => {
         localStorage.removeItem('token');
-        localStorage.setItem('token', res);
         this.snackBar.open('Successfully changed account data.', 'Close', {
           duration: 5000,
         });
+        this.router.navigate(['/login']);
       },
       error: err => {
         this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {

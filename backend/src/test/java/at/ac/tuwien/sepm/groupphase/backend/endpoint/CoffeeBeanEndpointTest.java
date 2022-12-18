@@ -2,7 +2,6 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
-import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,11 +65,33 @@ public class CoffeeBeanEndpointTest {
         ).andDo(print()).andExpect(status().isOk());
     }
 
+
     @Test
     public void createInValidCoffee() throws Exception {
         requestJson.setName("");
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(true);
+        requestJson.setUserId(1L);
+        //send request with valid parameters but invalid name
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        requestJson.setName(null);
+        //send request with valid parameters but invalid CoffeeRoast
+        requestJson.setName("Test");
+        requestJson.setCoffeeRoast(null);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        //send request with valid parameters but invalid custom boolean
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(null);
+        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        //send request with valid parameters but invalid user
+        requestJson.setCustom(true);
+        requestJson.setUserId(-99L);
+
+    }
+
+    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBeanDto requestBean) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(requestJson);
+        String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
             .post("/api/v1/coffee-beans")
             .contentType(MediaType.APPLICATION_JSON)
@@ -96,18 +117,36 @@ public class CoffeeBeanEndpointTest {
             .content(String.valueOf(jsonString))
             .characterEncoding("utf-8")
         ).andDo(print()).andExpect(status().isOk());
+
     }
+
 
     @Test
     public void editCoffeeToInvalid() throws Exception {
-        CoffeeBean requestJson =
-            CoffeeBean.CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withId(1L)
-                .withName("")
-                .build();
+        requestJson.setId(1L);
+        requestJson.setUserId(1L);
+        requestJson.setName("");
+        requestJson.setCoffeeRoast(CoffeeRoast.LIGHT);
+        requestJson.setCustom(true);
+        //Send coffee bean with invalid name
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+        //Send coffee bean with invalid roast
+        requestJson.setName("ValidName");
+        requestJson.setCoffeeRoast(null);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+        //Send coffee bean with invalid custom boolean
+        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
+        requestJson.setCustom(null);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+        //Send coffee bean with invalid user
+        requestJson.setCustom(true);
+        requestJson.setUserId(-99L);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+    }
+
+    private void sendInvalidCoffeeBeanUpdateRequest(CoffeeBeanDto requestBean) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(requestJson);
+        String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
             .put("/api/v1/coffee-beans/1")
             .contentType(MediaType.APPLICATION_JSON)

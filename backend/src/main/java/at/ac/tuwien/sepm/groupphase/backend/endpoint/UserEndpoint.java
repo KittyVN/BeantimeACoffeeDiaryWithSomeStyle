@@ -79,8 +79,21 @@ public class UserEndpoint {
     }
 
     @Secured("ROLE_ADMIN")
-    @GetMapping("{id}")
+    @GetMapping("admin/{id}")
     public UserDetailDto getById(@PathVariable Long id) {
+        LOGGER.info(String.format("GET %s/%d", BASE_PATH, id));
+        LOGGER.info("Request id: {}", id);
+        try {
+            return service.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+        }
+    }
+
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
+        + "and authentication.principal.equals(#id.toString()) ")
+    @GetMapping("{id}")
+    public UserDetailDto getSelf(@PathVariable Long id) {
         LOGGER.info(String.format("GET %s/%d", BASE_PATH, id));
         LOGGER.info("Request id: {}", id);
         try {
