@@ -97,7 +97,7 @@ public class UserEndpoint {
         LOGGER.info(String.format("GET %s/%d", BASE_PATH, id));
         LOGGER.info("Request id: {}", id);
         try {
-            return service.getSelf(id);
+            return service.getById(id);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
         }

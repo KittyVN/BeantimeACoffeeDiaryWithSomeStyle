@@ -21,7 +21,8 @@ public class UserUpdateRequestDto {
     public UserUpdateRequestDto() {
     }
 
-    public UserUpdateRequestDto(String email, String password) {
+    public UserUpdateRequestDto(Long id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
     }

@@ -120,14 +120,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
-        User user = User
-            .UserBuilder
-            .aUser()
-            .withId(userUpdateRequestDto.getId())
-            .withEmail(userUpdateRequestDto.getEmail())
-            .withPassword(passwordEncoder.encode(userUpdateRequestDto.getPassword()))
-            .withRole(UserRole.USER)
-            .build();
+        User user = userRepository.findFirstById(userUpdateRequestDto.getId());
+        user.setEmail(userUpdateRequestDto.getEmail());
+        user.setPassword(userUpdateRequestDto.getPassword());
         userRepository.save(user);
     }
 
@@ -165,16 +160,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailDto getById(Long id) {
-        LOGGER.trace("Get user by id {}", id);
-        User user = userRepository.findFirstById(id);
-        if (user == null) {
-            throw new NotFoundException(String.format("No user with ID %d found", id));
-        }
-        return mapper.entityToDto(userRepository.findFirstById(id));
-    }
-
-    @Override
-    public UserDetailDto getSelf(Long id) {
         LOGGER.trace("Get user by id {}", id);
         User user = userRepository.findFirstById(id);
         if (user == null) {
