@@ -38,6 +38,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
 import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bean-delete.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
+import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bean-detail.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.c
     CoffeeBeanDeleteComponent,
     ProfilePageComponent,
     UserDetailComponent,
+    CoffeeBeanDetailComponent,
   ],
   imports: [
     BrowserModule,
