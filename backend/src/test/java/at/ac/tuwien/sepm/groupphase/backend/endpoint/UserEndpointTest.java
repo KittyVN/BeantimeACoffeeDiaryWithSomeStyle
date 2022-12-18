@@ -133,7 +133,7 @@ public class UserEndpointTest {
     public void getByIdReturnsUser() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
-                .get("/api/v1/users/3")
+                .get("/api/v1/users/admin/3")
                 .accept(MediaType.APPLICATION_JSON)
             ).andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
@@ -150,7 +150,7 @@ public class UserEndpointTest {
     @Test
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void getUserByNonExistentIdReturns404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/0")).andExpect(status().isNotFound());
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/admin/0")).andExpect(status().isNotFound());
     }
 
     @Test
