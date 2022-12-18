@@ -1,8 +1,9 @@
 package at.ac.tuwien.sepm.groupphase.backend.entity;
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeGrindSetting;
-import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -62,7 +63,8 @@ public class Extraction {
     @Column(name = "rating_notes")
     private String ratingNotes;
 
-    @ManyToOne
+    @ManyToOne()
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "coffee_bean_id")
     private CoffeeBean coffeeBean;
 
