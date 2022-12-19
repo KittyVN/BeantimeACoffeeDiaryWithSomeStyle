@@ -4,15 +4,14 @@ mat-card:not(:first-of-type) {
 
 mat-card:first-child mat-card-content {
   display: grid;
-  grid-template-rows: repeat(4, 40px) auto auto;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 40px) auto;
+  grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
-    "description price"
-    "description origin"
-    "description height"
-    "description roast"
-    "description ."
-    "stats stats";
+    "description price stats"
+    "description origin stats"
+    "description height stats"
+    "description roast stats"
+    "description . stats"
 }
 
 mat-card:first-child mat-card-content div.description {
@@ -21,7 +20,8 @@ mat-card:first-child mat-card-content div.description {
   padding: 8px;
 }
 
-mat-card:first-child mat-card-content div.description div {
+mat-card:first-child mat-card-content div.description div,
+mat-card:first-child mat-card-content div.stats div{
   display: flex;
   height: 24px;
   margin-bottom: 8px;
@@ -32,8 +32,8 @@ mat-card:first-child mat-card-content div.attribute {
   padding: 8px;
 }
 
-mat-card:first-child mat-card-content div.description mat-icon,
-mat-card:first-child mat-card-content div.attribute mat-icon {
+mat-card:first-child mat-card-content mat-icon,
+mat-card:first-child mat-card-content mat-icon {
   margin-right: 8px;
 }
 
@@ -41,15 +41,14 @@ mat-card:first-child mat-card-content div.attribute strong {
   width: 56px;
 }
 
-mat-card:first-child mat-card-content div.description strong,
-mat-card:first-child mat-card-content div.attribute strong,
-mat-card:first-child mat-card-content div.attribute span {
+mat-card:first-child mat-card-content strong,
+mat-card:first-child mat-card-content span {
   line-height: 24px;
 }
 
 mat-card:first-child mat-card-content div.stats {
   grid-area: stats;
-  border-top: 1px solid #0000001f;
+  border-left: 1px solid #0000001f;
   padding: 8px;
 }
 
