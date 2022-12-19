@@ -1,79 +1,68 @@
-package at.ac.tuwien.sepm.groupphase.backend.entity;
+package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
+
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeGrindSetting;
 import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "coffee_extraction")
-public class Extraction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+public class ExtractionDetailDto {
     private Long id;
 
-    @Column(name = "datetime")
     private LocalDateTime dateTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "brew_method")
     private ExtractionBrewMethod brewMethod;
 
-    @Column(name = "grind_setting")
     private CoffeeGrindSetting grindSetting;
 
-    @Column(name = "water_temperature")
     private Double waterTemperature;
 
-    @Column(name = "dose")
+    @Min(value = 0, message = "dosage cannot be negative")
     private Double dose;
 
-    @Column(name = "brew_time")
+    @Min(value = 0, message = "brewTime cannot be negative")
     private Duration brewTime;
 
-    @Column(name = "body")
+    @Min(value = 0, message = "body cannot be negative")
+    @Max(value = 5, message = "body cannot be higher than 5")
     private Integer body;
 
-    @Column(name = "acidity")
+    @Min(value = 0, message = "acidity cannot be negative")
+    @Max(value = 5, message = "acidity cannot be higher than 5")
     private Integer acidity;
 
-    @Column(name = "aromatics")
+    @Min(value = 0, message = "aromatics cannot be negative")
+    @Max(value = 5, message = "aromatics cannot be higher than 5")
     private Integer aromatics;
 
-    @Column(name = "sweetness")
+    @Min(value = 0, message = "sweetness cannot be negative")
+    @Max(value = 5, message = "sweetness cannot be higher than 5")
     private Integer sweetness;
 
-    @Column(name = "aftertaste")
+    @Min(value = 0, message = "aftertaste cannot be negative")
+    @Max(value = 5, message = "aftertaste cannot be higher than 5")
     private Integer aftertaste;
 
-    @Column(name = "rating_notes")
+    @Size(max = 1500, message = "Note cannot be longer than 1500 characters")
     private String ratingNotes;
 
-    @ManyToOne()
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "coffee_bean_id")
-    private CoffeeBean coffeeBean;
+    @Min(value = 0, message = "overallRating cannot be negative")
+    @Max(value = 25, message = "overallRating cannot be higher than 25")
+    private Integer overallRating;
 
-    public Extraction() {}
+    @NotNull
+    private Long beanId;
 
-    public Extraction(LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
-                      Double waterTemperature, Double dose, Duration brewTime, Integer body, Integer acidity,
-                      Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes,
-                      CoffeeBean coffeeBean) {
+    public ExtractionDetailDto() {
+    }
+
+    public ExtractionDetailDto(Long id, LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting, Double waterTemperature, Double dose, Duration brewTime, Integer body, Integer acidity, Integer aromatics, Integer sweetness, Integer aftertaste, String ratingNotes, Integer overallRating, Long beanId) {
+        this.id = id;
         this.dateTime = dateTime;
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
@@ -82,35 +71,12 @@ public class Extraction {
         this.brewTime = brewTime;
         this.body = body;
         this.acidity = acidity;
-        this.sweetness = sweetness;
         this.aromatics = aromatics;
+        this.sweetness = sweetness;
         this.aftertaste = aftertaste;
         this.ratingNotes = ratingNotes;
-        this.coffeeBean = coffeeBean;
-    }
-
-    public Integer getBody() {
-        return body;
-    }
-
-    public void setBody(Integer body) {
-        this.body = body;
-    }
-
-    public Duration getBrewTime() {
-        return brewTime;
-    }
-
-    public void setBrewTime(Duration brewTime) {
-        this.brewTime = brewTime;
-    }
-
-    public CoffeeBean getCoffeeBean() {
-        return coffeeBean;
-    }
-
-    public void setCoffeeBean(CoffeeBean coffeeBean) {
-        this.coffeeBean = coffeeBean;
+        this.overallRating = overallRating;
+        this.beanId = beanId;
     }
 
     public Long getId() {
@@ -161,6 +127,22 @@ public class Extraction {
         this.dose = dose;
     }
 
+    public Duration getBrewTime() {
+        return brewTime;
+    }
+
+    public void setBrewTime(Duration brewTime) {
+        this.brewTime = brewTime;
+    }
+
+    public Integer getBody() {
+        return body;
+    }
+
+    public void setBody(Integer body) {
+        this.body = body;
+    }
+
     public Integer getAcidity() {
         return acidity;
     }
@@ -201,4 +183,19 @@ public class Extraction {
         this.ratingNotes = ratingNotes;
     }
 
+    public Integer getOverallRating() {
+        return overallRating;
+    }
+
+    public void setOverallRating(Integer overallRating) {
+        this.overallRating = overallRating;
+    }
+
+    public Long getBeanId() {
+        return beanId;
+    }
+
+    public void setBeanId(Long beanId) {
+        this.beanId = beanId;
+    }
 }

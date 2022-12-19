@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.PermitAll;
 import java.lang.invoke.MethodHandles;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = ExtractionEndpoint.BASE_PATH)
@@ -29,4 +32,11 @@ public class ExtractionEndpoint {
         LOGGER.info(String.format("GET %s/avg/%d", BASE_PATH, id));
         return this.service.getAvgExtractionEvaluationParamsByCoffeeBeanId(id);
     }
+
+    @GetMapping
+    public Stream<ExtractionDetailDto> getAll() throws ResponseStatusException {
+        LOGGER.info("GET " + BASE_PATH);
+        return service.getAll();
+    }
+
 }
