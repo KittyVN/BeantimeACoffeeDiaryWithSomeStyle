@@ -25,7 +25,7 @@ public class ExtractionMapper {
         int overallRating = extraction.getAftertaste() + extraction.getAcidity() + extraction.getBody() + extraction.getSweetness() + extraction.getAromatics();
         return new ExtractionDetailDto(
             extraction.getId(),
-            extraction.getDateTime(),
+            extraction.getExtractionDate(),
             extraction.getBrewMethod(),
             extraction.getGrindSetting(),
             extraction.getWaterTemperature(),

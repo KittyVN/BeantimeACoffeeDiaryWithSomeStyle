@@ -26,8 +26,8 @@ public class Extraction {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "datetime")
-    private LocalDateTime dateTime;
+    @Column(name = "extraction_date")
+    private LocalDateTime extractionDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "brew_method")
@@ -68,13 +68,21 @@ public class Extraction {
     @JoinColumn(name = "coffee_bean_id")
     private CoffeeBean coffeeBean;
 
+    public LocalDateTime getExtractionDate() {
+        return extractionDate;
+    }
+
+    public void setExtractionDate(LocalDateTime extractionDate) {
+        this.extractionDate = extractionDate;
+    }
+
     public Extraction() {}
 
     public Extraction(LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
                       Double waterTemperature, Double dose, Duration brewTime, Integer body, Integer acidity,
                       Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes,
                       CoffeeBean coffeeBean) {
-        this.dateTime = dateTime;
+        this.extractionDate = dateTime;
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
         this.waterTemperature = waterTemperature;
@@ -121,13 +129,6 @@ public class Extraction {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
 
     public ExtractionBrewMethod getBrewMethod() {
         return brewMethod;
