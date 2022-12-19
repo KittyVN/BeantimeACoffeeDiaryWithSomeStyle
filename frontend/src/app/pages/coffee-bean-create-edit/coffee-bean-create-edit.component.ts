@@ -96,8 +96,8 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
       });
       if (this.id != null) {
         this.coffeeBeanService.getById(this.id).subscribe({
-          next: (data: CoffeeBeanDto) => {
-            this.coffeeBeanDto = data;
+          next: data => {
+            this.coffeeBeanDto = data.coffeeBean;
           },
           error: err => {
             this.snackBar.open(err.error, 'Close', {

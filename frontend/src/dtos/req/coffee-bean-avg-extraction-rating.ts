@@ -1,3 +1,5 @@
+import { CoffeeBeanAvgExtractionRatingDto } from './coffee-bean-avg-extraction-rating.dto';
+
 export class CoffeeBeanAvgExtractionRating {
   id: number;
   body: number;
@@ -6,14 +8,14 @@ export class CoffeeBeanAvgExtractionRating {
   sweetness: number;
   aftertaste: number;
 
-  constructor(
-    id: number,
-    body: number,
-    acidity: number,
-    aromatics: number,
-    sweetness: number,
-    aftertaste: number
-  ) {
+  constructor({
+    id,
+    body,
+    acidity,
+    aromatics,
+    sweetness,
+    aftertaste,
+  }: CoffeeBeanAvgExtractionRatingDto) {
     this.id = id;
     this.body = body;
     this.acidity = acidity;

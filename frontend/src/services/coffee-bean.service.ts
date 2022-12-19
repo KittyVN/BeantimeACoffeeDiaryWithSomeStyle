@@ -4,6 +4,7 @@ import { CoffeeBeanDashboardDto, CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
 import { CoffeeBeanAvgExtractionRating } from '../dtos/req/coffee-bean-avg-extraction-rating';
+import { CoffeeBeanDetailDto } from '../dtos/req/coffee-bean-detail.dto';
 
 @Injectable({ providedIn: 'root' })
 export class CoffeeBeanService {
@@ -44,8 +45,8 @@ export class CoffeeBeanService {
    * @param id the id of the coffee bean to fetch
    * @returns the coffee bean as an Observable
    */
-  public getById(id: string): Observable<CoffeeBeanDto> {
-    return this.http.get<CoffeeBeanDto>('coffee-beans/' + id);
+  public getById(id: string): Observable<CoffeeBeanDetailDto> {
+    return this.http.get<CoffeeBeanDetailDto>('coffee-beans/' + id);
   }
 
   /**

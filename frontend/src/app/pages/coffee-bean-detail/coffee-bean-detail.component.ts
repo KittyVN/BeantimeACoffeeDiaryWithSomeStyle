@@ -8,6 +8,7 @@ import { CoffeeBeanDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
 import { CoffeeBeanService } from '../../../services/coffee-bean.service';
 import { CoffeeBeanAvgExtractionRating } from '../../../dtos/req/coffee-bean-avg-extraction-rating';
+import { CoffeeBeanDetailDto } from '../../../dtos/req/coffee-bean-detail.dto';
 
 @Component({
   selector: 'app-coffee-bean-detail',
@@ -28,7 +29,14 @@ export class CoffeeBeanDetailComponent implements OnInit {
   };
 
   avgExtractionResults: CoffeeBeanAvgExtractionRating =
-    new CoffeeBeanAvgExtractionRating(0, 0, 0, 0, 0, 0);
+    new CoffeeBeanAvgExtractionRating({
+      acidity: 0,
+      aftertaste: 0,
+      aromatics: 0,
+      body: 0,
+      id: 0,
+      sweetness: 0,
+    });
 
   radarChartLabels: string[] = [
     'Body',
@@ -84,8 +92,19 @@ export class CoffeeBeanDetailComponent implements OnInit {
       this.avgExtractionResults.id = id;
 
       this.service.getById(id).subscribe({
-        next: data => {
-          this.coffee = data;
+        next: (data: CoffeeBeanDetailDto) => {
+          this.coffee = data.coffeeBean;
+          this.avgExtractionResults = new CoffeeBeanAvgExtractionRating(
+            data.avgExtractionRating
+          );
+
+          this.radarChartData.datasets = [
+            {
+              data: this.avgExtractionResults.getChartData(),
+            },
+          ];
+
+          this.chart?.update();
         },
         error: error => {
           if (error.status == 404) {
@@ -95,28 +114,6 @@ export class CoffeeBeanDetailComponent implements OnInit {
               'OK'
             );
           }
-        },
-      });
-
-      this.service.getAvgExtractionResultsById(id).subscribe({
-        next: data => {
-          this.avgExtractionResults = new CoffeeBeanAvgExtractionRating(
-            data.id,
-            data.body,
-            data.acidity,
-            data.aromatics,
-            data.sweetness,
-            data.aftertaste
-          );
-
-          console.log(this.avgExtractionResults);
-          this.radarChartData.datasets = [
-            {
-              data: this.avgExtractionResults.getChartData(),
-            },
-          ];
-
-          this.chart?.update();
         },
       });
     });

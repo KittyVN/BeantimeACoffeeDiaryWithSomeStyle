@@ -1,9 +1,11 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
+import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,11 +31,13 @@ public class CoffeeBeanEndpoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final CoffeeBeanService coffeeBeanService;
+    private final ExtractionService extractionService;
 
     static final String BASE_PATH = "/api/v1/coffee-beans";
 
-    public CoffeeBeanEndpoint(CoffeeBeanService coffeeBeanService) {
+    public CoffeeBeanEndpoint(CoffeeBeanService coffeeBeanService, ExtractionService extractionService) {
         this.coffeeBeanService = coffeeBeanService;
+        this.extractionService = extractionService;
     }
 
     @GetMapping
@@ -69,10 +73,12 @@ public class CoffeeBeanEndpoint {
     }
 
     @GetMapping("{id}")
-    public CoffeeBeanDto getById(@PathVariable("id") long id) {
+    public CoffeeBeanDetailDto getById(@PathVariable("id") long id) {
         LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
         try {
-            return coffeeBeanService.getById(id);
+            return new CoffeeBeanDetailDto(id,
+                coffeeBeanService.getById(id),
+                extractionService.getAvgExtractionEvaluationParamsByCoffeeBeanId(id));
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
