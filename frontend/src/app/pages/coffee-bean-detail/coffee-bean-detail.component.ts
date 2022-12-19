@@ -43,8 +43,23 @@ export class CoffeeBeanDetailComponent implements OnInit {
       r: {
         suggestedMin: 0,
         suggestedMax: 5,
+        pointLabels: {
+          font: {
+            family: 'Roboto, sans-serif',
+            size: 14,
+          },
+        },
       },
     },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+    events: [],
   };
 
   radarChartType: ChartType = 'radar';
@@ -98,7 +113,6 @@ export class CoffeeBeanDetailComponent implements OnInit {
           this.radarChartData.datasets = [
             {
               data: this.avgExtractionResults.getChartData(),
-              label: 'Average Extraction Results',
             },
           ];
 
