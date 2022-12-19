@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CoffeeBeanDashboardDto, CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
+import { CoffeeBeanAvgExtractionRating } from '../dtos/req/coffee-bean-avg-extraction-rating';
+
 @Injectable({ providedIn: 'root' })
 export class CoffeeBeanService {
   constructor(private http: HttpClient) {}
@@ -18,7 +20,7 @@ export class CoffeeBeanService {
   }
 
   /**
-   * Fetch all coffees 
+   * Fetch all coffees
 
    * @returns An observable list of coffee entitys
    */
@@ -54,5 +56,19 @@ export class CoffeeBeanService {
   public delete(id: string) {
     console.log(id);
     return this.http.delete('coffee-beans/' + id);
+  }
+
+  /**
+   * Get average extraction results by coffe bean id
+   *
+   * @param id of the coffe bean
+   * @return observable of type CoffeeBeanAvgExtractionRating
+   */
+  public getAvgExtractionResultsById(
+    id: number
+  ): Observable<CoffeeBeanAvgExtractionRating> {
+    return this.http
+      .get<CoffeeBeanAvgExtractionRating>(`extractions/avg/${id}`)
+      .pipe();
   }
 }
