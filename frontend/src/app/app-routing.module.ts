@@ -57,6 +57,7 @@ const routes: Routes = [
   },
   {
     path: 'coffee/:id',
+    canActivate: [AuthGuard],
     component: CoffeeBeanDetailComponent,
   },
   {
