@@ -1,0 +1,4 @@
+.ratingForm{
+    display: flex;
+    flex-direction: column;
+}

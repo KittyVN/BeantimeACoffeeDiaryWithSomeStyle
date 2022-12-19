@@ -17,6 +17,7 @@ import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bea
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bean-detail.component';
+import { ExtractionCreateEditComponent } from './pages/extraction-create-edit/extraction-create-edit.component';
 
 import type { Routes } from '@angular/router';
 
@@ -54,6 +55,10 @@ const routes: Routes = [
     path: 'profile',
     canActivate: [AuthGuard],
     component: ProfilePageComponent,
+  },
+  {
+    path: 'extraction',
+    component: ExtractionCreateEditComponent,
   },
   {
     path: 'coffee/:id',
