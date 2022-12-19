@@ -31,7 +31,14 @@
         <strong>Roast</strong>
         <span>{{ coffee.coffeeRoast }}</span>
       </div>
-      <div class="stats">Stats be here</div>
+      <div class="stats">
+        <canvas
+          baseChart
+          class="chart"
+          [data]="radarChartData"
+          [options]="radarChartOptions"
+          type="radar"></canvas>
+      </div>
     </mat-card-content>
   </mat-card>
   <mat-card>*~Extractions be here~*</mat-card>
