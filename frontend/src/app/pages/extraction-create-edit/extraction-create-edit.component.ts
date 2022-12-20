@@ -22,7 +22,9 @@ export class ExtractionCreateEditComponent implements OnInit {
 
   id: string | null = null;
   mode: ExtractionCreateEditMode = ExtractionCreateEditMode.create;
-  parameterForm = new FormGroup({});
+  parameterForm = new FormGroup({
+    brewMethod: new FormControl('', Validators.required),
+  });
   ratingForm = new FormGroup({
     acidity: new FormControl('', [Validators.min(0)]),
     aromatics: new FormControl('', [Validators.min(0)]),

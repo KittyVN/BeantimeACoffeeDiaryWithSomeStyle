@@ -1,12 +1,34 @@
 <mat-vertical-stepper [linear]="true" #stepper>
   <mat-step [stepControl]="parameterForm">
-    <form [formGroup]="parameterForm"></form>
+    <form [formGroup]="parameterForm">
+      <ng-template matStepLabel>Input</ng-template>
+      <mat-form-field>
+        <mat-label>Method</mat-label>
+        <select matNativeControl formControlName="brewMethod">
+          <option value=""></option>
+          <option value="BOILING">Boiling</option>
+          <option value="STEEPING">Steeping</option>
+          <option value="DRIP">Drip</option>
+          <option value="PRESSURE">Pressure</option>
+          <option value="FRENCHPRESS">French Press</option>
+          <option value="COLDBREW">Cold Brew</option>
+          <option value="INSTANT">Instant Coffee</option>
+          <option value="POUROVER">Pour-Over</option>
+          <option value="ESPRESSOMACHINE">Espresso Machine</option>
+          <option value="AEROPRESS">Aeropress</option>
+          <option value="MOKA">Moka Pot</option>
+          <option value="PODMACHING">Pod Machine</option>
+          <option value="OTHER">Others</option>
+        </select>
+      </mat-form-field>
+    </form>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
   <mat-step>
+    <ng-template matStepLabel>Timer</ng-template>
     <app-extraction-timer></app-extraction-timer>
     <div>
       <button mat-button matStepperPrevious>Back</button>
@@ -15,24 +37,25 @@
   </mat-step>
   <mat-step [stepControl]="ratingForm">
     <form class="ratingForm" [formGroup]="ratingForm">
+      <ng-template matStepLabel>Rating</ng-template>
       <mat-form-field>
-        <ng-template matStepLabel>Acidity</ng-template>
-        <input matInput type="number" formControlName="acidity" />
-      </mat-form-field>
-      <mat-form-field>
-        <ng-template matStepLabel>Aromatics</ng-template>
+        <mat-label>Aromatics</mat-label>
         <input matInput type="number" formControlName="aromatics" />
       </mat-form-field>
       <mat-form-field>
-        <ng-template matStepLabel>Sweetness</ng-template>
+        <mat-label>Aromatics</mat-label>
+        <input matInput type="number" formControlName="aromatics" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Sweetness</mat-label>
         <input matInput type="number" formControlName="sweetness" />
       </mat-form-field>
       <mat-form-field>
-        <ng-template matStepLabel>Aftertase</ng-template>
+        <mat-label>Aftertaste</mat-label>
         <input matInput type="number" formControlName="aftertaste" />
       </mat-form-field>
       <mat-form-field>
-        <ng-template matStepLabel>Rating Notes</ng-template>
+        <mat-label>Notes</mat-label>
         <textarea matInput formControlName="ratingNotes"></textarea>
       </mat-form-field>
     </form>
