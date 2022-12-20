@@ -30,7 +30,7 @@ export class ExtractionCreateEditComponent implements OnInit {
   ) {}
 
   id: string | null = null;
-  coffeeId: number | null = null;
+  coffeeId: string | null = null;
   coffee: CoffeeBeanDto = {
     name: 'Coffee',
     custom: true,
@@ -39,6 +39,11 @@ export class ExtractionCreateEditComponent implements OnInit {
   extraction: ExtractionCreateDto = {
     brewMethod: BrewMethod.DRIP,
     brewTime: 300,
+    body: 3,
+    acidity: 3,
+    aromatics: 3,
+    aftertaste: 3,
+    sweetness: 3,
   };
 
   mode: ExtractionCreateEditMode = ExtractionCreateEditMode.create;
@@ -61,6 +66,11 @@ export class ExtractionCreateEditComponent implements OnInit {
     return this.mode === ExtractionCreateEditMode.create;
   }
 
+  displayTime(): number {
+    console.log('a');
+    if (this.extraction.brewTime) return this.extraction.brewTime * 100;
+    else return 0;
+  }
   onSubmit() {
     let observable: Observable<string>;
     switch (this.mode) {
@@ -108,8 +118,10 @@ export class ExtractionCreateEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.coffeeId = history.state.coffeeId;
-    this.extraction.beanId = history.state.coffeeId;
+    this.route.paramMap.subscribe(paramMap => {
+      this.coffeeId = paramMap.get('coffeeId');
+    });
+    if (this.coffeeId != null) this.extraction.beanId = parseInt(this.coffeeId);
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
     });

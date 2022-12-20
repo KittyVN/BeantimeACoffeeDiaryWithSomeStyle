@@ -74,6 +74,8 @@
   <mat-step>
     <ng-template matStepLabel>Extraction Time</ng-template>
     <app-extraction-timer></app-extraction-timer>
+    <mat-label>Time in Ms </mat-label>
+    <input matInput type="number" [(ngModel)]="extraction.brewTime" />
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
@@ -84,23 +86,28 @@
       <ng-template matStepLabel>Rating</ng-template>
       <h3>Body</h3>
       <app-star-rating
-        [rating]="3"
+        *ngIf="extraction.body"
+        [rating]="extraction.body"
         (newRatingEvent)="changeBody($event)"></app-star-rating>
       <h3>Acidity</h3>
       <app-star-rating
-        [rating]="3"
+        *ngIf="extraction.acidity"
+        [rating]="extraction.acidity"
         (newRatingEvent)="changeAcidity($event)"></app-star-rating>
       <h3>Aromatics</h3>
       <app-star-rating
-        [rating]="3"
+        *ngIf="extraction.aromatics"
+        [rating]="extraction.aromatics"
         (newRatingEvent)="changeAromatics($event)"></app-star-rating>
       <h3>Sweetness</h3>
       <app-star-rating
-        [rating]="3"
+        *ngIf="extraction.sweetness"
+        [rating]="extraction.sweetness"
         (newRatingEvent)="changeSweetness($event)"></app-star-rating>
       <h3>Aftertaste</h3>
       <app-star-rating
-        [rating]="3"
+        *ngIf="extraction.aftertaste"
+        [rating]="extraction.aftertaste"
         (newRatingEvent)="changeAftertaste($event)"></app-star-rating>
       <h3>Notes</h3>
       <mat-form-field>

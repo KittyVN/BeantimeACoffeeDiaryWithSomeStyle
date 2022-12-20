@@ -45,8 +45,7 @@
             <button
               mat-raised-button
               color="primary"
-              [routerLink]="['/extraction/create']"
-              [state]="{ coffeeId: coffee.id }">
+              [routerLink]="['/coffee/' + coffee.id + '/extraction/create']">
               <mat-icon>play_arrow</mat-icon>
               New extraction
             </button>
