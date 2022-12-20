@@ -1,6 +1,4 @@
 .extraction-card {
-    right: 5%;
-    left: 5%;
     margin: 5px;
 }
 
@@ -33,23 +31,24 @@
 
 .info-element {
     height: 30%;
-    width: 40%;
+    width: 50%;
     display: flex;
 }
 
 .info-legend {
-    width: 30%;
+    width: 40%;
     text-align: right;
 }
 
 .info-value {
-    width: 70%;
+    width: 60%;
     text-align: left;
+    padding-left: 5px;
 }
 
 .separator-line {
     width: 1px;
-    border-left: 4px solid darkgrey;
+    border-left: 2px solid darkgrey;
     top: 10%;
     bottom: 10%;
 }
@@ -57,4 +56,5 @@
 .rate-star {
     font-size: 1em;
     font-kerning: 10px;
+    padding-top: 2px;
 }
