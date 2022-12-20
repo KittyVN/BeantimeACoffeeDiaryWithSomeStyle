@@ -51,6 +51,8 @@ public class UserEndpoint {
     @PermitAll
     @GetMapping("/checkemail")
     public UserResetPasswordDto checkEmail(@Valid @RequestParam String email) {
+        LOGGER.info("GET " + BASE_PATH + "/checkemail");
+        LOGGER.info("Request parameters: {}", email);
         return new UserResetPasswordDto(service.findApplicationUserByEmail(email.trim()).getEmail());
     }
 
@@ -58,6 +60,8 @@ public class UserEndpoint {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/resetpassword")
     public void resetPassword(@Valid @RequestBody UserResetPasswordDto emailToReset) {
+        LOGGER.info("PUT " + BASE_PATH + "/resetpassword");
+        LOGGER.info("Request parameters: {}", emailToReset.getEmail());
         service.resetPassword(emailToReset);
     }
 
@@ -66,6 +70,7 @@ public class UserEndpoint {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
+        LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         service.deleteUser(id);
     }
 
