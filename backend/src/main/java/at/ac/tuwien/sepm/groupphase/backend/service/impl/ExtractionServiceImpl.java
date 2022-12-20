@@ -2,8 +2,10 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
+import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +19,14 @@ import java.util.stream.Stream;
 public class ExtractionServiceImpl implements ExtractionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private ExtractionRepository extractionRepository;
+    private UserRepository userRepository;
     private final ExtractionMapper mapper;
 
 
     @Autowired
-    public ExtractionServiceImpl(ExtractionRepository extractionRepository, ExtractionMapper mapper) {
+    public ExtractionServiceImpl(ExtractionRepository extractionRepository, UserRepository userRepository, ExtractionMapper mapper) {
         this.extractionRepository = extractionRepository;
+        this.userRepository = userRepository;
         this.mapper = mapper;
     }
 
@@ -38,8 +42,12 @@ public class ExtractionServiceImpl implements ExtractionService {
     }
 
     @Override
-    public Stream<ExtractionDetailDto> getAll() {
-        LOGGER.trace("getAll()");
-        return extractionRepository.findAll().stream().map(extraction -> mapper.entityToDto(extraction));
+    public Stream<ExtractionDetailDto> getAllByUserId(Long id) {
+        LOGGER.trace("getAllByUserId({})", id);
+        if (userRepository.existsById(id)) {
+            return extractionRepository.findAllByUserId(id).stream().map(extraction -> mapper.entityToDto(extraction));
+        } else {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
     }
 }

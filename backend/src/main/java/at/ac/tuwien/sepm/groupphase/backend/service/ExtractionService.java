@@ -14,10 +14,12 @@ public interface ExtractionService {
      */
     CoffeeBeanAvgExtractionRating getAvgExtractionEvaluationParamsByCoffeeBeanId(Long id);
 
+
     /**
-     * Fetches all saved extractions from the persistent data storage.
+     * Fetches all saved extractions, belonging to the user, from the persistent data storage.
      *
+     * @param id of the user
      * @return a stream of the found extractions
      */
-    Stream<ExtractionDetailDto> getAll();
+    Stream<ExtractionDetailDto> getAllByUserId(Long id);
 }

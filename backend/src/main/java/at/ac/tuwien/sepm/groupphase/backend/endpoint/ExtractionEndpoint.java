@@ -2,9 +2,11 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +35,14 @@ public class ExtractionEndpoint {
         return this.service.getAvgExtractionEvaluationParamsByCoffeeBeanId(id);
     }
 
-    @GetMapping
-    public Stream<ExtractionDetailDto> getAll() throws ResponseStatusException {
-        LOGGER.info("GET " + BASE_PATH);
-        return service.getAll();
+    @GetMapping("user/{id}")
+    public Stream<ExtractionDetailDto> getAllByUserId(@PathVariable Long id) throws ResponseStatusException {
+        LOGGER.info("GET " + BASE_PATH + "/" + id);
+        try {
+            return service.getAllByUserId(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+        }
     }
 
 }
