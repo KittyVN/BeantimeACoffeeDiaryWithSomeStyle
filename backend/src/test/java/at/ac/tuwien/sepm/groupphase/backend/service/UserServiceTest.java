@@ -76,6 +76,7 @@ public class UserServiceTest {
     /* Tests for getById() */
 
     @Test
+    @Transactional
     public void getByIdReturnsUser() {
         UserDetailDto userResult = userService.getById(3L);
 
@@ -87,6 +88,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void getUserByNonExistentIdThrowsNotFoundException() {
         try {
             userService.getById(0L);
@@ -111,6 +113,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void updateByAdminWithNonexistentIdThrowsNotFoundException() {
         try {
             userService.updateByAdmin(0L, new UserAdminEditDto(UserRole.USER, false));
