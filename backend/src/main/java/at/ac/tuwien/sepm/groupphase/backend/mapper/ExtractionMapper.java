@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.mapper;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
@@ -30,6 +31,7 @@ public class ExtractionMapper {
             extraction.getGrindSetting(),
             extraction.getWaterTemperature(),
             extraction.getDose(),
+            extraction.getWaterAmount(),
             extraction.getBrewTime(),
             extraction.getBody(),
             extraction.getAcidity(),
@@ -38,6 +40,32 @@ public class ExtractionMapper {
             extraction.getAftertaste(),
             extraction.getRatingNotes(),
             overallRating,
+            id
+        );
+    }
+
+    public ExtractionCreateDto entityToCreateDto(Extraction extraction){
+        Long id;
+        if (extraction.getCoffeeBean() == null) {
+            id = null;
+        } else {
+            id = extraction.getCoffeeBean().getId();
+        }
+
+        return new ExtractionCreateDto(
+            extraction.getId(),
+            extraction.getBrewMethod(),
+            extraction.getGrindSetting(),
+            extraction.getWaterTemperature(),
+            extraction.getDose(),
+            extraction.getWaterAmount(),
+            extraction.getBrewTime(),
+            extraction.getBody(),
+            extraction.getAcidity(),
+            extraction.getAromatics(),
+            extraction.getSweetness(),
+            extraction.getAftertaste(),
+            extraction.getRatingNotes(),
             id
         );
     }

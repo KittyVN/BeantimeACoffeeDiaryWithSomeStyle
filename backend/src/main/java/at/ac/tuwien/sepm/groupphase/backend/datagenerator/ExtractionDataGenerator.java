@@ -40,7 +40,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 5, 5, 5, 5, 5, "Very good!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -52,7 +52,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 1, 2, 3, 4, 5, "Ascending!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -64,7 +64,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 5, 4, 3, 2, 1, "Descending!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -76,7 +76,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 1, 3, 5, 3, 1, "Triangular!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -88,7 +88,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 4, 4, 5, 5, 5, "Wild",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -100,7 +100,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 1, 2, 2, 1, 4, "Bad",
                 this.coffeeBeanRepository.findById(2L).get()
             );

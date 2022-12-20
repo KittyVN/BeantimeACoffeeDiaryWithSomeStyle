@@ -47,7 +47,7 @@ public class Extraction {
     private Double waterAmount;
 
     @Column(name = "brew_time")
-    private Duration brewTime;
+    private Long brewTime;
 
     @Column(name = "body")
     private Integer body;
@@ -83,7 +83,7 @@ public class Extraction {
     public Extraction() {}
 
     public Extraction(LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
-                      Double waterTemperature, Double dose, Double waterAmount, Duration brewTime, Integer body, Integer acidity,
+                      Double waterTemperature, Double dose, Double waterAmount, Long brewTime, Integer body, Integer acidity,
                       Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes,
                       CoffeeBean coffeeBean) {
         this.extractionDate = dateTime;
@@ -110,11 +110,11 @@ public class Extraction {
         this.body = body;
     }
 
-    public Duration getBrewTime() {
+    public Long getBrewTime() {
         return brewTime;
     }
 
-    public void setBrewTime(Duration brewTime) {
+    public void setBrewTime(Long brewTime) {
         this.brewTime = brewTime;
     }
 
