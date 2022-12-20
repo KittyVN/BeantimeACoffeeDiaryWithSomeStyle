@@ -35,8 +35,9 @@ public class ExtractionDataGenerator {
 
             Extraction e1 = new Extraction(
                 LocalDateTime.of(2022, 12, 11, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.DRIP,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
                 Duration.of(5L, ChronoUnit.MINUTES),
@@ -46,8 +47,9 @@ public class ExtractionDataGenerator {
 
             Extraction e2 = new Extraction(
                 LocalDateTime.of(2022, 12, 12, 9, 0),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.TURKISH,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
                 Duration.of(5L, ChronoUnit.MINUTES),
@@ -57,8 +59,9 @@ public class ExtractionDataGenerator {
 
             Extraction e3 = new Extraction(
                 LocalDateTime.of(2022, 12, 13, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.INSTANT,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
                 Duration.of(5L, ChronoUnit.MINUTES),
@@ -68,8 +71,9 @@ public class ExtractionDataGenerator {
 
             Extraction e4 = new Extraction(
                 LocalDateTime.of(2022, 12, 14, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.V60,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
                 Duration.of(5L, ChronoUnit.MINUTES),
@@ -79,8 +83,9 @@ public class ExtractionDataGenerator {
 
             Extraction e5 = new Extraction(
                 LocalDateTime.of(2022, 12, 15, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.ESPRESSO_MACHINE,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
                 Duration.of(5L, ChronoUnit.MINUTES),
@@ -90,8 +95,9 @@ public class ExtractionDataGenerator {
 
             Extraction e6 = new Extraction(
                 LocalDateTime.of(2022, 12, 16, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.POD_MACHINE,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
                 Duration.of(5L, ChronoUnit.MINUTES),

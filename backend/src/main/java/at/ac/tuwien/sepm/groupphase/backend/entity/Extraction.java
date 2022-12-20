@@ -42,6 +42,10 @@ public class Extraction {
     @Column(name = "dose")
     private Double dose;
 
+
+    @Column(name = "waterAmount")
+    private Double waterAmount;
+
     @Column(name = "brew_time")
     private Duration brewTime;
 
@@ -79,7 +83,7 @@ public class Extraction {
     public Extraction() {}
 
     public Extraction(LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
-                      Double waterTemperature, Double dose, Duration brewTime, Integer body, Integer acidity,
+                      Double waterTemperature, Double dose, Double waterAmount, Duration brewTime, Integer body, Integer acidity,
                       Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes,
                       CoffeeBean coffeeBean) {
         this.extractionDate = dateTime;
@@ -87,6 +91,7 @@ public class Extraction {
         this.grindSetting = grindSetting;
         this.waterTemperature = waterTemperature;
         this.dose = dose;
+        this.waterAmount = waterAmount;
         this.brewTime = brewTime;
         this.body = body;
         this.acidity = acidity;
@@ -202,4 +207,11 @@ public class Extraction {
         this.ratingNotes = ratingNotes;
     }
 
+    public Double getWaterAmount() {
+        return waterAmount;
+    }
+
+    public void setWaterAmount(Double waterAmount) {
+        this.waterAmount = waterAmount;
+    }
 }

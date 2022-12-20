@@ -1,8 +1,8 @@
 export enum CoffeeGrindSetting {
-  coarse = 'COARSE',
-  mediumCoarse = 'MEDIUM_COARSE',
-  medium = 'MEDIUM',
-  mediumFine = 'MEDIUM_FINE',
-  fine = 'FINE',
-  extraFine = 'EXTRA_FINE',
+  COARSE = 'COARSE',
+  MEDIUM_COARSE = 'MEDIUM_COARSE',
+  MEDIUM = 'MEDIUM',
+  MEDIUM_FINE = 'MEDIUM_FINE',
+  FINE = 'FINE',
+  EXTRA_FINE = 'EXTRA_FINE',
 }
