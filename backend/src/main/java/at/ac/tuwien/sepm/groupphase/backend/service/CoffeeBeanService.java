@@ -1,20 +1,30 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import org.aspectj.weaver.ast.Not;
 
 import java.util.stream.Stream;
 
 public interface CoffeeBeanService {
     /**
-     * Fetches all saved coffee beans from the persistent data storage.
+     * Fetches all saved coffee beans belonging to one User from the persistent data storage.
      *
+     * @param id The id of the requesting user
      * @return a stream of the found coffee beans
      */
-    Stream<CoffeBeanDashboardDto> getAll();
+    Stream<CoffeeBeanDashboardDto> getAllByUser(Long id);
+
+    /**
+     * Fetches all saved coffee beans from the persistent data storage
+     * that match the criteria specified in @code(searchParams).
+     *
+     * @param searchParams A dto containing the search parameters
+     * @param id the id of the user searching
+     * @return a stream of the found coffee beans
+     */
+    Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Long id);
 
     /**
      * Adds a new CoffeeBean to the persistent data storage.

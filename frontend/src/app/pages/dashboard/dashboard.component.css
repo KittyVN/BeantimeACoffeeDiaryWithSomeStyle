@@ -1,7 +1,20 @@
+.mat-h1 {
+  left: 40px;
+}
+
 .grid-container {
+  top: 40px;
   margin: 20px;
   margin-left: 5%;
   margin-right: 5%;
+}
+
+.form {
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .dashboard-card {

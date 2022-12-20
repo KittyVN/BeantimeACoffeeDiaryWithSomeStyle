@@ -27,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
+import java.security.Principal;
 import java.util.stream.Stream;
 
 @RestController

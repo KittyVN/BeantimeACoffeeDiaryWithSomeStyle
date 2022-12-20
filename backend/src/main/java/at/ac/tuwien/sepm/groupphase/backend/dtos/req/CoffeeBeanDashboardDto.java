@@ -2,15 +2,15 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 
-public class CoffeBeanDashboardDto {
+public class CoffeeBeanDashboardDto {
     private Long id;
     private String name;
     private CoffeeRoast coffeeRoast;
     private String description;
 
-    public CoffeBeanDashboardDto() {}
+    public CoffeeBeanDashboardDto() {}
 
-    public CoffeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description) {
+    public CoffeeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description) {
         this.id = id;
         this.name = name;
         this.coffeeRoast = coffeeRoast;

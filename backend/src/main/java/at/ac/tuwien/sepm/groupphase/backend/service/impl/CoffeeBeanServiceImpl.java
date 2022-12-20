@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
@@ -37,9 +38,16 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public Stream<CoffeBeanDashboardDto> getAll() {
-        LOGGER.trace("getAll()");
-        return coffeeBeanRepository.findAll().stream().map(coffeeBean -> mapper.entityToDashboardDto(coffeeBean));
+    public Stream<CoffeeBeanDashboardDto> getAllByUser(Long id) {
+        LOGGER.trace("getAllByUser({})", id);
+        return coffeeBeanRepository.findAllByUser(id).stream().map(mapper::entityToDashboardDto);
+    }
+
+    @Override
+    public Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Long id) {
+        LOGGER.trace("search coffee beans with params: {}", searchParams);
+        return searchParams.isEmpty() ? getAllByUser(id) :
+            coffeeBeanRepository.search(searchParams, id).stream().map(mapper::entityToDashboardDto);
     }
 
     @Override

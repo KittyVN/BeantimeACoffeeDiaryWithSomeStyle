@@ -8,10 +8,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 @Repository
-public interface CoffeeBeanRepository extends JpaRepository<CoffeeBean, Long> {
+public interface CoffeeBeanRepository extends JpaRepository<CoffeeBean, Long>, CoffeeBeanRepositoryCustom {
     @Modifying
     @Transactional
     @Query("delete from CoffeeBean c where c.user.id = :id")
     void deleteCoffeeBeanById(@Param("id") Long id);
+
+    @Query("select c from CoffeeBean c where c.user.id = :id")
+    Collection<CoffeeBean> findAllByUser(@Param("id") Long id);
 }

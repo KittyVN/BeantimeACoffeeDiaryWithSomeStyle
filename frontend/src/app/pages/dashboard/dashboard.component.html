@@ -1,5 +1,39 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
+  <div class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        type="text"
+        matInput
+        name="searchParamsName"
+        [(ngModel)]="this.searchParams.name"
+        (change)="keyUp.next($event)"
+        (keyup)="keyUp.next($event)" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input
+        type="text"
+        matInput
+        name="searchParamsDescription"
+        [(ngModel)]="this.searchParams.description"
+        (keyup)="keyUp.next($event)" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Roast</mat-label>
+      <select
+        matNativeControl
+        name="searchParamsRoast"
+        [(ngModel)]="this.searchParams.roast"
+        (change)="keyUp.next($event)">
+        <option value="" selected>Any</option>
+        <option value="LIGHT">Light</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="DARK">Dark</option>
+      </select>
+    </mat-form-field>
+  </div>
   <button mat-raised-button [routerLink]="['/create-coffee-bean']">
     Add custom coffee bean
   </button>

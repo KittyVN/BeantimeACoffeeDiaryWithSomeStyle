@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
+import java.security.Principal;
 import java.util.stream.Stream;
 
 
@@ -36,10 +39,12 @@ public class CoffeeBeanEndpoint {
         this.coffeeBeanService = coffeeBeanService;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
-    public Stream<CoffeBeanDashboardDto> getAll() throws ResponseStatusException {
+    public Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Principal principal) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH);
-        return coffeeBeanService.getAll();
+        LOGGER.info("Request parameters: {}", searchParams);
+        return coffeeBeanService.search(searchParams, Long.parseLong(principal.getName()));
     }
 
     @PostMapping
