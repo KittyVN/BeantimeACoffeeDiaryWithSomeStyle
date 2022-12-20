@@ -1,7 +1,7 @@
+<h1>Extracting {{ this.coffee.name }}</h1>
 <mat-vertical-stepper [linear]="true" #stepper>
   <mat-step [stepControl]="parameterForm">
     <form [formGroup]="parameterForm">
-      <ng-template matStepLabel>Input</ng-template>
       <mat-form-field>
         <mat-label>Method</mat-label>
         <select matNativeControl formControlName="brewMethod">
@@ -10,15 +10,28 @@
           <option value="STEEPING">Steeping</option>
           <option value="DRIP">Drip</option>
           <option value="PRESSURE">Pressure</option>
-          <option value="FRENCHPRESS">French Press</option>
+          <option value="FRENCH_PRESS">French Press</option>
           <option value="COLDBREW">Cold Brew</option>
           <option value="INSTANT">Instant Coffee</option>
           <option value="POUROVER">Pour-Over</option>
-          <option value="ESPRESSOMACHINE">Espresso Machine</option>
+          <option value="V60">V60</option>
+          <option value="ESPRESSO_MACHINE">Espresso Machine</option>
           <option value="AEROPRESS">Aeropress</option>
           <option value="MOKA">Moka Pot</option>
-          <option value="PODMACHING">Pod Machine</option>
+          <option value="POD_MACHINE">Pod Machine</option>
           <option value="OTHER">Others</option>
+        </select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Grind Setting</mat-label>
+        <select matNativeControl formControlName="grindSetting">
+          <option value=""></option>
+          <option value="COARSE">Coarse</option>
+          <option value="MEDIUM_COARSE">Medium Coarse</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="MEDIUM_FINE">Medium Fine</option>
+          <option value="FINE">Fine</option>
+          <option value="EXTRA_FINE">Extra Fine</option>
         </select>
       </mat-form-field>
     </form>

@@ -62,7 +62,7 @@ const routes: Routes = [
   {
     path: 'extraction/create',
     component: ExtractionCreateEditComponent,
-    data: { mode: ExtractionCreateEditMode.create },
+    data: { mode: ExtractionCreateEditMode.create, coffeeId: Number },
   },
   {
     path: 'extraction/:id/edit',

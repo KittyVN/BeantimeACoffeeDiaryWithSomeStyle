@@ -3,6 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from 'src/services/user.service';
+import { CoffeeBeanDto } from 'src/dtos';
+import { Roast } from 'src/dtos/req/roast-type.enum';
+import { mixinTabIndex } from '@angular/material/core';
+import { CoffeeBeanService } from 'src/services/coffee-bean.service';
 
 export enum ExtractionCreateEditMode {
   create,
@@ -19,10 +23,17 @@ export class ExtractionCreateEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private userService: UserService
+    private userService: UserService,
+    private coffeeBeanService: CoffeeBeanService
   ) {}
 
   id: string | null = null;
+  coffeeId: number | null = null;
+  coffee: CoffeeBeanDto = {
+    name: '',
+    custom: true,
+    coffeeRoast: Roast.LIGHT,
+  };
   mode: ExtractionCreateEditMode = ExtractionCreateEditMode.create;
   parameterForm = new FormGroup({
     brewMethod: new FormControl('', Validators.required),
@@ -42,7 +53,33 @@ export class ExtractionCreateEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
+      this.coffeeId = data['coffeeId'];
     });
+    if (this.coffeeId != null) {
+      this.coffeeBeanService.getById(this.coffeeId.toString()).subscribe({
+        next: (data: CoffeeBeanDto) => {
+          this.coffee = data;
+        },
+        error: err => {
+          this.snackBar.open(
+            'You cannot start a extraction without a coffee',
+            'Close',
+            {
+              duration: 5000,
+            }
+          );
+          this.router.navigate(['/home']);
+        },
+      });
+    } else {
+      this.snackBar.open(
+        'The coffee you tried extract with does not exist',
+        'Close',
+        {
+          duration: 5000,
+        }
+      );
+    }
     if (this.mode === ExtractionCreateEditMode.edit) {
       this.route.paramMap.subscribe(paramMap => {
         this.id = paramMap.get('id');
