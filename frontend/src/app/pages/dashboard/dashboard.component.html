@@ -1,6 +1,11 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
-  <button mat-raised-button [routerLink]="['/coffee/create']">
+
+  <button
+    class="adder-button"
+    mat-stroked-button
+    [routerLink]="['/coffee/create']">
+    <mat-icon>add_circle_outline</mat-icon>
     Add custom coffee bean
   </button>
   <mat-grid-list cols="2" rowHeight="350px">
@@ -9,39 +14,41 @@
         <mat-card-header>
           <mat-card-title>
             {{ coffee.name }}
-            <button
-              mat-icon-button
-              class="more-button"
-              [matMenuTriggerFor]="menu"
-              aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button
-                mat-menu-item
-                [routerLink]="['/coffee/' + coffee.id + '/edit']">
-                Edit
-              </button>
-              <button
-                mat-menu-item
-                [routerLink]="['/coffee/' + coffee.id + '/delete']">
-                Remove
-              </button>
-            </mat-menu>
           </mat-card-title>
           <mat-card-subtitle>
-            {{
-              coffee.coffeeRoast === 'DARK'
-                ? 'Dark roast'
-                : coffee.coffeeRoast === 'MEDIUM'
-                ? 'Medium roast'
-                : 'Light roast'
-            }}
+            {{ formatRoast(coffee) }}
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <div>{{ coffee.description }}</div>
+          <div class="description-box">{{ coffee.description }}</div>
+          <div class="extraction-box"></div>
         </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions class="dashboard-card-buttons">
+          <div class="button-row">
+            <button
+              mat-stroked-button
+              color="warn"
+              [routerLink]="['/coffee/' + coffee.id + '/delete']">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+            <button
+              mat-stroked-button
+              [routerLink]="['/coffee/' + coffee.id + '/edit']">
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+            <button mat-stroked-button [routerLink]="['/coffee/' + coffee.id]">
+              <mat-icon>list</mat-icon>
+              Details
+            </button>
+            <button mat-raised-button color="primary">
+              <mat-icon>play_arrow</mat-icon>
+              New extraction
+            </button>
+          </div>
+        </mat-card-actions>
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>

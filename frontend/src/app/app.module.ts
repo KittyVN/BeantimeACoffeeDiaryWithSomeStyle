@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from 'src/util';
@@ -72,6 +73,7 @@ import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/
     MatFormFieldModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatDividerModule,
     MatSnackBarModule,
     MatInputModule,
     MatButtonModule,
