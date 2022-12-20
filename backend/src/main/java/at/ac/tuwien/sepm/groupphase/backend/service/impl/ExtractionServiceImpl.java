@@ -18,8 +18,8 @@ import java.util.stream.Stream;
 @Service
 public class ExtractionServiceImpl implements ExtractionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private ExtractionRepository extractionRepository;
-    private UserRepository userRepository;
+    private final ExtractionRepository extractionRepository;
+    private final UserRepository userRepository;
     private final ExtractionMapper mapper;
 
 
