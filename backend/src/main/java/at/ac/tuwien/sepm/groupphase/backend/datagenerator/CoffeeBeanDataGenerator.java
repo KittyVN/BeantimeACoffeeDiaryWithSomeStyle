@@ -50,7 +50,8 @@ public class CoffeeBeanDataGenerator {
                 .withOrigin("There")
                 .withHeight(5)
                 .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withDescription("A longer description goes here because I need characters for testing")
+                .withDescription("A longer description goes here because I need characters for testing."
+                 + " Lets add even more because its practical to see how many lines this box can actually hold.")
                 .withCustom(true)
                 .withUser(User.UserBuilder.aUser().withId(1L).build())
                 .build();
