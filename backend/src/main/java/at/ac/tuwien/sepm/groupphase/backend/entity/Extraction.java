@@ -26,8 +26,8 @@ public class Extraction {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "datetime")
-    private LocalDateTime dateTime;
+    @Column(name = "extraction_date")
+    private LocalDateTime extractionDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "brew_method")
@@ -68,13 +68,21 @@ public class Extraction {
     @JoinColumn(name = "coffee_bean_id")
     private CoffeeBean coffeeBean;
 
+    public LocalDateTime getExtractionDate() {
+        return extractionDate;
+    }
+
+    public void setExtractionDate(LocalDateTime extractionDate) {
+        this.extractionDate = extractionDate;
+    }
+
     public Extraction() {}
 
     public Extraction(LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
                       Double waterTemperature, Double dose, Duration brewTime, Integer body, Integer acidity,
                       Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes,
                       CoffeeBean coffeeBean) {
-        this.dateTime = dateTime;
+        this.extractionDate = dateTime;
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
         this.waterTemperature = waterTemperature;
@@ -120,4 +128,78 @@ public class Extraction {
     public void setId(Long id) {
         this.id = id;
     }
+
+
+    public ExtractionBrewMethod getBrewMethod() {
+        return brewMethod;
+    }
+
+    public void setBrewMethod(ExtractionBrewMethod brewMethod) {
+        this.brewMethod = brewMethod;
+    }
+
+    public CoffeeGrindSetting getGrindSetting() {
+        return grindSetting;
+    }
+
+    public void setGrindSetting(CoffeeGrindSetting grindSetting) {
+        this.grindSetting = grindSetting;
+    }
+
+    public Double getWaterTemperature() {
+        return waterTemperature;
+    }
+
+    public void setWaterTemperature(Double waterTemperature) {
+        this.waterTemperature = waterTemperature;
+    }
+
+    public Double getDose() {
+        return dose;
+    }
+
+    public void setDose(Double dose) {
+        this.dose = dose;
+    }
+
+    public Integer getAcidity() {
+        return acidity;
+    }
+
+    public void setAcidity(Integer acidity) {
+        this.acidity = acidity;
+    }
+
+    public Integer getAromatics() {
+        return aromatics;
+    }
+
+    public void setAromatics(Integer aromatics) {
+        this.aromatics = aromatics;
+    }
+
+    public Integer getSweetness() {
+        return sweetness;
+    }
+
+    public void setSweetness(Integer sweetness) {
+        this.sweetness = sweetness;
+    }
+
+    public Integer getAftertaste() {
+        return aftertaste;
+    }
+
+    public void setAftertaste(Integer aftertaste) {
+        this.aftertaste = aftertaste;
+    }
+
+    public String getRatingNotes() {
+        return ratingNotes;
+    }
+
+    public void setRatingNotes(String ratingNotes) {
+        this.ratingNotes = ratingNotes;
+    }
+
 }
