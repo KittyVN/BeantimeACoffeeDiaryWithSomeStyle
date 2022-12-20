@@ -50,7 +50,7 @@ public class ExtractionEndpoint {
 
     @PostMapping
     public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto){
-        LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto);
+        LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto.toString());
         return service.create(extractionCreateDto);
     }
 

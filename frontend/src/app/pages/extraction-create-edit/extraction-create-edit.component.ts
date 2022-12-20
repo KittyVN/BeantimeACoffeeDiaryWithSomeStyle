@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserService } from 'src/services/user.service';
+import { ExtractionService } from 'src/services/extraction.service';
 import { CoffeeBeanDto } from 'src/dtos';
 import { Roast } from 'src/dtos/req/roast-type.enum';
 import { CoffeeBeanService } from 'src/services/coffee-bean.service';
+import { ExtractionCreateDto } from 'src/dtos/req/extraction-create.dto';
+import { BrewMethod } from 'src/dtos/req/brew-method-enum';
+import { Observable } from 'rxjs';
 
 export enum ExtractionCreateEditMode {
   create,
@@ -22,7 +25,7 @@ export class ExtractionCreateEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private userService: UserService,
+    private extractionService: ExtractionService,
     private coffeeBeanService: CoffeeBeanService
   ) {}
 
@@ -33,9 +36,18 @@ export class ExtractionCreateEditComponent implements OnInit {
     custom: true,
     coffeeRoast: Roast.LIGHT,
   };
+  extraction: ExtractionCreateDto = {
+    brewMethod: BrewMethod.DRIP,
+    brewTime: 300,
+  };
+
   mode: ExtractionCreateEditMode = ExtractionCreateEditMode.create;
   parameterForm = new FormGroup({
     brewMethod: new FormControl('', Validators.required),
+    grindSetting: new FormControl(''),
+    waterTemperature: new FormControl('', [Validators.min(0)]),
+    dose: new FormControl('', [Validators.min(0)]),
+    waterAmount: new FormControl('', [Validators.min(0)]),
   });
   ratingForm = new FormGroup({
     acidity: new FormControl('', [Validators.min(0)]),
@@ -49,8 +61,55 @@ export class ExtractionCreateEditComponent implements OnInit {
     return this.mode === ExtractionCreateEditMode.create;
   }
 
+  onSubmit() {
+    let observable: Observable<string>;
+    switch (this.mode) {
+      case ExtractionCreateEditMode.create:
+        observable = this.extractionService.create(this.extraction);
+        break;
+      case ExtractionCreateEditMode.edit:
+        observable = this.extractionService.edit(this.extraction);
+        break;
+      default:
+        console.error('Unknown CoffeeBeanCreateEditMode', this.mode);
+        return;
+    }
+    observable.subscribe({
+      next: data => {
+        this.router.navigate(['/home']);
+      },
+      error: err => {
+        this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
+          duration: 5000,
+        });
+      },
+    });
+  }
+
+  changeBody(value: number) {
+    this.extraction.body = value;
+    console.log(this.extraction);
+  }
+
+  changeAftertaste(value: number) {
+    this.extraction.aftertaste = value;
+  }
+
+  changeAcidity(value: number) {
+    this.extraction.acidity = value;
+  }
+
+  changeSweetness(value: number) {
+    this.extraction.sweetness = value;
+  }
+
+  changeAromatics(value: number) {
+    this.extraction.aromatics = value;
+  }
+
   ngOnInit(): void {
     this.coffeeId = history.state.coffeeId;
+    this.extraction.beanId = history.state.coffeeId;
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
     });

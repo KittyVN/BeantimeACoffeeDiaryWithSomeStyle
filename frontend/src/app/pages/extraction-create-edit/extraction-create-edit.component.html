@@ -5,7 +5,10 @@
       <h1>Extracting: {{ coffee.name }}</h1>
       <mat-form-field>
         <mat-label>Method</mat-label>
-        <select matNativeControl formControlName="brewMethod">
+        <select
+          matNativeControl
+          formControlName="brewMethod"
+          [(ngModel)]="extraction.brewMethod">
           <option value=""></option>
           <option value="BOILING">Boiling</option>
           <option value="STEEPING">Steeping</option>
@@ -25,7 +28,10 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Grind Setting</mat-label>
-        <select matNativeControl formControlName="grindSetting">
+        <select
+          matNativeControl
+          formControlName="grindSetting"
+          [(ngModel)]="extraction.grindSetting">
           <option value=""></option>
           <option value="COARSE">Coarse</option>
           <option value="MEDIUM_COARSE">Medium Coarse</option>
@@ -37,15 +43,27 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Water Temperature in °C</mat-label>
-        <input matInput type="number" />
+        <input
+          matInput
+          type="number"
+          formControlName="waterTemperature"
+          [(ngModel)]="extraction.waterTemperature" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Dose in Grams</mat-label>
-        <input matInput type="number" />
+        <input
+          matInput
+          type="number"
+          formControlName="dose"
+          [(ngModel)]="extraction.dose" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Amount of Water in ml</mat-label>
-        <input matInput type="number" />
+        <input
+          matInput
+          type="number"
+          formControlName="waterAmount"
+          [(ngModel)]="extraction.waterAmount" />
       </mat-form-field>
     </form>
     <div>
@@ -62,27 +80,40 @@
     </div>
   </mat-step>
   <mat-step [stepControl]="ratingForm">
-    <form class="ratingForm" [formGroup]="ratingForm">
+    <form class="ratingForm" [formGroup]="ratingForm" (submit)="onSubmit()">
       <ng-template matStepLabel>Rating</ng-template>
       <h3>Body</h3>
-      <app-star-rating [rating]="3"></app-star-rating>
+      <app-star-rating
+        [rating]="3"
+        (newRatingEvent)="changeBody($event)"></app-star-rating>
       <h3>Acidity</h3>
-      <app-star-rating [rating]="3"></app-star-rating>
+      <app-star-rating
+        [rating]="3"
+        (newRatingEvent)="changeAcidity($event)"></app-star-rating>
       <h3>Aromatics</h3>
-      <app-star-rating [rating]="3"></app-star-rating>
+      <app-star-rating
+        [rating]="3"
+        (newRatingEvent)="changeAromatics($event)"></app-star-rating>
       <h3>Sweetness</h3>
-      <app-star-rating [rating]="3"></app-star-rating>
+      <app-star-rating
+        [rating]="3"
+        (newRatingEvent)="changeSweetness($event)"></app-star-rating>
       <h3>Aftertaste</h3>
-      <app-star-rating [rating]="3"></app-star-rating>
+      <app-star-rating
+        [rating]="3"
+        (newRatingEvent)="changeAftertaste($event)"></app-star-rating>
       <h3>Notes</h3>
       <mat-form-field>
         <mat-label>Notes</mat-label>
-        <textarea matInput formControlName="ratingNotes"></textarea>
+        <textarea
+          matInput
+          formControlName="ratingNotes"
+          [(ngModel)]="extraction.ratingNotes"></textarea>
       </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button matStepperNext type="submit">Submit</button>
+      </div>
     </form>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-    </div>
   </mat-step>
 </mat-vertical-stepper>

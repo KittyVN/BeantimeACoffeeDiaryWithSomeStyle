@@ -181,4 +181,24 @@ public class ExtractionCreateDto {
     public Double getWaterAmount() {
         return waterAmount;
     }
+
+    @Override
+    public String toString() {
+        return "ExtractionCreateDto{" +
+            "id=" + id +
+            ", brewMethod=" + brewMethod +
+            ", grindSetting=" + grindSetting +
+            ", waterTemperature=" + waterTemperature +
+            ", dose=" + dose +
+            ", waterAmount=" + waterAmount +
+            ", brewTime=" + brewTime +
+            ", body=" + body +
+            ", acidity=" + acidity +
+            ", aromatics=" + aromatics +
+            ", sweetness=" + sweetness +
+            ", aftertaste=" + aftertaste +
+            ", ratingNotes='" + ratingNotes + '\'' +
+            ", beanId=" + beanId +
+            '}';
+    }
 }
