@@ -127,8 +127,8 @@ export class ExtractionCreateEditComponent implements OnInit {
     });
     if (this.coffeeId != null) {
       this.coffeeBeanService.getById(this.coffeeId.toString()).subscribe({
-        next: (data: CoffeeBeanDto) => {
-          this.coffee = data;
+        next: data => {
+          this.coffee = data.coffeeBean;
         },
         error: err => {
           this.snackBar.open(
