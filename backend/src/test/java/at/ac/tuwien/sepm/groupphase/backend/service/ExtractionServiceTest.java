@@ -17,7 +17,7 @@ public class ExtractionServiceTest {
 
     @Test
     @Transactional
-    public void findAvgExtractionRatingByCoffeeBeanIdWithExtractionsReturnsDTO() {
+    public void findAvgExtractionRatingByCoffeeBeanIdWithExtractionsReturnsDto() {
         CoffeeBeanAvgExtractionRating result = extractionService.getAvgExtractionEvaluationParamsByCoffeeBeanId(2L);
 
         assertThat(result).isNotNull();
@@ -31,7 +31,7 @@ public class ExtractionServiceTest {
 
     @Test
     @Transactional
-    public void findAvgExtractionRatingByCoffeeBeanIdWithoutExtractionsReturnsDefault0DTO() {
+    public void findAvgExtractionRatingByCoffeeBeanIdWithoutExtractionsReturnsDefault0Dto() {
         CoffeeBeanAvgExtractionRating result = extractionService.getAvgExtractionEvaluationParamsByCoffeeBeanId(1L);
 
         assertThat(result).isNotNull();

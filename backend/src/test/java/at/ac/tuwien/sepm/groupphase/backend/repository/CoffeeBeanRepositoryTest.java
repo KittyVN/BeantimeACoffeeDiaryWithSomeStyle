@@ -60,7 +60,7 @@ public class CoffeeBeanRepositoryTest {
 
     @Test
     @Transactional
-    public void getCoffeeBeanByExistentIdReturnsCoffeeBeanDTO() {
+    public void getCoffeeBeanByExistentIdReturnsCoffeeBeanDto() {
         CoffeeBean result = coffeeBeanRepository.findById(2L).get();
 
         assertThat(result).isNotNull();

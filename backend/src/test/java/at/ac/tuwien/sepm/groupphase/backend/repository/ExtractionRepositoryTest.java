@@ -17,7 +17,7 @@ public class ExtractionRepositoryTest {
 
     @Test
     @Transactional
-    public void findAvgExtractionRatingByCoffeeBeanIdWithExtractionsReturnsDTO() {
+    public void findAvgExtractionRatingByCoffeeBeanIdWithExtractionsReturnsDto() {
         CoffeeBeanAvgExtractionRating result = extractionRepository.findAvgExtractionRatingByCoffeeBeanId(2L);
 
         assertThat(result).isNotNull();

@@ -70,7 +70,7 @@ public class CoffeeBeanServiceTest {
 
     @Test
     @Transactional
-    public void getCoffeeBeanByExistentIdReturnsCoffeeBeanDTO() {
+    public void getCoffeeBeanByExistentIdReturnsCoffeeBeanDto() {
         CoffeeBeanDto result = coffeeBeanService.getById(2L);
 
         assertThat(result).isNotNull();
