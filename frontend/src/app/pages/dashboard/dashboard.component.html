@@ -1,6 +1,6 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
-  <button mat-raised-button [routerLink]="['/create-coffee-bean']">
+  <button mat-raised-button [routerLink]="['/coffee/create']">
     Add custom coffee bean
   </button>
   <mat-grid-list cols="2" rowHeight="350px">
@@ -19,12 +19,12 @@
             <mat-menu #menu="matMenu" xPosition="before">
               <button
                 mat-menu-item
-                [routerLink]="['/' + coffee.id + '/edit-coffee-bean']">
+                [routerLink]="['/coffee/' + coffee.id + '/edit']">
                 Edit
               </button>
               <button
                 mat-menu-item
-                [routerLink]="['/' + coffee.id + '/delete-coffee-bean']">
+                [routerLink]="['/coffee/' + coffee.id + '/delete']">
                 Remove
               </button>
             </mat-menu>

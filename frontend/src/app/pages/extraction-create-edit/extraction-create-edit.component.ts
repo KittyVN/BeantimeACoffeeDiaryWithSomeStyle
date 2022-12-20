@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from 'src/services/user.service';
 
 export enum ExtractionCreateEditMode {
   create,
@@ -17,7 +18,8 @@ export class ExtractionCreateEditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private userService: UserService
   ) {}
 
   id: string | null = null;
@@ -38,6 +40,9 @@ export class ExtractionCreateEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.mode = data['mode'];
+    });
     if (this.mode === ExtractionCreateEditMode.edit) {
       this.route.paramMap.subscribe(paramMap => {
         this.id = paramMap.get('id');

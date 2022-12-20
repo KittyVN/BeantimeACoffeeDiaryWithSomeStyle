@@ -17,7 +17,10 @@ import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bea
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bean-detail.component';
-import { ExtractionCreateEditComponent } from './pages/extraction-create-edit/extraction-create-edit.component';
+import {
+  ExtractionCreateEditComponent,
+  ExtractionCreateEditMode,
+} from './pages/extraction-create-edit/extraction-create-edit.component';
 
 import type { Routes } from '@angular/router';
 
@@ -57,27 +60,33 @@ const routes: Routes = [
     component: ProfilePageComponent,
   },
   {
-    path: 'extraction',
+    path: 'extraction/create',
     component: ExtractionCreateEditComponent,
+    data: { mode: ExtractionCreateEditMode.create },
+  },
+  {
+    path: 'extraction/:id/edit',
+    component: ExtractionCreateEditComponent,
+    data: { mode: ExtractionCreateEditMode.edit },
   },
   {
     path: 'coffee/:id',
     component: CoffeeBeanDetailComponent,
   },
   {
-    path: 'create-coffee-bean',
+    path: 'coffee/create',
     canActivate: [AuthGuard],
     component: CoffeeBeanCreateEditComponent,
     data: { mode: CoffeeBeanCreateEditMode.create },
   },
   {
-    path: ':id/edit-coffee-bean',
+    path: 'coffee/:id/edit',
     canActivate: [AuthGuard],
     component: CoffeeBeanCreateEditComponent,
     data: { mode: CoffeeBeanCreateEditMode.edit },
   },
   {
-    path: ':id/delete-coffee-bean',
+    path: 'coffee/:id/delete',
     canActivate: [AuthGuard],
     component: CoffeeBeanDeleteComponent,
   },
