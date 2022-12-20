@@ -1,12 +1,11 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
-
   <button
     class="adder-button"
     mat-stroked-button
     [routerLink]="['/coffee/create']">
     <mat-icon>add_circle_outline</mat-icon>
-    Add custom coffee bean
+    Add custom coffee
   </button>
   <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let coffee of coffees">
@@ -43,7 +42,11 @@
               <mat-icon>list</mat-icon>
               Details
             </button>
-            <button mat-raised-button color="primary">
+            <button
+              mat-raised-button
+              color="primary"
+              [routerLink]="['/extraction/create']"
+              [state]="{ coffeeId: coffee.id }">
               <mat-icon>play_arrow</mat-icon>
               New extraction
             </button>

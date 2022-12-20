@@ -50,9 +50,9 @@ export class ExtractionCreateEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.coffeeId = history.state.coffeeId;
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
-      this.coffeeId = data['coffeeId'];
     });
     if (this.coffeeId != null) {
       this.coffeeBeanService.getById(this.coffeeId.toString()).subscribe({

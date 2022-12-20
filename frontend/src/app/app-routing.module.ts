@@ -61,11 +61,13 @@ const routes: Routes = [
   },
   {
     path: 'extraction/create',
+    canActivate: [AuthGuard],
     component: ExtractionCreateEditComponent,
-    data: { mode: ExtractionCreateEditMode.create, coffeeId: Number },
+    data: { mode: ExtractionCreateEditMode.create },
   },
   {
     path: 'extraction/:id/edit',
+    canActivate: [AuthGuard],
     component: ExtractionCreateEditComponent,
     data: { mode: ExtractionCreateEditMode.edit },
   },
