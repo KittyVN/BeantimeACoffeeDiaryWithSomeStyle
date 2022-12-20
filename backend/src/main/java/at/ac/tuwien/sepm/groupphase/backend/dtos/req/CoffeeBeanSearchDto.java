@@ -47,10 +47,10 @@ public class CoffeeBeanSearchDto {
 
     @Override
     public String toString() {
-        return "CoffeeBeanSearchDto{" +
-            "name='" + name + '\'' +
-            ", coffeeRoast=" + coffeeRoast +
-            ", description='" + description + '\'' +
-            '}';
+        return "CoffeeBeanSearchDto{"
+            + "name='" + name + '\''
+            + ", coffeeRoast=" + coffeeRoast
+            + ", description='" + description + '\''
+            + '}';
     }
 }

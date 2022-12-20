@@ -26,4 +26,9 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
         nativeQuery = true)
     List<Extraction> findAllByUserId(@Param("id") Long id);
 
+    @Query(
+        value = "SELECT * FROM COFFEE_EXTRACTION e WHERE e.COFFEE_BEAN_ID = :id",
+        nativeQuery = true)
+    List<Extraction> findAllByBeanId(@Param("id") Long beanId);
+
 }

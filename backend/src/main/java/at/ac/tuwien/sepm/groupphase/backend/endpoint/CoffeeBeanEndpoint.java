@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -39,12 +40,17 @@ public class CoffeeBeanEndpoint {
         this.coffeeBeanService = coffeeBeanService;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping
-    public Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Principal principal) throws ResponseStatusException {
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
+        + "and authentication.principal.equals(#id.toString())")
+    @GetMapping("/user/{id}")
+    public Stream<CoffeeBeanDashboardDto> search(@PathVariable Long id, CoffeeBeanSearchDto searchParams) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH);
         LOGGER.info("Request parameters: {}", searchParams);
-        return coffeeBeanService.search(searchParams, Long.parseLong(principal.getName()));
+        try {
+            return coffeeBeanService.search(searchParams, id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping

@@ -3,10 +3,14 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
+import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
+import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.CoffeeBeanMapper;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 import java.util.stream.Stream;
 import java.util.Optional;
 
@@ -25,16 +30,19 @@ import java.util.Optional;
 public class CoffeeBeanServiceImpl implements CoffeeBeanService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private CoffeeBeanRepository coffeeBeanRepository;
-
-    private UserRepository userRepository;
+    private final CoffeeBeanRepository coffeeBeanRepository;
+    private final ExtractionRepository extractionRepository;
+    private final UserRepository userRepository;
     private final CoffeeBeanMapper mapper;
+    private final ExtractionMapper extractionMapper;
 
     @Autowired
-    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, CoffeeBeanMapper mapper, UserRepository userRepository) {
+    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, ExtractionRepository extractionRepository, CoffeeBeanMapper mapper, UserRepository userRepository, ExtractionMapper extractionMapper) {
         this.coffeeBeanRepository = coffeeBeanRepository;
+        this.extractionRepository = extractionRepository;
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.extractionMapper = extractionMapper;
     }
 
     @Override
@@ -46,8 +54,41 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     @Override
     public Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Long id) {
         LOGGER.trace("search coffee beans with params: {}", searchParams);
-        return searchParams.isEmpty() ? getAllByUser(id) :
-            coffeeBeanRepository.search(searchParams, id).stream().map(mapper::entityToDashboardDto);
+        List<CoffeeBeanDashboardDto> coffees;
+        if (userRepository.existsById(id)) {
+            if (searchParams.isEmpty()) {
+                coffees = getAllByUser(id).toList();
+            } else {
+                coffees = coffeeBeanRepository.search(searchParams, id).stream().map(mapper::entityToDashboardDto).toList();
+            }
+            for (int coffeeSize = 0; coffeeSize < coffees.size(); coffeeSize++) {
+                List<ExtractionDetailDto> extractions;
+                extractions = extractionRepository.findAllByBeanId(coffees.get(coffeeSize).getId()).stream().map(extraction -> extractionMapper.entityToDto(extraction)).toList();
+                ExtractionDetailDto bestExtraction;
+                ExtractionDetailDto lastExtraction;
+                double averageRating = 0;
+                if (!extractions.isEmpty()) {
+                    bestExtraction = extractions.get(0);
+                    lastExtraction = extractions.get(0);
+                    for (int i = 0; i < extractions.size(); i++) {
+                        if (extractions.get(i).getOverallRating() > bestExtraction.getOverallRating()) {
+                            bestExtraction = extractions.get(i);
+                        }
+                        if (extractions.get(i).getDateTime().isAfter(lastExtraction.getDateTime())) {
+                            lastExtraction = extractions.get(i);
+                        }
+                        averageRating += extractions.get(i).getOverallRating();
+                    }
+                    averageRating = averageRating / extractions.size();
+                    coffees.get(coffeeSize).setBestExtraction(bestExtraction);
+                    coffees.get(coffeeSize).setLastExtraction(lastExtraction);
+                    coffees.get(coffeeSize).setOverallAverageRating((int) Math.round(averageRating));
+                }
+            }
+            return coffees.stream();
+        } else {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
     }
 
     @Override

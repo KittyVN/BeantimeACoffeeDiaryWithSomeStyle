@@ -33,7 +33,7 @@ public class CoffeeBeanRepositoryCustomImpl implements CoffeeBeanRepositoryCusto
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<CoffeeBean> query = cb.createQuery(CoffeeBean.class);
         Root<CoffeeBean> bean = query.from(CoffeeBean.class);
-        Join<CoffeeBean,User> user = bean.join("user", JoinType.INNER);
+        Join<CoffeeBean, User> user = bean.join("user", JoinType.INNER);
 
         Path<Long> idPath = user.get("id");
         Path<String> namePath = bean.get("name");
