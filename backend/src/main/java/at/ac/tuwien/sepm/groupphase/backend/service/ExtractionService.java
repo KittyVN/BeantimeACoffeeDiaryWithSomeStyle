@@ -1,6 +1,9 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+
+import java.util.stream.Stream;
 
 public interface ExtractionService {
     /**
@@ -10,4 +13,13 @@ public interface ExtractionService {
      * @return a CoffeeBeanAvgExtractionEvaluationParams DTO
      */
     CoffeeBeanAvgExtractionRating getAvgExtractionEvaluationParamsByCoffeeBeanId(Long id);
+
+
+    /**
+     * Fetches all saved extractions, belonging to the user, from the persistent data storage.
+     *
+     * @param id of the user
+     * @return a stream of the found extractions
+     */
+    Stream<ExtractionDetailDto> getAllByUserId(Long id);
 }
