@@ -16,10 +16,11 @@ public interface ExtractionService {
 
 
     /**
-     * Fetches all saved extractions, belonging to the user, from the persistent data storage.
+     * Fetches all saved extractions, belonging to the bean, from the persistent data storage.
      *
-     * @param id of the user
+     * @param id of the bean
      * @return a stream of the found extractions
      */
-    Stream<ExtractionDetailDto> getAllByUserId(Long id);
+    Stream<ExtractionDetailDto> getAllByBeanId(Long id);
+
 }

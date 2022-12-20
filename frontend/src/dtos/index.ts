@@ -5,3 +5,6 @@ export * from './req/coffee-roast';
 export * from './req/coffee-bean.dto';
 export * from './req/email.dto';
 export * from './req/update-user.dto';
+export * from './req/userSearch.dto';
+export * from './req/userDetail.dto';
+export * from './req/extraction-detail.dto';

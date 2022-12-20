@@ -1,0 +1,60 @@
+.extraction-card {
+    right: 5%;
+    left: 5%;
+    margin: 5px;
+}
+
+.extraction-container {
+    display: flex;
+}
+
+.sum-container {
+    flex-grow: 1;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.input-container {
+    flex-grow: 2;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+}
+
+.rating-container {
+    flex-grow: 2;
+    margin-left: 10px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+}
+
+.info-element {
+    height: 30%;
+    width: 40%;
+    display: flex;
+}
+
+.info-legend {
+    width: 30%;
+    text-align: right;
+}
+
+.info-value {
+    width: 70%;
+    text-align: left;
+}
+
+.separator-line {
+    width: 1px;
+    border-left: 4px solid darkgrey;
+    top: 10%;
+    bottom: 10%;
+}
+
+.rate-star {
+    font-size: 1em;
+    font-kerning: 10px;
+}

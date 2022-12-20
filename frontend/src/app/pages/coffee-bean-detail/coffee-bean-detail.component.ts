@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ExtractionService } from 'src/services/extraction.service';
 
-import { CoffeeBeanDto } from '../../../dtos';
+import { CoffeeBeanDto, ExtractionDetailDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
 import { CoffeeBeanService } from '../../../services/coffee-bean.service';
 
@@ -24,8 +25,11 @@ export class CoffeeBeanDetailComponent implements OnInit {
     userId: 0,
   };
 
+  extractions: ExtractionDetailDto[] = [];
+
   constructor(
-    private service: CoffeeBeanService,
+    private coffeeService: CoffeeBeanService,
+    private extractionService: ExtractionService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
@@ -34,9 +38,14 @@ export class CoffeeBeanDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(({ id }) => {
       this.coffee.id = id;
-      this.service.getById(id).subscribe({
+      this.coffeeService.getById(id).subscribe({
         next: data => {
           this.coffee = data;
+          this.extractionService.getAllByCoffeeId(id).subscribe({
+            next: data => {
+              this.extractions = data;
+            },
+          });
         },
         error: error => {
           if (error.status == 404) {
