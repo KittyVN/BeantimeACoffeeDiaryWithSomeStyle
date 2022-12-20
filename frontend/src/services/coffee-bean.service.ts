@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CoffeeBeanDashboardDto, CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 
+import { CoffeeBeanDetailDto } from '../dtos/req/coffee-bean-detail.dto';
+
 @Injectable({ providedIn: 'root' })
 export class CoffeeBeanService {
   constructor(private http: HttpClient) {}
@@ -18,7 +20,7 @@ export class CoffeeBeanService {
   }
 
   /**
-   * Fetch all coffees 
+   * Fetch all coffees
 
    * @returns An observable list of coffee entitys
    */
@@ -42,8 +44,8 @@ export class CoffeeBeanService {
    * @param id the id of the coffee bean to fetch
    * @returns the coffee bean as an Observable
    */
-  public getById(id: string): Observable<CoffeeBeanDto> {
-    return this.http.get<CoffeeBeanDto>('coffee-beans/' + id);
+  public getById(id: string): Observable<CoffeeBeanDetailDto> {
+    return this.http.get<CoffeeBeanDetailDto>('coffee-beans/' + id);
   }
 
   /**

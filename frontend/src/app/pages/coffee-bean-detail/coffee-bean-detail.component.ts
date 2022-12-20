@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoffeeBeanDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
 import { CoffeeBeanService } from '../../../services/coffee-bean.service';
+import { CoffeeBeanDetailDto } from '../../../dtos/req/coffee-bean-detail.dto';
 
 @Component({
   selector: 'app-coffee-bean-detail',
@@ -35,8 +36,8 @@ export class CoffeeBeanDetailComponent implements OnInit {
     this.route.params.subscribe(({ id }) => {
       this.coffee.id = id;
       this.service.getById(id).subscribe({
-        next: data => {
-          this.coffee = data;
+        next: (data: CoffeeBeanDetailDto) => {
+          this.coffee = data.coffeeBean;
         },
         error: error => {
           if (error.status == 404) {

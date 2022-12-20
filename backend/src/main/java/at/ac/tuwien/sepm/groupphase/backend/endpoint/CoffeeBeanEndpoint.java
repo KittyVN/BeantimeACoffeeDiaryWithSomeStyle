@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
@@ -69,10 +70,10 @@ public class CoffeeBeanEndpoint {
     }
 
     @GetMapping("{id}")
-    public CoffeeBeanDto getById(@PathVariable("id") long id) {
+    public CoffeeBeanDetailDto getById(@PathVariable("id") long id) {
         LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
         try {
-            return coffeeBeanService.getById(id);
+            return new CoffeeBeanDetailDto(id, coffeeBeanService.getById(id));
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
