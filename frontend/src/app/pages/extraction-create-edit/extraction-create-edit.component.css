@@ -6,3 +6,8 @@
 mat-form-field{
     margin-top: 1em;
 }
+
+.parameterForm{
+    display:flex;
+    flex-direction: column;
+}

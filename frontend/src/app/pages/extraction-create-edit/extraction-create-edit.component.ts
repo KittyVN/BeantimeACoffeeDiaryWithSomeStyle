@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from 'src/services/user.service';
 import { CoffeeBeanDto } from 'src/dtos';
 import { Roast } from 'src/dtos/req/roast-type.enum';
-import { mixinTabIndex } from '@angular/material/core';
 import { CoffeeBeanService } from 'src/services/coffee-bean.service';
 
 export enum ExtractionCreateEditMode {
@@ -30,7 +29,7 @@ export class ExtractionCreateEditComponent implements OnInit {
   id: string | null = null;
   coffeeId: number | null = null;
   coffee: CoffeeBeanDto = {
-    name: '',
+    name: 'Coffee',
     custom: true,
     coffeeRoast: Roast.LIGHT,
   };
@@ -68,7 +67,6 @@ export class ExtractionCreateEditComponent implements OnInit {
               duration: 5000,
             }
           );
-          this.router.navigate(['/home']);
         },
       });
     } else {

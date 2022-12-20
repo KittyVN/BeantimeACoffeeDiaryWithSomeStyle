@@ -1,7 +1,8 @@
-<h1>Extracting {{ this.coffee.name }}</h1>
 <mat-vertical-stepper [linear]="true" #stepper>
   <mat-step [stepControl]="parameterForm">
-    <form [formGroup]="parameterForm">
+    <ng-template matStepLabel>Parameters</ng-template>
+    <form class="parameterForm" [formGroup]="parameterForm">
+      <h1>Extracting: {{ coffee.name }}</h1>
       <mat-form-field>
         <mat-label>Method</mat-label>
         <select matNativeControl formControlName="brewMethod">
@@ -34,6 +35,18 @@
           <option value="EXTRA_FINE">Extra Fine</option>
         </select>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>Water Temperature in °C</mat-label>
+        <input matInput type="number" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Dose in Grams</mat-label>
+        <input matInput type="number" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Amount of Water in ml</mat-label>
+        <input matInput type="number" />
+      </mat-form-field>
     </form>
     <div>
       <button mat-button matStepperPrevious>Back</button>
@@ -41,7 +54,7 @@
     </div>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Timer</ng-template>
+    <ng-template matStepLabel>Extraction Time</ng-template>
     <app-extraction-timer></app-extraction-timer>
     <div>
       <button mat-button matStepperPrevious>Back</button>
@@ -51,22 +64,17 @@
   <mat-step [stepControl]="ratingForm">
     <form class="ratingForm" [formGroup]="ratingForm">
       <ng-template matStepLabel>Rating</ng-template>
-      <mat-form-field>
-        <mat-label>Aromatics</mat-label>
-        <input matInput type="number" formControlName="aromatics" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Aromatics</mat-label>
-        <input matInput type="number" formControlName="aromatics" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Sweetness</mat-label>
-        <input matInput type="number" formControlName="sweetness" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Aftertaste</mat-label>
-        <input matInput type="number" formControlName="aftertaste" />
-      </mat-form-field>
+      <h3>Body</h3>
+      <app-star-rating [rating]="3"></app-star-rating>
+      <h3>Acidity</h3>
+      <app-star-rating [rating]="3"></app-star-rating>
+      <h3>Aromatics</h3>
+      <app-star-rating [rating]="3"></app-star-rating>
+      <h3>Sweetness</h3>
+      <app-star-rating [rating]="3"></app-star-rating>
+      <h3>Aftertaste</h3>
+      <app-star-rating [rating]="3"></app-star-rating>
+      <h3>Notes</h3>
       <mat-form-field>
         <mat-label>Notes</mat-label>
         <textarea matInput formControlName="ratingNotes"></textarea>

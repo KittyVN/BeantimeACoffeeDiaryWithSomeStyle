@@ -42,6 +42,7 @@ import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.c
 import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bean-detail.component';
 import { ExtractionCreateEditComponent } from './pages/extraction-create-edit/extraction-create-edit.component';
 import { ExtractionTimerComponent } from './pages/extraction-create-edit/extraction-timer/extraction-timer.component';
+import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/star-rating.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ExtractionTimerComponent } from './pages/extraction-create-edit/extract
     CoffeeBeanDetailComponent,
     ExtractionCreateEditComponent,
     ExtractionTimerComponent,
+    StarRatingComponent,
   ],
   imports: [
     BrowserModule,
