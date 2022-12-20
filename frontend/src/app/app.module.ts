@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgChartsModule } from 'ng2-charts';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +42,9 @@ import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bea
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bean-detail.component';
+import { ExtractionCreateEditComponent } from './pages/extraction-create-edit/extraction-create-edit.component';
+import { ExtractionTimerComponent } from './pages/extraction-create-edit/extraction-timer/extraction-timer.component';
+import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/star-rating.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +62,9 @@ import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bea
     ProfilePageComponent,
     UserDetailComponent,
     CoffeeBeanDetailComponent,
+    ExtractionCreateEditComponent,
+    ExtractionTimerComponent,
+    StarRatingComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +93,7 @@ import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bea
     LayoutModule,
     MatTableModule,
     MatSlideToggleModule,
+    MatStepperModule,
     NgChartsModule,
   ],
   providers: [

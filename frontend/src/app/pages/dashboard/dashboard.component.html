@@ -3,9 +3,9 @@
   <button
     class="adder-button"
     mat-stroked-button
-    [routerLink]="['/create-coffee-bean']">
+    [routerLink]="['/coffee/create']">
     <mat-icon>add_circle_outline</mat-icon>
-    Add custom coffee bean
+    Add custom coffee
   </button>
   <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let coffee of coffees">
@@ -28,13 +28,13 @@
             <button
               mat-stroked-button
               color="warn"
-              [routerLink]="['/' + coffee.id + '/delete-coffee-bean']">
+              [routerLink]="['/coffee/' + coffee.id + '/delete']">
               <mat-icon>delete</mat-icon>
               Delete
             </button>
             <button
               mat-stroked-button
-              [routerLink]="['/' + coffee.id + '/edit-coffee-bean']">
+              [routerLink]="['/coffee/' + coffee.id + '/edit']">
               <mat-icon>edit</mat-icon>
               Edit
             </button>
@@ -42,7 +42,10 @@
               <mat-icon>list</mat-icon>
               Details
             </button>
-            <button mat-raised-button color="primary">
+            <button
+              mat-raised-button
+              color="primary"
+              [routerLink]="['/coffee/' + coffee.id + '/extraction/create']">
               <mat-icon>play_arrow</mat-icon>
               New extraction
             </button>

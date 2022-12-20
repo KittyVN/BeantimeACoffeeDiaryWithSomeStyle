@@ -1,9 +1,13 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
+import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
+import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
@@ -13,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -20,13 +26,16 @@ public class ExtractionServiceImpl implements ExtractionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final ExtractionRepository extractionRepository;
     private final UserRepository userRepository;
+
+    private final CoffeeBeanRepository coffeeBeanRepository;
     private final ExtractionMapper mapper;
 
 
     @Autowired
-    public ExtractionServiceImpl(ExtractionRepository extractionRepository, UserRepository userRepository, ExtractionMapper mapper) {
+    public ExtractionServiceImpl(ExtractionRepository extractionRepository, UserRepository userRepository, ExtractionMapper mapper, CoffeeBeanRepository coffeeBeanRepository) {
         this.extractionRepository = extractionRepository;
         this.userRepository = userRepository;
+        this.coffeeBeanRepository = coffeeBeanRepository;
         this.mapper = mapper;
     }
 
@@ -49,5 +58,15 @@ public class ExtractionServiceImpl implements ExtractionService {
         } else {
             throw new NotFoundException(String.format("No user with ID %d found", id));
         }
+    }
+
+    @Override
+    public ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto) {
+        Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(extractionCreateDto.getBeanId());
+        Extraction extraction = new Extraction(LocalDateTime.now(), extractionCreateDto.getBrewMethod(), extractionCreateDto.getGrindSetting(),
+            extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(), extractionCreateDto.getBrewTime(),
+            extractionCreateDto.getBody(), extractionCreateDto.getAcidity(), extractionCreateDto.getSweetness(), extractionCreateDto.getAromatics(),
+            extractionCreateDto.getAftertaste(), extractionCreateDto.getRatingNotes(), coffeeBean.get());
+        return mapper.entityToCreateDto(extractionRepository.save(extraction));
     }
 }

@@ -1,0 +1,16 @@
+<div class="timer-container">
+  <div class="timer">
+    <span>{{ m }}:</span>
+    <span>{{ s }}:</span>
+    <span>{{ ms }}</span>
+  </div>
+  <div class="timer-button-container">
+    <mat-icon class="start-button" *ngIf="!this.running" (click)="startStop()"
+      >play_circle_filled</mat-icon
+    >
+    <mat-icon class="start-button" *ngIf="this.running" (click)="startStop()"
+      >pause_circle_filled</mat-icon
+    >
+    <mat-icon class="reset-button" (click)="reset()">loop</mat-icon>
+  </div>
+</div>
