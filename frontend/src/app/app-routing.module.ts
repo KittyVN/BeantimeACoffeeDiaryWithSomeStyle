@@ -72,15 +72,15 @@ const routes: Routes = [
     data: { mode: ExtractionCreateEditMode.edit },
   },
   {
-    path: 'coffee/:id',
-    canActivate: [AuthGuard],
-    component: CoffeeBeanDetailComponent,
-  },
-  {
     path: 'coffee/create',
     canActivate: [AuthGuard],
     component: CoffeeBeanCreateEditComponent,
     data: { mode: CoffeeBeanCreateEditMode.create },
+  },
+  {
+    path: 'coffee/:id',
+    canActivate: [AuthGuard],
+    component: CoffeeBeanDetailComponent,
   },
   {
     path: 'coffee/:id/edit',

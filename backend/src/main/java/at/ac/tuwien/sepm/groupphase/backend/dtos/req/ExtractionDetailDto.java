@@ -63,7 +63,11 @@ public class ExtractionDetailDto {
     public ExtractionDetailDto() {
     }
 
-    public ExtractionDetailDto(Long id, LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting, Double waterTemperature, Double dose, Double waterAmount, Long brewTime, Integer body, Integer acidity, Integer aromatics, Integer sweetness, Integer aftertaste, String ratingNotes, Integer overallRating, Long beanId) {
+    public ExtractionDetailDto(Long id, LocalDateTime dateTime, ExtractionBrewMethod brewMethod,
+                               CoffeeGrindSetting grindSetting, Double waterTemperature, Double dose,
+                               Double waterAmount, Long brewTime, Integer body, Integer acidity,
+                               Integer aromatics, Integer sweetness, Integer aftertaste,
+                               String ratingNotes, Integer overallRating, Long beanId) {
         this.id = id;
         this.dateTime = dateTime;
         this.brewMethod = brewMethod;
