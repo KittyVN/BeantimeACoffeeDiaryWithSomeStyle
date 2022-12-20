@@ -24,6 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -85,6 +86,7 @@ import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bea
     LayoutModule,
     MatTableModule,
     MatSlideToggleModule,
+    NgChartsModule,
   ],
   providers: [
     Subject,
