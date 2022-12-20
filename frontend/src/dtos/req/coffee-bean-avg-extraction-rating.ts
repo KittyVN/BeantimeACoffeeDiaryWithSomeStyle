@@ -33,4 +33,14 @@ export class CoffeeBeanAvgExtractionRating {
       this.aftertaste,
     ];
   }
+
+  getOverallAvgRating(): number {
+    return Math.round(
+      this.aftertaste +
+        this.acidity +
+        this.aromatics +
+        this.body +
+        this.sweetness
+    );
+  }
 }

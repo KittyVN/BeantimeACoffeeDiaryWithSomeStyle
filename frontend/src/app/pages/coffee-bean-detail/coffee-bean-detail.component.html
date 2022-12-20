@@ -36,6 +36,9 @@
           <mat-icon fontIcon="insights"></mat-icon>
           <strong>Average Extraction Results</strong>
         </div>
+        <div class="rating">
+          {{ avgExtractionResults.getOverallAvgRating() }}/25
+        </div>
         <canvas
           baseChart
           class="chart"
