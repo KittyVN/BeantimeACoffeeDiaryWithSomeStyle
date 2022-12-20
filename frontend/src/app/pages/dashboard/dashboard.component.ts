@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { debounce, interval, scan, Subject } from 'rxjs';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { CoffeeBeanService } from 'src/services/coffee-bean.service';
-import { CoffeeBeanDashboardDto } from 'src/dtos';
+import { CoffeeBeanDashboardDto, CoffeeRoast } from 'src/dtos';
 import { Router, RouterModule } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { coffeeBeanSearchDto } from 'src/dtos/req/coffee-bean-search.dto';
 
 @Component({
@@ -16,6 +16,9 @@ export class DashboardComponent implements OnInit {
   coffees: CoffeeBeanDashboardDto[] = [];
 
   constructor(
+    private router: Router,
+    private route: RouterModule,
+    private snackBar: MatSnackBar,
     public keyUp: Subject<KeyboardEvent | Event>,
     private coffeeBeanService: CoffeeBeanService
   ) {}
@@ -27,6 +30,13 @@ export class DashboardComponent implements OnInit {
       },
       error: error => {
         console.error('Error fetching coffee data', error);
+        this.snackBar.open(
+          'Unable to fetch coffe data, try again later',
+          'Close',
+          {
+            duration: 5000,
+          }
+        );
       },
     });
     this.keyUp
@@ -44,5 +54,22 @@ export class DashboardComponent implements OnInit {
           },
         });
       });
+  }
+
+  formatRoast(coffee: CoffeeBeanDashboardDto): String {
+    switch (coffee.coffeeRoast) {
+      case CoffeeRoast.light: {
+        return 'Light Roast';
+      }
+      case CoffeeRoast.medium: {
+        return 'Medium Roast';
+      }
+      case CoffeeRoast.dark: {
+        return 'Dark Roast';
+      }
+      default: {
+        return 'Unknown Roast';
+      }
+    }
   }
 }
