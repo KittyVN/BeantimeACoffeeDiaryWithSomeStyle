@@ -69,9 +69,52 @@ public class CoffeeBeanDataGenerator {
                 .withUser(User.UserBuilder.aUser().withId(1L).build())
                 .build();
 
+            CoffeeBean cb4 = CoffeeBean
+                .CoffeeBeanBuilder
+                .aCoffeeBean()
+                .withName("Jingle Beans Holiday Blend")
+                .withPrice(21.50F)
+                .withOrigin("Ethiopia, Smallholder Farmers")
+                .withHeight(1900)
+                .withCoffeeRoast(CoffeeRoast.LIGHT)
+                .withDescription("Two merry coffees that triumphantly coalesce into the best interpretation of aqueous fruit cake in a cup. ")
+                .withCustom(true)
+                .withUser(User.UserBuilder.aUser().withId(1L).build())
+                .build();
+
+            CoffeeBean cb5 = CoffeeBean
+                .CoffeeBeanBuilder
+                .aCoffeeBean()
+                .withName("West End Blues")
+                .withPrice(17.75F)
+                .withOrigin("JIMMA, ETHIOPIA")
+                .withHeight(null)
+                .withCoffeeRoast(CoffeeRoast.LIGHT)
+                .withDescription("Traditional in name only,West End Blues is a complex blend" +
+                    " of flavors and textures.")
+                .withCustom(true)
+                .withUser(User.UserBuilder.aUser().withId(1L).build())
+                .build();
+
+            CoffeeBean cb6 = CoffeeBean
+                .CoffeeBeanBuilder
+                .aCoffeeBean()
+                .withName("TIME & TEMPERATURE")
+                .withPrice(19F)
+                .withOrigin("JIMMA, ETHIOPIA / INZÁ, COLOMBIA")
+                .withHeight(null)
+                .withCoffeeRoast(CoffeeRoast.LIGHT)
+                .withDescription("Effervescent, electric, and just plain cool, Time and Temperature is Tandem’s signature espresso blend.")
+                .withCustom(true)
+                .withUser(User.UserBuilder.aUser().withId(1L).build())
+                .build();
+
             coffeeBeanRepository.save(cb1);
             coffeeBeanRepository.save(cb2);
             coffeeBeanRepository.save(cb3);
+            coffeeBeanRepository.save(cb4);
+            coffeeBeanRepository.save(cb5);
+            coffeeBeanRepository.save(cb6);
         }
 
     }

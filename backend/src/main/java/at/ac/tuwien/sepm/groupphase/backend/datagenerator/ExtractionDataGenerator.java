@@ -64,7 +64,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                600L,
+                54000L,
                 5, 4, 3, 2, 1, "Descending!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -76,7 +76,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                600L,
+                18000L,
                 1, 3, 5, 3, 1, "Triangular!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -88,7 +88,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                600L,
+                30000L,
                 4, 4, 5, 5, 5, "Wild",
                 this.coffeeBeanRepository.findById(2L).get()
             );
@@ -100,9 +100,113 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                600L,
+                21000L,
                 1, 2, 2, 1, 4, "Bad",
                 this.coffeeBeanRepository.findById(2L).get()
+            );
+
+            Extraction e7 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.PRESSURE,
+                CoffeeGrindSetting.MEDIUM,
+                40D,
+                15D,
+                100D,
+                16000L,
+                1, 2, 2, 1, 1, "Not my best one",
+                this.coffeeBeanRepository.findById(4L).get()
+            );
+
+            Extraction e8 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.MOKA,
+                CoffeeGrindSetting.MEDIUM,
+                80D,
+                16D,
+                150D,
+                5100L,
+                5, 5, 5, 5, 5, "Excellent",
+                this.coffeeBeanRepository.findById(4L).get()
+            );
+
+            Extraction e9 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.POUR_OVER,
+                CoffeeGrindSetting.MEDIUM,
+                60D,
+                13D,
+                200D,
+                11600L,
+                5, 2, 3, 1, 5, "Decent",
+                this.coffeeBeanRepository.findById(4L).get()
+            );
+
+            Extraction e10 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.V60,
+                CoffeeGrindSetting.EXTRA_FINE,
+                60D,
+                13D,
+                200D,
+                20000L,
+                5, 3, 4, 5, 5, "Proud of that one",
+                this.coffeeBeanRepository.findById(5L).get()
+            );
+            Extraction e11 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.ESPRESSO_MACHINE,
+                CoffeeGrindSetting.COARSE,
+                60D,
+                13D,
+                200D,
+                30000L,
+                3, 2, 3, 3, 3, "Okay",
+                this.coffeeBeanRepository.findById(5L).get()
+            );
+            Extraction e12 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.INSTANT,
+                CoffeeGrindSetting.MEDIUM,
+                60D,
+                13D,
+                200D,
+                22220L,
+                2, 3, 2, 1, 1, "Instant coffee only gets that good....",
+                this.coffeeBeanRepository.findById(5L).get()
+            );
+
+            Extraction e13 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.V60,
+                CoffeeGrindSetting.EXTRA_FINE,
+                60D,
+                13D,
+                200D,
+                17777L,
+                5, 3, 4, 5, 5, "Proud of that one",
+                this.coffeeBeanRepository.findById(6L).get()
+            );
+            Extraction e14 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.ESPRESSO_MACHINE,
+                CoffeeGrindSetting.COARSE,
+                60D,
+                13D,
+                200D,
+                28000L,
+                3, 2, 3, 3, 3, "Okay",
+                this.coffeeBeanRepository.findById(6L).get()
+            );
+            Extraction e15 = new Extraction(
+                LocalDateTime.of(2022, 12, 16, 14, 50),
+                ExtractionBrewMethod.INSTANT,
+                CoffeeGrindSetting.MEDIUM,
+                60D,
+                13D,
+                200D,
+                33000L,
+                2, 3, 2, 1, 1, "Instant coffee only gets that good....",
+                this.coffeeBeanRepository.findById(6L).get()
             );
 
             this.extractionRepository.save(e1);
@@ -111,6 +215,16 @@ public class ExtractionDataGenerator {
             this.extractionRepository.save(e4);
             this.extractionRepository.save(e5);
             this.extractionRepository.save(e6);
+            this.extractionRepository.save(e7);
+            this.extractionRepository.save(e8);
+            this.extractionRepository.save(e9);
+            this.extractionRepository.save(e10);
+            this.extractionRepository.save(e11);
+            this.extractionRepository.save(e12);
+            this.extractionRepository.save(e13);
+            this.extractionRepository.save(e14);
+            this.extractionRepository.save(e15);
+
         }
     }
 }
