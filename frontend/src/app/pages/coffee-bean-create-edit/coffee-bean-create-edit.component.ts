@@ -47,9 +47,9 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
   public get heading(): string {
     switch (this.mode) {
       case CoffeeBeanCreateEditMode.create:
-        return 'Create New Coffee Bean';
+        return 'Create New Coffee';
       case CoffeeBeanCreateEditMode.edit:
-        return 'Edit Coffee Bean';
+        return 'Edit Coffee';
       default:
         return '?';
     }
@@ -108,7 +108,7 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
         });
       } else {
         this.snackBar.open(
-          'The coffee bean you tried to edit does not exist',
+          'The coffee you tried to edit does not exist',
           'Close',
           {
             duration: 5000,
@@ -135,7 +135,7 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
       observable.subscribe({
         next: data => {
           this.snackBar.open(
-            'Coffee bean was successfully ' + this.modeActionFinished,
+            'Coffee was successfully ' + this.modeActionFinished,
             'Close',
             {
               duration: 5000,
