@@ -8,6 +8,7 @@ export interface ExtractionDetailDto {
   grindSetting: CoffeeGrindSetting;
   waterTemperature: number;
   dose: number;
+  waterAmount: number;
   brewTime: number;
   body?: number;
   acidity?: number;

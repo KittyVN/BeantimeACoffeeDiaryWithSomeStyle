@@ -40,7 +40,7 @@ public class ExtractionDataGenerator {
                 60D,
                 100D,
                 200D,
-                600L,
+                15018250L,
                 5, 5, 5, 5, 5, "Very good!",
                 this.coffeeBeanRepository.findById(2L).get()
             );

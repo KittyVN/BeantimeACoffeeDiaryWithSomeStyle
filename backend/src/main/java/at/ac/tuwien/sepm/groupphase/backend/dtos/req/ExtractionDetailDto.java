@@ -134,6 +134,14 @@ public class ExtractionDetailDto {
         this.dose = dose;
     }
 
+    public Double getWaterAmount() {
+        return waterAmount;
+    }
+
+    public void setWaterAmount(Double waterAmount) {
+        this.waterAmount = waterAmount;
+    }
+
     public Long getBrewTime() {
         return brewTime;
     }

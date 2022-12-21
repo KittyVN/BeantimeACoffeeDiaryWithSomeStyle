@@ -1,7 +1,7 @@
 <mat-card class="extraction-card">
   <mat-card-content>
     <div class="extraction-container">
-      <button>
+      <button class="edit-button">
         <mat-icon>edit</mat-icon>
       </button>
       <div class="sum-container">
@@ -41,7 +41,15 @@
             <p><b>Dose: </b></p>
           </div>
           <div class="info-value">
-            <p>{{ this.extraction?.dose }}</p>
+            <p>{{ this.extraction?.dose }}g</p>
+          </div>
+        </div>
+        <div class="info-element">
+          <div class="info-legend">
+            <p><b>Water: </b></p>
+          </div>
+          <div class="info-value">
+            <p>{{ this.extraction?.waterAmount }}ml</p>
           </div>
         </div>
         <div class="info-element">
@@ -52,7 +60,6 @@
             <p>{{ formatBrewTime() }}</p>
           </div>
         </div>
-        <div class="info-element"></div>
       </div>
       <div class="separator-line"></div>
       <div class="rating-container" *ngIf="rated">
