@@ -90,8 +90,8 @@ public class CoffeeBeanDataGenerator {
                 .withOrigin("JIMMA, ETHIOPIA")
                 .withHeight(null)
                 .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withDescription("Traditional in name only,West End Blues is a complex blend" +
-                    " of flavors and textures.")
+                .withDescription("Traditional in name only,West End Blues is a complex blend"
+                    + " of flavors and textures.")
                 .withCustom(true)
                 .withUser(User.UserBuilder.aUser().withId(1L).build())
                 .build();
