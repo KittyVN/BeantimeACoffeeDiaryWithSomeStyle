@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 
 import java.util.stream.Stream;
@@ -22,5 +23,13 @@ public interface ExtractionService {
      * @return a stream of the found extractions
      */
     Stream<ExtractionDetailDto> getAllByBeanId(Long id);
+
+    /**
+     * Creates a new extraction in storage.
+     *
+     * @param extractionCreateDto the extraction to create
+     * @return the created extraction
+     */
+    ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto);
 
 }

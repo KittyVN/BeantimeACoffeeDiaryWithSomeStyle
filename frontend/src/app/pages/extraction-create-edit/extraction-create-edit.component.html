@@ -1,0 +1,126 @@
+<mat-vertical-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="parameterForm">
+    <ng-template matStepLabel>Parameters</ng-template>
+    <form class="parameterForm" [formGroup]="parameterForm">
+      <h1>Extracting: {{ coffee.name }}</h1>
+      <mat-form-field>
+        <mat-label>Method</mat-label>
+        <select
+          matNativeControl
+          formControlName="brewMethod"
+          [(ngModel)]="extraction.brewMethod">
+          <option value=""></option>
+          <option value="BOILING">Boiling</option>
+          <option value="STEEPING">Steeping</option>
+          <option value="DRIP">Drip</option>
+          <option value="PRESSURE">Pressure</option>
+          <option value="FRENCH_PRESS">French Press</option>
+          <option value="COLD_BREW">Cold Brew</option>
+          <option value="INSTANT">Instant Coffee</option>
+          <option value="POUR_OVER">Pour-Over</option>
+          <option value="V60">V60</option>
+          <option value="ESPRESSO_MACHINE">Espresso Machine</option>
+          <option value="AEROPRESS">Aeropress</option>
+          <option value="MOKA">Moka Pot</option>
+          <option value="POD_MACHINE">Pod Machine</option>
+          <option value="OTHER">Others</option>
+        </select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Grind Setting</mat-label>
+        <select
+          matNativeControl
+          formControlName="grindSetting"
+          [(ngModel)]="extraction.grindSetting">
+          <option value=""></option>
+          <option value="COARSE">Coarse</option>
+          <option value="MEDIUM_COARSE">Medium Coarse</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="MEDIUM_FINE">Medium Fine</option>
+          <option value="FINE">Fine</option>
+          <option value="EXTRA_FINE">Extra Fine</option>
+        </select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Water Temperature in °C</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="waterTemperature"
+          [(ngModel)]="extraction.waterTemperature" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Dose in Grams</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="dose"
+          [(ngModel)]="extraction.dose" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Amount of Water in ml</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="waterAmount"
+          [(ngModel)]="extraction.waterAmount" />
+      </mat-form-field>
+    </form>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Extraction Time</ng-template>
+    <app-extraction-timer></app-extraction-timer>
+    <mat-label>Time in Ms </mat-label>
+    <input matInput type="number" [(ngModel)]="extraction.brewTime" />
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="ratingForm">
+    <form class="ratingForm" [formGroup]="ratingForm" (submit)="onSubmit()">
+      <ng-template matStepLabel>Rating</ng-template>
+      <h3>Body</h3>
+      <app-star-rating
+        *ngIf="extraction.body"
+        [rating]="extraction.body"
+        (newRatingEvent)="changeBody($event)"></app-star-rating>
+      <h3>Acidity</h3>
+      <app-star-rating
+        *ngIf="extraction.acidity"
+        [rating]="extraction.acidity"
+        (newRatingEvent)="changeAcidity($event)"></app-star-rating>
+      <h3>Aromatics</h3>
+      <app-star-rating
+        *ngIf="extraction.aromatics"
+        [rating]="extraction.aromatics"
+        (newRatingEvent)="changeAromatics($event)"></app-star-rating>
+      <h3>Sweetness</h3>
+      <app-star-rating
+        *ngIf="extraction.sweetness"
+        [rating]="extraction.sweetness"
+        (newRatingEvent)="changeSweetness($event)"></app-star-rating>
+      <h3>Aftertaste</h3>
+      <app-star-rating
+        *ngIf="extraction.aftertaste"
+        [rating]="extraction.aftertaste"
+        (newRatingEvent)="changeAftertaste($event)"></app-star-rating>
+      <h3>Notes</h3>
+      <mat-form-field>
+        <mat-label>Notes</mat-label>
+        <textarea
+          matInput
+          formControlName="ratingNotes"
+          [(ngModel)]="extraction.ratingNotes"></textarea>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button matStepperNext type="submit">Submit</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>

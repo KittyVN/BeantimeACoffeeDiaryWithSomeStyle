@@ -2,17 +2,13 @@ package at.ac.tuwien.sepm.groupphase.backend.repository;
 
 
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
-
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -60,6 +56,27 @@ public class CoffeeBeanRepositoryTest {
     @Rollback
     public void deleteExistentCoffeeBean() {
         assertDoesNotThrow(() -> coffeeBeanRepository.deleteById(1L));
+    }
+
+    @Test
+    @Transactional
+    public void getCoffeeBeanByExistentIdReturnsCoffeeBeanDto() {
+        CoffeeBean result = coffeeBeanRepository.findById(2L).get();
+
+        assertThat(result).isNotNull();
+        assertThat(result.getName()).isEqualTo("Another coffee bean");
+        assertThat(result.getPrice()).isEqualTo(0F);
+        assertThat(result.getOrigin()).isEqualTo("There");
+        assertThat(result.getHeight()).isEqualTo(5);
+        assertThat(result.getCoffeeRoast()).isEqualTo(CoffeeRoast.LIGHT);
+        assertThat(result.getCustom()).isTrue();
+        assertThat(result.getUser().getId()).isEqualTo(1L);
+    }
+
+    @Test
+    @Transactional
+    public void getCoffeeBeanByNonExistentIdReturnsEmptyOptional() {
+        assertThat(coffeeBeanRepository.findById(0L).isPresent()).isFalse();
     }
 
 }

@@ -31,7 +31,21 @@
         <strong>Roast</strong>
         <span>{{ coffee.coffeeRoast }}</span>
       </div>
-      <div class="stats">Stats be here</div>
+      <div class="stats">
+        <div>
+          <mat-icon fontIcon="insights"></mat-icon>
+          <strong>Average Extraction Results</strong>
+        </div>
+        <div class="rating">
+          {{ avgExtractionResults.getOverallAvgRating() }}/25
+        </div>
+        <canvas
+          baseChart
+          class="chart"
+          [data]="radarChartData"
+          [options]="radarChartOptions"
+          type="radar"></canvas>
+      </div>
     </mat-card-content>
   </mat-card>
   <mat-card>

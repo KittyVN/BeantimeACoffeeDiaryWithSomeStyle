@@ -153,4 +153,14 @@ export class UserService {
   ): Observable<UserDetailDto> {
     return this.http.patch<UserDetailDto>(`users/${id}`, userDto).pipe();
   }
+
+  public thisUserId(): number {
+    const token = localStorage.getItem('token');
+    if (token != null) {
+      const payload = this.jwtHelper.decodeToken(token);
+      return payload.jti;
+    } else {
+      return 0;
+    }
+  }
 }

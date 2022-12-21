@@ -35,66 +35,72 @@ public class ExtractionDataGenerator {
 
             Extraction e1 = new Extraction(
                 LocalDateTime.of(2022, 12, 11, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.DRIP,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 5, 5, 5, 5, 5, "Very good!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
             Extraction e2 = new Extraction(
                 LocalDateTime.of(2022, 12, 12, 9, 0),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.TURKISH,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 1, 2, 3, 4, 5, "Ascending!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
             Extraction e3 = new Extraction(
                 LocalDateTime.of(2022, 12, 13, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.INSTANT,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 5, 4, 3, 2, 1, "Descending!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
             Extraction e4 = new Extraction(
                 LocalDateTime.of(2022, 12, 14, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.V60,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 1, 3, 5, 3, 1, "Triangular!",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
             Extraction e5 = new Extraction(
                 LocalDateTime.of(2022, 12, 15, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.ESPRESSO_MACHINE,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 4, 4, 5, 5, 5, "Wild",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
             Extraction e6 = new Extraction(
                 LocalDateTime.of(2022, 12, 16, 14, 50),
-                ExtractionBrewMethod.ESPRESSO,
+                ExtractionBrewMethod.POD_MACHINE,
                 CoffeeGrindSetting.MEDIUM,
+                60D,
                 100D,
                 200D,
-                Duration.of(5L, ChronoUnit.MINUTES),
+                600L,
                 1, 2, 2, 1, 4, "Bad",
                 this.coffeeBeanRepository.findById(2L).get()
             );

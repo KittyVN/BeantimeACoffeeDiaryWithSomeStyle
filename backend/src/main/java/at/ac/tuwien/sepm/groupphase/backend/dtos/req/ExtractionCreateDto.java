@@ -11,10 +11,8 @@ import javax.validation.constraints.Size;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class ExtractionDetailDto {
+public class ExtractionCreateDto {
     private Long id;
-
-    private LocalDateTime dateTime;
 
     private ExtractionBrewMethod brewMethod;
 
@@ -53,23 +51,17 @@ public class ExtractionDetailDto {
     @Size(max = 1500, message = "Note cannot be longer than 1500 characters")
     private String ratingNotes;
 
-    @Min(value = 0, message = "overallRating cannot be negative")
-    @Max(value = 25, message = "overallRating cannot be higher than 25")
-    private Integer overallRating;
-
     @NotNull
     private Long beanId;
 
-    public ExtractionDetailDto() {
+    public ExtractionCreateDto() {
     }
 
-    public ExtractionDetailDto(Long id, LocalDateTime dateTime, ExtractionBrewMethod brewMethod,
-                               CoffeeGrindSetting grindSetting, Double waterTemperature, Double dose,
-                               Double waterAmount, Long brewTime, Integer body, Integer acidity,
-                               Integer aromatics, Integer sweetness, Integer aftertaste,
-                               String ratingNotes, Integer overallRating, Long beanId) {
+    public ExtractionCreateDto(Long id, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
+                               Double waterTemperature, Double dose, Double waterAmount, Long brewTime,
+                               Integer body, Integer acidity, Integer aromatics, Integer sweetness, Integer aftertaste,
+                               String ratingNotes, Long beanId) {
         this.id = id;
-        this.dateTime = dateTime;
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
         this.waterTemperature = waterTemperature;
@@ -82,7 +74,6 @@ public class ExtractionDetailDto {
         this.sweetness = sweetness;
         this.aftertaste = aftertaste;
         this.ratingNotes = ratingNotes;
-        this.overallRating = overallRating;
         this.beanId = beanId;
     }
 
@@ -92,14 +83,6 @@ public class ExtractionDetailDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
     }
 
     public ExtractionBrewMethod getBrewMethod() {
@@ -190,19 +173,35 @@ public class ExtractionDetailDto {
         this.ratingNotes = ratingNotes;
     }
 
-    public Integer getOverallRating() {
-        return overallRating;
-    }
-
-    public void setOverallRating(Integer overallRating) {
-        this.overallRating = overallRating;
-    }
-
     public Long getBeanId() {
         return beanId;
     }
 
     public void setBeanId(Long beanId) {
         this.beanId = beanId;
+    }
+
+    public Double getWaterAmount() {
+        return waterAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "ExtractionCreateDto{"
+            + "id=" + id
+            + ", brewMethod=" + brewMethod
+            + ", grindSetting=" + grindSetting
+            + ", waterTemperature=" + waterTemperature
+            + ", dose=" + dose
+            + ", waterAmount=" + waterAmount
+            + ", brewTime=" + brewTime
+            + ", body=" + body
+            + ", acidity=" + acidity
+            + ", aromatics=" + aromatics
+            + ", sweetness=" + sweetness
+            + ", aftertaste=" + aftertaste
+            + ", ratingNotes='" + ratingNotes + '\''
+            + ", beanId=" + beanId
+            + '}';
     }
 }
