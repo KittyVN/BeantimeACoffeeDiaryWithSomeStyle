@@ -50,9 +50,12 @@ export class ExtractionCreateEditComponent implements OnInit {
   parameterForm = new FormGroup({
     brewMethod: new FormControl('', Validators.required),
     grindSetting: new FormControl(''),
-    waterTemperature: new FormControl('', [Validators.min(0)]),
+    waterTemperature: new FormControl('', [
+      Validators.min(0),
+      Validators.max(100),
+    ]),
     dose: new FormControl('', [Validators.min(0)]),
-    waterAmount: new FormControl('', [Validators.min(0)]),
+    waterAmount: new FormControl('', [Validators.min(0), Validators.max(50)]),
   });
   ratingForm = new FormGroup({
     acidity: new FormControl('', [Validators.min(0)]),

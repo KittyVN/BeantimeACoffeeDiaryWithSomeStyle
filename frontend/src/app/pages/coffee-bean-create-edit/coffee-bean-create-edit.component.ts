@@ -36,9 +36,9 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
   };
 
   createEditBeanForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
     price: new FormControl('', [Validators.min(0)]),
-    origin: new FormControl('', Validators.maxLength(255)),
+    origin: new FormControl('', Validators.maxLength(30)),
     height: new FormControl('', [Validators.min(0)]),
     coffeeRoast: new FormControl('LIGHT', [Validators.required]),
     description: new FormControl('', Validators.maxLength(255)),
@@ -119,6 +119,10 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.coffeeBeanDto.price) {
+      let roundedInput = Math.round(this.coffeeBeanDto.price * 100) / 100;
+      this.coffeeBeanDto.price = roundedInput;
+    }
     if (this.createEditBeanForm.valid) {
       let observable: Observable<string>;
       switch (this.mode) {
