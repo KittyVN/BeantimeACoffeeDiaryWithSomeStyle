@@ -57,7 +57,10 @@ public class ExtractionCreateDto {
     public ExtractionCreateDto() {
     }
 
-    public ExtractionCreateDto(Long id, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting, Double waterTemperature, Double dose, Double waterAmount, Long brewTime, Integer body, Integer acidity, Integer aromatics, Integer sweetness, Integer aftertaste, String ratingNotes, Long beanId) {
+    public ExtractionCreateDto(Long id, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
+                               Double waterTemperature, Double dose, Double waterAmount, Long brewTime,
+                               Integer body, Integer acidity, Integer aromatics, Integer sweetness, Integer aftertaste,
+                               String ratingNotes, Long beanId) {
         this.id = id;
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
@@ -184,21 +187,21 @@ public class ExtractionCreateDto {
 
     @Override
     public String toString() {
-        return "ExtractionCreateDto{" +
-            "id=" + id +
-            ", brewMethod=" + brewMethod +
-            ", grindSetting=" + grindSetting +
-            ", waterTemperature=" + waterTemperature +
-            ", dose=" + dose +
-            ", waterAmount=" + waterAmount +
-            ", brewTime=" + brewTime +
-            ", body=" + body +
-            ", acidity=" + acidity +
-            ", aromatics=" + aromatics +
-            ", sweetness=" + sweetness +
-            ", aftertaste=" + aftertaste +
-            ", ratingNotes='" + ratingNotes + '\'' +
-            ", beanId=" + beanId +
-            '}';
+        return "ExtractionCreateDto{"
+            + "id=" + id
+            + ", brewMethod=" + brewMethod
+            + ", grindSetting=" + grindSetting
+            + ", waterTemperature=" + waterTemperature
+            + ", dose=" + dose
+            + ", waterAmount=" + waterAmount
+            + ", brewTime=" + brewTime
+            + ", body=" + body
+            + ", acidity=" + acidity
+            + ", aromatics=" + aromatics
+            + ", sweetness=" + sweetness
+            + ", aftertaste=" + aftertaste
+            + ", ratingNotes='" + ratingNotes + '\''
+            + ", beanId=" + beanId
+            + '}';
     }
 }

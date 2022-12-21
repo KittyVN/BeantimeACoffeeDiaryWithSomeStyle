@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ExtractionCreateDto } from 'src/dtos/req/extraction-create.dto';
@@ -18,12 +20,16 @@ export class ExtractionService {
   }
 
   /**
-   * Edit a existing extraction
+   * Edit an existing extraction
    * @param extraction The extraction to edit
    */
   public edit(extraction: ExtractionCreateDto) {
     return this.http.put('extractions', extraction, {
       responseType: 'text',
     });
+  }
+
+  public getAllByCoffeeId(id: number): Observable<ExtractionDetailDto[]> {
+    return this.http.get<ExtractionDetailDto[]>('extractions/bean/' + id);
   }
 }

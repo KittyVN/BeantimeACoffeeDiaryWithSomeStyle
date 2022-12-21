@@ -44,7 +44,7 @@ public class ExtractionMapper {
         );
     }
 
-    public ExtractionCreateDto entityToCreateDto(Extraction extraction){
+    public ExtractionCreateDto entityToCreateDto(Extraction extraction) {
         Long id;
         if (extraction.getCoffeeBean() == null) {
             id = null;

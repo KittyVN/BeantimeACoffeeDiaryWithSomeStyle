@@ -8,6 +8,7 @@ import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,25 +32,19 @@ public class ExtractionEndpoint {
         this.service = service;
     }
 
-    @PermitAll
-    @GetMapping("avg/{id}")
-    public CoffeeBeanAvgExtractionRating getAvgExtractionRatingByCoffeeBeanId(@PathVariable Long id) {
-        LOGGER.info(String.format("GET %s/avg/%d", BASE_PATH, id));
-        return this.service.getAvgExtractionEvaluationParamsByCoffeeBeanId(id);
-    }
-
-    @GetMapping("user/{id}")
-    public Stream<ExtractionDetailDto> getAllByUserId(@PathVariable Long id) throws ResponseStatusException {
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
+    @GetMapping("bean/{id}")
+    public Stream<ExtractionDetailDto> getAllByBeanId(@PathVariable Long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + "/" + id);
         try {
-            return service.getAllByUserId(id);
+            return service.getAllByBeanId(id);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bean not found", e);
         }
     }
 
     @PostMapping
-    public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto){
+    public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto.toString());
         return service.create(extractionCreateDto);
     }

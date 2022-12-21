@@ -48,5 +48,9 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <mat-card>*~Extractions be here~*</mat-card>
+  <mat-card>
+    <mat-card-content *ngFor="let extraction of extractions">
+      <app-extraction-card [extraction]="extraction"></app-extraction-card>
+    </mat-card-content>
+  </mat-card>
 </app-container>

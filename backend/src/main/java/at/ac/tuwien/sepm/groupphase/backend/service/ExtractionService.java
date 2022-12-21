@@ -17,18 +17,19 @@ public interface ExtractionService {
 
 
     /**
-     * Fetches all saved extractions, belonging to the user, from the persistent data storage.
+     * Fetches all saved extractions, belonging to the bean, from the persistent data storage.
      *
-     * @param id of the user
+     * @param id of the bean
      * @return a stream of the found extractions
      */
-    Stream<ExtractionDetailDto> getAllByUserId(Long id);
+    Stream<ExtractionDetailDto> getAllByBeanId(Long id);
 
     /**
-     * Creates a new extraction in storage
+     * Creates a new extraction in storage.
      *
      * @param extractionCreateDto the extraction to create
      * @return the created extraction
      */
     ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto);
+
 }

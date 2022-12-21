@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ExtractionService } from 'src/services/extraction.service';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
-import { CoffeeBeanDto } from '../../../dtos';
+import { CoffeeBeanDto, ExtractionDetailDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
 import { CoffeeBeanService } from '../../../services/coffee-bean.service';
 import { CoffeeBeanAvgExtractionRating } from '../../../dtos/req/coffee-bean-avg-extraction-rating';
@@ -27,6 +28,8 @@ export class CoffeeBeanDetailComponent implements OnInit {
     custom: false,
     userId: 0,
   };
+
+  extractions: ExtractionDetailDto[] = [];
 
   avgExtractionResults: CoffeeBeanAvgExtractionRating =
     new CoffeeBeanAvgExtractionRating({
@@ -80,7 +83,8 @@ export class CoffeeBeanDetailComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   constructor(
-    private service: CoffeeBeanService,
+    private coffeeService: CoffeeBeanService,
+    private extractionService: ExtractionService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
@@ -91,8 +95,8 @@ export class CoffeeBeanDetailComponent implements OnInit {
       this.coffee.id = id;
       this.avgExtractionResults.id = id;
 
-      this.service.getById(id).subscribe({
-        next: (data: CoffeeBeanDetailDto) => {
+      this.coffeeService.getById(id).subscribe({
+        next: data => {
           this.coffee = data.coffeeBean;
           this.avgExtractionResults = new CoffeeBeanAvgExtractionRating(
             data.avgExtractionRating
@@ -105,6 +109,12 @@ export class CoffeeBeanDetailComponent implements OnInit {
           ];
 
           this.chart?.update();
+
+          this.extractionService.getAllByCoffeeId(id).subscribe({
+            next: data => {
+              this.extractions = data;
+            },
+          });
         },
         error: error => {
           if (error.status == 404) {

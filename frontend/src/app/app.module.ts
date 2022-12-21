@@ -42,6 +42,7 @@ import { CoffeeBeanDeleteComponent } from './pages/coffee-bean-delete/coffee-bea
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UserDetailComponent } from './pages/user-list/user-detail/user-detail.component';
 import { CoffeeBeanDetailComponent } from './pages/coffee-bean-detail/coffee-bean-detail.component';
+import { ExtractionCardComponent } from './components/extraction-card/extraction-card.component';
 import { ExtractionCreateEditComponent } from './pages/extraction-create-edit/extraction-create-edit.component';
 import { ExtractionTimerComponent } from './pages/extraction-create-edit/extraction-timer/extraction-timer.component';
 import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/star-rating.component';
@@ -62,6 +63,7 @@ import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/
     ProfilePageComponent,
     UserDetailComponent,
     CoffeeBeanDetailComponent,
+    ExtractionCardComponent,
     ExtractionCreateEditComponent,
     ExtractionTimerComponent,
     StarRatingComponent,
