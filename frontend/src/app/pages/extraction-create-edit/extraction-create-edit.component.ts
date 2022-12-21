@@ -55,7 +55,7 @@ export class ExtractionCreateEditComponent implements OnInit {
       Validators.max(100),
     ]),
     dose: new FormControl('', [Validators.min(0)]),
-    waterAmount: new FormControl('', [Validators.min(0), Validators.max(50)]),
+    waterAmount: new FormControl('', [Validators.min(0), Validators.max(3000)]),
   });
   ratingForm = new FormGroup({
     acidity: new FormControl('', [Validators.min(0)]),

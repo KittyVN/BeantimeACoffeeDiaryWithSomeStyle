@@ -41,7 +41,7 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
     origin: new FormControl('', Validators.maxLength(30)),
     height: new FormControl('', [Validators.min(0)]),
     coffeeRoast: new FormControl('LIGHT', [Validators.required]),
-    description: new FormControl('', Validators.maxLength(255)),
+    description: new FormControl('', Validators.maxLength(50)),
   });
 
   public get heading(): string {
