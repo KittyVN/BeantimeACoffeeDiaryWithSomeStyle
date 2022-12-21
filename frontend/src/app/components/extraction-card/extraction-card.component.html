@@ -1,7 +1,7 @@
 <mat-card class="extraction-card">
   <mat-card-content>
     <div class="extraction-container">
-      <button color="blue">
+      <button>
         <mat-icon>edit</mat-icon>
       </button>
       <div class="sum-container">
@@ -60,14 +60,11 @@
           <div class="info-legend">
             <p><b>Body: </b></p>
           </div>
-          <div
-            class="info-value"
-            *ngFor="let i of ratingArray(); let x = index">
-            <mat-icon class="rate-star" *ngIf="realizeBody() > x">
-              star
-            </mat-icon>
-            <mat-icon class="rate-star" *ngIf="realizeBody() <= x">
-              star_border
+          <div class="info-value">
+            <mat-icon
+              class="rate-star"
+              *ngFor="let i of ratingArray(); let x = index">
+              {{ realizeBody() > x ? 'star' : 'star_border' }}
             </mat-icon>
           </div>
         </div>
@@ -75,14 +72,11 @@
           <div class="info-legend">
             <p><b>Acid: </b></p>
           </div>
-          <div
-            class="info-value"
-            *ngFor="let i of ratingArray(); let x = index">
-            <mat-icon class="rate-star" *ngIf="realizeAcidity() > x">
-              star
-            </mat-icon>
-            <mat-icon class="rate-star" *ngIf="realizeAcidity() <= x">
-              star_border
+          <div class="info-value">
+            <mat-icon
+              class="rate-star"
+              *ngFor="let i of ratingArray(); let x = index">
+              {{ realizeAcidity() > x ? 'star' : 'star_border' }}
             </mat-icon>
           </div>
         </div>
@@ -90,14 +84,11 @@
           <div class="info-legend">
             <p><b>Aroma: </b></p>
           </div>
-          <div
-            class="info-value"
-            *ngFor="let i of ratingArray(); let x = index">
-            <mat-icon class="rate-star" *ngIf="realizeAromatics() > x">
-              star
-            </mat-icon>
-            <mat-icon class="rate-star" *ngIf="realizeAromatics() <= x">
-              star_border
+          <div class="info-value">
+            <mat-icon
+              class="rate-star"
+              *ngFor="let i of ratingArray(); let x = index">
+              {{ realizeAromatics() > x ? 'star' : 'star_border' }}
             </mat-icon>
           </div>
         </div>
@@ -105,14 +96,11 @@
           <div class="info-legend">
             <p><b>Sweet: </b></p>
           </div>
-          <div
-            class="info-value"
-            *ngFor="let i of ratingArray(); let x = index">
-            <mat-icon class="rate-star" *ngIf="realizeSweetness() > x">
-              star
-            </mat-icon>
-            <mat-icon class="rate-star" *ngIf="realizeSweetness() <= x">
-              star_border
+          <div class="info-value">
+            <mat-icon
+              class="rate-star"
+              *ngFor="let i of ratingArray(); let x = index">
+              {{ realizeSweetness() > x ? 'star' : 'star_border' }}
             </mat-icon>
           </div>
         </div>
@@ -120,14 +108,11 @@
           <div class="info-legend">
             <p><b>After: </b></p>
           </div>
-          <div
-            class="info-value"
-            *ngFor="let i of ratingArray(); let x = index">
-            <mat-icon class="rate-star" *ngIf="realizeAftertaste() > x">
-              star
-            </mat-icon>
-            <mat-icon class="rate-star" *ngIf="realizeAftertaste() <= x">
-              star_border
+          <div class="info-value">
+            <mat-icon
+              class="rate-star"
+              *ngFor="let i of ratingArray(); let x = index">
+              {{ realizeAftertaste() > x ? 'star' : 'star_border' }}
             </mat-icon>
           </div>
         </div>
