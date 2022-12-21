@@ -73,10 +73,18 @@ export class ExtractionCardComponent {
 
   formatBrewTime(): string {
     if (this.extraction) {
+      let brewtime = this.extraction.brewTime;
+      let milliseconds = Math.floor((brewtime % 1000) / 100),
+        seconds = Math.floor((brewtime / 1000) % 60),
+        minutes = Math.floor((brewtime / (1000 * 60)) % 60),
+        hours = Math.floor((brewtime / (1000 * 60 * 60)) % 24);
+
       return (
-        this.extraction.brewTime / (1000 * 60) +
+        (hours < 10 ? '0' + hours : hours) +
         ':' +
-        this.extraction.brewTime / 1000
+        (minutes < 10 ? '0' + minutes : minutes) +
+        ':' +
+        (seconds < 10 ? '0' + seconds : seconds)
       );
     }
     return '???';
@@ -85,26 +93,50 @@ export class ExtractionCardComponent {
   formatBrewMethod(): string {
     if (this.extraction) {
       switch (this.extraction.brewMethod) {
-        case BrewMethod.CREAM: {
-          return 'Cream';
-        }
         case BrewMethod.DRIP: {
           return 'Drip';
         }
-        case BrewMethod.ESPRESSO: {
+        case BrewMethod.BOILING: {
+          return 'Boiling';
+        }
+        case BrewMethod.STEEPING: {
+          return 'Steeping';
+        }
+        case BrewMethod.PRESSURE: {
+          return 'Pressure';
+        }
+        case BrewMethod.TURKISH: {
+          return 'Turkish';
+        }
+        case BrewMethod.FRENCH_PRESS: {
+          return 'French press';
+        }
+        case BrewMethod.COLD_BREW: {
+          return 'Cold Brew';
+        }
+        case BrewMethod.INSTANT: {
+          return 'Instant';
+        }
+        case BrewMethod.POUR_OVER: {
+          return 'Pour over';
+        }
+        case BrewMethod.V60: {
+          return 'v60';
+        }
+        case BrewMethod.ESPRESSO_MACHINE: {
           return 'Espresso';
         }
-        case BrewMethod.FOAM: {
-          return 'Foam';
+        case BrewMethod.MOKA: {
+          return 'Moka';
         }
-        case BrewMethod.ICE: {
-          return 'Ice';
+        case BrewMethod.AEROPRESS: {
+          return 'Aeropress';
         }
-        case BrewMethod.MILK: {
-          return 'Milk';
+        case BrewMethod.POD_MACHINE: {
+          return 'Pod';
         }
-        case BrewMethod.WATER: {
-          return 'Water';
+        case BrewMethod.OTHER: {
+          return 'Other';
         }
       }
     }
