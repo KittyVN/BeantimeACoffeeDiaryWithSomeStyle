@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { ChartData, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
 import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
@@ -8,8 +10,14 @@ import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
   templateUrl: './extraction-card.component.html',
   styleUrls: ['./extraction-card.component.css'],
 })
-export class ExtractionCardComponent {
+export class ExtractionCardComponent implements OnInit {
   @Input() extraction?: ExtractionDetailDto;
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
+  public doughnutChartData: ChartData<'doughnut'> = {
+    datasets: [{ data: this.getOverallRating() }],
+  };
+  public doughnutChartType: ChartType = 'doughnut';
 
   rated(): boolean {
     if (this.extraction) {
@@ -23,6 +31,27 @@ export class ExtractionCardComponent {
       );
     }
     return false;
+  }
+
+  ngOnInit(): void {
+    this.doughnutChartData.datasets = [
+      {
+        data: this.getOverallRating(),
+      },
+    ];
+    console.log(this.getOverallRating());
+    this.chart?.update();
+  }
+
+  getOverallRating(): number[] {
+    if (this.extraction?.overallRating) {
+      return [
+        this.extraction.overallRating,
+        25 - this.extraction.overallRating,
+      ];
+    } else {
+      return [1, 2];
+    }
   }
 
   realizeBody(): number {

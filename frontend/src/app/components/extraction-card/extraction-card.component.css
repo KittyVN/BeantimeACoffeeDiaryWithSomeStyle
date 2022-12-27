@@ -9,9 +9,12 @@
 
 .sum-container {
     height: 15em;
-    flex-grow: 1;
-    margin-right: 10px;
+    flex-grow: 0;
+    margin-right: 5px;
+    margin-left: 5px;
     text-align: center;
+    display: flex;
+    align-items: center;
 }
 
 .input-container {
@@ -61,3 +64,9 @@
     font-size: 1em;
     padding-top: 2px;
 }
+
+
+.chart {
+    max-height: 96px;
+    max-width: 96px;
+  }

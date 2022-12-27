@@ -5,9 +5,16 @@
         <mat-icon>edit</mat-icon>
       </button>
       <div class="sum-container">
-        <p *ngIf="rated">
-          <b>{{ this.extraction?.overallRating }}</b>
-        </p>
+        <div *ngIf="rated">
+          <b>Rating:</b>
+          <p>{{ this.extraction?.overallRating }} / 25</p>
+          <canvas
+            baseChart
+            class="chart"
+            [data]="doughnutChartData"
+            [type]="doughnutChartType">
+          </canvas>
+        </div>
         <p *ngIf="!rated"><b>???</b></p>
       </div>
       <div class="separator-line"></div>
