@@ -30,6 +30,9 @@ public class CoffeeBean {
     @Column
     private Float price;
 
+    @Column(name = "bean_blend")
+    private String beanBlend;
+
     @Column
     private String origin;
 
@@ -39,16 +42,32 @@ public class CoffeeBean {
     @Enumerated(EnumType.STRING)
     private CoffeeRoast coffeeRoast;
 
-    @Column
-    private String description;
+    @Column(name = "url_to_coffee")
+    private String urlToCoffee;
 
-    @Column(nullable = false)
-    private Boolean custom;
+    @Column(name = "description", length = 5000)
+    private String description;
 
     @ManyToOne()
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public String getUrlToCoffee() {
+        return urlToCoffee;
+    }
+
+    public void setUrlToCoffee(String urlToCoffee) {
+        this.urlToCoffee = urlToCoffee;
+    }
+
+    public String getBeanBlend() {
+        return beanBlend;
+    }
+
+    public void setBeanBlend(String beanBlend) {
+        this.beanBlend = beanBlend;
+    }
 
     public User getUser() {
         return user;
@@ -112,96 +131,6 @@ public class CoffeeBean {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getCustom() {
-        return custom;
-    }
-
-    public void setCustom(Boolean custom) {
-        this.custom = custom;
-    }
-
-
-    public static class CoffeeBeanBuilder {
-        private Long id;
-        private String name;
-        private Float price;
-        private String origin;
-        private Integer height;
-        private CoffeeRoast coffeeRoast;
-        private String description;
-        private Boolean custom;
-
-        private User user;
-
-        private CoffeeBeanBuilder() {
-        }
-
-        public static CoffeeBeanBuilder aCoffeeBean() {
-            return new CoffeeBeanBuilder();
-        }
-
-        public CoffeeBeanBuilder withId(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withPrice(Float price) {
-            this.price = price;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withOrigin(String origin) {
-            this.origin = origin;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withHeight(Integer height) {
-            this.height = height;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withCoffeeRoast(CoffeeRoast coffeeRoast) {
-            this.coffeeRoast = coffeeRoast;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withCustom(Boolean custom) {
-            this.custom = custom;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withUser(User user) {
-            this.user = user;
-            return this;
-        }
-
-
-
-        public CoffeeBean build() {
-            CoffeeBean bean = new CoffeeBean();
-            bean.setId(id);
-            bean.setName(name);
-            bean.setPrice(price);
-            bean.setOrigin(origin);
-            bean.setHeight(height);
-            bean.setCoffeeRoast(coffeeRoast);
-            bean.setDescription(description);
-            bean.setCustom(custom);
-            bean.setUser(user);
-            return bean;
-        }
     }
 
 
