@@ -18,6 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "coffee_bean")
 public class CoffeeBean {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -29,6 +30,9 @@ public class CoffeeBean {
     @Column
     private Float price;
 
+    @Column(name = "bean_blend")
+    private String beanBlend;
+
     @Column
     private String origin;
 
@@ -38,13 +42,32 @@ public class CoffeeBean {
     @Enumerated(EnumType.STRING)
     private CoffeeRoast coffeeRoast;
 
-    @Column
+    @Column(name = "url_to_coffee")
+    private String urlToCoffee;
+
+    @Column(name = "description", length = 5000)
     private String description;
 
     @ManyToOne()
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public String getUrlToCoffee() {
+        return urlToCoffee;
+    }
+
+    public void setUrlToCoffee(String urlToCoffee) {
+        this.urlToCoffee = urlToCoffee;
+    }
+
+    public String getBeanBlend() {
+        return beanBlend;
+    }
+
+    public void setBeanBlend(String beanBlend) {
+        this.beanBlend = beanBlend;
+    }
 
     public CoffeeBean() {}
 
@@ -143,4 +166,6 @@ public class CoffeeBean {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

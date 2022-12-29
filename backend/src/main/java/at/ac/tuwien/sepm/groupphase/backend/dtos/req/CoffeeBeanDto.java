@@ -22,9 +22,15 @@ public class CoffeeBeanDto {
     @Size(max = 255, message = "Origin cannot be longer than 255 characters")
     private String origin;
     private Integer height;
+
+    @Size(max = 255, message = "Url cannot be longer than 255 characters")
+    private String urlToCoffee;
+
+    @Size(max = 255, message = "Blend cannot be longer than 255 characters")
+    private String beanBlend;
     @ValidCoffeeRoast
     private CoffeeRoast coffeeRoast;
-    @Size(max = 255, message = "Description cannot be longer than 255 characters")
+    @Size(max = 5000, message = "Description cannot be longer than 5000 characters")
     private String description;
     @NotNull
     private Long userId;
@@ -33,8 +39,8 @@ public class CoffeeBeanDto {
 
     }
 
-    public CoffeeBeanDto(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast,
-                         String description, Long userId) {
+    public CoffeeBeanDto(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, String beanBlend, String url,
+                         Long userId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -42,6 +48,8 @@ public class CoffeeBeanDto {
         this.height = height;
         this.coffeeRoast = coffeeRoast;
         this.description = description;
+        this.beanBlend = beanBlend;
+        this.urlToCoffee = url;
         this.userId = userId;
     }
 
@@ -107,5 +115,21 @@ public class CoffeeBeanDto {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getBeanBlend() {
+        return beanBlend;
+    }
+
+    public void setBeanBlend(String beanBlend) {
+        this.beanBlend = beanBlend;
+    }
+
+    public String getUrlToCoffee() {
+        return urlToCoffee;
+    }
+
+    public void setUrlToCoffee(String urlToCoffee) {
+        this.urlToCoffee = urlToCoffee;
     }
 }

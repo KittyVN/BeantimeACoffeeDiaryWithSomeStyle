@@ -8,13 +8,16 @@ public class CoffeBeanDashboardDto {
     private CoffeeRoast coffeeRoast;
     private String description;
 
+    private String beanBlend;
+
     public CoffeBeanDashboardDto() {}
 
-    public CoffeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description) {
+    public CoffeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description, String blend) {
         this.id = id;
         this.name = name;
         this.coffeeRoast = coffeeRoast;
         this.description = description;
+        this.beanBlend = blend;
     }
 
     public Long getId() {
@@ -31,5 +34,9 @@ public class CoffeBeanDashboardDto {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getBeanBlend() {
+        return beanBlend;
     }
 }
