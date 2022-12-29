@@ -30,95 +30,27 @@ public class UserDataGenerator {
             LOGGER.debug("Users already generated");
         } else {
             LOGGER.debug("Generating users");
-            User admin1 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("admin@email.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.ADMIN)
-                .build();
+            User admin1 = new User("admin@email.com", passwordEncoder.encode("password"), UserRole.ADMIN);
 
-            User admin2 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("john.doe@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.ADMIN)
-                .build();
+            User admin2 = new User("john.doe@example.com", passwordEncoder.encode("password"), UserRole.ADMIN);
 
-            User user1 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("martina.musterfrau@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .build();
+            User user1 = new User("martina.musterfrau@example.com", passwordEncoder.encode("password"), UserRole.USER);
 
-            User user2 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("ola.nordmann@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .build();
+            User user2 = new User("ola.nordmann@example.com", passwordEncoder.encode("password"), UserRole.USER);
 
-            User user3 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("tommy.atkins@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .build();
+            User user3 = new User("tommy.atkins@example.com", passwordEncoder.encode("password"), UserRole.USER);
 
-            User user4 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("jane.doe@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .build();
+            User user4 = new User("jane.doe@example.com", passwordEncoder.encode("password"), UserRole.USER);
 
-            User user5 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("jan.jansen@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .build();
+            User user5 = new User("jan.jansen@example.com", passwordEncoder.encode("password"), UserRole.USER);
 
-            User user6 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("olaf.olaf@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .build();
+            User user6 = new User("olaf.olaf@example.com", passwordEncoder.encode("password"), UserRole.USER);
 
-            User user7 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("user@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .withActive(false)
-                .build();
+            User user7 = new User("user@example.com", passwordEncoder.encode("password"), UserRole.USER, false);
 
-            User user8 = User
-                .UserBuilder
-                .aUser()
-                .withEmail("john.smith@example.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .withActive(false)
-                .build();
+            User user8 = new User("john.smith@example.com", passwordEncoder.encode("password"), UserRole.USER, false);
 
-            User userDaniel = User
-                .UserBuilder
-                .aUser()
-                .withEmail("daniel.schermann12@gmail.com")
-                .withPassword(passwordEncoder.encode("password"))
-                .withRole(UserRole.USER)
-                .build();
+            User userDaniel = new User("daniel.schermann12@gmail.com", passwordEncoder.encode("password"), UserRole.USER);
 
             userRepository.save(admin1);
             userRepository.save(admin2);

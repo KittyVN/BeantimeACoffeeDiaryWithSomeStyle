@@ -27,16 +27,14 @@ public class CoffeeBeanDto {
     @Size(max = 255, message = "Description cannot be longer than 255 characters")
     private String description;
     @NotNull
-    private Boolean custom;
-    @NotNull
     private Long userId;
 
     public CoffeeBeanDto() {
 
     }
 
-    public CoffeeBeanDto(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, Boolean custom,
-                         Long userId) {
+    public CoffeeBeanDto(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast,
+                         String description, Long userId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -44,7 +42,6 @@ public class CoffeeBeanDto {
         this.height = height;
         this.coffeeRoast = coffeeRoast;
         this.description = description;
-        this.custom = custom;
         this.userId = userId;
     }
 
@@ -102,14 +99,6 @@ public class CoffeeBeanDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getCustom() {
-        return custom;
-    }
-
-    public void setCustom(Boolean custom) {
-        this.custom = custom;
     }
 
     public Long getUserId() {

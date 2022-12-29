@@ -33,7 +33,6 @@ public class CoffeeBeanServiceTest {
             null,
             CoffeeRoast.DARK,
             null,
-            true,
             null
         );
         CoffeeBeanDto result = coffeeBeanService.create(coffeeBeanDto);
@@ -53,7 +52,6 @@ public class CoffeeBeanServiceTest {
             null,
             CoffeeRoast.DARK,
             null,
-            true,
             1L
         );
         CoffeeBeanDto result = coffeeBeanService.update(coffeeBeanDto);
@@ -79,7 +77,6 @@ public class CoffeeBeanServiceTest {
         assertThat(result.getOrigin()).isEqualTo("There");
         assertThat(result.getHeight()).isEqualTo(5);
         assertThat(result.getCoffeeRoast()).isEqualTo(CoffeeRoast.LIGHT);
-        assertThat(result.getCustom()).isTrue();
         assertThat(result.getUserId()).isEqualTo(1L);
     }
 

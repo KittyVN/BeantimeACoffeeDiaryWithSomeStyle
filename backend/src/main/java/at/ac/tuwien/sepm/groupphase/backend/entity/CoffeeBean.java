@@ -18,7 +18,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "coffee_bean")
 public class CoffeeBean {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -42,13 +41,44 @@ public class CoffeeBean {
     @Column
     private String description;
 
-    @Column(nullable = false)
-    private Boolean custom;
-
     @ManyToOne()
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public CoffeeBean() {}
+
+    public CoffeeBean(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, User user) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.origin = origin;
+        this.height = height;
+        this.coffeeRoast = coffeeRoast;
+        this.description = description;
+        this.user = user;
+    }
+
+    public CoffeeBean(String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, User user) {
+        this.name = name;
+        this.price = price;
+        this.origin = origin;
+        this.height = height;
+        this.coffeeRoast = coffeeRoast;
+        this.description = description;
+        this.user = user;
+    }
+
+    public CoffeeBean(String name, CoffeeRoast coffeeRoast) {
+        this.name = name;
+        this.coffeeRoast = coffeeRoast;
+    }
+
+    public CoffeeBean(Long id, String name, CoffeeRoast coffeeRoast) {
+        this.id = id;
+        this.name = name;
+        this.coffeeRoast = coffeeRoast;
+    }
 
     public User getUser() {
         return user;
@@ -113,96 +143,4 @@ public class CoffeeBean {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Boolean getCustom() {
-        return custom;
-    }
-
-    public void setCustom(Boolean custom) {
-        this.custom = custom;
-    }
-
-
-    public static class CoffeeBeanBuilder {
-        private Long id;
-        private String name;
-        private Float price;
-        private String origin;
-        private Integer height;
-        private CoffeeRoast coffeeRoast;
-        private String description;
-        private Boolean custom;
-
-        private User user;
-
-        private CoffeeBeanBuilder() {
-        }
-
-        public static CoffeeBeanBuilder aCoffeeBean() {
-            return new CoffeeBeanBuilder();
-        }
-
-        public CoffeeBeanBuilder withId(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withPrice(Float price) {
-            this.price = price;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withOrigin(String origin) {
-            this.origin = origin;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withHeight(Integer height) {
-            this.height = height;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withCoffeeRoast(CoffeeRoast coffeeRoast) {
-            this.coffeeRoast = coffeeRoast;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withCustom(Boolean custom) {
-            this.custom = custom;
-            return this;
-        }
-
-        public CoffeeBeanBuilder withUser(User user) {
-            this.user = user;
-            return this;
-        }
-
-
-
-        public CoffeeBean build() {
-            CoffeeBean bean = new CoffeeBean();
-            bean.setId(id);
-            bean.setName(name);
-            bean.setPrice(price);
-            bean.setOrigin(origin);
-            bean.setHeight(height);
-            bean.setCoffeeRoast(coffeeRoast);
-            bean.setDescription(description);
-            bean.setCustom(custom);
-            bean.setUser(user);
-            return bean;
-        }
-    }
-
-
 }

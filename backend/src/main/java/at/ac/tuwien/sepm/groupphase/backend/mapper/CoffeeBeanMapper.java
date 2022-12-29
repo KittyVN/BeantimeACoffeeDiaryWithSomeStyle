@@ -29,7 +29,6 @@ public class CoffeeBeanMapper {
             coffeeBean.getHeight(),
             coffeeBean.getCoffeeRoast(),
             coffeeBean.getDescription(),
-            coffeeBean.getCustom(),
             id
         );
     }
