@@ -1,8 +1,9 @@
 import { CoffeeRoast } from './coffee-roast';
 
 export interface CoffeeBeanDashboardDto {
-  id: Number;
-  name: String;
+  id: number;
+  name: string;
   coffeeRoast: CoffeeRoast;
-  description: String;
+  description: string;
+  beanBlend: string;
 }

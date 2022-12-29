@@ -25,7 +25,6 @@ export class CoffeeBeanDetailComponent implements OnInit {
     height: undefined,
     coffeeRoast: Roast.LIGHT,
     description: undefined,
-    custom: false,
     userId: 0,
   };
 
