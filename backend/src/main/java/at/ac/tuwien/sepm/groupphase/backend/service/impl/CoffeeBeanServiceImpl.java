@@ -48,7 +48,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
         User user = this.userRepository.findFirstById(coffeeBeanDto.getUserId());
         CoffeeBean coffeeBean = new CoffeeBean(coffeeBeanDto.getName(), coffeeBeanDto.getPrice(),
             coffeeBeanDto.getOrigin(), coffeeBeanDto.getHeight(), coffeeBeanDto.getCoffeeRoast(),
-            coffeeBeanDto.getDescription(), user);
+            coffeeBeanDto.getDescription(), coffeeBeanDto.getBeanBlend(), coffeeBeanDto.getUrlToCoffee(), user);
         return mapper.entityToDto(coffeeBeanRepository.save(coffeeBean));
     }
 
@@ -75,6 +75,8 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             newBean.setHeight(coffeeBeanDto.getHeight());
             newBean.setCoffeeRoast(coffeeBeanDto.getCoffeeRoast());
             newBean.setDescription(coffeeBeanDto.getDescription());
+            newBean.setBeanBlend(coffeeBeanDto.getBeanBlend());
+            newBean.setUrlToCoffee(coffeeBeanDto.getUrlToCoffee());
             return mapper.entityToDto(coffeeBeanRepository.save(newBean));
         }
     }

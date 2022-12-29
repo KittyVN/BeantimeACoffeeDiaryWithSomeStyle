@@ -71,6 +71,18 @@ public class CoffeeBean {
 
     public CoffeeBean() {}
 
+    public CoffeeBean(String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, String beanBlend, String urlToCoffee, User user) {
+        this.name = name;
+        this.price = price;
+        this.origin = origin;
+        this.height = height;
+        this.coffeeRoast = coffeeRoast;
+        this.beanBlend = beanBlend;
+        this.urlToCoffee = urlToCoffee;
+        this.description = description;
+        this.user = user;
+    }
+
     public CoffeeBean(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, User user) {
         this.id = id;
         this.name = name;
