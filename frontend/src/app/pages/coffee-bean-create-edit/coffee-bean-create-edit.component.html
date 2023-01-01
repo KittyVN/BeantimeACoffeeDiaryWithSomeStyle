@@ -63,6 +63,22 @@
             [(ngModel)]="coffeeBeanDto.description"
             formControlName="description"></textarea>
         </mat-form-field>
+        <mat-form-field>
+          <mat-label>Bean Blend</mat-label>
+          <input
+            placeholder="Bean Blend"
+            matInput
+            formControlName="beanBlend"
+            [(ngModel)]="coffeeBeanDto.beanBlend" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>URL (e.g. shop)</mat-label>
+          <input
+            placeholder="url"
+            matInput
+            formControlName="url"
+            [(ngModel)]="coffeeBeanDto.urlToCoffee" />
+        </mat-form-field>
         <button type="submit" mat-raised-button color="primary">
           {{ submitButtonText }}
         </button>

@@ -33,7 +33,6 @@ export class ExtractionCreateEditComponent implements OnInit {
   coffeeId: string | null = null;
   coffee: CoffeeBeanDto = {
     name: 'Coffee',
-    custom: true,
     coffeeRoast: Roast.LIGHT,
   };
   extraction: ExtractionCreateDto = {

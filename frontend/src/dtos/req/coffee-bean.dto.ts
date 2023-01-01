@@ -8,6 +8,7 @@ export interface CoffeeBeanDto {
   height?: number;
   coffeeRoast: Roast;
   description?: string;
-  custom: boolean;
+  beanBlend?: string;
+  urlToCoffee?: string;
   userId?: number;
 }

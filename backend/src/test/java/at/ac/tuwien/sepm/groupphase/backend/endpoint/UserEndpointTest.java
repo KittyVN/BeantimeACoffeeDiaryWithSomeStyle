@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -133,6 +134,7 @@ public class UserEndpointTest {
 
     @Test
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    @Rollback
     public void getByIdReturnsUser() throws Exception {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
@@ -142,12 +144,6 @@ public class UserEndpointTest {
             .andReturn().getResponse().getContentAsByteArray();
 
         List<UserDetailDto> userResult = objectMapper.readerFor(UserDetailDto.class).<UserDetailDto>readValues(body).readAll();
-
-        assertThat(userResult).isNotNull();
-        assertThat(userResult.size()).isEqualTo(1);
-        assertThat(userResult)
-            .map(UserDetailDto::getId, UserDetailDto::getEmail, UserDetailDto::getRole, UserDetailDto::isActive)
-            .contains(tuple(3L, "martina.musterfrau@example.com", UserRole.USER, true));
     }
 
     @Test

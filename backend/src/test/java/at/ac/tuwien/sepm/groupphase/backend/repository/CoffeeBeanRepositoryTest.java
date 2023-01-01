@@ -23,13 +23,7 @@ public class CoffeeBeanRepositoryTest {
     @Transactional
     @Rollback
     public void createValidCoffee() {
-        CoffeeBean coffeeBean = CoffeeBean
-            .CoffeeBeanBuilder
-            .aCoffeeBean()
-            .withName("test")
-            .withCustom(true)
-            .withCoffeeRoast(CoffeeRoast.DARK)
-            .build();
+        CoffeeBean coffeeBean = new CoffeeBean("test", CoffeeRoast.DARK);
         CoffeeBean result = coffeeBeanRepository.save(coffeeBean);
         result.setId(null);
         assertThat(result.getName()).isEqualTo(coffeeBean.getName());
@@ -39,14 +33,7 @@ public class CoffeeBeanRepositoryTest {
     @Transactional
     @Rollback
     public void editCoffeeToValid() {
-        CoffeeBean coffeeBean = CoffeeBean
-            .CoffeeBeanBuilder
-            .aCoffeeBean()
-            .withId(1L)
-            .withName("test")
-            .withCustom(true)
-            .withCoffeeRoast(CoffeeRoast.DARK)
-            .build();
+        CoffeeBean coffeeBean = new CoffeeBean(1L, "test", CoffeeRoast.DARK);
         CoffeeBean result = coffeeBeanRepository.save(coffeeBean);
         assertThat(result.getName()).isEqualTo(coffeeBean.getName());
     }
@@ -69,7 +56,6 @@ public class CoffeeBeanRepositoryTest {
         assertThat(result.getOrigin()).isEqualTo("There");
         assertThat(result.getHeight()).isEqualTo(5);
         assertThat(result.getCoffeeRoast()).isEqualTo(CoffeeRoast.LIGHT);
-        assertThat(result.getCustom()).isTrue();
         assertThat(result.getUser().getId()).isEqualTo(1L);
     }
 

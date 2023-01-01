@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -42,8 +41,7 @@ public class Extraction {
     @Column(name = "dose")
     private Double dose;
 
-
-    @Column(name = "waterAmount")
+    @Column(name = "water_amount")
     private Double waterAmount;
 
     @Column(name = "brew_time")
@@ -64,7 +62,7 @@ public class Extraction {
     @Column(name = "aftertaste")
     private Integer aftertaste;
 
-    @Column(name = "rating_notes")
+    @Column(name = "rating_notes", length = 5000)
     private String ratingNotes;
 
     @ManyToOne()

@@ -101,13 +101,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String register(UserRegisterDto userRegisterDto) {
         LOGGER.debug("Register user {}", userRegisterDto);
-        User user = User
-            .UserBuilder
-            .aUser()
-            .withEmail(userRegisterDto.getEmail())
-            .withPassword(passwordEncoder.encode(userRegisterDto.getPassword()))
-            .withRole(UserRole.USER)
-            .build();
+        User user = new User(userRegisterDto.getEmail(), passwordEncoder.encode(userRegisterDto.getPassword()), UserRole.USER);
         userRepository.save(user);
 
         UserCredentialsDto userDetails = loadUserByUsername(userRegisterDto.getEmail());

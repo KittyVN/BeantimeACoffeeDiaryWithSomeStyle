@@ -40,7 +40,7 @@ public class CoffeeBeanEndpointTest {
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
-        this.requestJson = new CoffeeBeanDto(null, null, null, null, null, null, null, null, null);
+        this.requestJson = new CoffeeBeanDto(null, null, null, null, null, null, null, null, null, null);
     }
 
 
@@ -53,7 +53,6 @@ public class CoffeeBeanEndpointTest {
     public void createValidCoffee() throws Exception {
         requestJson.setName("TestBean");
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
-        requestJson.setCustom(true);
         requestJson.setUserId(1L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
@@ -70,7 +69,6 @@ public class CoffeeBeanEndpointTest {
     public void createInValidCoffee() throws Exception {
         requestJson.setName("");
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
-        requestJson.setCustom(true);
         requestJson.setUserId(1L);
         //send request with valid parameters but invalid name
         sendInvalidCoffeeBeanCreateRequest(requestJson);
@@ -79,14 +77,6 @@ public class CoffeeBeanEndpointTest {
         requestJson.setName("Test");
         requestJson.setCoffeeRoast(null);
         sendInvalidCoffeeBeanCreateRequest(requestJson);
-        //send request with valid parameters but invalid custom boolean
-        requestJson.setCoffeeRoast(CoffeeRoast.DARK);
-        requestJson.setCustom(null);
-        sendInvalidCoffeeBeanCreateRequest(requestJson);
-        //send request with valid parameters but invalid user
-        requestJson.setCustom(true);
-        requestJson.setUserId(-99L);
-
     }
 
     private void sendInvalidCoffeeBeanCreateRequest(CoffeeBeanDto requestBean) throws Exception {
@@ -107,7 +97,6 @@ public class CoffeeBeanEndpointTest {
         requestJson.setName("Test");
         requestJson.setId(1L);
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
-        requestJson.setCustom(true);
         requestJson.setUserId(1L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
@@ -127,19 +116,14 @@ public class CoffeeBeanEndpointTest {
         requestJson.setUserId(1L);
         requestJson.setName("");
         requestJson.setCoffeeRoast(CoffeeRoast.LIGHT);
-        requestJson.setCustom(true);
         //Send coffee bean with invalid name
         sendInvalidCoffeeBeanUpdateRequest(requestJson);
         //Send coffee bean with invalid roast
         requestJson.setName("ValidName");
         requestJson.setCoffeeRoast(null);
         sendInvalidCoffeeBeanUpdateRequest(requestJson);
-        //Send coffee bean with invalid custom boolean
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
-        requestJson.setCustom(null);
-        sendInvalidCoffeeBeanUpdateRequest(requestJson);
         //Send coffee bean with invalid user
-        requestJson.setCustom(true);
         requestJson.setUserId(-99L);
         sendInvalidCoffeeBeanUpdateRequest(requestJson);
     }
@@ -190,7 +174,6 @@ public class CoffeeBeanEndpointTest {
         assertThat(coffeeBeanResult.getCoffeeBean().getOrigin()).isEqualTo("There");
         assertThat(coffeeBeanResult.getCoffeeBean().getHeight()).isEqualTo(5);
         assertThat(coffeeBeanResult.getCoffeeBean().getCoffeeRoast()).isEqualTo(CoffeeRoast.LIGHT);
-        assertThat(coffeeBeanResult.getCoffeeBean().getCustom()).isTrue();
         assertThat(coffeeBeanResult.getCoffeeBean().getUserId()).isEqualTo(1L);
         assertThat(coffeeBeanResult.getAvgExtractionRating()).isNotNull();
         assertThat(coffeeBeanResult.getAvgExtractionRating().getId()).isEqualTo(2L);

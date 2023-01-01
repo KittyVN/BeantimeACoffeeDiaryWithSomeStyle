@@ -31,17 +31,18 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
   mode: CoffeeBeanCreateEditMode = CoffeeBeanCreateEditMode.create;
   coffeeBeanDto: CoffeeBeanDto = {
     name: '',
-    custom: true,
     coffeeRoast: Roast.LIGHT,
   };
 
   createEditBeanForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+    name: new FormControl('', [Validators.required, Validators.maxLength(255)]),
     price: new FormControl('', [Validators.min(0)]),
-    origin: new FormControl('', Validators.maxLength(30)),
+    origin: new FormControl('', Validators.maxLength(255)),
     height: new FormControl('', [Validators.min(0)]),
     coffeeRoast: new FormControl('LIGHT', [Validators.required]),
-    description: new FormControl('', Validators.maxLength(50)),
+    description: new FormControl('', Validators.maxLength(5000)),
+    beanBlend: new FormControl('', Validators.maxLength(255)),
+    url: new FormControl('', Validators.maxLength(255)),
   });
 
   public get heading(): string {

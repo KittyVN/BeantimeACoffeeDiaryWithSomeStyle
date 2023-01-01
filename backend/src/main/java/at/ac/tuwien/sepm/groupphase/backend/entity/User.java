@@ -28,6 +28,26 @@ public class User {
     @Column(nullable = false)
     private boolean active;
 
+    public User() {}
+
+    public User(Long id) {
+        this.id = id;
+    }
+
+    public User(String email, String password, UserRole role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.active = true;
+    }
+
+    public User(String email, String password, UserRole role, boolean active) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
+
     public Long getId() {
         return id;
     }
@@ -66,56 +86,5 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    //Builder
-    public static class UserBuilder {
-        private Long id;
-        private String email;
-        private String password;
-        private UserRole role;
-        private boolean isActive = true;
-
-        private UserBuilder() {
-        }
-
-        public static UserBuilder aUser() {
-            return new UserBuilder();
-        }
-
-        public UserBuilder withId(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public UserBuilder withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserBuilder withPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserBuilder withRole(UserRole role) {
-            this.role = role;
-            return this;
-        }
-
-        public UserBuilder withActive(boolean isActive) {
-            this.isActive = isActive;
-            return this;
-        }
-
-        public User build() {
-            User user = new User();
-            user.setId(id);
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setRole(role);
-            user.setActive(isActive);
-            return user;
-        }
     }
 }

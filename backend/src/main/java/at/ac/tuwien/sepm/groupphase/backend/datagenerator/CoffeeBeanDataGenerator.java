@@ -29,85 +29,28 @@ public class CoffeeBeanDataGenerator {
             LOGGER.debug("CoffeeBeans already generated");
         } else {
             LOGGER.debug("Generating Coffee beans");
-            CoffeeBean cb1 = CoffeeBean
-                .CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("A coffee bean")
-                .withPrice(0F)
-                .withOrigin("Here")
-                .withHeight(11)
-                .withCoffeeRoast(CoffeeRoast.MEDIUM)
-                .withDescription("A description goes here")
-                .withCustom(true)
-                .withUser(User.UserBuilder.aUser().withId(1L).build())
-                .build();
+            CoffeeBean cb1 = new CoffeeBean("A coffee bean", 0F, "Here", 11, CoffeeRoast.MEDIUM,
+                "A description goes here", new User(1L));
 
-            CoffeeBean cb2 = CoffeeBean
-                .CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("Another coffee bean")
-                .withPrice(0F)
-                .withOrigin("There")
-                .withHeight(5)
-                .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withDescription("A longer description goes here because I need characters for testing."
-                    + " Lets add even more because its practical to see how many lines this box can actually hold.")
-                .withCustom(true)
-                .withUser(User.UserBuilder.aUser().withId(1L).build())
-                .build();
+            CoffeeBean cb2 = new CoffeeBean("Another coffee bean", 0F, "There", 5, CoffeeRoast.LIGHT,
+                "A longer description goes here because I need characters for testing."
+                    + " Lets add even more because its practical to see how many lines this box can actually hold.",
+                new User(1L));
 
-            CoffeeBean cb3 = CoffeeBean
-                .CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("Yet another coffee bean")
-                .withPrice(0F)
-                .withOrigin("Everywhere")
-                .withHeight(2)
-                .withCoffeeRoast(CoffeeRoast.DARK)
-                .withDescription("A normal description goes here again")
-                .withCustom(true)
-                .withUser(User.UserBuilder.aUser().withId(1L).build())
-                .build();
+            CoffeeBean cb3 = new CoffeeBean("Yet another coffee bean", 0F, "Everywhere", 2, CoffeeRoast.DARK,
+                "A normal description goes here again", new User(1L));
 
-            CoffeeBean cb4 = CoffeeBean
-                .CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("Jingle Beans Holiday Blend")
-                .withPrice(21.50F)
-                .withOrigin("Ethiopia, Smallholder Farmers")
-                .withHeight(1900)
-                .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withDescription("Two merry coffees that triumphantly coalesce into the best interpretation of aqueous fruit cake in a cup. ")
-                .withCustom(true)
-                .withUser(User.UserBuilder.aUser().withId(1L).build())
-                .build();
+            CoffeeBean cb4 = new CoffeeBean("Jingle Beans Holiday Blend", 21.50F,
+                "Ethiopia, Smallholder Farmers", 1900, CoffeeRoast.LIGHT,
+                "Two merry coffees that triumphantly coalesce into the best interpretation of aqueous fruit cake in a cup.",
+                new User(1L));
 
-            CoffeeBean cb5 = CoffeeBean
-                .CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("West End Blues")
-                .withPrice(17.75F)
-                .withOrigin("JIMMA, ETHIOPIA")
-                .withHeight(null)
-                .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withDescription("Traditional in name only,West End Blues is a complex blend"
-                    + " of flavors and textures.")
-                .withCustom(true)
-                .withUser(User.UserBuilder.aUser().withId(1L).build())
-                .build();
+            CoffeeBean cb5 = new CoffeeBean("West End Blues", 17.75F, "JIMMA, ETHIOPIA", null, CoffeeRoast.LIGHT,
+                "Traditional in name only,West End Blues is a complex blend of flavors and textures.", new User(1L));
 
-            CoffeeBean cb6 = CoffeeBean
-                .CoffeeBeanBuilder
-                .aCoffeeBean()
-                .withName("TIME & TEMPERATURE")
-                .withPrice(19F)
-                .withOrigin("JIMMA, ETHIOPIA / INZÁ, COLOMBIA")
-                .withHeight(null)
-                .withCoffeeRoast(CoffeeRoast.LIGHT)
-                .withDescription("Effervescent, electric, and just plain cool, Time and Temperature is Tandem’s signature espresso blend.")
-                .withCustom(true)
-                .withUser(User.UserBuilder.aUser().withId(1L).build())
-                .build();
+            CoffeeBean cb6 = new CoffeeBean("TIME & TEMPERATURE", 19F, "JIMMA, ETHIOPIA / INZÁ, COLOMBIA",
+                null, CoffeeRoast.LIGHT, "Effervescent, electric, and just plain cool, Time and Temperature is Tandem’s signature espresso blend.",
+                new User(1L));
 
             coffeeBeanRepository.save(cb1);
             coffeeBeanRepository.save(cb2);
