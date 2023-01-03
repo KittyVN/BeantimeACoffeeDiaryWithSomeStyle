@@ -1,9 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.mapper;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import org.springframework.stereotype.Component;
 

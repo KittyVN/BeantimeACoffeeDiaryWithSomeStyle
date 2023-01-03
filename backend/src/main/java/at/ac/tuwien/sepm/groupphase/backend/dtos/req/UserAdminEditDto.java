@@ -2,7 +2,6 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 public class UserAdminEditDto {

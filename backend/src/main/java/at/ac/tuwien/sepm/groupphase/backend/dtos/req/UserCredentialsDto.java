@@ -1,7 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
