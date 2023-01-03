@@ -17,6 +17,21 @@
   justify-content: space-between;
 }
 
+.filter-button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.adder-button {
+  height: 3em;
+  width: 80%;
+  right: 10%;
+  left: 10%;
+  margin-top: 1em;
+}
+
 .dashboard-card {
   justify-content: space-between;
   position: absolute;
@@ -24,13 +39,6 @@
   left: 15px;
   right: 15px;
   bottom: 15px;
-}
-
-.adder-button {
-  height: 3em;
-  width: 80%;
-  right: 10%;
-  left: 10%
 }
 
 .dashboard-card-content {

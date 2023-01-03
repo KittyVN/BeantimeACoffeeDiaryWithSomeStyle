@@ -3,10 +3,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { CoffeeBeanDashboardDto, CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
 import { coffeeBeanSearchDto } from 'src/dtos/req/coffee-bean-search.dto';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
 export class CoffeeBeanService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   /**
    * Add a new coffee bean
@@ -26,6 +27,11 @@ export class CoffeeBeanService {
   public search(
     searchParams: coffeeBeanSearchDto
   ): Observable<CoffeeBeanDashboardDto[]> {
+    const token = localStorage.getItem('token');
+    let tokenPayload;
+    if (token) {
+      tokenPayload = this.jwtHelper.decodeToken(token);
+    }
     let params = new HttpParams();
 
     if (searchParams.name != null && searchParams.name !== '') {
@@ -40,7 +46,12 @@ export class CoffeeBeanService {
       params = params.set('description', searchParams.description);
     }
 
-    return this.http.get<CoffeeBeanDashboardDto[]>('coffee-beans', { params });
+    return this.http.get<CoffeeBeanDashboardDto[]>(
+      'coffee-beans/user/' + tokenPayload.jti,
+      {
+        params,
+      }
+    );
   }
 
   /**

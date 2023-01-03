@@ -5,6 +5,7 @@ import { CoffeeBeanDashboardDto, CoffeeRoast } from 'src/dtos';
 import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { coffeeBeanSearchDto } from 'src/dtos/req/coffee-bean-search.dto';
+import { identifierName } from '@angular/compiler';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,7 @@ import { coffeeBeanSearchDto } from 'src/dtos/req/coffee-bean-search.dto';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  sortingDirective: string = '-id';
   searchParams: coffeeBeanSearchDto = {};
   coffees: CoffeeBeanDashboardDto[] = [];
 
@@ -27,6 +29,7 @@ export class DashboardComponent implements OnInit {
     this.coffeeBeanService.search(this.searchParams).subscribe({
       next: data => {
         this.coffees = data;
+        this.sortCoffeesByDirective();
       },
       error: error => {
         console.error('Error fetching coffee data', error);
@@ -48,9 +51,17 @@ export class DashboardComponent implements OnInit {
         this.coffeeBeanService.search(this.searchParams).subscribe({
           next: data => {
             this.coffees = data;
+            this.sortCoffeesByDirective();
           },
           error: error => {
             console.error('Error fetching coffee data', error);
+            this.snackBar.open(
+              'Unable to fetch coffe data, try again later',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
           },
         });
       });
@@ -69,6 +80,59 @@ export class DashboardComponent implements OnInit {
       }
       default: {
         return 'Unknown Roast';
+      }
+    }
+  }
+
+  sortCoffeesByDirective() {
+    switch (this.sortingDirective) {
+      case 'id': {
+        this.coffees.sort((a, b) => {
+          if (a.id > b.id) {
+            return 1;
+          }
+          if (a.id < b.id) {
+            return -1;
+          }
+          return 0;
+        });
+        break;
+      }
+      case '-id': {
+        this.coffees.sort((a, b) => {
+          if (a.id < b.id) {
+            return 1;
+          }
+          if (a.id > b.id) {
+            return -1;
+          }
+          return 0;
+        });
+        break;
+      }
+      case 'name': {
+        this.coffees.sort((a, b) => {
+          if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            return 1;
+          }
+          if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            return -1;
+          }
+          return 0;
+        });
+        break;
+      }
+      case '-name': {
+        this.coffees.sort((a, b) => {
+          if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            return 1;
+          }
+          if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            return -1;
+          }
+          return 0;
+        });
+        break;
       }
     }
   }
