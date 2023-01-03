@@ -66,4 +66,13 @@ public class ExtractionServiceImpl implements ExtractionService {
             extractionCreateDto.getAftertaste(), extractionCreateDto.getRatingNotes(), coffeeBean.get());
         return mapper.entityToCreateDto(extractionRepository.save(extraction));
     }
+
+    @Override
+    public ExtractionDetailDto getById(Long id) throws NotFoundException {
+        Optional<Extraction> extraction = extractionRepository.findById(id);
+        if (!extraction.isPresent()) {
+            throw new NotFoundException();
+        }
+        return mapper.entityToDto(extraction.get());
+    }
 }

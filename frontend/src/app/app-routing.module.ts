@@ -21,6 +21,7 @@ import {
   ExtractionCreateEditComponent,
   ExtractionCreateEditMode,
 } from './pages/extraction-create-edit/extraction-create-edit.component';
+import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
 
 import type { Routes } from '@angular/router';
 
@@ -70,6 +71,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: ExtractionCreateEditComponent,
     data: { mode: ExtractionCreateEditMode.edit },
+  },
+  {
+    path: 'coffee/:coffeeId/extraction/:id/recipe/create',
+    canActivate: [AuthGuard],
+    component: RecipeCreateComponent,
   },
   {
     path: 'coffee/create',

@@ -4,6 +4,19 @@
       <button class="edit-button">
         <mat-icon>edit</mat-icon>
       </button>
+      <div *ngIf="exists">
+        <button
+          class="share-button"
+          [routerLink]="[
+            '/coffee/' +
+              this.coffeeBeanId +
+              '/extraction/' +
+              this.extraction?.id +
+              '/recipe/create'
+          ]">
+          Share
+        </button>
+      </div>
       <div class="sum-container">
         <div *ngIf="rated">
           <b>Rating:</b>

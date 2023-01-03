@@ -50,7 +50,8 @@
   </mat-card>
   <mat-card>
     <mat-card-content *ngFor="let extraction of extractions">
-      <app-extraction-card [extraction]="extraction"></app-extraction-card>
+      <app-extraction-card [extraction]="extraction" [coffeeBeanId]="coffee.id">
+      </app-extraction-card>
     </mat-card-content>
   </mat-card>
 </app-container>

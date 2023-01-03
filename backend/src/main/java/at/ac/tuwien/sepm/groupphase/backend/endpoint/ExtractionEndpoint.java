@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -45,6 +46,16 @@ public class ExtractionEndpoint {
     public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto.toString());
         return service.create(extractionCreateDto);
+    }
+
+    @GetMapping("{id}")
+    public ExtractionDetailDto getById(@PathVariable("id") long id) {
+        LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
+        try {
+            return service.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
 }
