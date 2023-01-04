@@ -46,7 +46,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, ExtractionRepository extractionRepository, RecipeRepository recipeRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
+    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, ExtractionRepository extractionRepository, RecipeRepository recipeRepository,
+                           UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
         this.userRepository = userRepository;
         this.beanRepository = beanRepository;
         this.extractionRepository = extractionRepository;
@@ -150,7 +151,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        recipeRepository.deleteByUserId(id);
         extractionRepository.deleteByUserId(id);
         beanRepository.deleteCoffeeBeanByUserId(id);
         userRepository.deleteById(id);

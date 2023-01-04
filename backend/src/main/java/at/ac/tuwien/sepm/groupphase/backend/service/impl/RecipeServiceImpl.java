@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -30,11 +31,18 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeDto create(RecipeDto recipeDto) {
+    public RecipeDto create(RecipeDto recipeDto) throws FileAlreadyExistsException {
         LOGGER.trace("create {}", recipeDto);
         Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
-        Recipe recipe = new Recipe(recipeDto.getDescription(), extraction.get());
-        return mapper.entityToDto(recipeRepository.save(recipe));
+        Recipe recipe = new Recipe(recipeDto.getDescription());
+        if (extraction.get().getRecipe() == null) {
+            RecipeDto recipeDtoToReturn = mapper.entityToDto(recipeRepository.save(recipe));
+            recipeDtoToReturn.setExtractionId(extraction.get().getId());
+            extractionRepository.addRecipeToExtraction(extraction.get().getId(), recipeDtoToReturn.getId());
+            return recipeDtoToReturn;
+        } else {
+            throw new FileAlreadyExistsException(String.format("recipe for this extraction with ID %d already exists", extraction.get().getId()));
+        }
     }
 
     @Override

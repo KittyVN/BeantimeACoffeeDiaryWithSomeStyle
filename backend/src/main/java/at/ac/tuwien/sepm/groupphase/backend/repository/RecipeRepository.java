@@ -10,6 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Modifying
     @Transactional
-    @Query("delete from Recipe c where c.extraction.coffeeBean.user.id = :id")
-    void deleteByUserId(@Param("id") Long id);
+    @Query("delete from Recipe c where c.extraction.id = :id")
+    void deleteByExtractionId(@Param("id") Long id);
 }

@@ -79,9 +79,16 @@ export class RecipeCreateComponent implements OnInit {
           this.router.navigate(['/coffee/' + this.coffeeId]);
         },
         error: err => {
-          this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
-            duration: 5000,
-          });
+          if (err.status == 409) {
+            this.snackBar.open(
+              'There already exists a recipe for this extraction',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+            this.router.navigate(['/coffee/' + this.coffeeId]);
+          }
         },
       });
     }

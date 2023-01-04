@@ -68,10 +68,10 @@ public class ExtractionServiceImpl implements ExtractionService {
     }
 
     @Override
-    public ExtractionDetailDto getById(Long id) throws NotFoundException {
+    public ExtractionDetailDto getById(Long id) {
         Optional<Extraction> extraction = extractionRepository.findById(id);
         if (!extraction.isPresent()) {
-            throw new NotFoundException();
+            throw new NotFoundException(String.format("No extraction with ID %d found", id));
         }
         return mapper.entityToDto(extraction.get());
     }

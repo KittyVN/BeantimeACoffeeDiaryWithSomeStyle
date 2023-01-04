@@ -31,11 +31,10 @@ public class RecipeDataGenerator {
             LOGGER.debug("Generating recipes");
 
             Recipe e1 = new Recipe(
-                "This is my favorite recipe for brewing cold black coffee. There are no extra steps like stiring, or any additional things like sugar or cream needed.",
-                this.extractionRepository.findById(1L).get()
+                "This is my favorite recipe for brewing cold black coffee. There are no extra steps like stiring, or any additional things like sugar or cream needed."
             );
-
             this.recipeRepository.save(e1);
+            this.extractionRepository.addRecipeToExtraction(2L, 1L);
         }
     }
 }

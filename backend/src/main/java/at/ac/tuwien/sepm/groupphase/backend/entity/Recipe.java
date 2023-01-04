@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,8 +20,7 @@ public class Recipe {
     @Column(name = "description", length = 5000)
     private String description;
 
-    @OneToOne()
-    @JoinColumn(name = "extraction_id", referencedColumnName = "id")
+    @OneToOne(orphanRemoval = true, mappedBy = "recipe")
     private Extraction extraction;
 
     public String getDescription() {
@@ -52,8 +50,7 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(String description, Extraction extraction) {
+    public Recipe(String description) {
         this.description = description;
-        this.extraction = extraction;
     }
 }
