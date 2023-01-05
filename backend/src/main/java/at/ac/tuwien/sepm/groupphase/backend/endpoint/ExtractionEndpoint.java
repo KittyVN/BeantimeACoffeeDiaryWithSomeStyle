@@ -35,11 +35,22 @@ public class ExtractionEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @GetMapping("bean/{id}")
     public Stream<ExtractionDetailDto> getAllByBeanId(@PathVariable Long id) throws ResponseStatusException {
-        LOGGER.info("GET " + BASE_PATH + "/" + id);
+        LOGGER.info("GET " + BASE_PATH + "/bean" + id);
         try {
             return service.getAllByBeanId(id);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bean not found", e);
+        }
+    }
+
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
+    @GetMapping("/{id}")
+    public ExtractionDetailDto getById(@PathVariable Long id) throws ResponseStatusException {
+        LOGGER.info("GET " + BASE_PATH + "/" + id);
+        try {
+            return service.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
         }
     }
 

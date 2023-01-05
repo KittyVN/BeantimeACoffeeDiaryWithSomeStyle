@@ -53,7 +53,19 @@ public class ExtractionServiceImpl implements ExtractionService {
         if (coffeeBeanRepository.existsById(id)) {
             return extractionRepository.findAllByBeanId(id).stream().map(extraction -> mapper.entityToDto(extraction));
         } else {
-            throw new NotFoundException(String.format("No user with ID %d found", id));
+            throw new NotFoundException(String.format("No bean with ID %d found", id));
+        }
+    }
+
+    @Override
+    public ExtractionDetailDto getById(Long id) throws NotFoundException{
+        LOGGER.trace("getById({})", id);
+        Optional<Extraction> ex = extractionRepository.findById(id);
+        if(ex.isPresent()){
+            Extraction extraction = ex.get();
+            return mapper.entityToDto(extraction);
+        }else{
+            throw new NotFoundException(String.format("No extraction with ID %d found", id));
         }
     }
 
