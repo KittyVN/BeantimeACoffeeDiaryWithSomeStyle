@@ -33,5 +33,11 @@ public interface ExtractionService {
      */
     ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto);
 
+    /**
+     * Fetches a saved extraction with the specific id from the persistent data storage.
+     *
+     * @param id of the extraction
+     * @return the found extraction
+     */
     ExtractionDetailDto getById(Long id) throws NotFoundException;
 }

@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.RecipeMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.RecipeRepository;
@@ -46,8 +47,30 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public RecipeDto update(RecipeDto recipeDto) throws NotFoundException {
+        LOGGER.trace("update {}", recipeDto);
+        Recipe recipe = recipeRepository.findRecipeByExtractionId(recipeDto.getExtractionId());
+        if (recipe == null) {
+            throw new NotFoundException(String.format("No recipe with extraction ID %d found", recipeDto.getExtractionId()));
+        } else {
+            Recipe newRecipe = recipe;
+            newRecipe.setDescription(recipeDto.getDescription());
+            return mapper.entityToDto(recipeRepository.save(newRecipe));
+        }
+    }
+
+    @Override
     public Stream<RecipeDto> getAll() {
         LOGGER.trace("getAll()");
         return recipeRepository.findAll().stream().map(recipe -> mapper.entityToDto(recipe));
+    }
+
+    @Override
+    public RecipeDto getByExtractionId(Long id) throws NotFoundException {
+        Recipe recipe = recipeRepository.findRecipeByExtractionId(id);
+        if (recipe == null) {
+            throw new NotFoundException(String.format("No recipe for the extraction with the ID %d found", id));
+        }
+        return mapper.entityToDto(recipe);
     }
 }

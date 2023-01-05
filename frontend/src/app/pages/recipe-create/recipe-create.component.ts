@@ -9,6 +9,11 @@ import { ExtractionDetailDto } from 'src/dtos';
 import { RecipeDto } from 'src/dtos/req/recipe.dto';
 import { ExtractionService } from 'src/services/extraction.service';
 
+export enum RecipeCreateMode {
+  create,
+  edit,
+}
+
 @Component({
   selector: 'app-recipe-create',
   templateUrl: './recipe-create.component.html',
@@ -17,7 +22,6 @@ import { ExtractionService } from 'src/services/extraction.service';
 export class RecipeCreateComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
-    private extractionService: ExtractionService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
@@ -32,23 +36,36 @@ export class RecipeCreateComponent implements OnInit {
     extractionId: 0,
   };
   extraction?: ExtractionDetailDto;
+  mode: RecipeCreateMode = RecipeCreateMode.create;
+
+  public get submitButtonText(): string {
+    switch (this.mode) {
+      case RecipeCreateMode.create:
+        return 'Create';
+      case RecipeCreateMode.edit:
+        return 'Edit';
+      default:
+        return '?';
+    }
+  }
 
   ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.mode = data['mode'];
+    });
     this.route.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
       this.coffeeId = paramMap.get('coffeeId');
     });
     if (this.id != null) {
       this.recipeDto.extractionId = Number(this.id);
-      this.extractionService.getById(this.id).subscribe({
+      this.recipeService.getByExtractionId(this.id).subscribe({
         next: data => {
-          this.extraction = data;
+          this.recipeDto = data;
+          this.mode = RecipeCreateMode.edit;
         },
         error: err => {
-          this.snackBar.open(err.error, 'Close', {
-            duration: 5000,
-          });
-          this.router.navigate(['/home']);
+          this.mode = RecipeCreateMode.create;
         },
       });
     } else {
@@ -70,7 +87,17 @@ export class RecipeCreateComponent implements OnInit {
     console.log(this.recipeDto);
     if (this.createRecipeForm.valid) {
       let observable: Observable<string>;
-      observable = this.recipeService.create(this.recipeDto);
+      switch (this.mode) {
+        case RecipeCreateMode.create:
+          observable = this.recipeService.create(this.recipeDto);
+          break;
+        case RecipeCreateMode.edit:
+          observable = this.recipeService.edit(this.recipeDto);
+          break;
+        default:
+          console.error('Unknown Mode', this.mode);
+          return;
+      }
       observable.subscribe({
         next: data => {
           this.snackBar.open('Recipe was successfully shared', 'Close', {

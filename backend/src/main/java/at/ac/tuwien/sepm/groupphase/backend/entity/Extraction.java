@@ -72,8 +72,7 @@ public class Extraction {
     @JoinColumn(name = "coffee_bean_id")
     private CoffeeBean coffeeBean;
 
-    @OneToOne(cascade = { CascadeType.REMOVE, CascadeType.ALL})
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Recipe recipe;
 

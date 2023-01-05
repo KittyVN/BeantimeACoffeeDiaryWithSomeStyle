@@ -20,7 +20,7 @@ public class Recipe {
     @Column(name = "description", length = 5000)
     private String description;
 
-    @OneToOne(orphanRemoval = true, mappedBy = "recipe")
+    @OneToOne(mappedBy = "recipe")
     private Extraction extraction;
 
     public String getDescription() {

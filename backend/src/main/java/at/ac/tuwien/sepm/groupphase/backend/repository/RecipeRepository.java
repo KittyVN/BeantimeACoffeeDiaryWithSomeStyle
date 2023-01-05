@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
-    @Modifying
-    @Transactional
-    @Query("delete from Recipe c where c.extraction.id = :id")
-    void deleteByExtractionId(@Param("id") Long id);
+
+    @Query(value = "SELECT RE.* FROM COFFEE_RECIPE RE JOIN COFFEE_EXTRACTION EX on RE.ID = EX.RECIPE_ID WHERE EX.ID = :id", nativeQuery = true)
+    Recipe findRecipeByExtractionId(@Param("id") Long id);
+
 }
