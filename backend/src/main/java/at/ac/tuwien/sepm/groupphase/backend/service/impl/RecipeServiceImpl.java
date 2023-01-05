@@ -62,7 +62,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Stream<RecipeDto> getAll() {
         LOGGER.trace("getAll()");
-        return recipeRepository.findAll().stream().map(recipe -> mapper.entityToDto(recipe));
+        return recipeRepository.findAllRecipes().stream().map(recipe -> mapper.entityToDto(recipe));
     }
 
     @Override
