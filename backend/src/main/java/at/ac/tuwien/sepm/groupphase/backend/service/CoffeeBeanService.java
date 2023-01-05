@@ -2,9 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
-import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import org.aspectj.weaver.ast.Not;
 
 import java.util.stream.Stream;
 

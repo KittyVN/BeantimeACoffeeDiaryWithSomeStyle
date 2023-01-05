@@ -12,6 +12,7 @@ import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
 })
 export class ExtractionCardComponent implements OnInit {
   @Input() extraction?: ExtractionDetailDto;
+  @Input() coffeeBeanId?: number;
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   public doughnutChartData: ChartData<'doughnut'> = {
@@ -29,6 +30,13 @@ export class ExtractionCardComponent implements OnInit {
         this.extraction.sweetness &&
         this.extraction.aftertaste
       );
+    }
+    return false;
+  }
+
+  exists(): boolean {
+    if (this.extraction) {
+      return true;
     }
     return false;
   }

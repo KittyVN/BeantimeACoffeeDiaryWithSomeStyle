@@ -2,10 +2,12 @@ package at.ac.tuwien.sepm.groupphase.backend.repository;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
-import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +32,16 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
         value = "SELECT * FROM COFFEE_EXTRACTION e WHERE e.COFFEE_BEAN_ID = :id",
         nativeQuery = true)
     List<Extraction> findAllByBeanId(@Param("id") Long beanId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM COFFEE_EXTRACTION WHERE EXISTS(SELECT * FROM COFFEE_BEAN b WHERE b.USER_ID = :id)", nativeQuery = true)
+    void deleteByUserId(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE COFFEE_EXTRACTION e SET e.recipe_id = :recipe WHERE e.id = :id", nativeQuery = true)
+    void addRecipeToExtraction(@Param("id") Long id, @Param("recipe") Long recipe);
 
 
 }

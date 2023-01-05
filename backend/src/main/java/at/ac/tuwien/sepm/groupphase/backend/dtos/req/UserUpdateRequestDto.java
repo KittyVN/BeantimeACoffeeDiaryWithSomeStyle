@@ -3,7 +3,6 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 public class UserUpdateRequestDto {
 

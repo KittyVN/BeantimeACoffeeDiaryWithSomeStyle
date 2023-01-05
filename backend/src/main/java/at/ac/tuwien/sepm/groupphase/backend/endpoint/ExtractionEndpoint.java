@@ -1,6 +1,5 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.security.PermitAll;
 import java.lang.invoke.MethodHandles;
 import java.util.stream.Stream;
 
@@ -47,6 +45,16 @@ public class ExtractionEndpoint {
     public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto.toString());
         return service.create(extractionCreateDto);
+    }
+
+    @GetMapping("{id}")
+    public ExtractionDetailDto getById(@PathVariable("id") long id) {
+        LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
+        try {
+            return service.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
 }

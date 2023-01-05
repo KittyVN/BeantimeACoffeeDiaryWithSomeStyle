@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
 import java.util.stream.Stream;
 
@@ -32,4 +33,11 @@ public interface ExtractionService {
      */
     ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto);
 
+    /**
+     * Fetches a saved extraction with the specific id from the persistent data storage.
+     *
+     * @param id of the extraction
+     * @return the found extraction
+     */
+    ExtractionDetailDto getById(Long id) throws NotFoundException;
 }

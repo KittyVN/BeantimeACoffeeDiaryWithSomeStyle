@@ -13,5 +13,5 @@ public interface CoffeeBeanRepository extends JpaRepository<CoffeeBean, Long> {
     @Modifying
     @Transactional
     @Query("delete from CoffeeBean c where c.user.id = :id")
-    void deleteCoffeeBeanById(@Param("id") Long id);
+    void deleteCoffeeBeanByUserId(@Param("id") Long id);
 }

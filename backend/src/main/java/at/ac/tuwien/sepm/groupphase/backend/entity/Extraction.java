@@ -5,6 +5,7 @@ import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -69,6 +71,10 @@ public class Extraction {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "coffee_bean_id")
     private CoffeeBean coffeeBean;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    private Recipe recipe;
 
     public LocalDateTime getExtractionDate() {
         return extractionDate;
@@ -211,5 +217,13 @@ public class Extraction {
 
     public void setWaterAmount(Double waterAmount) {
         this.waterAmount = waterAmount;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 }

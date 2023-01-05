@@ -32,4 +32,14 @@ export class ExtractionService {
   public getAllByCoffeeId(id: number): Observable<ExtractionDetailDto[]> {
     return this.http.get<ExtractionDetailDto[]>('extractions/bean/' + id);
   }
+
+  /**
+   * Get an extraction out of the data storage by its id
+   *
+   * @param id the id of the extraction to fetch
+   * @returns the extraction as an Observable
+   */
+  public getById(id: string): Observable<ExtractionDetailDto> {
+    return this.http.get<ExtractionDetailDto>('extractions/' + id);
+  }
 }

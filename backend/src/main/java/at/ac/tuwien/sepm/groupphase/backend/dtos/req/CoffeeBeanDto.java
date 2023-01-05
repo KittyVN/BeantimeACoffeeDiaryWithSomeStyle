@@ -1,6 +1,5 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
-import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import at.ac.tuwien.sepm.groupphase.backend.validation.ValidCoffeeRoast;
 

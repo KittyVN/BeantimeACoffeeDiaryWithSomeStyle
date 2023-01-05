@@ -13,6 +13,8 @@ import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.UserMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
+import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
+import at.ac.tuwien.sepm.groupphase.backend.repository.RecipeRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
@@ -37,15 +39,19 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserRepository userRepository;
     private final CoffeeBeanRepository beanRepository;
-
+    private final ExtractionRepository extractionRepository;
+    private final RecipeRepository recipeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
+    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, ExtractionRepository extractionRepository, RecipeRepository recipeRepository,
+                           UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
         this.userRepository = userRepository;
         this.beanRepository = beanRepository;
+        this.extractionRepository = extractionRepository;
+        this.recipeRepository = recipeRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenizer = jwtTokenizer;
         this.mapper = mapper;
@@ -145,7 +151,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        beanRepository.deleteCoffeeBeanById(id);
+        extractionRepository.deleteByUserId(id);
+        beanRepository.deleteCoffeeBeanByUserId(id);
         userRepository.deleteById(id);
     }
 
