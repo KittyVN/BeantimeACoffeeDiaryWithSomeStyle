@@ -23,7 +23,14 @@ public class ExtractionMapper {
         } else {
             id = extraction.getCoffeeBean().getId();
         }
-        int overallRating = extraction.getAftertaste() + extraction.getAcidity() + extraction.getBody() + extraction.getSweetness() + extraction.getAromatics();
+        int overallRating;
+        if (extraction.getAcidity() != null && extraction.getAftertaste() != null && extraction.getBody() != null && extraction.getSweetness() != null &&
+            extraction.getAromatics() != null) {
+            overallRating =
+                extraction.getAftertaste() + extraction.getAcidity() + extraction.getBody() + extraction.getSweetness() + extraction.getAromatics();
+        } else {
+            overallRating = 0;
+        }
         return new ExtractionDetailDto(
             extraction.getId(),
             extraction.getExtractionDate(),
@@ -42,6 +49,7 @@ public class ExtractionMapper {
             overallRating,
             id
         );
+
     }
 
     public ExtractionCreateDto entityToCreateDto(Extraction extraction) {

@@ -29,6 +29,7 @@ export class ExtractionCreateEditComponent implements OnInit {
     private coffeeBeanService: CoffeeBeanService
   ) {}
 
+  currentStep: number = 0;
   id: string | null = null;
   coffeeId: string | null = null;
   coffee: CoffeeBeanDto = {
@@ -74,6 +75,40 @@ export class ExtractionCreateEditComponent implements OnInit {
     else return 0;
   }
   onSubmit() {
+    let observable: Observable<string>;
+    switch (this.mode) {
+      case ExtractionCreateEditMode.create:
+        observable = this.extractionService.create(this.extraction);
+        break;
+      case ExtractionCreateEditMode.edit:
+        observable = this.extractionService.edit(this.extraction);
+        break;
+      default:
+        console.error('Unknown CoffeeBeanCreateEditMode', this.mode);
+        return;
+    }
+    observable.subscribe({
+      next: data => {
+        this.router.navigate(['/home']);
+      },
+      error: err => {
+        this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
+          duration: 5000,
+        });
+      },
+    });
+  }
+
+  resetRatings() {
+    this.extraction.body = 0;
+    this.extraction.acidity = 0;
+    this.extraction.aromatics = 0;
+    this.extraction.aftertaste = 0;
+    this.extraction.sweetness = 0;
+  }
+
+  submitNoRating() {
+    this.resetRatings();
     let observable: Observable<string>;
     switch (this.mode) {
       case ExtractionCreateEditMode.create:
@@ -154,6 +189,7 @@ export class ExtractionCreateEditComponent implements OnInit {
     if (this.mode === ExtractionCreateEditMode.edit) {
       this.route.paramMap.subscribe(paramMap => {
         this.id = paramMap.get('id');
+        this.currentStep = 2;
       });
     }
   }

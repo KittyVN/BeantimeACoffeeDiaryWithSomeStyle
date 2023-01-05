@@ -1,4 +1,4 @@
-<mat-vertical-stepper [linear]="true" #stepper>
+<mat-vertical-stepper [linear]="true" [selectedIndex]="currentStep" #stepper>
   <mat-step [stepControl]="parameterForm">
     <ng-template matStepLabel>Parameters</ng-template>
     <form class="parameterForm" [formGroup]="parameterForm">
@@ -74,11 +74,14 @@
   <mat-step>
     <ng-template matStepLabel>Extraction Time</ng-template>
     <app-extraction-timer></app-extraction-timer>
-    <mat-label>Time in Milliseconds </mat-label>
-    <input matInput type="number" [(ngModel)]="extraction.brewTime" />
+    <div class="timerInput">
+      <mat-label>Time in Milliseconds </mat-label>
+      <input matInput type="number" [(ngModel)]="extraction.brewTime" />
+    </div>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
+      <button mat-raised-button (click)="submitNoRating()">Skip Rating</button>
     </div>
   </mat-step>
   <mat-step [stepControl]="ratingForm">
