@@ -130,6 +130,7 @@ public class UserEndpointTest {
     /* Tests for GET /users/{id} */
 
     @Test
+    @Transactional
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     @Rollback
     public void getByIdReturnsUser() throws Exception {
@@ -144,12 +145,14 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void getUserByNonExistentIdReturns404() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/admin/0")).andExpect(status().isNotFound());
     }
 
     @Test
+    @Transactional
     @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
     public void getByIdWithoutRoleAdminReturns403() {
         try {
@@ -163,6 +166,7 @@ public class UserEndpointTest {
     /* Tests for PUT /users/{id} */
 
     @Test
+    @Transactional
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void updateByAdminReturnsUser() throws Exception {
         byte[] body = mockMvc
@@ -190,6 +194,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void updateByAdminWithNonexistentIdReturns404() {
         try {
@@ -201,6 +206,7 @@ public class UserEndpointTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
     public void updateByAdminWithoutRoleAdminReturns403() {
         try {

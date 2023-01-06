@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { CoffeeBeanDashboardDto, CoffeeBeanDto } from 'src/dtos';
 import { Observable } from 'rxjs';
+import { coffeeBeanSearchDto } from 'src/dtos/req/coffee-bean-search.dto';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { CoffeeBeanDetailDto } from '../dtos/req/coffee-bean-detail.dto';
 
 @Injectable({ providedIn: 'root' })
 export class CoffeeBeanService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   /**
    * Add a new coffee bean
@@ -24,8 +26,34 @@ export class CoffeeBeanService {
 
    * @returns An observable list of coffee entitys
    */
-  public getall(): Observable<CoffeeBeanDashboardDto[]> {
-    return this.http.get<CoffeeBeanDashboardDto[]>('coffee-beans');
+  public search(
+    searchParams: coffeeBeanSearchDto
+  ): Observable<CoffeeBeanDashboardDto[]> {
+    const token = localStorage.getItem('token');
+    let tokenPayload;
+    if (token) {
+      tokenPayload = this.jwtHelper.decodeToken(token);
+    }
+    let params = new HttpParams();
+
+    if (searchParams.name != null && searchParams.name !== '') {
+      params = params.set('name', searchParams.name);
+    }
+
+    if (searchParams.roast != null) {
+      params = params.set('coffeeRoast', searchParams.roast);
+    }
+
+    if (searchParams.description != null && searchParams.description !== '') {
+      params = params.set('description', searchParams.description);
+    }
+
+    return this.http.get<CoffeeBeanDashboardDto[]>(
+      'coffee-beans/user/' + tokenPayload.jti,
+      {
+        params,
+      }
+    );
   }
 
   /**

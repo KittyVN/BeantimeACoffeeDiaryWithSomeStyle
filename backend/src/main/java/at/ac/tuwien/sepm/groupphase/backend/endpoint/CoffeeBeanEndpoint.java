@@ -1,7 +1,8 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
+import java.security.Principal;
 import java.util.stream.Stream;
 
 
@@ -40,10 +44,17 @@ public class CoffeeBeanEndpoint {
         this.extractionService = extractionService;
     }
 
-    @GetMapping
-    public Stream<CoffeBeanDashboardDto> getAll() throws ResponseStatusException {
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
+        + "and authentication.principal.equals(#id.toString())")
+    @GetMapping("/user/{id}")
+    public Stream<CoffeeBeanDashboardDto> search(@PathVariable Long id, CoffeeBeanSearchDto searchParams) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH);
-        return coffeeBeanService.getAll();
+        LOGGER.info("Request parameters: {}", searchParams);
+        try {
+            return coffeeBeanService.search(searchParams, id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping

@@ -149,6 +149,7 @@ public class CoffeeBeanEndpointTest {
     }
 
     @Test
+    @Transactional
     public void deleteNonExistingCoffee() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
             .delete("/api/v1/coffee-beans/-9999")

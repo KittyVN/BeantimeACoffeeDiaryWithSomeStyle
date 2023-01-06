@@ -1,7 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.mapper;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import org.springframework.stereotype.Component;
 
@@ -36,13 +36,13 @@ public class CoffeeBeanMapper {
     }
 
     /**
-     * Converts a CoffeeBean Entity object to a {@link CoffeBeanDashboardDto}.
+     * Converts a CoffeeBean Entity object to a {@link CoffeeBeanDashboardDto}.
      *
      * @param coffeeBean the object to convert
-     * @return the converted CoffeeBean {@link CoffeBeanDashboardDto}
+     * @return the converted CoffeeBean {@link CoffeeBeanDashboardDto}
      */
-    public CoffeBeanDashboardDto entityToDashboardDto(CoffeeBean coffeeBean) {
-        return new CoffeBeanDashboardDto(
+    public CoffeeBeanDashboardDto entityToDashboardDto(CoffeeBean coffeeBean) {
+        return new CoffeeBeanDashboardDto(
             coffeeBean.getId(),
             coffeeBean.getName(),
             coffeeBean.getCoffeeRoast(),

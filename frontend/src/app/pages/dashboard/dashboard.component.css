@@ -1,7 +1,35 @@
+.mat-h1 {
+  left: 40px;
+}
+
 .grid-container {
+  top: 40px;
   margin: 20px;
   margin-left: 5%;
   margin-right: 5%;
+}
+
+.form {
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter-button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.adder-button {
+  height: 3em;
+  width: 80%;
+  right: 10%;
+  left: 10%;
+  margin-top: 1em;
 }
 
 .dashboard-card {
