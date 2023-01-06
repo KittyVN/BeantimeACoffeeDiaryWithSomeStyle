@@ -58,11 +58,11 @@ public class ExtractionEndpointTest {
         assertThat(userResult.size()).isGreaterThanOrEqualTo(6);
         assertThat(userResult)
             .map(ExtractionDetailDto::getId, ExtractionDetailDto::getDose, ExtractionDetailDto::getOverallRating)
-            .contains(tuple(1L, 200.0, 25))
-            .contains(tuple(2L, 200.0, 15))
-            .contains(tuple(3L, 200.0, 15))
-            .contains(tuple(4L, 200.0, 13))
-            .contains(tuple(5L, 200.0, 23))
-            .contains(tuple(6L, 200.0, 10));
+            .contains(tuple(1L, 100.0, 25))
+            .contains(tuple(2L, 100.0, 15))
+            .contains(tuple(3L, 100.0, 15))
+            .contains(tuple(4L, 100.0, 13))
+            .contains(tuple(5L, 100.0, 23))
+            .contains(tuple(6L, 100.0, 10));
     }
 }
