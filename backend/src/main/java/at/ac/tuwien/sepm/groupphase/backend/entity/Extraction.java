@@ -5,7 +5,6 @@ import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -72,17 +71,9 @@ public class Extraction {
     @JoinColumn(name = "coffee_bean_id")
     private CoffeeBean coffeeBean;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "extraction")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Recipe recipe;
-
-    public LocalDateTime getExtractionDate() {
-        return extractionDate;
-    }
-
-    public void setExtractionDate(LocalDateTime extractionDate) {
-        this.extractionDate = extractionDate;
-    }
 
     public Extraction() {}
 
@@ -106,28 +97,8 @@ public class Extraction {
         this.coffeeBean = coffeeBean;
     }
 
-    public Integer getBody() {
-        return body;
-    }
-
-    public void setBody(Integer body) {
-        this.body = body;
-    }
-
-    public Long getBrewTime() {
-        return brewTime;
-    }
-
-    public void setBrewTime(Long brewTime) {
-        this.brewTime = brewTime;
-    }
-
-    public CoffeeBean getCoffeeBean() {
-        return coffeeBean;
-    }
-
-    public void setCoffeeBean(CoffeeBean coffeeBean) {
-        this.coffeeBean = coffeeBean;
+    public Extraction(long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -138,6 +109,13 @@ public class Extraction {
         this.id = id;
     }
 
+    public LocalDateTime getExtractionDate() {
+        return extractionDate;
+    }
+
+    public void setExtractionDate(LocalDateTime extractionDate) {
+        this.extractionDate = extractionDate;
+    }
 
     public ExtractionBrewMethod getBrewMethod() {
         return brewMethod;
@@ -169,6 +147,30 @@ public class Extraction {
 
     public void setDose(Double dose) {
         this.dose = dose;
+    }
+
+    public Double getWaterAmount() {
+        return waterAmount;
+    }
+
+    public void setWaterAmount(Double waterAmount) {
+        this.waterAmount = waterAmount;
+    }
+
+    public Long getBrewTime() {
+        return brewTime;
+    }
+
+    public void setBrewTime(Long brewTime) {
+        this.brewTime = brewTime;
+    }
+
+    public Integer getBody() {
+        return body;
+    }
+
+    public void setBody(Integer body) {
+        this.body = body;
     }
 
     public Integer getAcidity() {
@@ -211,12 +213,12 @@ public class Extraction {
         this.ratingNotes = ratingNotes;
     }
 
-    public Double getWaterAmount() {
-        return waterAmount;
+    public CoffeeBean getCoffeeBean() {
+        return coffeeBean;
     }
 
-    public void setWaterAmount(Double waterAmount) {
-        this.waterAmount = waterAmount;
+    public void setCoffeeBean(CoffeeBean coffeeBean) {
+        this.coffeeBean = coffeeBean;
     }
 
     public Recipe getRecipe() {

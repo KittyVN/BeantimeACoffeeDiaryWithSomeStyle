@@ -50,18 +50,39 @@ public class RecipeEndpointTest {
     @Transactional
     @Rollback
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
-    public void createValidRecipeReturnsRecipe() throws Exception {
+    public void createRecipeForExistingExtractionReturnsConflict() throws Exception {
         requestJson.setDescription("Test");
         requestJson.setExtractionId(5L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
-        byte[] body = mockMvc
+        String body = mockMvc
             .perform(MockMvcRequestBuilders
             .post("/api/v1/recipes")
             .contentType(MediaType.APPLICATION_JSON)
             .content(String.valueOf(jsonString))
             .characterEncoding("utf-8")
-        ).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
+        ).andDo(print()).andExpect(status().isConflict()).andReturn().getResponse().getErrorMessage();
+
+        assertThat(body).isEqualTo("recipe for this extraction with ID 5 already exists");
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void createValidRecipeReturnsRecipe() throws Exception {
+        requestJson.setDescription("Test");
+        requestJson.setExtractionId(2L);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(requestJson);
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .post("/api/v1/recipes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.valueOf(jsonString))
+                .characterEncoding("utf-8")
+            ).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
 
         List<RecipeDto> result = objectMapper.readerFor(RecipeDto.class).<RecipeDto>readValues(body).readAll();
 

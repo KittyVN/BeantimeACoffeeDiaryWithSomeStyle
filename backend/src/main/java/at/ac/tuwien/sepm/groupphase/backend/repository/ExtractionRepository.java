@@ -37,10 +37,4 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
     @Query(value = "DELETE FROM COFFEE_EXTRACTION WHERE EXISTS(SELECT * FROM COFFEE_BEAN b WHERE b.USER_ID = :id)", nativeQuery = true)
     void deleteByUserId(@Param("id") Long id);
 
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE COFFEE_EXTRACTION e SET e.recipe_id = :recipe WHERE e.id = :id", nativeQuery = true)
-    void addRecipeToExtraction(@Param("id") Long id, @Param("recipe") Long recipe);
-
-
 }
