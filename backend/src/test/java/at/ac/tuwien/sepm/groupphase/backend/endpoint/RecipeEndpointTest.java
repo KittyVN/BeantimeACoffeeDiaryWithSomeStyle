@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -92,6 +94,25 @@ public class RecipeEndpointTest {
             .map(RecipeDto::getDescription)
             .contains("Test");
 
+    }
+
+    @Test
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void getAllRecipesReturnsRecipes() throws Exception {
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .get("/api/v1/recipes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+            ).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
+
+        List<CommunityRecipeDto> result = objectMapper.readerFor(CommunityRecipeDto.class).<CommunityRecipeDto>readValues(body).readAll();
+
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result)
+            .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
+            .contains(tuple("A longer description goes here because I need characters for testing. Lets add even more because its practical to see how many lines this box can actually hold.", 4, "Wild"));
     }
 
 }

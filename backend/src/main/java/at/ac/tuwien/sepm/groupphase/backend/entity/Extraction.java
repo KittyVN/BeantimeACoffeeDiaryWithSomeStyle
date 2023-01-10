@@ -33,6 +33,7 @@ public class Extraction {
     @Column(name = "brew_method")
     private ExtractionBrewMethod brewMethod;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "grind_setting")
     private CoffeeGrindSetting grindSetting;
 
