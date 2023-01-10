@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
@@ -35,14 +36,12 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDto create(RecipeDto recipeDto) throws FileAlreadyExistsException {
         LOGGER.trace("create {}", recipeDto);
         Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
-        Recipe recipe = new Recipe(recipeDto.getDescription());
-        if (extraction.get().getRecipe() == null) {
-            RecipeDto recipeDtoToReturn = mapper.entityToDto(recipeRepository.save(recipe));
-            recipeDtoToReturn.setExtractionId(extraction.get().getId());
-            extractionRepository.addRecipeToExtraction(extraction.get().getId(), recipeDtoToReturn.getId());
-            return recipeDtoToReturn;
+        Recipe recipeExist = recipeRepository.findRecipeByExtractionId(recipeDto.getExtractionId());
+        Recipe recipe = new Recipe(recipeDto.getDescription(), extraction.get());
+        if (recipeExist == null) {
+            return mapper.entityToDto(recipeRepository.save(recipe));
         } else {
-            throw new FileAlreadyExistsException(String.format("recipe for this extraction with ID %d already exists", extraction.get().getId()));
+            throw new FileAlreadyExistsException(String.format("recipe for this extraction with ID %d already exists", recipeExist.getExtraction().getId()));
         }
     }
 
@@ -63,6 +62,14 @@ public class RecipeServiceImpl implements RecipeService {
     public Stream<RecipeDto> getAll() {
         LOGGER.trace("getAll()");
         return recipeRepository.findAllRecipes().stream().map(recipe -> mapper.entityToDto(recipe));
+    }
+
+    @Override
+    public Stream<CommunityRecipeDto> getAllWithExtractions() {
+        LOGGER.trace("getAllWithExtractions()");
+        Stream<Object> recipes = recipeRepository.findAllRecipesJoinedWithExtraction().stream();
+        Stream<CommunityRecipeDto> recipesDto = recipes.map(recipe -> mapper.objectToDto(recipe));
+        return recipesDto;
     }
 
     @Override

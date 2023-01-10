@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
@@ -32,6 +33,13 @@ public interface RecipeService {
      * @return a stream of the found recipes
      */
     Stream<RecipeDto> getAll();
+
+    /**
+     * Fetches all saved recipes from the persistent data storage joined with extraction.
+     *
+     * @return a stream of the found recipes
+     */
+    Stream<CommunityRecipeDto> getAllWithExtractions();
 
     /**
      * Fetches a saved recipe with the specific extraction id from the persistent data storage.

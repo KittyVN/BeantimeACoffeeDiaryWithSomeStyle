@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeService;
@@ -54,9 +55,9 @@ public class RecipeEndpoint {
     }
 
     @GetMapping
-    public Stream<RecipeDto> getAll() throws ResponseStatusException {
+    public Stream<CommunityRecipeDto> getAll() throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH);
-        return service.getAll();
+        return service.getAllWithExtractions();
     }
 
     @GetMapping("extraction/{id}")

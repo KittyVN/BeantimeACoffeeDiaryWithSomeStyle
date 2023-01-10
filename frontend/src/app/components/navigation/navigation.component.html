@@ -1,14 +1,8 @@
 <mat-drawer-container class="layout" autosize>
   <mat-toolbar class="toolbar-container" color="primary">
     <div class="logo-wrapper">
-      <button
-        (click)="drawer.toggle()"
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
       <a [routerLink]="['/home']">{{ appName }}</a>
+      <a [routerLink]="['/community']"> Community</a>
     </div>
     <div [ngSwitch]="isAuthenticated">
       <div *ngSwitchCase="false">
