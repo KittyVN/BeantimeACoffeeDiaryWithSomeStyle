@@ -114,5 +114,4 @@ public class RecipeEndpointTest {
             .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
             .contains(tuple("A longer description goes here because I need characters for testing. Lets add even more because its practical to see how many lines this box can actually hold.", 4, "Wild"));
     }
-
 }

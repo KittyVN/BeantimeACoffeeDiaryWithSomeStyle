@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
+import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
 import { RecipeDto } from 'src/dtos/req/recipe.dto';
 
 @Injectable({
@@ -38,5 +39,9 @@ export class RecipeService {
    */
   public getByExtractionId(id: string): Observable<RecipeDto> {
     return this.http.get<RecipeDto>('recipes/extraction/' + id);
+  }
+
+  public getAll(): Observable<CommunityRecipeDto[]> {
+    return this.http.get<CommunityRecipeDto[]>('recipes');
   }
 }

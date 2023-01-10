@@ -47,6 +47,7 @@ import { ExtractionCreateEditComponent } from './pages/extraction-create-edit/ex
 import { ExtractionTimerComponent } from './pages/extraction-create-edit/extraction-timer/extraction-timer.component';
 import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/star-rating.component';
 import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
+import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.compo
     ExtractionTimerComponent,
     StarRatingComponent,
     RecipeCreateComponent,
+    CommunityDashboardComponent,
   ],
   imports: [
     BrowserModule,
