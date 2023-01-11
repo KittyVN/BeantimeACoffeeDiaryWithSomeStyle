@@ -38,7 +38,6 @@ export class ExtractionCreateEditComponent implements OnInit {
   };
   extraction: ExtractionCreateDto = {
     brewMethod: BrewMethod.DRIP,
-    brewTime: 300,
     body: 3,
     acidity: 3,
     aromatics: 3,
@@ -141,9 +140,19 @@ export class ExtractionCreateEditComponent implements OnInit {
     });
   }
 
+  brewTimeChanged(value: number) {
+    console.log(value);
+    this.extraction.brewTime = value * 1000;
+    console.log(this.extraction.brewTime);
+  }
+
+  timerUpdate(value: number) {
+    console.log(value);
+    this.extraction.brewTime = value;
+  }
+
   changeBody(value: number) {
     this.extraction.body = value;
-    console.log(this.extraction);
   }
 
   changeAftertaste(value: number) {

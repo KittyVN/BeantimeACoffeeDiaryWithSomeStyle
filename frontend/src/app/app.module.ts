@@ -46,6 +46,7 @@ import { ExtractionCardComponent } from './components/extraction-card/extraction
 import { ExtractionCreateEditComponent } from './pages/extraction-create-edit/extraction-create-edit.component';
 import { ExtractionTimerComponent } from './pages/extraction-create-edit/extraction-timer/extraction-timer.component';
 import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/star-rating.component';
+import { MillisecondsToSecondsPipe } from './pages/extraction-create-edit/milliseconds-to-seconds.pipe';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/
     ExtractionCreateEditComponent,
     ExtractionTimerComponent,
     StarRatingComponent,
+    MillisecondsToSecondsPipe,
   ],
   imports: [
     BrowserModule,

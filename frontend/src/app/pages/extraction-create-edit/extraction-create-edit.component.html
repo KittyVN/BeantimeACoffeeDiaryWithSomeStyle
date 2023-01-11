@@ -73,10 +73,18 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Extraction Time</ng-template>
-    <app-extraction-timer></app-extraction-timer>
+    <app-extraction-timer
+      (newBrewTimeEvent)="timerUpdate($event)"></app-extraction-timer>
     <div class="timerInput">
-      <mat-label>Time in Milliseconds </mat-label>
-      <input matInput type="number" [(ngModel)]="extraction.brewTime" />
+      <mat-form-field>
+        <mat-label>Enter Extraction Time in S</mat-label>
+        <input
+          *ngIf="extraction.brewTime !== undefined"
+          matInput
+          type="number"
+          [ngModel]="extraction.brewTime | millisecondsToSeconds"
+          (ngModelChange)="brewTimeChanged($event)" />
+      </mat-form-field>
     </div>
     <div>
       <button mat-button matStepperPrevious>Back</button>
