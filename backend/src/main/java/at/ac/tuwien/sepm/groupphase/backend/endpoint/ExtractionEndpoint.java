@@ -1,8 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 import java.util.stream.Stream;
 
@@ -56,13 +59,15 @@ public class ExtractionEndpoint {
     }
 
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
-    @PutMapping("{id}")
-    public ExtractionCreateDto update(@PathVariable Long id) throws ResponseStatusException {
-        LOGGER.info("PUT " + BASE_PATH + "/" + id);
+    @PutMapping
+    public ExtractionCreateDto update(@Valid @RequestBody ExtractionCreateDto extractionCreateDto) throws ResponseStatusException {
+        LOGGER.info("PUT " + BASE_PATH);
         try {
-            return service.update(id);
+            return service.update(extractionCreateDto);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
+        } catch (ConflictException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
         }
     }
 

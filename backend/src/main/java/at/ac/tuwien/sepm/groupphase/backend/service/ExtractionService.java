@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
 import java.util.stream.Stream;
@@ -45,10 +46,11 @@ public interface ExtractionService {
     /**
      * Updates a persisted extraction in storage
      *
-     * @param id of the extraction to update
+     * @param extractionCreateDto the extraction with updated values
      * @return the updated extraction
      * @throws NotFoundException in case the extraction with the given id is not found
+     * @throws ConflictException in case some external data conflicts with persisted data
      */
-    ExtractionCreateDto update(Long id) throws NotFoundException;
+    ExtractionCreateDto update(ExtractionCreateDto extractionCreateDto) throws NotFoundException, ConflictException;
 
 }

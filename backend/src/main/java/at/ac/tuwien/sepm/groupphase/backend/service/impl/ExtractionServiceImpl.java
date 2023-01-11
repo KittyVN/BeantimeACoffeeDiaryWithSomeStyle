@@ -5,6 +5,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
@@ -13,10 +14,13 @@ import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.invoke.MethodHandles;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -81,14 +85,29 @@ public class ExtractionServiceImpl implements ExtractionService {
     }
 
     @Override
-    public ExtractionCreateDto update(Long id) throws NotFoundException {
-        LOGGER.trace("update {}", id);
-        Optional<Extraction> extraction = extractionRepository.findById(id);
+    public ExtractionCreateDto update(ExtractionCreateDto extractionCreateDto) throws NotFoundException, ConflictException {
+        LOGGER.trace("update {}");
+        Optional<Extraction> extraction = extractionRepository.findById(extractionCreateDto.getId());
         if (extraction.isPresent()) {
             Extraction ex = extraction.get();
-            return mapper.entityToCreateDto(ex);
+            if (!Objects.equals(ex.getCoffeeBean().getId(), extractionCreateDto.getBeanId())) {
+                throw new ConflictException("Coffee Bean of Extraction cannot be changed");
+            }
+            ex.setAcidity(extractionCreateDto.getAcidity());
+            ex.setAftertaste(extractionCreateDto.getAftertaste());
+            ex.setAromatics(extractionCreateDto.getAromatics());
+            ex.setBody(extractionCreateDto.getBody());
+            ex.setDose(extractionCreateDto.getDose());
+            ex.setBrewTime(extractionCreateDto.getBrewTime());
+            ex.setBrewMethod(extractionCreateDto.getBrewMethod());
+            ex.setGrindSetting(extractionCreateDto.getGrindSetting());
+            ex.setWaterTemperature(extractionCreateDto.getWaterTemperature());
+            ex.setRatingNotes(extractionCreateDto.getRatingNotes());
+            ex.setSweetness(extractionCreateDto.getSweetness());
+            ex.setWaterAmount(extractionCreateDto.getWaterAmount());
+            return mapper.entityToCreateDto(extractionRepository.save(ex));
         } else {
-            throw new NotFoundException(String.format("No extraction with ID %d found", id));
+            throw new NotFoundException(String.format("No extraction with ID %d found", extractionCreateDto.getId()));
         }
     }
 
