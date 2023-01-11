@@ -23,12 +23,12 @@ export class ExtractionCardComponent implements OnInit {
   rated(): boolean {
     if (this.extraction) {
       return !(
-        this.extraction.overallRating &&
-        this.extraction.body &&
-        this.extraction.acidity &&
-        this.extraction.aromatics &&
-        this.extraction.sweetness &&
-        this.extraction.aftertaste
+        this.extraction.overallRating === 0 &&
+        this.extraction.body === 0 &&
+        this.extraction.acidity === 0 &&
+        this.extraction.aromatics === 0 &&
+        this.extraction.sweetness === 0 &&
+        this.extraction.aftertaste === 0
       );
     }
     return false;

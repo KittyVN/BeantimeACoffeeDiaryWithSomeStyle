@@ -1,7 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
@@ -11,11 +14,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 import java.util.stream.Stream;
 
@@ -33,7 +39,7 @@ public class ExtractionEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @GetMapping("bean/{id}")
     public Stream<ExtractionDetailDto> getAllByBeanId(@PathVariable Long id) throws ResponseStatusException {
-        LOGGER.info("GET " + BASE_PATH + "/" + id);
+        LOGGER.info("GET " + BASE_PATH + "/bean" + id);
         try {
             return service.getAllByBeanId(id);
         } catch (NotFoundException e) {
@@ -41,20 +47,35 @@ public class ExtractionEndpoint {
         }
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
+    @GetMapping("{id}")
+    public ExtractionDetailDto getById(@PathVariable Long id) throws ResponseStatusException {
+        LOGGER.info("GET " + BASE_PATH + "/" + id);
+        try {
+            return service.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
+        }
+    }
+
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
+    @PutMapping
+    public ExtractionCreateDto update(@Valid @RequestBody ExtractionCreateDto extractionCreateDto) throws ResponseStatusException {
+        LOGGER.info("PUT " + BASE_PATH);
+        try {
+            return service.update(extractionCreateDto);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
+        } catch (ConflictException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
+        }
+    }
+
+
     @PostMapping
     public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto.toString());
         return service.create(extractionCreateDto);
-    }
-
-    @GetMapping("{id}")
-    public ExtractionDetailDto getById(@PathVariable("id") long id) {
-        LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
-        try {
-            return service.getById(id);
-        } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
     }
 
 }

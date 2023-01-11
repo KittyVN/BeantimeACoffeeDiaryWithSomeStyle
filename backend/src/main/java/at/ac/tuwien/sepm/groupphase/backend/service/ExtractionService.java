@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
 import java.util.stream.Stream;
@@ -26,6 +27,15 @@ public interface ExtractionService {
     Stream<ExtractionDetailDto> getAllByBeanId(Long id);
 
     /**
+     * Fetches extraction from persistent data storage by its id.
+     *
+     * @param id of the extraction
+     * @return the found extraction
+     * @throws NotFoundException in case the extraction with the id is not found
+     */
+    ExtractionDetailDto getById(Long id) throws NotFoundException;
+
+    /**
      * Creates a new extraction in storage.
      *
      * @param extractionCreateDto the extraction to create
@@ -34,10 +44,13 @@ public interface ExtractionService {
     ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto);
 
     /**
-     * Fetches a saved extraction with the specific id from the persistent data storage.
+     * Updates a persisted extraction in storage.
      *
-     * @param id of the extraction
-     * @return the found extraction
+     * @param extractionCreateDto the extraction with updated values
+     * @return the updated extraction
+     * @throws NotFoundException in case the extraction with the given id is not found
+     * @throws ConflictException in case some external data conflicts with persisted data
      */
-    ExtractionDetailDto getById(Long id) throws NotFoundException;
+    ExtractionCreateDto update(ExtractionCreateDto extractionCreateDto) throws NotFoundException, ConflictException;
+
 }

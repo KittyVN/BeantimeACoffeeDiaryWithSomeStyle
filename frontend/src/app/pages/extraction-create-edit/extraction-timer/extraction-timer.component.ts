@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-extraction-timer',
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./extraction-timer.component.css'],
 })
 export class ExtractionTimerComponent {
+  @Output() newBrewTimeEvent = new EventEmitter<number>();
   ms: any = '0' + 0;
   s: any = '0' + 0;
   m: any = '0' + 0;
@@ -33,6 +34,11 @@ export class ExtractionTimerComponent {
       }, 10);
     } else {
       this.stop();
+      this.newBrewTimeEvent.emit(
+        parseInt(this.ms) +
+          parseInt(this.s) * 1000 +
+          parseInt(this.m) * 60 * 1000
+      );
     }
   }
 
@@ -45,5 +51,6 @@ export class ExtractionTimerComponent {
     clearInterval(this.startTimer);
     this.running = false;
     this.m = this.s = this.ms = '0' + 0;
+    this.newBrewTimeEvent.emit(0);
   }
 }
