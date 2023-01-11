@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DeleteDialogComponent } from 'src/app/components/dialog/delete-dialog/delete-dialog.component';
 import { UserService } from 'src/services/user.service';
+import { RedditAuthService } from 'src/services/reddit-auth.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -14,7 +15,8 @@ export class ProfilePageComponent {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private redditAuthService: RedditAuthService
   ) {}
 
   openDialog(): void {
@@ -28,5 +30,10 @@ export class ProfilePageComponent {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  goToReddit() {
+    console.log('test');
+    this.redditAuthService.redirectToAuth();
   }
 }

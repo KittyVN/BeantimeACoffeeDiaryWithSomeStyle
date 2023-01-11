@@ -23,6 +23,7 @@ import {
 } from './pages/extraction-create-edit/extraction-create-edit.component';
 import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
 import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
+import { RedditAuthCallbackComponent } from './pages/reddit-auth-callback/reddit-auth-callback.component';
 
 import type { Routes } from '@angular/router';
 
@@ -56,6 +57,11 @@ const routes: Routes = [
     path: 'change',
     canActivate: [AuthGuard],
     component: EditAccountDataComponent,
+  },
+  {
+    path: 'socials/reddit/auth',
+    canActivate: [AuthGuard],
+    component: RedditAuthCallbackComponent,
   },
   {
     path: 'profile',
