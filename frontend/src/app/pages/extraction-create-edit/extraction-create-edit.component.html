@@ -1,4 +1,4 @@
-<mat-vertical-stepper [linear]="true" [selectedIndex]="currentStep" #stepper>
+<mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
   <mat-step [stepControl]="parameterForm">
     <ng-template matStepLabel>Parameters</ng-template>
     <form class="parameterForm" [formGroup]="parameterForm">
@@ -123,6 +123,9 @@
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-raised-button matStepperNext type="submit">Submit</button>
+        <button mat-raised-button (click)="submitNoRating()">
+          Submit without Rating
+        </button>
       </div>
     </form>
   </mat-step>

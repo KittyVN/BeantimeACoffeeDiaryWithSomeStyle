@@ -32,4 +32,8 @@ export class ExtractionService {
   public getAllByCoffeeId(id: number): Observable<ExtractionDetailDto[]> {
     return this.http.get<ExtractionDetailDto[]>('extractions/bean/' + id);
   }
+
+  public getById(id: string): Observable<ExtractionDetailDto> {
+    return this.http.get<ExtractionDetailDto>('extractions/' + id);
+  }
 }
