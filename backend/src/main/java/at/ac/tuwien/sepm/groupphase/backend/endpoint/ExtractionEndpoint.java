@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,6 +54,18 @@ public class ExtractionEndpoint {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
         }
     }
+
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
+    @PutMapping("{id}")
+    public ExtractionCreateDto update(@PathVariable Long id) throws ResponseStatusException {
+        LOGGER.info("PUT "+ BASE_PATH + "/" + id);
+        try{
+            return service.update(id);
+        }catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
+        }
+    }
+
 
     @PostMapping
     public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) {

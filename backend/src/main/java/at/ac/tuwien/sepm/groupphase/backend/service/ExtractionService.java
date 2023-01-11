@@ -41,4 +41,12 @@ public interface ExtractionService {
      */
     ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto);
 
+    /**
+     * Updates a persisted extraction in storage
+     * @param id of the extraction to update
+     * @return the updated extraction
+     * @throws NotFoundException in case the extraction with the given id is not found
+     */
+    ExtractionCreateDto update(Long id) throws NotFoundException;
+
 }

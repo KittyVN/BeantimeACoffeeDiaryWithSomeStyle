@@ -71,6 +71,7 @@ public class ExtractionServiceImpl implements ExtractionService {
 
     @Override
     public ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto) {
+        LOGGER.trace("create {}", extractionCreateDto);
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(extractionCreateDto.getBeanId());
         Extraction extraction = new Extraction(LocalDateTime.now(), extractionCreateDto.getBrewMethod(), extractionCreateDto.getGrindSetting(),
             extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(), extractionCreateDto.getBrewTime(),
@@ -78,4 +79,17 @@ public class ExtractionServiceImpl implements ExtractionService {
             extractionCreateDto.getAftertaste(), extractionCreateDto.getRatingNotes(), coffeeBean.get());
         return mapper.entityToCreateDto(extractionRepository.save(extraction));
     }
+
+    @Override
+    public ExtractionCreateDto update(Long id) throws NotFoundException {
+        LOGGER.trace("update {}", id);
+        Optional<Extraction> extraction = extractionRepository.findById(id);
+        if(extraction.isPresent()){
+            Extraction ex = extraction.get();
+            return mapper.entityToCreateDto(ex);
+        }else{
+            throw new NotFoundException(String.format("No extraction with ID %d found", id));
+        }
+    }
+
 }
