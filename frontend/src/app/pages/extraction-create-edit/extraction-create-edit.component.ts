@@ -38,6 +38,7 @@ export class ExtractionCreateEditComponent implements OnInit {
   };
   extraction: ExtractionCreateDto = {
     brewMethod: BrewMethod.DRIP,
+    brewTime: 0,
     body: 3,
     acidity: 3,
     aromatics: 3,
@@ -55,6 +56,9 @@ export class ExtractionCreateEditComponent implements OnInit {
     ]),
     dose: new FormControl('', [Validators.min(0)]),
     waterAmount: new FormControl('', [Validators.min(0), Validators.max(3000)]),
+  });
+  timerForm = new FormGroup({
+    brewTime: new FormControl('', [Validators.min(0)]),
   });
   ratingForm = new FormGroup({
     acidity: new FormControl('', [Validators.min(0)]),

@@ -72,25 +72,29 @@
     </div>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Extraction Time</ng-template>
-    <app-extraction-timer
-      (newBrewTimeEvent)="timerUpdate($event)"></app-extraction-timer>
-    <div class="timerInput">
-      <mat-form-field>
-        <mat-label>Enter Extraction Time in S</mat-label>
-        <input
-          *ngIf="extraction.brewTime !== undefined"
-          matInput
-          type="number"
-          [ngModel]="extraction.brewTime | millisecondsToSeconds"
-          (ngModelChange)="brewTimeChanged($event)" />
-      </mat-form-field>
-    </div>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-      <button mat-raised-button (click)="submitNoRating()">Skip Rating</button>
-    </div>
+    <form [formGroup]="timerForm">
+      <ng-template matStepLabel>Extraction Time</ng-template>
+      <app-extraction-timer
+        (newBrewTimeEvent)="timerUpdate($event)"></app-extraction-timer>
+      <div class="timerInput">
+        <mat-form-field *ngIf="extraction.brewTime !== undefined">
+          <mat-label>Enter Extraction Time in S</mat-label>
+          <input
+            matInput
+            formControlName="brewTime"
+            type="number"
+            [ngModel]="extraction.brewTime | millisecondsToSeconds"
+            (ngModelChange)="brewTimeChanged($event)" />
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+        <button mat-raised-button (click)="submitNoRating()">
+          Skip Rating
+        </button>
+      </div>
+    </form>
   </mat-step>
   <mat-step [stepControl]="ratingForm">
     <form class="ratingForm" [formGroup]="ratingForm" (submit)="onSubmit()">

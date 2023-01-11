@@ -6,6 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class MillisecondsToSecondsPipe implements PipeTransform {
   transform(milliseconds: number): number {
     let millisecondsToSeconds = 1000;
-    return Math.trunc(milliseconds / millisecondsToSeconds);
+    return milliseconds / millisecondsToSeconds;
   }
 }
