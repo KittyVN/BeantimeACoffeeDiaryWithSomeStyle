@@ -27,6 +27,7 @@ public interface ExtractionService {
 
     /**
      * Fetches extraction from persistent data storage by its id.
+     *
      * @param id of the extraction
      * @return the found extraction
      * @throws NotFoundException in case the extraction with the id is not found
@@ -43,6 +44,7 @@ public interface ExtractionService {
 
     /**
      * Updates a persisted extraction in storage
+     *
      * @param id of the extraction to update
      * @return the updated extraction
      * @throws NotFoundException in case the extraction with the given id is not found

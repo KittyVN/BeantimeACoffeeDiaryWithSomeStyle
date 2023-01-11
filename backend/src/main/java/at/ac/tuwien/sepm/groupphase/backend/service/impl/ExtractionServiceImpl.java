@@ -58,13 +58,13 @@ public class ExtractionServiceImpl implements ExtractionService {
     }
 
     @Override
-    public ExtractionDetailDto getById(Long id) throws NotFoundException{
+    public ExtractionDetailDto getById(Long id) throws NotFoundException {
         LOGGER.trace("getById({})", id);
         Optional<Extraction> ex = extractionRepository.findById(id);
-        if(ex.isPresent()){
+        if (ex.isPresent()) {
             Extraction extraction = ex.get();
             return mapper.entityToDto(extraction);
-        }else{
+        } else {
             throw new NotFoundException(String.format("No extraction with ID %d found", id));
         }
     }
@@ -84,10 +84,10 @@ public class ExtractionServiceImpl implements ExtractionService {
     public ExtractionCreateDto update(Long id) throws NotFoundException {
         LOGGER.trace("update {}", id);
         Optional<Extraction> extraction = extractionRepository.findById(id);
-        if(extraction.isPresent()){
+        if (extraction.isPresent()) {
             Extraction ex = extraction.get();
             return mapper.entityToCreateDto(ex);
-        }else{
+        } else {
             throw new NotFoundException(String.format("No extraction with ID %d found", id));
         }
     }

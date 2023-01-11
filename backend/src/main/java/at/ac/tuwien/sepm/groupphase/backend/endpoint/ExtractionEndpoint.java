@@ -58,10 +58,10 @@ public class ExtractionEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @PutMapping("{id}")
     public ExtractionCreateDto update(@PathVariable Long id) throws ResponseStatusException {
-        LOGGER.info("PUT "+ BASE_PATH + "/" + id);
-        try{
+        LOGGER.info("PUT " + BASE_PATH + "/" + id);
+        try {
             return service.update(id);
-        }catch (NotFoundException e) {
+        } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
         }
     }
