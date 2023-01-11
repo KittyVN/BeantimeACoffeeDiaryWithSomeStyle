@@ -5,6 +5,9 @@ import { UpdateUserDto } from 'src/dtos';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+
+import { DeleteDialogComponent } from '../../components/dialog/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-edit-account-data',
@@ -13,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class EditAccountDataComponent implements OnInit {
   constructor(
+    private dialog: MatDialog,
     private userService: UserService,
     private jwtHelper: JwtHelperService,
     private snackBar: MatSnackBar,
@@ -59,6 +63,19 @@ export class EditAccountDataComponent implements OnInit {
           duration: 5000,
         });
       },
+    });
+  }
+
+  deleteDialog(): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '300px',
+      hasBackdrop: true,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'closed') {
+        this.router.navigate(['/login']);
+      }
     });
   }
 }
