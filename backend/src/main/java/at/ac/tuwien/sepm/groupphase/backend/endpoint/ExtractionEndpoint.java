@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
@@ -36,6 +37,17 @@ public class ExtractionEndpoint {
         LOGGER.info("GET " + BASE_PATH + "/" + id);
         try {
             return service.getAllByBeanId(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bean not found", e);
+        }
+    }
+
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
+    @GetMapping("bean/search/{id}")
+    public Stream<ExtractionDetailDto> searchByBeanId(@PathVariable Long id, ExtractionSearchDto searchParams) throws ResponseStatusException {
+        LOGGER.info("GET " + BASE_PATH + "/" + id);
+        try {
+            return service.searchByBeanId(searchParams, id);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bean not found", e);
         }
