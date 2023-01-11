@@ -3,6 +3,7 @@
     <div class="logo-wrapper">
       <a [routerLink]="['/home']">{{ appName }}</a>
       <a [routerLink]="['/community']"> Community</a>
+      <a routerLink="/admin" *ngIf="isAdmin">Admin</a>&nbsp;
     </div>
     <div [ngSwitch]="isAuthenticated">
       <div *ngSwitchCase="false">
@@ -10,7 +11,6 @@
         <a routerLink="/register"> Register </a>
       </div>
       <div class="profile-container" *ngSwitchCase="true">
-        <a routerLink="/admin" *ngIf="isAdmin">Admin</a>&nbsp;
         <mat-icon [routerLink]="['/profile']">account_circle</mat-icon>
         <button mat-raised-button (click)="this.logout()">Logout</button>
       </div>
