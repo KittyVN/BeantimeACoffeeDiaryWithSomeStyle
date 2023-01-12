@@ -80,4 +80,13 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return mapper.entityToDto(recipe);
     }
+
+    @Override
+    public CommunityRecipeDto getById(Long id) throws NotFoundException {
+        Object recipe = recipeRepository.findRecipeJoinedWithExtractionById(id);
+        if (recipe == null) {
+            throw new NotFoundException();
+        }
+        return mapper.objectToDto(recipe);
+    }
 }

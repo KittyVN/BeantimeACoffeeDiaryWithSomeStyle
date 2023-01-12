@@ -71,7 +71,7 @@ public class CoffeeBean {
 
     public CoffeeBean() {}
 
-    public CoffeeBean(String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, String beanBlend, String urlToCoffee, User user) {
+    public CoffeeBean(String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String beanBlend, String urlToCoffee, String description, User user) {
         this.name = name;
         this.price = price;
         this.origin = origin;

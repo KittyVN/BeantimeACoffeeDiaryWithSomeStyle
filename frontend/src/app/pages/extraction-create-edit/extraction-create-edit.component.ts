@@ -7,8 +7,8 @@ import { CoffeeBeanDto } from 'src/dtos';
 import { Roast } from 'src/dtos/req/roast-type.enum';
 import { CoffeeBeanService } from 'src/services/coffee-bean.service';
 import { ExtractionCreateDto } from 'src/dtos/req/extraction-create.dto';
-import { BrewMethod } from 'src/dtos/req/brew-method-enum';
 import { Observable } from 'rxjs';
+import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 
 export enum ExtractionCreateEditMode {
   create,

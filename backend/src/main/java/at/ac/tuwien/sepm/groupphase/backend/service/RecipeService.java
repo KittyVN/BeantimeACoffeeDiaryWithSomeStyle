@@ -48,4 +48,13 @@ public interface RecipeService {
      * @return the found recipe
      */
     RecipeDto getByExtractionId(Long id);
+
+    /**
+     * Fetches a saved recipe with the specific id from the persistent data storage.
+     *
+     * @param id of the recipe
+     * @return the found recipe
+     * @throws NotFoundException if id doesnt exist
+     */
+    CommunityRecipeDto getById(Long id) throws NotFoundException;
 }

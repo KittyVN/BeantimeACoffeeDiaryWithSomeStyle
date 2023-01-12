@@ -1,0 +1,48 @@
+.mat-h1 {
+    left: 40px;
+  }
+  
+.grid-container {
+    top: 40px;
+    margin: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .recipe-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+  }
+  
+  .card-title {
+    max-width: 25em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-all;
+  }
+
+  .ratings-box {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+  }
+
+  .description-box {
+    max-height: 13em;
+    max-width: 130px;
+    overflow-wrap: break-word;
+    hyphens: manual;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 5px;
+  }
+
+  .rating-item {
+    margin-right: 15px;
+  }

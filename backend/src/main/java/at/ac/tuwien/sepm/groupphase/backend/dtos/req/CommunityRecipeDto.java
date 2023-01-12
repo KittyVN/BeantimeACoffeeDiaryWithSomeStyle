@@ -7,9 +7,7 @@ public class CommunityRecipeDto {
     private Long recipeId;
     private String recipeDescription;
     private Long extractionId;
-
     private LocalDateTime extractionDate;
-
     private String extractionBrewMethod;
     private String extractionGrindSetting;
     private Double extractionWaterTemperature;
