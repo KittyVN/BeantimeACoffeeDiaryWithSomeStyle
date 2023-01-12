@@ -38,16 +38,16 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
     void deleteByUserId(@Param("id") Long id);
 
     /**
-     * Find the extractions of a specific user from 53 weeks before the current week's Monday
+     * Find the daily extraction counts of a specific user from 53 weeks before the current week's Monday
      *
      * @param id of the user
      * @return a List of Extraction instances
      */
-    @Query(value = "SELECT * FROM COFFEE_EXTRACTION e "
+    @Query(value = "SELECT CAST(e.EXTRACTION_DATE as DATE), COUNT(e.ID) FROM COFFEE_EXTRACTION e "
         + "JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID JOIN APPLICATION_USER u on u.ID = b.USER_ID "
         + "WHERE u.ID = :id AND e.EXTRACTION_DATE >= (CURRENT_DATE - (ISO_DAY_OF_WEEK(CURRENT_DATE) - 1) - 53 * 7) "
-        + "ORDER BY e.EXTRACTION_DATE",
+        + "GROUP BY e.EXTRACTION_DATE ORDER BY CAST(e.EXTRACTION_DATE as DATE)",
         nativeQuery = true)
-    List<Extraction> findLast53WeeksByUserId(@Param("id") Long id);
+    List<Extraction> findDailyCountsForLast53WeeksByUserId(@Param("id") Long id);
 
 }
