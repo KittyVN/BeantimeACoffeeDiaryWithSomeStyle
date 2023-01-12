@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -80,7 +81,11 @@ public class UserEndpoint {
         + "and authentication.principal.equals(#userUpdateRequestDto.getId().toString())")
     @PutMapping("/{id}")
     public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
-        service.updateUser(userUpdateRequestDto);
+        try {
+            service.updateUser(userUpdateRequestDto);
+        } catch (BadCredentialsException e) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        }
     }
 
     @Secured("ROLE_ADMIN")
