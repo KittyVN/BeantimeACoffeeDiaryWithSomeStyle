@@ -53,14 +53,18 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'community', component: CommunityDashboardComponent },
   {
-    path: 'change',
-    canActivate: [AuthGuard],
-    component: EditAccountDataComponent,
-  },
-  {
     path: 'profile',
     canActivate: [AuthGuard],
-    component: ProfilePageComponent,
+    children: [
+      {
+        path: '',
+        component: ProfilePageComponent,
+      },
+      {
+        path: 'settings',
+        component: EditAccountDataComponent,
+      },
+    ],
   },
   {
     path: 'coffee/:coffeeId/extraction/create',
