@@ -48,9 +48,11 @@ export class UserService {
    * @returns the user's token
    */
   public update(user: UpdateUserDto, id: number) {
-    return this.http.put('users/' + id, user, {
-      responseType: 'text',
-    });
+    return this.http
+      .put('users/' + id, user, {
+        responseType: 'text',
+      })
+      .pipe();
   }
 
   /**
