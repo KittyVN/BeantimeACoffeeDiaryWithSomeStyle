@@ -2,16 +2,14 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 public class ExtractionMatrixDto {
     private String[] monthLabels;
-    private int[] extractions;
-    private int[] extractionFrequencies;
+    private ExtractionDayStatsDto[] dailyStats;
 
     public ExtractionMatrixDto() {
     }
 
-    public ExtractionMatrixDto(String[] monthLabels, int[] extractions, int[] extractionFrequencies) {
+    public ExtractionMatrixDto(String[] monthLabels, ExtractionDayStatsDto[] dailyStats) {
         this.monthLabels = monthLabels;
-        this.extractions = extractions;
-        this.extractionFrequencies = extractionFrequencies;
+        this.dailyStats = dailyStats;
     }
 
     public String[] getMonthLabels() {
@@ -22,19 +20,11 @@ public class ExtractionMatrixDto {
         this.monthLabels = monthLabels;
     }
 
-    public int[] getExtractions() {
-        return extractions;
+    public ExtractionDayStatsDto[] getDailyStats() {
+        return dailyStats;
     }
 
-    public void setExtractions(int[] extractions) {
-        this.extractions = extractions;
-    }
-
-    public int[] getExtractionFrequencies() {
-        return extractionFrequencies;
-    }
-
-    public void setExtractionFrequencies(int[] extractionFrequencies) {
-        this.extractionFrequencies = extractionFrequencies;
+    public void setDailyStats(ExtractionDayStatsDto[] dailyStats) {
+        this.dailyStats = dailyStats;
     }
 }
