@@ -22,8 +22,13 @@ export class CoffeeBeanService {
   }
 
   /**
-   * Fetch all coffees
-
+   * Fetch all coffees belonging to the
+   * user currently logged in matching the given search params.
+   * If no params are given, fetches all coffees belonging to the
+   * user currently logged in.
+   *
+   * @param searchParams the parameters to search coffee beans by,
+   * including (partial) name, (partial) description and roast method
    * @returns An observable list of coffee entitys
    */
   public search(

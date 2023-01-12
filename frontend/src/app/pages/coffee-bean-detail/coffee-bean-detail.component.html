@@ -49,6 +49,95 @@
     </mat-card-content>
   </mat-card>
   <mat-card>
+    <div class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Rating Search</mat-label>
+        <select
+          matNativeControl
+          name="searchParamsReverseScore"
+          [(ngModel)]="this.searchParams.reverseOverallRating"
+          (change)="keyUp.next($event)">
+          <option value="false" selected>More than</option>
+          <option value="true">Less than</option>
+        </select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Rating</mat-label>
+        <input
+          type="number"
+          min="0"
+          max="25"
+          matInput
+          name="searchParamsOverallRating"
+          [(ngModel)]="this.searchParams.overallRating"
+          (change)="keyUp.next($event)"
+          (keyup)="keyUp.next($event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Date Search</mat-label>
+        <select
+          matNativeControl
+          name="searchParamsReverseCreated"
+          [(ngModel)]="this.searchParams.reverseCreated"
+          (change)="keyUp.next($event)">
+          <option value="false" selected>After</option>
+          <option value="true">Before</option>
+        </select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Created</mat-label>
+        <input
+          type="date"
+          pattern="\d{4}-\d{2}-\d{2}"
+          placeholder="yyyy-mm-dd"
+          matInput
+          name="searchParamsCreated"
+          [(ngModel)]="this.searchParams.created"
+          (keyup)="keyUp.next($event)"
+          (change)="keyUp.next($event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Grind</mat-label>
+        <select
+          matNativeControl
+          name="searchParamsGrindSetting"
+          [(ngModel)]="this.searchParams.grindSetting"
+          (change)="keyUp.next($event)">
+          <option value="" selected>Any</option>
+          <option value="COARSE">Coarse</option>
+          <option value="MEDIUM_COARSE">Medium Coarse</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="MEDIUM_FINE">Medium Fine</option>
+          <option value="FINE">Fine</option>
+          <option value="EXTRA_FINE">Extra Fine</option>
+        </select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Brew</mat-label>
+        <select
+          matNativeControl
+          name="searchParamsBrewMethod"
+          [(ngModel)]="this.searchParams.brewMethod"
+          (change)="keyUp.next($event)">
+          <option value="" selected>Any</option>
+          <option value="DRIP">Drip</option>
+          <option value="BOILING">Boiling</option>
+          <option value="STEEPING">Steeping</option>
+          <option value="PRESSURE">Pressure</option>
+          <option value="TURKISH">Turkish</option>
+          <option value="FRENCH_PRESS">French Press</option>
+          <option value="COLD_BREW">Cold Brew</option>
+          <option value="INSTANT">Instant</option>
+          <option value="POUR_OVER">Pour Over</option>
+          <option value="V60">V60</option>
+          <option value="ESPRESSO_MACHINE">Espresso Machine</option>
+          <option value="MOKA">Moka</option>
+          <option value="AEROPRESS">Aeropress</option>
+          <option value="POD_MACHINE">Pod Machine</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </mat-form-field>
+    </div>
     <mat-card-content *ngFor="let extraction of extractions">
       <app-extraction-card [extraction]="extraction" [coffeeBeanId]="coffee.id">
       </app-extraction-card>

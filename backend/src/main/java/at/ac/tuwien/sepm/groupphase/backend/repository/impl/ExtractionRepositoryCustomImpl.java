@@ -36,10 +36,10 @@ public class ExtractionRepositoryCustomImpl implements ExtractionRepositoryCusto
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Extraction> query = cb.createQuery(Extraction.class);
         Root<Extraction> extraction = query.from(Extraction.class);
-        Join<Extraction, CoffeeBean> bean = extraction.join("coffee_bean_id", JoinType.INNER);
+        Join<Extraction, CoffeeBean> bean = extraction.join("coffeeBean", JoinType.INNER);
 
         Path<Long> idPath = bean.get("id");
-        Path<LocalDateTime> createdPath = extraction.get("extraction_date");
+        Path<LocalDateTime> createdPath = extraction.get("extractionDate");
         Path<Integer> bodyPath = extraction.get("body");
         Path<Integer> acidityPath = extraction.get("acidity");
         Path<Integer> aromaticsPath = extraction.get("aromatics");
@@ -50,8 +50,8 @@ public class ExtractionRepositoryCustomImpl implements ExtractionRepositoryCusto
             cb.sum(sweetnessPath,
             cb.sum(aromaticsPath,
             aftertastePath))));
-        Path<CoffeeGrindSetting> grindSettingPath = extraction.get("grind_setting");
-        Path<ExtractionBrewMethod> brewMethodPath = extraction.get("brew_method");
+        Path<CoffeeGrindSetting> grindSettingPath = extraction.get("grindSetting");
+        Path<ExtractionBrewMethod> brewMethodPath = extraction.get("brewMethod");
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -61,9 +61,9 @@ public class ExtractionRepositoryCustomImpl implements ExtractionRepositoryCusto
 
         if (searchParameters.getCreated() != null) {
             if (searchParameters.isReverseDate()) {
-                predicates.add(cb.lessThan(createdPath, searchParameters.getCreated()));
+                predicates.add(cb.lessThan(createdPath, searchParameters.getCreated().atStartOfDay()));
             } else {
-                predicates.add(cb.greaterThanOrEqualTo(createdPath, searchParameters.getCreated()));
+                predicates.add(cb.greaterThanOrEqualTo(createdPath, searchParameters.getCreated().atStartOfDay()));
             }
         }
 
@@ -73,7 +73,6 @@ public class ExtractionRepositoryCustomImpl implements ExtractionRepositoryCusto
             } else {
                 predicates.add(cb.greaterThanOrEqualTo(overallRating, searchParameters.getOverallRating()));
             }
-            predicates.add(cb.greaterThanOrEqualTo(overallRating, searchParameters.getOverallRating()));
         }
 
         if (searchParameters.getGrindSetting() != null) {

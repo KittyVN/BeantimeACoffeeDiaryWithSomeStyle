@@ -44,8 +44,9 @@ public class ExtractionEndpoint {
 
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @GetMapping("bean/search/{id}")
-    public Stream<ExtractionDetailDto> searchByBeanId(@PathVariable Long id, ExtractionSearchDto searchParams) throws ResponseStatusException {
+    public Stream<ExtractionDetailDto> search(@PathVariable Long id, ExtractionSearchDto searchParams) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + "/" + id);
+        LOGGER.info("Request parameters: {}", searchParams);
         try {
             return service.searchByBeanId(searchParams, id);
         } catch (NotFoundException e) {

@@ -2,12 +2,13 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeGrindSetting;
 import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class ExtractionSearchDto {
-
-    private LocalDateTime created;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate created;
 
     private boolean reverseDate;
 
@@ -19,7 +20,11 @@ public class ExtractionSearchDto {
 
     private ExtractionBrewMethod brewMethod;
 
-    public ExtractionSearchDto(LocalDateTime created, boolean reverseDate, Integer overallRating,
+    public ExtractionSearchDto() {
+
+    }
+
+    public ExtractionSearchDto(LocalDate created, boolean reverseDate, Integer overallRating,
                                boolean reverseOverallRating, CoffeeGrindSetting grindSetting,
                                ExtractionBrewMethod brewMethod) {
         this.created = created;
@@ -30,11 +35,11 @@ public class ExtractionSearchDto {
         this.brewMethod = brewMethod;
     }
 
-    public LocalDateTime getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
@@ -76,5 +81,17 @@ public class ExtractionSearchDto {
 
     public void setBrewMethod(ExtractionBrewMethod brewMethod) {
         this.brewMethod = brewMethod;
+    }
+
+    @Override
+    public String toString() {
+        return "ExtractionSearchDto{" +
+            "created=" + created +
+            ", reverseDate=" + reverseDate +
+            ", overallRating=" + overallRating +
+            ", reverseOverallRating=" + reverseOverallRating +
+            ", grindSetting=" + grindSetting +
+            ", brewMethod=" + brewMethod +
+            '}';
     }
 }

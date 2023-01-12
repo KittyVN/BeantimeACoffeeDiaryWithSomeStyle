@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExtractionService } from 'src/services/extraction.service';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { ExtractionSearchDto } from 'src/dtos/req/extraction-search-dto';
+import { debounce, interval, scan, Subject } from 'rxjs';
 
 import { CoffeeBeanDto, ExtractionDetailDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
@@ -28,6 +30,7 @@ export class CoffeeBeanDetailComponent implements OnInit {
     userId: 0,
   };
 
+  searchParams: ExtractionSearchDto = {};
   extractions: ExtractionDetailDto[] = [];
 
   avgExtractionResults: CoffeeBeanAvgExtractionRating =
@@ -86,6 +89,7 @@ export class CoffeeBeanDetailComponent implements OnInit {
     private extractionService: ExtractionService,
     private router: Router,
     private route: ActivatedRoute,
+    public keyUp: Subject<KeyboardEvent | Event>,
     private snackBar: MatSnackBar
   ) {}
 
@@ -109,9 +113,17 @@ export class CoffeeBeanDetailComponent implements OnInit {
 
           this.chart?.update();
 
-          this.extractionService.getAllByCoffeeId(id).subscribe({
+          this.extractionService.search(this.searchParams, id).subscribe({
             next: data => {
               this.extractions = data;
+            },
+            error: error => {
+              if (error.status == 404) {
+                this.snackBar.open(
+                  `Unable to load extractions, please try again later`,
+                  'Close'
+                );
+              }
             },
           });
         },
@@ -126,5 +138,40 @@ export class CoffeeBeanDetailComponent implements OnInit {
         },
       });
     });
+    this.keyUp
+      .pipe(
+        scan(i => ++i, 1),
+        debounce(i => interval(60 * i))
+      )
+      .subscribe(() => {
+        let id = this.coffee.id ? this.coffee.id : -1;
+        if (id === -1) {
+          this.router.navigate(['/home']);
+          this.snackBar.open(
+            `Unable to get coffee id, returning to dashboard`,
+            'Close',
+            {
+              duration: 5000,
+            }
+          );
+        }
+        this.extractionService
+          .search(this.searchParams, this.coffee.id ? this.coffee.id : -1)
+          .subscribe({
+            next: data => {
+              this.extractions = data;
+            },
+            error: error => {
+              console.error('Error fetching extractions', error);
+              this.snackBar.open(
+                'Unable to fetch extraction data, try again later',
+                'Close',
+                {
+                  duration: 5000,
+                }
+              );
+            },
+          });
+      });
   }
 }
