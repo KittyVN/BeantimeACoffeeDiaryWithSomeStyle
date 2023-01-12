@@ -1,1 +1,9 @@
-<app-container></app-container>
+<app-container>
+  <mat-toolbar color="accent">
+    <span>{{ user.email }}</span>
+    <a mat-flat-button routerLink="settings">
+      <mat-icon>settings</mat-icon>
+      Settings
+    </a>
+  </mat-toolbar>
+</app-container>
