@@ -122,9 +122,15 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
         User user = userRepository.findFirstById(userUpdateRequestDto.getId());
-        user.setEmail(userUpdateRequestDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userUpdateRequestDto.getPassword()));
-        userRepository.save(user);
+        if (passwordEncoder.encode(userUpdateRequestDto.getPassword()).equals(user.getPassword())) {
+            user.setEmail(userUpdateRequestDto.getEmail());
+            if (userUpdateRequestDto.getNewPassword() != null) {
+                user.setPassword(passwordEncoder.encode(userUpdateRequestDto.getNewPassword()));
+            }
+            userRepository.save(user);
+        } else {
+            throw new BadCredentialsException("Password is incorrect");
+        }
     }
 
     @Override
