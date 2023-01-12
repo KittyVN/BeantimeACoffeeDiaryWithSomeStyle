@@ -59,6 +59,8 @@ export class EditAccountDataComponent implements OnInit {
         this.form
           .get('newPasswordRepeat')
           ?.setValidators([this.newPasswordRepeatValidator]);
+
+        this.form.get('newPasswordRepeat')?.setErrors({});
       }
     });
   }
