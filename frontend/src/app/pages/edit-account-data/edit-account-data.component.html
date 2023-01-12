@@ -6,7 +6,7 @@
     <mat-card-content>
       <form
         class="changeCredentialsForm"
-        [formGroup]="changeCredentialsForm"
+        [formGroup]="form"
         (submit)="onSubmit()">
         <mat-form-field>
           <mat-label>Email</mat-label>
@@ -20,7 +20,7 @@
         <mat-form-field>
           <mat-label>Password</mat-label>
           <input
-            formControlName="passwordRepeat"
+            formControlName="password"
             required
             type="password"
             matInput
@@ -38,6 +38,9 @@
         <mat-form-field>
           <mat-label>Repeat New Password</mat-label>
           <input formControlName="newPasswordRepeat" type="password" matInput />
+          <mat-error *ngIf="newPasswordControl?.hasError('equalsNewPassword')">
+            New passwords do not match!
+          </mat-error>
         </mat-form-field>
         <mat-divider></mat-divider>
         <button type="submit" mat-raised-button color="primary">Save</button>

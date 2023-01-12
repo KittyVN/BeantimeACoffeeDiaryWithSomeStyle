@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { UserService } from 'src/services/user.service';
 import { UpdateUserDto } from 'src/dtos';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -41,29 +46,62 @@ export class EditAccountDataComponent implements OnInit {
         },
       });
     }
+
+    this.form.get('newPassword')?.valueChanges.subscribe(val => {
+      if (val) {
+        this.form
+          .get('newPasswordRepeat')
+          ?.setValidators([
+            Validators.required,
+            this.newPasswordRepeatValidator,
+          ]);
+      } else {
+        this.form
+          .get('newPasswordRepeat')
+          ?.setValidators([this.newPasswordRepeatValidator]);
+      }
+    });
   }
 
-  changeCredentialsForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-  });
+  newPasswordRepeatValidator(formControl: AbstractControl) {
+    if (!formControl.parent) {
+      return null;
+    }
+    if (formControl.parent.get('newPassword')?.value) {
+      return formControl.value === formControl.parent.get('newPassword')?.value
+        ? null
+        : { equalsNewPassword: true };
+    }
+    return null;
+  }
+
+  form = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+      newPassword: new FormControl(''),
+      newPasswordRepeat: new FormControl('', [this.newPasswordRepeatValidator]),
+    },
+    { updateOn: 'change' }
+  );
 
   onSubmit() {
-    const token = localStorage.getItem('token');
-    this.userService.update(this.user, this.user.id).subscribe({
-      next: res => {
-        localStorage.removeItem('token');
-        this.snackBar.open('Successfully changed account data.', 'Close', {
-          duration: 5000,
-        });
-        this.router.navigate(['/login']);
-      },
-      error: err => {
-        this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
-          duration: 5000,
-        });
-      },
-    });
+    if (this.form.valid) {
+      this.userService.update(this.user, this.user.id).subscribe({
+        next: res => {
+          localStorage.removeItem('token');
+          this.snackBar.open('Successfully changed account data.', 'Close', {
+            duration: 5000,
+          });
+          this.router.navigate(['/login']);
+        },
+        error: err => {
+          this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
+            duration: 5000,
+          });
+        },
+      });
+    }
   }
 
   deleteDialog(): void {
@@ -77,5 +115,9 @@ export class EditAccountDataComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  get newPasswordControl() {
+    return this.form.get('newPasswordRepeat');
   }
 }
