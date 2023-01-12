@@ -95,10 +95,10 @@ export class EditAccountDataComponent implements OnInit {
           });
           this.router.navigate(['/login']);
         },
-        error: err => {
-          this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
-            duration: 5000,
-          });
+        error: error => {
+          if (error.status === 422) {
+            this.form.get('password')?.setErrors({ wrongPassword: true });
+          }
         },
       });
     }
@@ -115,6 +115,10 @@ export class EditAccountDataComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  get passwordControl() {
+    return this.form.get('password');
   }
 
   get newPasswordControl() {

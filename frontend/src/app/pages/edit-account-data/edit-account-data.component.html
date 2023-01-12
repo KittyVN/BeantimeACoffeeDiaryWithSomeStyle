@@ -25,6 +25,9 @@
             type="password"
             matInput
             [(ngModel)]="user.password" />
+          <mat-error *ngIf="passwordControl?.hasError('wrongPassword')">
+            Password is wrong!
+          </mat-error>
         </mat-form-field>
         <mat-divider></mat-divider>
         <mat-form-field>
