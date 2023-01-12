@@ -17,6 +17,8 @@ public class UserUpdateRequestDto {
     @NotBlank(message = "Password must not be blank")
     private String password;
 
+    private String newPassword;
+
     public UserUpdateRequestDto() {
     }
 
@@ -24,6 +26,13 @@ public class UserUpdateRequestDto {
         this.id = id;
         this.email = email;
         this.password = password;
+    }
+
+    public UserUpdateRequestDto(Long id, String email, String password, String newPassword) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.newPassword = newPassword;
     }
 
     public String getEmail() {
@@ -38,11 +47,16 @@ public class UserUpdateRequestDto {
         return id;
     }
 
+    public String getNewPassword() {
+        return newPassword;
+    }
+
     @Override
     public String toString() {
         return "UserLoginDto{"
             + "email='" + email + '\''
             + ", password='" + password + '\''
+            + ", newPassword='" + newPassword + "\'"
             + '}';
     }
 }
