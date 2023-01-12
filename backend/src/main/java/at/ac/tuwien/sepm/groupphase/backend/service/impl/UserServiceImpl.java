@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
         User user = userRepository.findFirstById(userUpdateRequestDto.getId());
-        if (passwordEncoder.encode(userUpdateRequestDto.getPassword()).equals(user.getPassword())) {
+        if (passwordEncoder.matches(userUpdateRequestDto.getPassword(), user.getPassword())) {
             user.setEmail(userUpdateRequestDto.getEmail());
             if (userUpdateRequestDto.getNewPassword() != null) {
                 user.setPassword(passwordEncoder.encode(userUpdateRequestDto.getNewPassword()));
