@@ -112,6 +112,25 @@ public class RecipeEndpointTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
             .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
-            .contains(tuple("A longer description goes here because I need characters for testing. Lets add even more because its practical to see how many lines this box can actually hold.", 4, "Wild"));
+            .contains(tuple("Unser House Blend Espresso besteht aus 100% Arabica Bohnen und vereint die Herkunftsländer Brasilien, Kolumbien, Kongo, D.R. und Laos zu einem ausgewogenen und mittelkräftigen Espresso.", 4, "Wild"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void getSpecificRecipeReturnsRecipe() throws Exception {
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .get("/api/v1/recipes/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+            ).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
+
+        List<CommunityRecipeDto> result = objectMapper.readerFor(CommunityRecipeDto.class).<CommunityRecipeDto>readValues(body).readAll();
+
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result)
+            .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
+            .contains(tuple("Unser House Blend Espresso besteht aus 100% Arabica Bohnen und vereint die Herkunftsländer Brasilien, Kolumbien, Kongo, D.R. und Laos zu einem ausgewogenen und mittelkräftigen Espresso.", 4, "Wild"));
     }
 }

@@ -1,4 +1,4 @@
-import { BrewMethod } from './brew-method-enum';
+import { BrewMethod } from './brew-method.enum';
 import { CoffeeGrindSetting } from './coffee-grind-setting';
 
 export interface ExtractionCreateDto {

@@ -49,6 +49,7 @@ import { StarRatingComponent } from './pages/extraction-create-edit/star-rating/
 import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
 import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
 import { MillisecondsToSecondsPipe } from './pages/extraction-create-edit/milliseconds-to-seconds.pipe';
+import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { MillisecondsToSecondsPipe } from './pages/extraction-create-edit/millis
     RecipeCreateComponent,
     CommunityDashboardComponent,
     MillisecondsToSecondsPipe,
+    RecipeDetailComponent,
   ],
   imports: [
     BrowserModule,
