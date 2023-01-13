@@ -1,7 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.repository;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
 import java.util.List;
 
 public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
@@ -49,6 +49,6 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
         + "WHERE u.ID = :id AND e.EXTRACTION_DATE >= (CURRENT_DATE - (ISO_DAY_OF_WEEK(CURRENT_DATE) - 1) - 53 * 7) "
         + "GROUP BY e.EXTRACTION_DATE ORDER BY CAST(e.EXTRACTION_DATE as DATE)",
         nativeQuery = true)
-    List<ExtractionDayStatsDto> findDailyCountsForLast53WeeksByUserId(@Param("id") Long id);
+    List<Tuple> findDailyCountsForLast53WeeksByUserId(@Param("id") Long id);
 
 }
