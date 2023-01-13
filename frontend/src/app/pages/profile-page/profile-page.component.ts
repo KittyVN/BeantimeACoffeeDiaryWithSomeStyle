@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
 
-import { UserDetailDto } from '../../../dtos';
+import { UserProfileDto } from '../../../dtos/req/userProfile.dto';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,17 +13,15 @@ export class ProfilePageComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) {}
 
   userId: number = this.userService.thisUserId();
-  user: UserDetailDto = {
-    id: 0,
-    email: 'email@example.com',
-    role: 'USER',
-    active: true,
+  profile: UserProfileDto = {
+    email: 'Loading ...',
+    extractionMatrix: undefined,
   };
 
   ngOnInit(): void {
-    this.userService.getSelf(this.userId).subscribe({
-      next: user => {
-        this.user = user;
+    this.userService.getProfileById(this.userId).subscribe({
+      next: profile => {
+        this.profile = profile;
       },
     });
   }
