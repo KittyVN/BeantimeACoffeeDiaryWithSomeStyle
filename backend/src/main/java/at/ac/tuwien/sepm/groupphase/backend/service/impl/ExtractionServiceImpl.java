@@ -21,6 +21,7 @@ import javax.persistence.Tuple;
 import java.lang.invoke.MethodHandles;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -98,21 +99,26 @@ public class ExtractionServiceImpl implements ExtractionService {
             .toList();
         HashMap<Integer, String> monthLabels = new HashMap<>();
 
-        int max = 0;
+        LocalDate today = LocalDate.now();
+        LocalDate start = today.minusDays(today.getDayOfWeek().getValue() - 1 + 53 * 7);
+
         int i = 0;
         int currentMonth = 0;
-        for (ExtractionDayStatsDto dayStat : dayStatsList) {
-            if (i % 7 == 0 && dayStat.getDate().getMonthValue() != currentMonth) {
-                monthLabels.put(i / 7,
-                    dayStat.getDate().format(DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH)));
-                currentMonth = dayStat.getDate().getMonthValue();
+        while (start.isBefore(today)) {
+            if (start.getMonthValue() != currentMonth) {
+                monthLabels.put(i, start.format(DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH)));
+                currentMonth = start.getMonthValue();
             }
 
+            start = start.plusDays(7);
+            i++;
+        }
+
+        int max = 0;
+        for (ExtractionDayStatsDto dayStat : dayStatsList) {
             if (dayStat.getNumExtractions() > max) {
                 max = dayStat.getNumExtractions();
             }
-
-            i++;
         }
 
         for (ExtractionDayStatsDto dayStat : dayStatsList) {
