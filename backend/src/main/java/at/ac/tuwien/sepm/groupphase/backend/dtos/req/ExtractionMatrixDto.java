@@ -3,23 +3,23 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 import java.util.HashMap;
 
 public class ExtractionMatrixDto {
-    private HashMap<Integer, String> monthLabels; // <week, MMM>
+    private int sumExtractions;
     private ExtractionDayStatsDto[] dailyStats;
 
     public ExtractionMatrixDto() {
     }
 
-    public ExtractionMatrixDto(HashMap<Integer, String> monthLabels, ExtractionDayStatsDto[] dailyStats) {
-        this.monthLabels = monthLabels;
+    public ExtractionMatrixDto(int sumExtractions, ExtractionDayStatsDto[] dailyStats) {
+        this.sumExtractions = sumExtractions;
         this.dailyStats = dailyStats;
     }
 
-    public HashMap<Integer, String> getMonthLabels() {
-        return monthLabels;
+    public int getSumExtractions() {
+        return sumExtractions;
     }
 
-    public void setMonthLabels(HashMap<Integer, String> monthLabels) {
-        this.monthLabels = monthLabels;
+    public void setSumExtractions(int sumExtractions) {
+        this.sumExtractions = sumExtractions;
     }
 
     public ExtractionDayStatsDto[] getDailyStats() {
