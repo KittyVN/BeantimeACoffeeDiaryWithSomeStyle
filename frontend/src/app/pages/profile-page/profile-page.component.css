@@ -32,3 +32,23 @@ mat-card-content {
   background-color: #eee;
   border-radius: 2px;
 }
+
+#extractionMatrix span.dot.fr1 {
+  border-color: #DDB4C2;
+  background-color: #FFD0E0;
+}
+
+#extractionMatrix span.dot.fr2 {
+  border-color: #DD8AA7;
+  background-color: #FFA0C0;
+}
+
+#extractionMatrix span.dot.fr3 {
+  border-color: #DD618B;
+  background-color: #FF70A1;
+}
+
+#extractionMatrix span.dot.fr4 {
+  border-color: #DD3770;
+  background-color: #FF4081;
+}

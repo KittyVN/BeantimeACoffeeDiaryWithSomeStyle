@@ -29,7 +29,6 @@
           {{ label.value }}
         </span>
         <span
-          class="dot"
           *ngFor="
             let stats of profile.extractionMatrix?.dailyStats;
             let i = index
@@ -42,7 +41,8 @@
           "
           [matTooltip]="
             stats.numExtractions.toString() + ' extractions on ' + stats.date
-          ">
+          "
+          [class]="'dot fr' + stats.relFrequency.toString()">
         </span>
       </div>
     </mat-card-content>
