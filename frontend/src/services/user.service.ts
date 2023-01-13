@@ -9,11 +9,11 @@ import {
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { STRING_TYPE } from '@angular/compiler';
 
 import { UserSearchDto } from '../dtos/req/userSearch.dto';
 import { UserDetailDto } from '../dtos/req/userDetail.dto';
 import { UserAdminEditDto } from '../dtos/req/userAdminEdit.dto';
+import { UserProfileDto } from '../dtos/req/userProfile.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -164,5 +164,15 @@ export class UserService {
     } else {
       return 0;
     }
+  }
+
+  /**
+   * Get the Observable for a specific user profile.
+   *
+   * @param id of the user
+   * @return the Observable for the user profile
+   */
+  public getProfileById(id: number): Observable<UserProfileDto> {
+    return this.http.get<UserProfileDto>(`users/profile/${id}`).pipe();
   }
 }
