@@ -115,7 +115,7 @@ public class ExtractionServiceImpl implements ExtractionService {
 
         List<LocalDate> dates = dayStatsList.stream().map(dto -> dto.getDate()).toList();
         LocalDate today = LocalDate.now();
-        LocalDate start = today.minusDays(today.getDayOfWeek().getValue() - 1 + 53 * 7);
+        LocalDate start = today.minusDays(today.getDayOfWeek().getValue() - 1 + 52 * 7);
 
         while (start.isBefore(today) || start.isEqual(today)) {
             if (!dates.contains(start)) {

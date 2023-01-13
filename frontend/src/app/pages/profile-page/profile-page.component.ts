@@ -23,7 +23,7 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit(): void {
     let today = new Date();
     let startDate = new Date();
-    startDate.setDate(today.getDate() - ((today.getDay() + 6) % 7) - 53 * 7);
+    startDate.setDate(today.getDate() - ((today.getDay() + 6) % 7) - 52 * 7);
 
     let i: number = 2;
     let currentMonth: number = -1;
