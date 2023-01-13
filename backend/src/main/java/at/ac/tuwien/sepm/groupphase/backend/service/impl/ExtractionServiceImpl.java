@@ -1,8 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -17,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -74,5 +75,31 @@ public class ExtractionServiceImpl implements ExtractionService {
             throw new NotFoundException(String.format("No extraction with ID %d found", id));
         }
         return mapper.entityToDto(extraction.get());
+    }
+
+    @Override
+    public ExtractionMatrixDto getExtractionMatrixByUserId(Long id) {
+        List<ExtractionDayStatsDto> dayStatsList = extractionRepository.findDailyCountsForLast53WeeksByUserId(id);
+        HashMap<Integer, String> monthLabels = new HashMap<>();
+
+        int max = 0, i = 0, currentMonth = 0;
+        for (ExtractionDayStatsDto dayStat : dayStatsList) {
+            if (i % 7 == 0 && dayStat.getDate().getMonthValue() != currentMonth) {
+                monthLabels.put(i / 7, dayStat.getDate().format(DateTimeFormatter.ofPattern("MMM")));
+            }
+
+            if (dayStat.getNumExtractions() > max) {
+                max = dayStat.getNumExtractions();
+            }
+        }
+
+        for (ExtractionDayStatsDto dayStat : dayStatsList) {
+            if (dayStat.getNumExtractions() > 0) {
+                dayStat.setRelFrequency((int) ((double) dayStat.getNumExtractions() / (double) max * 3) + 1);
+            }
+        }
+
+        return new ExtractionMatrixDto(monthLabels,
+            dayStatsList.toArray(new ExtractionDayStatsDto[dayStatsList.size()]));
     }
 }
