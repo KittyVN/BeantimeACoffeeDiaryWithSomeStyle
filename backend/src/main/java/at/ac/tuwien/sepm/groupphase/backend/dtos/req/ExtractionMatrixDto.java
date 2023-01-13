@@ -1,22 +1,24 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
+import java.util.HashMap;
+
 public class ExtractionMatrixDto {
-    private String[] monthLabels;
+    private HashMap<Integer, String> monthLabels; // <week, MMM>
     private ExtractionDayStatsDto[] dailyStats;
 
     public ExtractionMatrixDto() {
     }
 
-    public ExtractionMatrixDto(String[] monthLabels, ExtractionDayStatsDto[] dailyStats) {
+    public ExtractionMatrixDto(HashMap<Integer, String> monthLabels, ExtractionDayStatsDto[] dailyStats) {
         this.monthLabels = monthLabels;
         this.dailyStats = dailyStats;
     }
 
-    public String[] getMonthLabels() {
+    public HashMap<Integer, String> getMonthLabels() {
         return monthLabels;
     }
 
-    public void setMonthLabels(String[] monthLabels) {
+    public void setMonthLabels(HashMap<Integer, String> monthLabels) {
         this.monthLabels = monthLabels;
     }
 
