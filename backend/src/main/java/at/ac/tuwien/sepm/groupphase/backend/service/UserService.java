@@ -1,13 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import org.springframework.security.access.AccessDeniedException;
@@ -112,4 +105,13 @@ public interface UserService extends UserDetailsService {
      * @throws NotFoundException if no user with the given ID exists.
      */
     UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) throws NotFoundException;
+
+    /**
+     * Get UserProfileDto by user id.
+     *
+     * @param id of the user.
+     * @return UserProfileDto of the specified user.
+     * @throws NotFoundException if no user with the given ID exists.
+     */
+    UserProfileDto getProfileById(Long id) throws NotFoundException;
 }
