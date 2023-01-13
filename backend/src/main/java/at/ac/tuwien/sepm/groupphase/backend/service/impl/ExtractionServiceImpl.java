@@ -97,25 +97,11 @@ public class ExtractionServiceImpl implements ExtractionService {
                 t.get(2, Integer.class)
             ))
             .toList();
-        HashMap<Integer, String> monthLabels = new HashMap<>();
-
-        LocalDate today = LocalDate.now();
-        LocalDate start = today.minusDays(today.getDayOfWeek().getValue() - 1 + 53 * 7);
-
-        int i = 0;
-        int currentMonth = 0;
-        while (start.isBefore(today)) {
-            if (start.getMonthValue() != currentMonth) {
-                monthLabels.put(i, start.format(DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH)));
-                currentMonth = start.getMonthValue();
-            }
-
-            start = start.plusDays(7);
-            i++;
-        }
 
         int max = 0;
+        int sumExtractions = 0;
         for (ExtractionDayStatsDto dayStat : dayStatsList) {
+            sumExtractions += dayStat.getNumExtractions();
             if (dayStat.getNumExtractions() > max) {
                 max = dayStat.getNumExtractions();
             }
@@ -127,7 +113,7 @@ public class ExtractionServiceImpl implements ExtractionService {
             }
         }
 
-        return new ExtractionMatrixDto(monthLabels,
+        return new ExtractionMatrixDto(sumExtractions,
             dayStatsList.toArray(new ExtractionDayStatsDto[dayStatsList.size()]));
     }
 }
