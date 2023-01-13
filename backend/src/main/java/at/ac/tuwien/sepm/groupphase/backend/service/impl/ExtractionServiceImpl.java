@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -102,7 +103,8 @@ public class ExtractionServiceImpl implements ExtractionService {
         int currentMonth = 0;
         for (ExtractionDayStatsDto dayStat : dayStatsList) {
             if (i % 7 == 0 && dayStat.getDate().getMonthValue() != currentMonth) {
-                monthLabels.put(i / 7, dayStat.getDate().format(DateTimeFormatter.ofPattern("MMM")));
+                monthLabels.put(i / 7,
+                    dayStat.getDate().format(DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH)));
                 currentMonth = dayStat.getDate().getMonthValue();
             }
 
