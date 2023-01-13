@@ -35,6 +35,10 @@ span.label.day {
   text-align: right;
 }
 
+span.label.month {
+  line-height: 40px;
+}
+
 span.dot {
   border: 1px solid #ccc;
   background-color: #eee;
