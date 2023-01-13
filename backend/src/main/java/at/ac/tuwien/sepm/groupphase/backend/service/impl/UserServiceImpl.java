@@ -1,13 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -17,6 +10,7 @@ import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.RecipeRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
+import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -40,13 +34,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final CoffeeBeanRepository beanRepository;
     private final ExtractionRepository extractionRepository;
+    private final ExtractionService extractionService;
     private final RecipeRepository recipeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, ExtractionRepository extractionRepository, RecipeRepository recipeRepository,
+    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, ExtractionRepository extractionRepository,
+                           RecipeRepository recipeRepository, ExtractionService extractionService,
                            UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
         this.userRepository = userRepository;
         this.beanRepository = beanRepository;
@@ -55,6 +51,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenizer = jwtTokenizer;
         this.mapper = mapper;
+        this.extractionService = extractionService;
     }
 
     @Override
@@ -185,5 +182,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return mapper.entityToDto(user);
+    }
+
+    @Override
+    public UserProfileDto getProfileById(Long id) throws NotFoundException {
+        User user = userRepository.findFirstById(id);
+        return new UserProfileDto(user.getEmail(), extractionService.getExtractionMatrixByUserId(id));
     }
 }
