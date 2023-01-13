@@ -3,6 +3,10 @@ mat-toolbar {
   justify-content: space-between;
 }
 
+mat-card {
+  margin-top: 32px;
+}
+
 mat-card-content {
   padding: 16px;
 }
