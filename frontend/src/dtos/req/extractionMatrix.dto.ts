@@ -1,6 +1,6 @@
 import { ExtractionDayStatsDto } from './extractionDayStats.dto';
 
 export interface ExtractionMatrixDto {
-  monthLabels: object;
+  sumExtractions: number;
   dailyStats: ExtractionDayStatsDto[];
 }
