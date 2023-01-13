@@ -39,7 +39,7 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
     void deleteByUserId(@Param("id") Long id);
 
     /**
-     * Find the daily extraction counts of a specific user from 53 weeks before the current week's Monday
+     * Find the daily extraction counts of a specific user from 52 weeks before the current week's Monday.
      *
      * @param id of the user
      * @return a List of Extraction instances
