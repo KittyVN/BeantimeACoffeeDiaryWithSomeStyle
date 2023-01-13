@@ -82,15 +82,20 @@ public class ExtractionServiceImpl implements ExtractionService {
         List<ExtractionDayStatsDto> dayStatsList = extractionRepository.findDailyCountsForLast53WeeksByUserId(id);
         HashMap<Integer, String> monthLabels = new HashMap<>();
 
-        int max = 0, i = 0, currentMonth = 0;
+        int max = 0;
+        int i = 0;
+        int currentMonth = 0;
         for (ExtractionDayStatsDto dayStat : dayStatsList) {
             if (i % 7 == 0 && dayStat.getDate().getMonthValue() != currentMonth) {
                 monthLabels.put(i / 7, dayStat.getDate().format(DateTimeFormatter.ofPattern("MMM")));
+                currentMonth = dayStat.getDate().getMonthValue();
             }
 
             if (dayStat.getNumExtractions() > max) {
                 max = dayStat.getNumExtractions();
             }
+
+            i++;
         }
 
         for (ExtractionDayStatsDto dayStat : dayStatsList) {
