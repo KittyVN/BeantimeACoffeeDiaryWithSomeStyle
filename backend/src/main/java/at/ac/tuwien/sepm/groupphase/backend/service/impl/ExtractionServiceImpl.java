@@ -1,6 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -13,7 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Tuple;
 import java.lang.invoke.MethodHandles;
+import java.math.BigInteger;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -79,7 +86,15 @@ public class ExtractionServiceImpl implements ExtractionService {
 
     @Override
     public ExtractionMatrixDto getExtractionMatrixByUserId(Long id) {
-        List<ExtractionDayStatsDto> dayStatsList = extractionRepository.findDailyCountsForLast53WeeksByUserId(id);
+        List<Tuple> dayStatsTuples = extractionRepository.findDailyCountsForLast53WeeksByUserId(id);
+        List<ExtractionDayStatsDto> dayStatsList = dayStatsTuples
+            .stream()
+            .map(t -> new ExtractionDayStatsDto(
+                t.get(0, Date.class).toLocalDate(),
+                t.get(1, BigInteger.class).intValue(),
+                t.get(2, Integer.class)
+            ))
+            .toList();
         HashMap<Integer, String> monthLabels = new HashMap<>();
 
         int max = 0;
