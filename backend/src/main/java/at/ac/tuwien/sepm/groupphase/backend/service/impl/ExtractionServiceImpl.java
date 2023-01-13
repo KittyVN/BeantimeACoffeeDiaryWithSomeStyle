@@ -23,10 +23,10 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -89,14 +89,14 @@ public class ExtractionServiceImpl implements ExtractionService {
     @Override
     public ExtractionMatrixDto getExtractionMatrixByUserId(Long id) {
         List<Tuple> dayStatsTuples = extractionRepository.findDailyCountsForLast53WeeksByUserId(id);
-        List<ExtractionDayStatsDto> dayStatsList = dayStatsTuples
+        List<ExtractionDayStatsDto> dayStatsList = new ArrayList<>(dayStatsTuples
             .stream()
             .map(t -> new ExtractionDayStatsDto(
                 t.get(0, Date.class).toLocalDate(),
                 t.get(1, BigInteger.class).intValue(),
                 t.get(2, Integer.class)
             ))
-            .toList();
+            .toList());
 
         int max = 0;
         int sumExtractions = 0;
@@ -112,6 +112,20 @@ public class ExtractionServiceImpl implements ExtractionService {
                 dayStat.setRelFrequency((int) ((double) dayStat.getNumExtractions() / (double) max * 3) + 1);
             }
         }
+
+        List<LocalDate> dates = dayStatsList.stream().map(dto -> dto.getDate()).toList();
+        LocalDate today = LocalDate.now();
+        LocalDate start = today.minusDays(today.getDayOfWeek().getValue() - 1 + 53 * 7);
+
+        while (start.isBefore(today) || start.isEqual(today)) {
+            if (!dates.contains(start)) {
+                dayStatsList.add(new ExtractionDayStatsDto(start, 0, 0));
+            }
+
+            start = start.plusDays(1);
+        }
+
+        Collections.sort(dayStatsList, Comparator.comparing(ExtractionDayStatsDto::getDate));
 
         return new ExtractionMatrixDto(sumExtractions,
             dayStatsList.toArray(new ExtractionDayStatsDto[dayStatsList.size()]));
