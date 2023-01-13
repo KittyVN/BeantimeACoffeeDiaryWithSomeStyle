@@ -6,4 +6,21 @@
       Settings
     </a>
   </mat-toolbar>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title> X extractions in the last year </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div id="extractionMatrix">
+        <span class="label day" style="grid-column: 1; grid-row: 2">M</span>
+        <span class="label day" style="grid-column: 1; grid-row: 3">T</span>
+        <span class="label day" style="grid-column: 1; grid-row: 4">W</span>
+        <span class="label day" style="grid-column: 1; grid-row: 5">T</span>
+        <span class="label day" style="grid-column: 1; grid-row: 6">F</span>
+        <span class="label day" style="grid-column: 1; grid-row: 7">S</span>
+        <span class="label day" style="grid-column: 1; grid-row: 8">S</span>
+      </div>
+    </mat-card-content>
+    <mat-card-footer id="extractionMatrixLegend"></mat-card-footer>
+  </mat-card>
 </app-container>
