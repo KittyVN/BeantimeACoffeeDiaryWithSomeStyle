@@ -1,6 +1,11 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserProfileDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.slf4j.Logger;
