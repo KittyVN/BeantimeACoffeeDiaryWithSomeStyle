@@ -19,6 +19,12 @@
         <span class="label day" style="grid-column: 1; grid-row: 6">F</span>
         <span class="label day" style="grid-column: 1; grid-row: 7">S</span>
         <span class="label day" style="grid-column: 1; grid-row: 8">S</span>
+        <span
+          class="label month"
+          *ngFor="let label of extractionMatrixMonthLabels | keyvalue"
+          [style]="'grid-column: ' + label.key + ' / span 2; grid-row: 1'">
+          {{ label.value }}
+        </span>
       </div>
     </mat-card-content>
     <mat-card-footer id="extractionMatrixLegend"></mat-card-footer>
