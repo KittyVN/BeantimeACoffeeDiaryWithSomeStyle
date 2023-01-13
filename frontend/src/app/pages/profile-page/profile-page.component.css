@@ -26,3 +26,9 @@ mat-card-content {
 #extractionMatrix span.label.day {
   text-align: right;
 }
+
+#extractionMatrix span.dot {
+  border: 1px solid #ccc;
+  background-color: #eee;
+  border-radius: 2px;
+}

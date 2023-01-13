@@ -28,6 +28,22 @@
           [style]="'grid-column: ' + label.key + ' / span 2; grid-row: 1'">
           {{ label.value }}
         </span>
+        <span
+          class="dot"
+          *ngFor="
+            let stats of profile.extractionMatrix?.dailyStats;
+            let i = index
+          "
+          [style]="
+            'grid-column: ' +
+            (2 + Math.floor(i / 7)) +
+            '; grid-row: ' +
+            (2 + (i % 7))
+          "
+          [matTooltip]="
+            stats.numExtractions.toString() + ' extractions on ' + stats.date
+          ">
+        </span>
       </div>
     </mat-card-content>
     <mat-card-footer id="extractionMatrixLegend"></mat-card-footer>
