@@ -8,7 +8,7 @@ mat-card {
 }
 
 mat-card-content {
-  padding: 16px;
+  padding: 16px 16px 4px 16px;
 }
 
 #extractionMatrix {
@@ -18,37 +18,45 @@ mat-card-content {
   grid-gap: 4px;
 }
 
-#extractionMatrix span.label {
+#extractionMatrixLegend {
+  padding: 4px 16px 16px 16px;
+  display: grid;
+  grid-template-columns: 24px repeat(5, 12px) 24px;
+  grid-template-rows: 100%;
+  grid-gap: 4px;
+}
+
+span.label {
   font-size: 11px;
   line-height: 12px;
 }
 
-#extractionMatrix span.label.day {
+span.label.day {
   text-align: right;
 }
 
-#extractionMatrix span.dot {
+span.dot {
   border: 1px solid #ccc;
   background-color: #eee;
   border-radius: 2px;
 }
 
-#extractionMatrix span.dot.fr1 {
+span.dot.fr1 {
   border-color: #DDB4C2;
   background-color: #FFD0E0;
 }
 
-#extractionMatrix span.dot.fr2 {
+span.dot.fr2 {
   border-color: #DD8AA7;
   background-color: #FFA0C0;
 }
 
-#extractionMatrix span.dot.fr3 {
+span.dot.fr3 {
   border-color: #DD618B;
   background-color: #FF70A1;
 }
 
-#extractionMatrix span.dot.fr4 {
+span.dot.fr4 {
   border-color: #DD3770;
   background-color: #FF4081;
 }
