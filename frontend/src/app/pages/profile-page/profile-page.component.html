@@ -8,7 +8,10 @@
   </mat-toolbar>
   <mat-card>
     <mat-card-header>
-      <mat-card-title> X extractions in the last year </mat-card-title>
+      <mat-card-title>
+        {{ profile.extractionMatrix?.sumExtractions }} extractions in the last
+        year
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div id="extractionMatrix">
