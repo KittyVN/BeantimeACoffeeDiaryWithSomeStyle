@@ -60,6 +60,7 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
     @Query(value = "SELECT e.ID, e.EXTRACTION_DATE, b.NAME AS BEAN_NAME, b.ID AS BEAN_ID,"
         + "(e.ACIDITY + e.AFTERTASTE + e.AROMATICS + e.BODY + e.SWEETNESS) AS rating "
         + "FROM COFFEE_EXTRACTION e JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID "
+        + "WHERE b.USER_ID = :id "
         + "ORDER BY rating DESC, e.EXTRACTION_DATE DESC, b.name LIMIT 10",
         nativeQuery = true)
     List<Tuple> findTop10RatedByUserId(@Param("id") Long id);
