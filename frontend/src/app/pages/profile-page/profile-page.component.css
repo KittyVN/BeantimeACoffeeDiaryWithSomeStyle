@@ -8,7 +8,9 @@ mat-card {
 }
 
 mat-card-content {
-  padding: 16px 16px 4px 16px;
+  margin: 16px 16px 4px 16px;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 #extractionMatrix {
@@ -16,6 +18,9 @@ mat-card-content {
   grid-template-columns: 24px repeat(53, 12px);
   grid-template-rows: 24px repeat(7, 12px);
   grid-gap: 4px;
+  justify-content: end;
+  width: calc(24px + 53 * 12px + 53 * 4px);
+  margin: 0 auto;
 }
 
 #extractionMatrixLegend {
@@ -24,6 +29,16 @@ mat-card-content {
   grid-template-columns: 24px repeat(5, 12px) 24px;
   grid-template-rows: 100%;
   grid-gap: 4px;
+  justify-content: end;
+  width: calc(24px + 53 * 12px + 53 * 4px);
+  margin: 0 auto;
+}
+
+@media(max-width: 904px) {
+  #extractionMatrix, #extractionMatrixLegend {
+    margin: 0;
+    width: auto;
+  }
 }
 
 span.label {
