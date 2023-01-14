@@ -27,6 +27,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgChartsModule } from 'ng2-charts';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -103,6 +104,7 @@ import { CommunityDashboardComponent } from './pages/community-dashboard/communi
     MatStepperModule,
     NgChartsModule,
     MatTooltipModule,
+    MatListModule,
   ],
   providers: [
     Subject,
