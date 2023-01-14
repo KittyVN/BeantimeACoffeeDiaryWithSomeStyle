@@ -4,14 +4,21 @@ public class UserProfileDto {
     String email;
     ExtractionMatrixDto extractionMatrix;
     ExtractionListDto[] topRatedExtractions;
+    CoffeeBeanExtractionsListDto[] topMostExtractedCoffees;
 
     public UserProfileDto() {
     }
 
-    public UserProfileDto(String email, ExtractionMatrixDto extractionMatrix, ExtractionListDto[] topRatedExtractions) {
+    public UserProfileDto(
+        String email,
+        ExtractionMatrixDto extractionMatrix,
+        ExtractionListDto[] topRatedExtractions,
+        CoffeeBeanExtractionsListDto[] topMostExtractedCoffees
+    ) {
         this.email = email;
         this.extractionMatrix = extractionMatrix;
         this.topRatedExtractions = topRatedExtractions;
+        this.topMostExtractedCoffees = topMostExtractedCoffees;
     }
 
     public String getEmail() {
@@ -36,5 +43,13 @@ public class UserProfileDto {
 
     public void setTopRatedExtractions(ExtractionListDto[] topRatedExtractions) {
         this.topRatedExtractions = topRatedExtractions;
+    }
+
+    public CoffeeBeanExtractionsListDto[] getTopMostExtractedCoffees() {
+        return topMostExtractedCoffees;
+    }
+
+    public void setTopMostExtractedCoffees(CoffeeBeanExtractionsListDto[] topMostExtractedCoffees) {
+        this.topMostExtractedCoffees = topMostExtractedCoffees;
     }
 }
