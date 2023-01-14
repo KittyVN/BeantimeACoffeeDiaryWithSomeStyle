@@ -187,9 +187,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDto getProfileById(Long id) throws NotFoundException {
         User user = userRepository.findFirstById(id);
+        List<ExtractionListDto> topRatedList = extractionService.getTop10RatedByUserId(id);
         return new UserProfileDto(
             user.getEmail(),
             extractionService.getExtractionMatrixByUserId(id),
-            extractionService.getTop10RatedByUserId(id).toArray(new ExtractionListDto[10]));
+            topRatedList.toArray(new ExtractionListDto[topRatedList.size()]));
     }
 }
