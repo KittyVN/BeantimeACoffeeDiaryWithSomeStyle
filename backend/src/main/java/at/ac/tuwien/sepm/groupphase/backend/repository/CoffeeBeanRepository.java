@@ -29,7 +29,7 @@ public interface CoffeeBeanRepository extends JpaRepository<CoffeeBean, Long>, C
      * @return a List of Tuples
      */
     @Query(value = "SELECT b.ID, b.NAME, COUNT(e.ID) AS numExtractions FROM COFFEE_EXTRACTION e "
-        + "JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID WHERE b.USER_ID = 1 "
+        + "JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID WHERE b.USER_ID = :id "
         + "GROUP BY b.ID ORDER BY numExtractions DESC, b.NAME LIMIT 10", nativeQuery = true)
     List<Tuple> findTop10ExtractedByUserId(@Param("id") Long id);
 }
