@@ -136,7 +136,8 @@ public class ExtractionServiceImpl implements ExtractionService {
                 t.get(0, BigInteger.class).longValue(),
                 t.get(1, java.sql.Timestamp.class).toLocalDateTime(),
                 t.get(2, String.class),
-                t.get(3, Integer.class)
+                t.get(3, BigInteger.class).longValue(),
+                t.get(4, Integer.class)
             ))
             .toList()
         );

@@ -57,7 +57,7 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
      * @param id of the user
      * @return a List of Tuples
      */
-    @Query(value = "SELECT e.ID, e.EXTRACTION_DATE, b.NAME, "
+    @Query(value = "SELECT e.ID, e.EXTRACTION_DATE, b.NAME AS BEAN_NAME, b.ID AS BEAN_ID,"
         + "(e.ACIDITY + e.AFTERTASTE + e.AROMATICS + e.BODY + e.SWEETNESS) AS rating "
         + "FROM COFFEE_EXTRACTION e JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID "
         + "ORDER BY rating DESC, e.EXTRACTION_DATE DESC, b.name LIMIT 10",

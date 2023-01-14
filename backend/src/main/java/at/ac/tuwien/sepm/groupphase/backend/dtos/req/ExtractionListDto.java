@@ -6,15 +6,17 @@ public class ExtractionListDto {
     private Long id;
     private LocalDateTime dateTime;
     private String beanName;
+    private Long beanId;
     private Integer rating;
 
     public ExtractionListDto() {
     }
 
-    public ExtractionListDto(Long id, LocalDateTime dateTime, String beanName, Integer rating) {
+    public ExtractionListDto(Long id, LocalDateTime dateTime, String beanName, Long beanId, Integer rating) {
         this.id = id;
         this.dateTime = dateTime;
         this.beanName = beanName;
+        this.beanId = beanId;
         this.rating = rating;
     }
 
@@ -48,5 +50,13 @@ public class ExtractionListDto {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public Long getBeanId() {
+        return beanId;
+    }
+
+    public void setBeanId(Long beanId) {
+        this.beanId = beanId;
     }
 }
