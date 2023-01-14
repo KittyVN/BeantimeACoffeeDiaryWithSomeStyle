@@ -42,7 +42,7 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
      * Find the daily extraction counts of a specific user from 52 weeks before the current week's Monday.
      *
      * @param id of the user
-     * @return a List of Extraction instances
+     * @return a List of Tuples
      */
     @Query(value = "SELECT CAST(e.EXTRACTION_DATE as DATE), COUNT(e.ID), 0 FROM COFFEE_EXTRACTION e "
         + "JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID JOIN APPLICATION_USER u on u.ID = b.USER_ID "
@@ -51,4 +51,16 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
         nativeQuery = true)
     List<Tuple> findDailyCountsForLast53WeeksByUserId(@Param("id") Long id);
 
+    /**
+     * Find the 10 top-rated extractions of a specific user.
+     *
+     * @param id of the user
+     * @return a List of Tuples
+     */
+    @Query(value = "SELECT e.ID, e.EXTRACTION_DATE, b.NAME, "
+        + "(e.ACIDITY + e.AFTERTASTE + e.AROMATICS + e.BODY + e.SWEETNESS) AS rating "
+        + "FROM COFFEE_EXTRACTION e JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID "
+        + "ORDER BY rating DESC, e.EXTRACTION_DATE DESC, b.name LIMIT 10",
+        nativeQuery = true)
+    List<Tuple> findTop10RatedByUserId(@Param("id") Long id);
 }
