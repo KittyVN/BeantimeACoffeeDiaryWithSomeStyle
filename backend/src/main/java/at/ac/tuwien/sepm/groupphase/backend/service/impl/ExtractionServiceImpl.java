@@ -1,10 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -129,5 +125,22 @@ public class ExtractionServiceImpl implements ExtractionService {
 
         return new ExtractionMatrixDto(sumExtractions,
             dayStatsList.toArray(new ExtractionDayStatsDto[dayStatsList.size()]));
+    }
+
+    @Override
+    public List<ExtractionListDto> getTop10RatedByUserId(Long id) {
+        List<Tuple> top10Tuples = extractionRepository.findTop10RatedByUserId(id);
+        List<ExtractionListDto> top10Extractions = new ArrayList<>(top10Tuples
+            .stream()
+            .map(t -> new ExtractionListDto(
+                t.get(0, BigInteger.class).longValue(),
+                t.get(1, java.sql.Timestamp.class).toLocalDateTime(),
+                t.get(2, String.class),
+                t.get(3, Integer.class)
+            ))
+            .toList()
+        );
+
+        return top10Extractions;
     }
 }
