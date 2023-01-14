@@ -1,11 +1,9 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface ExtractionService {
@@ -49,4 +47,12 @@ public interface ExtractionService {
      * @return an ExtractionMatrixDto containing the stats about the extraction of ca. the last 53 weeks.
      */
     ExtractionMatrixDto getExtractionMatrixByUserId(Long id);
+
+    /**
+     * Fetches the top 10 rated extractions for the specified user id.
+     *
+     * @param id of the user
+     * @return a Stream of the found extractions represented as ExtractionListDto.
+     */
+    List<ExtractionListDto> getTop10RatedByUserId(Long id);
 }
