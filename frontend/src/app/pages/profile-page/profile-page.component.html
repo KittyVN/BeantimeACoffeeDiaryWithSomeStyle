@@ -56,4 +56,35 @@
       <span class="label">More</span>
     </mat-card-footer>
   </mat-card>
+  <div id="listGrid">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Top 10 rated extractions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-action-list>
+          <mat-list-item
+            [routerLink]="[
+              'coffee',
+              extraction.beanId,
+              'extraction',
+              extraction.id,
+              'edit'
+            ]"
+            *ngFor="let extraction of profile.topRatedExtractions">
+            <span matListItemTitle>{{ extraction.beanName }}</span>
+            <span matListItemLine>{{
+              extraction.dateTime | date: 'd MMMM y, h:mm a'
+            }}</span>
+            <span matListItemAvatar>{{ extraction.rating }}</span>
+          </mat-list-item>
+          <mat-list-item
+            disabled
+            *ngIf="profile.topRatedExtractions?.length === 0">
+            <span matListItemTitle>You have done no extractions yet.</span>
+          </mat-list-item>
+        </mat-action-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </app-container>
