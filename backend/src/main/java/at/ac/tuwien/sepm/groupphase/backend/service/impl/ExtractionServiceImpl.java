@@ -1,6 +1,11 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
