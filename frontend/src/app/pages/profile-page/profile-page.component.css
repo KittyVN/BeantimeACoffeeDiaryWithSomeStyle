@@ -3,11 +3,11 @@ mat-toolbar {
   justify-content: space-between;
 }
 
-mat-card:first-of-type {
+#extractionMatrixCard {
   margin-top: 32px;
 }
 
-mat-card:first-of-type mat-card-content {
+#extractionMatrixCard mat-card-content {
   margin: 16px 16px 4px 16px;
   padding: 0;
   overflow-x: hidden;
@@ -84,4 +84,5 @@ div#listGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 32px;
+  margin-top: 32px;
 }
