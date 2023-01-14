@@ -1,14 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserProfileDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -195,6 +187,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDto getProfileById(Long id) throws NotFoundException {
         User user = userRepository.findFirstById(id);
-        return new UserProfileDto(user.getEmail(), extractionService.getExtractionMatrixByUserId(id));
+        return new UserProfileDto(
+            user.getEmail(),
+            extractionService.getExtractionMatrixByUserId(id),
+            extractionService.getTop10RatedByUserId(id).toArray(new ExtractionListDto[10]));
     }
 }
