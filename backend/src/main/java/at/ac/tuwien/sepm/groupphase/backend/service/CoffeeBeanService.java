@@ -1,10 +1,12 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface CoffeeBeanService {
@@ -59,4 +61,11 @@ public interface CoffeeBeanService {
      */
     CoffeeBeanDto getById(Long id) throws NotFoundException;
 
+    /**
+     * Get the top 10 most extracted coffee beans by user id.
+     *
+     * @param id of the user.
+     * @return a List of CoffeeBeanExtractionsListDto
+     */
+    List<CoffeeBeanExtractionsListDto> getTop10ExtractedByUserId(Long id);
 }

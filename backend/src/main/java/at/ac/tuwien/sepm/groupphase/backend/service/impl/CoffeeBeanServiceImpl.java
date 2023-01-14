@@ -1,9 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -20,7 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.Tuple;
 import java.lang.invoke.MethodHandles;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.Optional;
@@ -141,6 +141,21 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             throw new NotFoundException();
         }
         return mapper.entityToDto(coffeeBean.get());
+    }
+
+    @Override
+    public List<CoffeeBeanExtractionsListDto> getTop10ExtractedByUserId(Long id) {
+        List<Tuple> top10Tuples = coffeeBeanRepository.findTop10ExtractedByUserId(id);
+        List<CoffeeBeanExtractionsListDto> top10coffees = new ArrayList<>(top10Tuples
+            .stream()
+            .map(t -> new CoffeeBeanExtractionsListDto(
+                t.get(0, BigInteger.class).longValue(),
+                t.get(1, String.class),
+                t.get(2, BigInteger.class).intValue()
+            ))
+            .toList());
+
+        return top10coffees;
     }
 
 
