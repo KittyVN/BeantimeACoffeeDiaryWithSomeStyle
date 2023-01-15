@@ -1,3 +1,7 @@
+main {
+  padding: 2rem;
+}
+
 mat-toolbar {
   display: flex;
   justify-content: space-between;
@@ -82,7 +86,7 @@ span.dot.fr4 {
 
 div#listGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 32px;
   margin-top: 32px;
 }
