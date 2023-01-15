@@ -1,13 +1,17 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -71,5 +75,50 @@ public class ExtractionServiceTest {
 
         assertThat(top5extractions).isNotNull();
         assertThat(top5extractions.size()).isEqualTo(0);
+    }
+
+    @Test
+    @Transactional
+    public void getExtractionMatrixByExistentUserIdReturnsMatrixWithNonDefaultStats() {
+        ExtractionMatrixDto extractionMatrix = extractionService.getExtractionMatrixByUserId(1L);
+        LocalDate today = LocalDate.now();
+        int days = today.getDayOfWeek().getValue() - 1 + 52 * 7;
+        LocalDate start = today.minusDays(days);
+
+        assertThat(extractionMatrix).isNotNull();
+        assertThat(extractionMatrix.getSumExtractions()).isEqualTo(15);
+        assertThat(extractionMatrix.getDailyStats().length).isEqualTo(days + 1);
+        assertThat(extractionMatrix.getDailyStats())
+            .extracting(ExtractionDayStatsDto::getDate, ExtractionDayStatsDto::getNumExtractions, ExtractionDayStatsDto::getRelFrequency)
+            .doesNotContain(tuple(start.minusDays(1), 0, 0))
+            .contains(tuple(start, 0, 0))
+            .contains(tuple(LocalDate.parse("2022-12-11"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-12"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-13"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-14"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-15"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-16"), 10, 4))
+            .doesNotContain(tuple(today.plusDays(1), 0, 0));
+    }
+
+    @Test
+    @Transactional
+    public void getExtractionMatrixByNonExistentUserIdReturnsMatrixWithOnlyDefaultStats() {
+        ExtractionMatrixDto extractionMatrix = extractionService.getExtractionMatrixByUserId(0L);
+        LocalDate today = LocalDate.now();
+        int days = today.getDayOfWeek().getValue() - 1 + 52 * 7;
+        LocalDate start = today.minusDays(days);
+
+        assertThat(extractionMatrix).isNotNull();
+        assertThat(extractionMatrix.getSumExtractions()).isEqualTo(0);
+        assertThat(extractionMatrix.getDailyStats().length).isEqualTo(days + 1);
+        assertThat(extractionMatrix.getDailyStats())
+            .extracting(ExtractionDayStatsDto::getDate, ExtractionDayStatsDto::getNumExtractions, ExtractionDayStatsDto::getRelFrequency)
+            .doesNotContain(tuple(start.minusDays(1), 0, 0))
+            .contains(tuple(start, 0, 0))
+            .doesNotContain(tuple(today.plusDays(1), 0, 0));
+        assertThat(extractionMatrix.getDailyStats())
+            .extracting(ExtractionDayStatsDto::getNumExtractions, ExtractionDayStatsDto::getRelFrequency)
+            .contains(tuple(0, 0));
     }
 }
