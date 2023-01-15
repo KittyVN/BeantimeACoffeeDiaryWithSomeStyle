@@ -59,6 +59,15 @@ mat-card:first-child mat-card-content div.stats div.rating {
   line-height: 40px;
 }
 
+.form {
+  margin-top: 1em;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
 .chart {
   max-height: 512px;
 }

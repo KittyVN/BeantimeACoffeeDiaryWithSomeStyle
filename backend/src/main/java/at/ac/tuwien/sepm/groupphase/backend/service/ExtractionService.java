@@ -4,6 +4,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRati
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
 import java.util.stream.Stream;
@@ -17,6 +18,16 @@ public interface ExtractionService {
      */
     CoffeeBeanAvgExtractionRating getAvgExtractionEvaluationParamsByCoffeeBeanId(Long id);
 
+
+    /**
+     * Fetches all saved extractions matching the given search parameters,
+     * belonging to the bean, from the persistent data storage.
+     *
+     * @param id of the bean
+     * @param searchParams the parameters to search extractions by
+     * @return a stream of the found extractions
+     */
+    Stream<ExtractionDetailDto> searchByBeanId(ExtractionSearchDto searchParams, Long id);
 
     /**
      * Fetches all saved extractions, belonging to the bean, from the persistent data storage.

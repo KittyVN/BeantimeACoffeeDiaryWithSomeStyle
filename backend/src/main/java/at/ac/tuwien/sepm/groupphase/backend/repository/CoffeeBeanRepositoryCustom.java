@@ -7,7 +7,8 @@ import java.util.Collection;
 
 public interface CoffeeBeanRepositoryCustom {
     /**
-     * Search for coffee beans matching the criteria in {@code searchParameters}.
+     * Search for coffee beans matching the criteria in {@code searchParameters}
+     * belonging to the user with Id {@code id}.
      * <p>
      * A bean is considered matched,
      * if its name contains {@code searchParameters.name},
@@ -16,6 +17,7 @@ public interface CoffeeBeanRepositoryCustom {
      * All parameters are optional.
      * </p>
      *
+     * @param id id of the user requesting the search
      * @param searchParameters object containing the search parameters to match
      * @return a collection containing coffee beans matching the criteria in {@code searchParameters}
      */
