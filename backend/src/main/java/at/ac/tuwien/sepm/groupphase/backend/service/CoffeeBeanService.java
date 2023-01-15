@@ -63,18 +63,18 @@ public interface CoffeeBeanService {
     CoffeeBeanDto getById(Long id) throws NotFoundException;
 
     /**
-     * Get the top 10 most extracted coffee beans by user id.
+     * Get the top 5 most extracted coffee beans by user id.
      *
      * @param id of the user.
      * @return a List of CoffeeBeanExtractionsListDto
      */
-    List<CoffeeBeanExtractionsListDto> getTop10ExtractedByUserId(Long id);
+    List<CoffeeBeanExtractionsListDto> getTop5ExtractedByUserId(Long id);
 
     /**
-     * Get the top 10 on average best rated coffees of a specific user.
+     * Get the top 5 on average best rated coffees of a specific user.
      *
      * @param id of the user
      * @return a List of CoffeeBeanRatingListDto
      */
-    List<CoffeeBeanRatingListDto> getTop10RatedByUserId(Long id);
+    List<CoffeeBeanRatingListDto> getTop5RatedByUserId(Long id);
 }

@@ -202,9 +202,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDto getProfileById(Long id) throws NotFoundException {
         User user = userRepository.findFirstById(id);
-        List<ExtractionListDto> topRatedList = extractionService.getTop10RatedByUserId(id);
-        List<CoffeeBeanExtractionsListDto> topExtractionsList = beanService.getTop10ExtractedByUserId(id);
-        List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop10RatedByUserId(id);
+        List<ExtractionListDto> topRatedList = extractionService.getTop5RatedByUserId(id);
+        List<CoffeeBeanExtractionsListDto> topExtractionsList = beanService.getTop5ExtractedByUserId(id);
+        List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop5RatedByUserId(id);
 
         return new UserProfileDto(
             user.getEmail(),

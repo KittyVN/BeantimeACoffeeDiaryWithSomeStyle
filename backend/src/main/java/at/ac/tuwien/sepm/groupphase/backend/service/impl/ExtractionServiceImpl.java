@@ -133,9 +133,9 @@ public class ExtractionServiceImpl implements ExtractionService {
     }
 
     @Override
-    public List<ExtractionListDto> getTop10RatedByUserId(Long id) {
-        List<Tuple> top10Tuples = extractionRepository.findTop10RatedByUserId(id);
-        List<ExtractionListDto> top10Extractions = new ArrayList<>(top10Tuples
+    public List<ExtractionListDto> getTop5RatedByUserId(Long id) {
+        List<Tuple> top5Tuples = extractionRepository.findTop5RatedByUserId(id);
+        List<ExtractionListDto> top5Extractions = new ArrayList<>(top5Tuples
             .stream()
             .map(t -> new ExtractionListDto(
                 t.get(0, BigInteger.class).longValue(),
@@ -147,6 +147,6 @@ public class ExtractionServiceImpl implements ExtractionService {
             .toList()
         );
 
-        return top10Extractions;
+        return top5Extractions;
     }
 }

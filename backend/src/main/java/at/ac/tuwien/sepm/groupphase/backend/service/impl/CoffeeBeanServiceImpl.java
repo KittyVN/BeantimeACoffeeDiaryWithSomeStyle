@@ -149,9 +149,9 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public List<CoffeeBeanExtractionsListDto> getTop10ExtractedByUserId(Long id) {
-        List<Tuple> top10Tuples = coffeeBeanRepository.findTop10ExtractedByUserId(id);
-        List<CoffeeBeanExtractionsListDto> top10coffees = new ArrayList<>(top10Tuples
+    public List<CoffeeBeanExtractionsListDto> getTop5ExtractedByUserId(Long id) {
+        List<Tuple> top5Tuples = coffeeBeanRepository.findTop5ExtractedByUserId(id);
+        List<CoffeeBeanExtractionsListDto> top5coffees = new ArrayList<>(top5Tuples
             .stream()
             .map(t -> new CoffeeBeanExtractionsListDto(
                 t.get(0, BigInteger.class).longValue(),
@@ -160,13 +160,13 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             ))
             .toList());
 
-        return top10coffees;
+        return top5coffees;
     }
 
     @Override
-    public List<CoffeeBeanRatingListDto> getTop10RatedByUserId(Long id) {
-        List<Tuple> top10Tuples = coffeeBeanRepository.findTop10RatedByUserId(id);
-        List<CoffeeBeanRatingListDto> top10coffees = new ArrayList<>(top10Tuples
+    public List<CoffeeBeanRatingListDto> getTop5RatedByUserId(Long id) {
+        List<Tuple> top5Tuples = coffeeBeanRepository.findTop5RatedByUserId(id);
+        List<CoffeeBeanRatingListDto> top5coffees = new ArrayList<>(top5Tuples
             .stream()
             .map(t -> new CoffeeBeanRatingListDto(
                 t.get(0, BigInteger.class).longValue(),
@@ -175,7 +175,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             ))
             .toList());
 
-        return top10coffees;
+        return top5coffees;
     }
 
 

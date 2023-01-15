@@ -23,18 +23,18 @@ public interface CoffeeBeanRepository extends JpaRepository<CoffeeBean, Long>, C
     Collection<CoffeeBean> findAllByUser(@Param("id") Long id);
 
     /**
-     * Find the 10 top most extracted coffees of a specific user.
+     * Find the 5 top most extracted coffees of a specific user.
      *
      * @param id of the user
      * @return a List of Tuples
      */
     @Query(value = "SELECT b.ID, b.NAME, COUNT(e.ID) AS numExtractions FROM COFFEE_EXTRACTION e "
         + "JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID WHERE b.USER_ID = :id "
-        + "GROUP BY b.ID ORDER BY numExtractions DESC, b.NAME LIMIT 10", nativeQuery = true)
-    List<Tuple> findTop10ExtractedByUserId(@Param("id") Long id);
+        + "GROUP BY b.ID ORDER BY numExtractions DESC, b.NAME LIMIT 5", nativeQuery = true)
+    List<Tuple> findTop5ExtractedByUserId(@Param("id") Long id);
 
     /**
-     * Find the top 10 on average best rated coffees of a specific user.
+     * Find the top 5 on average best rated coffees of a specific user.
      *
      * @param id of the user
      * @return a List of Tuples
@@ -42,6 +42,6 @@ public interface CoffeeBeanRepository extends JpaRepository<CoffeeBean, Long>, C
     @Query(value = "SELECT b.ID, b.NAME, "
         + "ROUND(AVG(e.AROMATICS + e.AFTERTASTE + e.ACIDITY + e.BODY + e.SWEETNESS), 2) AS avgRating "
         + "FROM COFFEE_EXTRACTION e JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID "
-        + "WHERE b.USER_ID = :id GROUP BY b.ID ORDER BY avgRating DESC, b.NAME LIMIT 10", nativeQuery = true)
-    List<Tuple> findTop10RatedByUserId(@Param("id") Long id);
+        + "WHERE b.USER_ID = :id GROUP BY b.ID ORDER BY avgRating DESC, b.NAME LIMIT 5", nativeQuery = true)
+    List<Tuple> findTop5RatedByUserId(@Param("id") Long id);
 }

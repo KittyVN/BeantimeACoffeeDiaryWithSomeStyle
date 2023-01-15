@@ -53,10 +53,10 @@ public interface ExtractionService {
     ExtractionMatrixDto getExtractionMatrixByUserId(Long id);
 
     /**
-     * Fetches the top 10 rated extractions for the specified user id.
+     * Fetches the top 5 rated extractions for the specified user id.
      *
      * @param id of the user
      * @return a Stream of the found extractions represented as ExtractionListDto.
      */
-    List<ExtractionListDto> getTop10RatedByUserId(Long id);
+    List<ExtractionListDto> getTop5RatedByUserId(Long id);
 }
