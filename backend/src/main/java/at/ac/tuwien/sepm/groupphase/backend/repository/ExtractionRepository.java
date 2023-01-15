@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Tuple;
 import java.util.List;
 
-public interface ExtractionRepository extends JpaRepository<Extraction, Long> {
+public interface ExtractionRepository extends JpaRepository<Extraction, Long>, ExtractionRepositoryCustom {
     /**
      * Find the average extraction ratings of a coffee bean.
      *

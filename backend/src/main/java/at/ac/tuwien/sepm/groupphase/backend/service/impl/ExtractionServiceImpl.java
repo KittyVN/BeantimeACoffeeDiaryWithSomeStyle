@@ -4,6 +4,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRati
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
@@ -59,6 +60,16 @@ public class ExtractionServiceImpl implements ExtractionService {
             return new CoffeeBeanAvgExtractionRating(id, 0D, 0D, 0D, 0D, 0D);
         } else {
             return avgRating;
+        }
+    }
+
+    @Override
+    public Stream<ExtractionDetailDto> searchByBeanId(ExtractionSearchDto searchParams, Long id) {
+        LOGGER.trace("SearchByBeanId({}) with params: {}", id, searchParams);
+        if (coffeeBeanRepository.existsById(id)) {
+            return extractionRepository.search(searchParams, id).stream().map(mapper::entityToDto);
+        } else {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
         }
     }
 
