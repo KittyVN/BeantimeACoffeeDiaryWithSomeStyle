@@ -126,8 +126,7 @@ public class UserEndpoint {
         }
     }
 
-    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
-        + "and authentication.principal.equals(#id.toString()) ")
+    @PreAuthorize("authentication.principal.equals(#id.toString())")
     @GetMapping("profile/{id}")
     public UserProfileDto getProfileById(@PathVariable Long id) {
         LOGGER.info(String.format("GET %s/%d", BASE_PATH + "/profile", id));
