@@ -91,6 +91,18 @@ div#listGrid {
   margin-top: 32px;
 }
 
+@media(max-width: 1104px) {
+  div#listGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 763px) {
+  div#listGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 div#listGrid span[matlistitemavatar] {
   line-height: 40px;
   text-align: center;
