@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.repository;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.UserProfileMapper;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Tuple;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -71,5 +73,32 @@ public class ExtractionRepositoryTest {
 
         assertThat(top5extractions).isNotNull();
         assertThat(top5extractions.size()).isEqualTo(0);
+    }
+
+    @Test
+    @Transactional
+    public void findDailyCountsForLast53WeeksByExistentUserIdReturnsList() {
+        List<Tuple> dayStatsTuples = extractionRepository.findDailyCountsForLast53WeeksByUserId(1L);
+
+        assertThat(dayStatsTuples).isNotNull();
+        assertThat(dayStatsTuples.size()).isLessThanOrEqualTo(6);
+        assertThat(dayStatsTuples)
+            .map(userProfileMapper::tupleToExtractionDayStatsDto)
+            .extracting(ExtractionDayStatsDto::getDate, ExtractionDayStatsDto::getNumExtractions, ExtractionDayStatsDto::getRelFrequency)
+            .contains(tuple(LocalDate.parse("2022-12-11"), 1, 0))
+            .contains(tuple(LocalDate.parse("2022-12-12"), 1, 0))
+            .contains(tuple(LocalDate.parse("2022-12-13"), 1, 0))
+            .contains(tuple(LocalDate.parse("2022-12-14"), 1, 0))
+            .contains(tuple(LocalDate.parse("2022-12-15"), 1, 0))
+            .contains(tuple(LocalDate.parse("2022-12-16"), 10, 0));
+    }
+
+    @Test
+    @Transactional
+    public void findDailyCountsForLast53WeeksByNonExistentUserIdReturnsEmptyList() {
+        List<Tuple> dayStatsTuples = extractionRepository.findDailyCountsForLast53WeeksByUserId(0L);
+
+        assertThat(dayStatsTuples).isNotNull();
+        assertThat(dayStatsTuples.size()).isEqualTo(0);
     }
 }
