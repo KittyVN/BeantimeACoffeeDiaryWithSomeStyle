@@ -170,11 +170,11 @@ public class CoffeeBeanEndpointTest {
         assertThat(coffeeBeanResult).isNotNull();
         assertThat(coffeeBeanResult.getId()).isEqualTo(2L);
         assertThat(coffeeBeanResult.getCoffeeBean()).isNotNull();
-        assertThat(coffeeBeanResult.getCoffeeBean().getName()).isEqualTo("Another coffee bean");
-        assertThat(coffeeBeanResult.getCoffeeBean().getPrice()).isEqualTo(0F);
-        assertThat(coffeeBeanResult.getCoffeeBean().getOrigin()).isEqualTo("There");
-        assertThat(coffeeBeanResult.getCoffeeBean().getHeight()).isEqualTo(5);
-        assertThat(coffeeBeanResult.getCoffeeBean().getCoffeeRoast()).isEqualTo(CoffeeRoast.LIGHT);
+        assertThat(coffeeBeanResult.getCoffeeBean().getName()).isEqualTo("Espresso House Blend");
+        assertThat(coffeeBeanResult.getCoffeeBean().getPrice()).isEqualTo(9.90F);
+        assertThat(coffeeBeanResult.getCoffeeBean().getOrigin()).isEqualTo("Brasil, Colombia, Congo, Laos");
+        assertThat(coffeeBeanResult.getCoffeeBean().getHeight()).isEqualTo(null);
+        assertThat(coffeeBeanResult.getCoffeeBean().getCoffeeRoast()).isEqualTo(CoffeeRoast.DARK);
         assertThat(coffeeBeanResult.getCoffeeBean().getUserId()).isEqualTo(1L);
         assertThat(coffeeBeanResult.getAvgExtractionRating()).isNotNull();
         assertThat(coffeeBeanResult.getAvgExtractionRating().getId()).isEqualTo(2L);

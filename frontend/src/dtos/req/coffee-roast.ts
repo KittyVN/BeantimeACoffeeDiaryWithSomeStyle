@@ -4,4 +4,7 @@ export enum CoffeeRoast {
   light = 'LIGHT',
   medium = 'MEDIUM',
   dark = 'DARK',
+  double = 'DOUBLE',
+  espresso = 'ESPRESSO',
+  spanish = 'SPANISH',
 }

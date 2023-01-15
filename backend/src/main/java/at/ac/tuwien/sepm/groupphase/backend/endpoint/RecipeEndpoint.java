@@ -69,4 +69,14 @@ public class RecipeEndpoint {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @GetMapping("{id}")
+    public CommunityRecipeDto getById(@PathVariable("id") long id) {
+        LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
+        try {
+            return service.getById(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

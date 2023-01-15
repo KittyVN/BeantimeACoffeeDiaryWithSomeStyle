@@ -41,7 +41,22 @@ export class RecipeService {
     return this.http.get<RecipeDto>('recipes/extraction/' + id);
   }
 
+  /**
+   * Get all recipe out of the data storage
+   *
+   * @returns the recipes as an Observable List
+   */
   public getAll(): Observable<CommunityRecipeDto[]> {
     return this.http.get<CommunityRecipeDto[]>('recipes');
+  }
+
+  /**
+   * Get a recipe out of the data storage by its id
+   *
+   * @param id the id of the recipe to fetch
+   * @returns the recipe as an Observable
+   */
+  public getById(id: string): Observable<CommunityRecipeDto> {
+    return this.http.get<CommunityRecipeDto>('recipes/' + id);
   }
 }

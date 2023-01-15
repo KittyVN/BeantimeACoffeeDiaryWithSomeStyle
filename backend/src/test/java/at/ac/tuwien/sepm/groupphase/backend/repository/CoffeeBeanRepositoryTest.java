@@ -51,11 +51,11 @@ public class CoffeeBeanRepositoryTest {
         CoffeeBean result = coffeeBeanRepository.findById(2L).get();
 
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("Another coffee bean");
-        assertThat(result.getPrice()).isEqualTo(0F);
-        assertThat(result.getOrigin()).isEqualTo("There");
-        assertThat(result.getHeight()).isEqualTo(5);
-        assertThat(result.getCoffeeRoast()).isEqualTo(CoffeeRoast.LIGHT);
+        assertThat(result.getName()).isEqualTo("Espresso House Blend");
+        assertThat(result.getPrice()).isEqualTo(9.90F);
+        assertThat(result.getOrigin()).isEqualTo("Brasil, Colombia, Congo, Laos");
+        assertThat(result.getHeight()).isEqualTo(null);
+        assertThat(result.getCoffeeRoast()).isEqualTo(CoffeeRoast.DARK);
         assertThat(result.getUser().getId()).isEqualTo(1L);
     }
 

@@ -23,6 +23,7 @@ import {
 } from './pages/extraction-create-edit/extraction-create-edit.component';
 import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
 import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
+import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.component';
 
 import type { Routes } from '@angular/router';
 
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'community', component: CommunityDashboardComponent },
+  { path: 'community/:id', component: RecipeDetailComponent },
   {
     path: 'profile',
     canActivate: [AuthGuard],
