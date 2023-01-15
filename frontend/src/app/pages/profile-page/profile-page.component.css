@@ -86,3 +86,8 @@ div#listGrid {
   grid-gap: 32px;
   margin-top: 32px;
 }
+
+div#listGrid span[matlistitemavatar] {
+  line-height: 40px;
+  text-align: center;
+}
