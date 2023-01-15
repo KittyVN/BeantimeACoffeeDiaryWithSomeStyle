@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
@@ -156,6 +157,21 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
                 t.get(0, BigInteger.class).longValue(),
                 t.get(1, String.class),
                 t.get(2, BigInteger.class).intValue()
+            ))
+            .toList());
+
+        return top10coffees;
+    }
+
+    @Override
+    public List<CoffeeBeanRatingListDto> getTop10RatedByUserId(Long id) {
+        List<Tuple> top10Tuples = coffeeBeanRepository.findTop10RatedByUserId(id);
+        List<CoffeeBeanRatingListDto> top10coffees = new ArrayList<>(top10Tuples
+            .stream()
+            .map(t -> new CoffeeBeanRatingListDto(
+                t.get(0, BigInteger.class).longValue(),
+                t.get(1, String.class),
+                t.get(2, Double.class)
             ))
             .toList());
 

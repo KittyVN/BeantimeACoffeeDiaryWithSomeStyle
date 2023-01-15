@@ -1,9 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
 import java.util.List;
@@ -68,4 +69,12 @@ public interface CoffeeBeanService {
      * @return a List of CoffeeBeanExtractionsListDto
      */
     List<CoffeeBeanExtractionsListDto> getTop10ExtractedByUserId(Long id);
+
+    /**
+     * Get the top 10 on average best rated coffees of a specific user.
+     *
+     * @param id of the user
+     * @return a List of CoffeeBeanRatingListDto
+     */
+    List<CoffeeBeanRatingListDto> getTop10RatedByUserId(Long id);
 }
