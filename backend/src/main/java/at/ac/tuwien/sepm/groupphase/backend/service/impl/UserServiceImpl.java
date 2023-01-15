@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
@@ -203,10 +204,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findFirstById(id);
         List<ExtractionListDto> topRatedList = extractionService.getTop10RatedByUserId(id);
         List<CoffeeBeanExtractionsListDto> topExtractionsList = beanService.getTop10ExtractedByUserId(id);
+        List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop10RatedByUserId(id);
+
         return new UserProfileDto(
             user.getEmail(),
             extractionService.getExtractionMatrixByUserId(id),
             topRatedList.toArray(new ExtractionListDto[topRatedList.size()]),
-            topExtractionsList.toArray(new CoffeeBeanExtractionsListDto[topExtractionsList.size()]));
+            topExtractionsList.toArray(new CoffeeBeanExtractionsListDto[topExtractionsList.size()]),
+            topRatingsList.toArray(new CoffeeBeanRatingListDto[topRatingsList.size()]));
     }
 }
