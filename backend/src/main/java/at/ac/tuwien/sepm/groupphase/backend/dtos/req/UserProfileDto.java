@@ -5,6 +5,7 @@ public class UserProfileDto {
     ExtractionMatrixDto extractionMatrix;
     ExtractionListDto[] topRatedExtractions;
     CoffeeBeanExtractionsListDto[] topMostExtractedCoffees;
+    CoffeeBeanRatingListDto[] topRatedCoffees;
 
     public UserProfileDto() {
     }
@@ -13,12 +14,14 @@ public class UserProfileDto {
         String email,
         ExtractionMatrixDto extractionMatrix,
         ExtractionListDto[] topRatedExtractions,
-        CoffeeBeanExtractionsListDto[] topMostExtractedCoffees
+        CoffeeBeanExtractionsListDto[] topMostExtractedCoffees,
+        CoffeeBeanRatingListDto[] topRatedCoffees
     ) {
         this.email = email;
         this.extractionMatrix = extractionMatrix;
         this.topRatedExtractions = topRatedExtractions;
         this.topMostExtractedCoffees = topMostExtractedCoffees;
+        this.topRatedCoffees = topRatedCoffees;
     }
 
     public String getEmail() {
@@ -51,5 +54,13 @@ public class UserProfileDto {
 
     public void setTopMostExtractedCoffees(CoffeeBeanExtractionsListDto[] topMostExtractedCoffees) {
         this.topMostExtractedCoffees = topMostExtractedCoffees;
+    }
+
+    public CoffeeBeanRatingListDto[] getTopRatedCoffees() {
+        return topRatedCoffees;
+    }
+
+    public void setTopRatedCoffees(CoffeeBeanRatingListDto[] topRatedCoffees) {
+        this.topRatedCoffees = topRatedCoffees;
     }
 }
