@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
@@ -92,5 +96,30 @@ public class CoffeeBeanServiceTest {
         } catch (Exception e) {
             assertThat(e instanceof NotFoundException);
         }
+    }
+
+    @Test
+    @Transactional
+    public void getTop5RatedByExistentUserIdReturnsList() {
+        List<CoffeeBeanRatingListDto> top5coffees = coffeeBeanService.getTop5RatedByUserId(1L);
+
+        assertThat(top5coffees).isNotNull();
+        assertThat(top5coffees.size()).isEqualTo(4);
+        assertThat(top5coffees.size()).isLessThanOrEqualTo(5);
+        assertThat(top5coffees)
+            .map(CoffeeBeanRatingListDto::getId, CoffeeBeanRatingListDto::getName, CoffeeBeanRatingListDto::getRating)
+            .contains(tuple(2L, "Espresso House Blend", 16.83))
+            .contains(tuple(4L, "Jingle Beans Holiday Blend", 16.0))
+            .contains(tuple(6L, "TIME & TEMPERATURE", 15.0))
+            .contains(tuple(5L, "West End Blues", 15.0));
+    }
+
+    @Test
+    @Transactional
+    public void getTop5RatedByNonExistentUserIdReturnsEmptyList() {
+        List<CoffeeBeanRatingListDto> top5coffees = coffeeBeanService.getTop5RatedByUserId(0L);
+
+        assertThat(top5coffees).isNotNull();
+        assertThat(top5coffees.size()).isEqualTo(0);
     }
 }
