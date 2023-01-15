@@ -106,5 +106,25 @@
         </mat-action-list>
       </mat-card-content>
     </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Top 10 on average rated coffees</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-action-list>
+          <mat-list-item
+            [routerLink]="['/coffee', coffee.id]"
+            *ngFor="let coffee of profile.topRatedCoffees">
+            <span matListItemTitle>{{ coffee.name }}</span>
+            <span matListItemAvatar>{{ coffee.rating }}</span>
+          </mat-list-item>
+          <mat-list-item
+            disabled
+            *ngIf="profile.topMostExtractedCoffees?.length === 0">
+            <span matListItemTitle>You have done no extractions yet.</span>
+          </mat-list-item>
+        </mat-action-list>
+      </mat-card-content>
+    </mat-card>
   </div>
 </app-container>
