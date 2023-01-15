@@ -1,14 +1,21 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserProfileDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
+import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
@@ -22,10 +29,15 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.nio.file.AccessDeniedException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "generateData"})
@@ -39,10 +51,12 @@ public class UserEndpointTest {
     private MockMvc mockMvc;
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    JwtTokenizer jwtTokenizer;
 
     @BeforeEach
     public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).apply(springSecurity()).build();
     }
 
     /* Tests for GET /users */
@@ -266,7 +280,7 @@ public class UserEndpointTest {
             mockMvc.perform(MockMvcRequestBuilders
                 .delete("/api/v1/users/1")
                 .accept(MediaType.APPLICATION_JSON)
-            ).andExpect(status().isBadRequest());
+            ).andExpect(status().isForbidden());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
@@ -274,20 +288,81 @@ public class UserEndpointTest {
 
     @Test
     @Transactional
+    @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
     public void getProfileByOtherUserIdReturns403() throws Exception {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/profile/0")).andExpect(status().isForbidden());
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/profile/1")).andExpect(status().isForbidden());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
     }
+
     @Test
     @Transactional
-    public void getProfileByNonExistentUserIdReturns404() {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/profile/0")).andExpect(status().isNotFound());
-        } catch (Exception e) {
-            assertThat(e.getCause() instanceof NotFoundException);
-        }
+    public void getProfileByOwnUserIdReturnsUserProfileDto() throws Exception {
+        String auth = "Bearer " + jwtTokenizer.getAuthToken("1", "admin@email.com", new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .get("/api/v1/users/profile/1")
+                .header(HttpHeaders.AUTHORIZATION, auth)
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        List<UserProfileDto> profileResult = objectMapper.readerFor(UserProfileDto.class).<UserProfileDto>readValues(body).readAll();
+
+        assertThat(profileResult).isNotNull();
+        assertThat(profileResult.size()).isEqualTo(1);
+
+        UserProfileDto profile = profileResult.get(0);
+        LocalDate today = LocalDate.now();
+        int days = today.getDayOfWeek().getValue() - 1 + 52 * 7;
+        LocalDate start = today.minusDays(days);
+
+        assertThat(profile).isNotNull();
+        assertThat(profile.getEmail()).isEqualTo("admin@email.com");
+
+        assertThat(profile.getExtractionMatrix()).isNotNull();
+        assertThat(profile.getExtractionMatrix().getSumExtractions()).isEqualTo(15);
+        assertThat(profile.getExtractionMatrix().getDailyStats().length).isEqualTo(days + 1);
+        assertThat(profile.getExtractionMatrix().getDailyStats())
+            .extracting(ExtractionDayStatsDto::getDate, ExtractionDayStatsDto::getNumExtractions, ExtractionDayStatsDto::getRelFrequency)
+            .doesNotContain(tuple(start.minusDays(1), 0, 0))
+            .contains(tuple(start, 0, 0))
+            .contains(tuple(LocalDate.parse("2022-12-11"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-12"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-13"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-14"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-15"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-16"), 10, 4))
+            .doesNotContain(tuple(today.plusDays(1), 0, 0));
+
+        assertThat(profile.getTopRatedExtractions()).isNotNull();
+        assertThat(profile.getTopRatedExtractions().length).isLessThanOrEqualTo(5);
+        assertThat(profile.getTopRatedExtractions())
+            .extracting(ExtractionListDto::getId, ExtractionListDto::getDateTime, ExtractionListDto::getBeanName, ExtractionListDto::getBeanId, ExtractionListDto::getRating)
+            .contains(tuple(8L, LocalDateTime.parse("2022-12-16T14:50:00"), "Jingle Beans Holiday Blend", 4L, 25))
+            .contains(tuple(1L, LocalDateTime.parse("2022-12-11T14:50:00"), "Espresso House Blend", 2L, 25))
+            .contains(tuple(5L, LocalDateTime.parse("2022-12-15T14:50:00"), "Espresso House Blend", 2L, 23))
+            .contains(tuple(13L, LocalDateTime.parse("2022-12-16T14:50:00"), "TIME & TEMPERATURE", 6L, 22))
+            .contains(tuple(10L, LocalDateTime.parse("2022-12-16T14:50:00"), "West End Blues", 5L, 22));
+
+        assertThat(profile.getTopRatedCoffees()).isNotNull();
+        assertThat(profile.getTopRatedCoffees().length).isLessThanOrEqualTo(5);
+        assertThat(profile.getTopRatedCoffees())
+            .extracting(CoffeeBeanRatingListDto::getId, CoffeeBeanRatingListDto::getName, CoffeeBeanRatingListDto::getRating)
+            .contains(tuple(2L, "Espresso House Blend", 16.83))
+            .contains(tuple(4L, "Jingle Beans Holiday Blend", 16.0))
+            .contains(tuple(6L, "TIME & TEMPERATURE", 15.0))
+            .contains(tuple(5L, "West End Blues", 15.0));
+
+        assertThat(profile.getTopMostExtractedCoffees()).isNotNull();
+        assertThat(profile.getTopMostExtractedCoffees().length).isLessThanOrEqualTo(5);
+        assertThat(profile.getTopMostExtractedCoffees())
+            .extracting(CoffeeBeanExtractionsListDto::getId, CoffeeBeanExtractionsListDto::getName, CoffeeBeanExtractionsListDto::getNumExtractions)
+            .contains(tuple(2L, "Espresso House Blend", 6))
+            .contains(tuple(4L, "Jingle Beans Holiday Blend", 3))
+            .contains(tuple(6L, "TIME & TEMPERATURE", 3))
+            .contains(tuple(5L, "West End Blues", 3));
     }
 }
