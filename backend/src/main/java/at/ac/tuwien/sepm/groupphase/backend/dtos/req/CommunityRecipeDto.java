@@ -1,6 +1,5 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 public class CommunityRecipeDto {

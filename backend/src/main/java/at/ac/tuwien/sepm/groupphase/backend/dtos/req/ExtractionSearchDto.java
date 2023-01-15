@@ -85,13 +85,13 @@ public class ExtractionSearchDto {
 
     @Override
     public String toString() {
-        return "ExtractionSearchDto{" +
-            "created=" + created +
-            ", reverseDate=" + reverseDate +
-            ", overallRating=" + overallRating +
-            ", reverseOverallRating=" + reverseOverallRating +
-            ", grindSetting=" + grindSetting +
-            ", brewMethod=" + brewMethod +
-            '}';
+        return "ExtractionSearchDto{"
+            + "created=" + created
+            + ", reverseDate=" + reverseDate
+            + ", overallRating=" + overallRating
+            + ", reverseOverallRating=" + reverseOverallRating
+            + ", grindSetting=" + grindSetting
+            + ", brewMethod=" + brewMethod
+            + '}';
     }
 }
