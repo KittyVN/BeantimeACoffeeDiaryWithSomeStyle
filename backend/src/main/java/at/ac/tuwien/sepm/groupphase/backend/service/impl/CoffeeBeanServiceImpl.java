@@ -10,6 +10,7 @@ import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
+import at.ac.tuwien.sepm.groupphase.backend.mapper.UserProfileMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
@@ -38,15 +39,19 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     private final ExtractionRepository extractionRepository;
     private final UserRepository userRepository;
     private final CoffeeBeanMapper mapper;
+    private final UserProfileMapper userProfileMapper;
     private final ExtractionMapper extractionMapper;
 
     @Autowired
-    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, ExtractionRepository extractionRepository, CoffeeBeanMapper mapper, UserRepository userRepository, ExtractionMapper extractionMapper) {
+    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, ExtractionRepository extractionRepository,
+                                 CoffeeBeanMapper mapper, UserRepository userRepository,
+                                 ExtractionMapper extractionMapper, UserProfileMapper userProfileMapper) {
         this.coffeeBeanRepository = coffeeBeanRepository;
         this.extractionRepository = extractionRepository;
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.extractionMapper = extractionMapper;
+        this.userProfileMapper = userProfileMapper;
     }
 
     @Override
@@ -153,11 +158,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
         List<Tuple> top5Tuples = coffeeBeanRepository.findTop5ExtractedByUserId(id);
         List<CoffeeBeanExtractionsListDto> top5coffees = new ArrayList<>(top5Tuples
             .stream()
-            .map(t -> new CoffeeBeanExtractionsListDto(
-                t.get(0, BigInteger.class).longValue(),
-                t.get(1, String.class),
-                t.get(2, BigInteger.class).intValue()
-            ))
+            .map(userProfileMapper::tupleToCoffeeBeanExtractionsListDto)
             .toList());
 
         return top5coffees;
@@ -168,11 +169,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
         List<Tuple> top5Tuples = coffeeBeanRepository.findTop5RatedByUserId(id);
         List<CoffeeBeanRatingListDto> top5coffees = new ArrayList<>(top5Tuples
             .stream()
-            .map(t -> new CoffeeBeanRatingListDto(
-                t.get(0, BigInteger.class).longValue(),
-                t.get(1, String.class),
-                t.get(2, Double.class)
-            ))
+            .map(userProfileMapper::tupleToCoffeeBeanRatingListDto)
             .toList());
 
         return top5coffees;

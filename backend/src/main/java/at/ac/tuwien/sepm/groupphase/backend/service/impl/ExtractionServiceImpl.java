@@ -11,6 +11,7 @@ import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
+import at.ac.tuwien.sepm.groupphase.backend.mapper.UserProfileMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
@@ -21,8 +22,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
 import java.lang.invoke.MethodHandles;
-import java.math.BigInteger;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,13 +39,16 @@ public class ExtractionServiceImpl implements ExtractionService {
 
     private final CoffeeBeanRepository coffeeBeanRepository;
     private final ExtractionMapper mapper;
+    private final UserProfileMapper userProfileMapper;
 
 
     @Autowired
-    public ExtractionServiceImpl(ExtractionRepository extractionRepository, ExtractionMapper mapper, CoffeeBeanRepository coffeeBeanRepository) {
+    public ExtractionServiceImpl(ExtractionRepository extractionRepository, ExtractionMapper mapper,
+                                 CoffeeBeanRepository coffeeBeanRepository, UserProfileMapper userProfileMapper) {
         this.extractionRepository = extractionRepository;
         this.coffeeBeanRepository = coffeeBeanRepository;
         this.mapper = mapper;
+        this.userProfileMapper = userProfileMapper;
     }
 
     @Override
@@ -125,11 +127,7 @@ public class ExtractionServiceImpl implements ExtractionService {
         List<Tuple> dayStatsTuples = extractionRepository.findDailyCountsForLast53WeeksByUserId(id);
         List<ExtractionDayStatsDto> dayStatsList = new ArrayList<>(dayStatsTuples
             .stream()
-            .map(t -> new ExtractionDayStatsDto(
-                t.get(0, Date.class).toLocalDate(),
-                t.get(1, BigInteger.class).intValue(),
-                t.get(2, Integer.class)
-            ))
+            .map(userProfileMapper::tupleToExtractionDayStatsDto)
             .toList());
 
         int max = 0;
@@ -170,13 +168,7 @@ public class ExtractionServiceImpl implements ExtractionService {
         List<Tuple> top5Tuples = extractionRepository.findTop5RatedByUserId(id);
         List<ExtractionListDto> top5Extractions = new ArrayList<>(top5Tuples
             .stream()
-            .map(t -> new ExtractionListDto(
-                t.get(0, BigInteger.class).longValue(),
-                t.get(1, java.sql.Timestamp.class).toLocalDateTime(),
-                t.get(2, String.class),
-                t.get(3, BigInteger.class).longValue(),
-                t.get(4, Integer.class)
-            ))
+            .map(userProfileMapper::tupleToExtractionListDto)
             .toList()
         );
 
