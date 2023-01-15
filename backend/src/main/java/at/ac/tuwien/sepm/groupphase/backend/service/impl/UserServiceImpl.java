@@ -1,9 +1,13 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserProfileDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
@@ -17,6 +21,8 @@ import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.RecipeRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
+import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
+import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import at.ac.tuwien.sepm.groupphase.backend.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -39,14 +45,18 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserRepository userRepository;
     private final CoffeeBeanRepository beanRepository;
+    private final CoffeeBeanService beanService;
     private final ExtractionRepository extractionRepository;
+    private final ExtractionService extractionService;
     private final RecipeRepository recipeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, ExtractionRepository extractionRepository, RecipeRepository recipeRepository,
+    public UserServiceImpl(UserRepository userRepository, CoffeeBeanRepository beanRepository, ExtractionRepository extractionRepository,
+                           RecipeRepository recipeRepository, ExtractionService extractionService,
+                           CoffeeBeanService beanService,
                            UserMapper mapper, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
         this.userRepository = userRepository;
         this.beanRepository = beanRepository;
@@ -55,6 +65,8 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenizer = jwtTokenizer;
         this.mapper = mapper;
+        this.extractionService = extractionService;
+        this.beanService = beanService;
     }
 
     @Override
@@ -122,9 +134,15 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
         User user = userRepository.findFirstById(userUpdateRequestDto.getId());
-        user.setEmail(userUpdateRequestDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userUpdateRequestDto.getPassword()));
-        userRepository.save(user);
+        if (passwordEncoder.matches(userUpdateRequestDto.getPassword(), user.getPassword())) {
+            user.setEmail(userUpdateRequestDto.getEmail());
+            if (userUpdateRequestDto.getNewPassword() != null) {
+                user.setPassword(passwordEncoder.encode(userUpdateRequestDto.getNewPassword()));
+            }
+            userRepository.save(user);
+        } else {
+            throw new BadCredentialsException("Password is incorrect");
+        }
     }
 
     @Override
@@ -179,5 +197,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return mapper.entityToDto(user);
+    }
+
+    @Override
+    public UserProfileDto getProfileById(Long id) throws NotFoundException {
+        User user = userRepository.findFirstById(id);
+        List<ExtractionListDto> topRatedList = extractionService.getTop5RatedByUserId(id);
+        List<CoffeeBeanExtractionsListDto> topExtractionsList = beanService.getTop5ExtractedByUserId(id);
+        List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop5RatedByUserId(id);
+
+        return new UserProfileDto(
+            user.getEmail(),
+            extractionService.getExtractionMatrixByUserId(id),
+            topRatedList.toArray(new ExtractionListDto[topRatedList.size()]),
+            topExtractionsList.toArray(new CoffeeBeanExtractionsListDto[topExtractionsList.size()]),
+            topRatingsList.toArray(new CoffeeBeanRatingListDto[topRatingsList.size()]));
     }
 }

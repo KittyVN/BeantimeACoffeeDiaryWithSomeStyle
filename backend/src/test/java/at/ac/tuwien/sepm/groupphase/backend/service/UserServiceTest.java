@@ -1,9 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.*;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -14,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -141,5 +140,70 @@ public class UserServiceTest {
     @Transactional
     public void deleteExistingUserWithId() {
         assertDoesNotThrow(() -> userService.deleteUser(1L));
+    }
+
+    @Test
+    @Transactional
+    public void getProfileByExistentIdReturnsUserProfileDto() {
+        UserProfileDto profile = userService.getProfileById(1L);
+        LocalDate today = LocalDate.now();
+        int days = today.getDayOfWeek().getValue() - 1 + 52 * 7;
+        LocalDate start = today.minusDays(days);
+
+        assertThat(profile).isNotNull();
+        assertThat(profile.getEmail()).isEqualTo("admin@email.com");
+
+        assertThat(profile.getExtractionMatrix()).isNotNull();
+        assertThat(profile.getExtractionMatrix().getSumExtractions()).isEqualTo(15);
+        assertThat(profile.getExtractionMatrix().getDailyStats().length).isEqualTo(days + 1);
+        assertThat(profile.getExtractionMatrix().getDailyStats())
+            .extracting(ExtractionDayStatsDto::getDate, ExtractionDayStatsDto::getNumExtractions, ExtractionDayStatsDto::getRelFrequency)
+            .doesNotContain(tuple(start.minusDays(1), 0, 0))
+            .contains(tuple(start, 0, 0))
+            .contains(tuple(LocalDate.parse("2022-12-11"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-12"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-13"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-14"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-15"), 1, 1))
+            .contains(tuple(LocalDate.parse("2022-12-16"), 10, 4))
+            .doesNotContain(tuple(today.plusDays(1), 0, 0));
+
+        assertThat(profile.getTopRatedExtractions()).isNotNull();
+        assertThat(profile.getTopRatedExtractions().length).isLessThanOrEqualTo(5);
+        assertThat(profile.getTopRatedExtractions())
+            .extracting(ExtractionListDto::getId, ExtractionListDto::getDateTime, ExtractionListDto::getBeanName, ExtractionListDto::getBeanId, ExtractionListDto::getRating)
+            .contains(tuple(8L, LocalDateTime.parse("2022-12-16T14:50:00"), "Jingle Beans Holiday Blend", 4L, 25))
+            .contains(tuple(1L, LocalDateTime.parse("2022-12-11T14:50:00"), "Espresso House Blend", 2L, 25))
+            .contains(tuple(5L, LocalDateTime.parse("2022-12-15T14:50:00"), "Espresso House Blend", 2L, 23))
+            .contains(tuple(13L, LocalDateTime.parse("2022-12-16T14:50:00"), "TIME & TEMPERATURE", 6L, 22))
+            .contains(tuple(10L, LocalDateTime.parse("2022-12-16T14:50:00"), "West End Blues", 5L, 22));
+
+        assertThat(profile.getTopRatedCoffees()).isNotNull();
+        assertThat(profile.getTopRatedCoffees().length).isLessThanOrEqualTo(5);
+        assertThat(profile.getTopRatedCoffees())
+            .extracting(CoffeeBeanRatingListDto::getId, CoffeeBeanRatingListDto::getName, CoffeeBeanRatingListDto::getRating)
+            .contains(tuple(2L, "Espresso House Blend", 16.83))
+            .contains(tuple(4L, "Jingle Beans Holiday Blend", 16.0))
+            .contains(tuple(6L, "TIME & TEMPERATURE", 15.0))
+            .contains(tuple(5L, "West End Blues", 15.0));
+
+        assertThat(profile.getTopMostExtractedCoffees()).isNotNull();
+        assertThat(profile.getTopMostExtractedCoffees().length).isLessThanOrEqualTo(5);
+        assertThat(profile.getTopMostExtractedCoffees())
+            .extracting(CoffeeBeanExtractionsListDto::getId, CoffeeBeanExtractionsListDto::getName, CoffeeBeanExtractionsListDto::getNumExtractions)
+            .contains(tuple(2L, "Espresso House Blend", 6))
+            .contains(tuple(4L, "Jingle Beans Holiday Blend", 3))
+            .contains(tuple(6L, "TIME & TEMPERATURE", 3))
+            .contains(tuple(5L, "West End Blues", 3));
+    }
+
+    @Test
+    @Transactional
+    public void getProfileByNonExistentIdThrowsNotFoundException() {
+        try {
+            userService.getProfileById(0L);
+        } catch (Exception e) {
+            assertThat(e instanceof NotFoundException);
+        }
     }
 }

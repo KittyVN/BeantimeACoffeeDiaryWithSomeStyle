@@ -4,6 +4,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserCredentialsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserProfileDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserRegisterDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
@@ -112,4 +113,13 @@ public interface UserService extends UserDetailsService {
      * @throws NotFoundException if no user with the given ID exists.
      */
     UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) throws NotFoundException;
+
+    /**
+     * Get UserProfileDto by user id.
+     *
+     * @param id of the user.
+     * @return UserProfileDto of the specified user.
+     * @throws NotFoundException if no user with the given ID exists.
+     */
+    UserProfileDto getProfileById(Long id) throws NotFoundException;
 }

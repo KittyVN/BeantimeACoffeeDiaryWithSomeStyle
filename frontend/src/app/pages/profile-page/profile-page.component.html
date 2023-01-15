@@ -1,6 +1,130 @@
-<button [routerLink]="['/change']" mat-raised-button color="primary">
-  Change Account Data
-</button>
-<button mat-raised-button color="primary" type="button" (click)="openDialog()">
-  Delete Account
-</button>
+<main>
+  <mat-toolbar color="accent">
+    <span>{{ profile.email }}</span>
+    <a mat-flat-button routerLink="settings">
+      <mat-icon>settings</mat-icon>
+      Settings
+    </a>
+  </mat-toolbar>
+  <mat-card id="extractionMatrixCard">
+    <mat-card-header>
+      <mat-card-title>
+        {{ profile.extractionMatrix?.sumExtractions }} extractions in the last
+        year
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div id="extractionMatrix">
+        <span class="label day" style="grid-column: 1; grid-row: 2">M</span>
+        <span class="label day" style="grid-column: 1; grid-row: 3">T</span>
+        <span class="label day" style="grid-column: 1; grid-row: 4">W</span>
+        <span class="label day" style="grid-column: 1; grid-row: 5">T</span>
+        <span class="label day" style="grid-column: 1; grid-row: 6">F</span>
+        <span class="label day" style="grid-column: 1; grid-row: 7">S</span>
+        <span class="label day" style="grid-column: 1; grid-row: 8">S</span>
+        <span
+          class="label month"
+          *ngFor="let label of extractionMatrixMonthLabels | keyvalue"
+          [style]="'grid-column: ' + label.key + ' / span 2; grid-row: 1'">
+          {{ label.value }}
+        </span>
+        <span
+          *ngFor="
+            let stats of profile.extractionMatrix?.dailyStats;
+            let i = index
+          "
+          [style]="
+            'grid-column: ' +
+            (2 + Math.floor(i / 7)) +
+            '; grid-row: ' +
+            (2 + (i % 7))
+          "
+          [matTooltip]="
+            stats.numExtractions.toString() + ' extractions on ' + stats.date
+          "
+          [class]="'dot fr' + stats.relFrequency.toString()">
+        </span>
+      </div>
+    </mat-card-content>
+    <mat-card-footer id="extractionMatrixLegend">
+      <span class="label">Less</span>
+      <span class="dot"></span>
+      <span class="dot fr1"></span>
+      <span class="dot fr2"></span>
+      <span class="dot fr3"></span>
+      <span class="dot fr4"></span>
+      <span class="label">More</span>
+    </mat-card-footer>
+  </mat-card>
+  <div id="listGrid">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Top 5 rated extractions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-action-list>
+          <mat-list-item
+            [routerLink]="[
+              '/coffee',
+              extraction.beanId,
+              'extraction',
+              extraction.id,
+              'edit'
+            ]"
+            *ngFor="let extraction of profile.topRatedExtractions">
+            <span matListItemTitle>{{ extraction.beanName }}</span>
+            <span matListItemLine>{{
+              extraction.dateTime | date: 'd MMMM y, h:mm a'
+            }}</span>
+            <span matListItemAvatar>{{ extraction.rating }}</span>
+          </mat-list-item>
+          <mat-list-item
+            disabled
+            *ngIf="profile.topRatedExtractions?.length === 0">
+            <span matListItemTitle>You have done no extractions yet.</span>
+          </mat-list-item>
+        </mat-action-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Top 5 most extracted coffees</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-action-list>
+          <mat-list-item
+            [routerLink]="['/coffee', coffee.id]"
+            *ngFor="let coffee of profile.topMostExtractedCoffees">
+            <span matListItemTitle>{{ coffee.name }}</span>
+            <span matListItemAvatar>{{ coffee.numExtractions }}</span>
+          </mat-list-item>
+          <mat-list-item
+            disabled
+            *ngIf="profile.topMostExtractedCoffees?.length === 0">
+            <span matListItemTitle>You have done no extractions yet.</span>
+          </mat-list-item>
+        </mat-action-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Top 5 rated coffees</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-action-list>
+          <mat-list-item
+            [routerLink]="['/coffee', coffee.id]"
+            *ngFor="let coffee of profile.topRatedCoffees">
+            <span matListItemTitle>{{ coffee.name }}</span>
+            <span matListItemAvatar>{{ coffee.rating }}</span>
+          </mat-list-item>
+          <mat-list-item
+            disabled
+            *ngIf="profile.topMostExtractedCoffees?.length === 0">
+            <span matListItemTitle>You have done no extractions yet.</span>
+          </mat-list-item>
+        </mat-action-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</main>

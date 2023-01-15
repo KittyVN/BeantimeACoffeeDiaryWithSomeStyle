@@ -1,13 +1,16 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
+import at.ac.tuwien.sepm.groupphase.backend.mapper.UserProfileMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
@@ -20,7 +23,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.Tuple;
 import java.lang.invoke.MethodHandles;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.Optional;
@@ -33,15 +39,19 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     private final ExtractionRepository extractionRepository;
     private final UserRepository userRepository;
     private final CoffeeBeanMapper mapper;
+    private final UserProfileMapper userProfileMapper;
     private final ExtractionMapper extractionMapper;
 
     @Autowired
-    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, ExtractionRepository extractionRepository, CoffeeBeanMapper mapper, UserRepository userRepository, ExtractionMapper extractionMapper) {
+    public CoffeeBeanServiceImpl(CoffeeBeanRepository coffeeBeanRepository, ExtractionRepository extractionRepository,
+                                 CoffeeBeanMapper mapper, UserRepository userRepository,
+                                 ExtractionMapper extractionMapper, UserProfileMapper userProfileMapper) {
         this.coffeeBeanRepository = coffeeBeanRepository;
         this.extractionRepository = extractionRepository;
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.extractionMapper = extractionMapper;
+        this.userProfileMapper = userProfileMapper;
     }
 
     @Override
@@ -141,6 +151,28 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             throw new NotFoundException();
         }
         return mapper.entityToDto(coffeeBean.get());
+    }
+
+    @Override
+    public List<CoffeeBeanExtractionsListDto> getTop5ExtractedByUserId(Long id) {
+        List<Tuple> top5Tuples = coffeeBeanRepository.findTop5ExtractedByUserId(id);
+        List<CoffeeBeanExtractionsListDto> top5coffees = new ArrayList<>(top5Tuples
+            .stream()
+            .map(userProfileMapper::tupleToCoffeeBeanExtractionsListDto)
+            .toList());
+
+        return top5coffees;
+    }
+
+    @Override
+    public List<CoffeeBeanRatingListDto> getTop5RatedByUserId(Long id) {
+        List<Tuple> top5Tuples = coffeeBeanRepository.findTop5RatedByUserId(id);
+        List<CoffeeBeanRatingListDto> top5coffees = new ArrayList<>(top5Tuples
+            .stream()
+            .map(userProfileMapper::tupleToCoffeeBeanRatingListDto)
+            .toList());
+
+        return top5coffees;
     }
 
 

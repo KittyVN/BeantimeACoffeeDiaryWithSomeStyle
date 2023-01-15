@@ -1,10 +1,12 @@
 <app-container>
   <mat-card>
+    <mat-card-header>
+      <mat-card-title> Settings </mat-card-title>
+    </mat-card-header>
     <mat-card-content>
-      <h1>Change Credentials</h1>
       <form
         class="changeCredentialsForm"
-        [formGroup]="changeCredentialsForm"
+        [formGroup]="form"
         (submit)="onSubmit()">
         <mat-form-field>
           <mat-label>Email</mat-label>
@@ -16,16 +18,41 @@
             [(ngModel)]="user.email" />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>New Password</mat-label>
+          <mat-label>Password</mat-label>
           <input
             formControlName="password"
             required
             type="password"
             matInput
             [(ngModel)]="user.password" />
+          <mat-error *ngIf="passwordControl?.hasError('wrongPassword')">
+            Password is wrong!
+          </mat-error>
         </mat-form-field>
-        <button type="submit" mat-raised-button color="primary">
-          Confirm changes
+        <mat-divider></mat-divider>
+        <mat-form-field>
+          <mat-label>New Password</mat-label>
+          <input
+            formControlName="newPassword"
+            type="password"
+            matInput
+            [(ngModel)]="user.newPassword" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Repeat New Password</mat-label>
+          <input formControlName="newPasswordRepeat" type="password" matInput />
+          <mat-error *ngIf="newPasswordControl?.hasError('equalsNewPassword')">
+            New passwords do not match!
+          </mat-error>
+        </mat-form-field>
+        <mat-divider></mat-divider>
+        <button type="submit" mat-raised-button color="primary">Save</button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="deleteDialog()">
+          Delete Account
         </button>
       </form>
     </mat-card-content>

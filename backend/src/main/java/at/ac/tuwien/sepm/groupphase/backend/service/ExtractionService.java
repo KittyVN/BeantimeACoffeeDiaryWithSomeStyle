@@ -3,10 +3,13 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface ExtractionService {
@@ -64,4 +67,20 @@ public interface ExtractionService {
      */
     ExtractionCreateDto update(ExtractionCreateDto extractionCreateDto) throws NotFoundException, ConflictException;
 
+
+    /**
+     * Fetches the extraction matrix dto for the specified user id.
+     *
+     * @param id of the user
+     * @return an ExtractionMatrixDto containing the stats about the extraction of ca. the last 53 weeks.
+     */
+    ExtractionMatrixDto getExtractionMatrixByUserId(Long id);
+
+    /**
+     * Fetches the top 5 rated extractions for the specified user id.
+     *
+     * @param id of the user
+     * @return a Stream of the found extractions represented as ExtractionListDto.
+     */
+    List<ExtractionListDto> getTop5RatedByUserId(Long id);
 }

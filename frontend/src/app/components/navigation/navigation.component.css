@@ -26,12 +26,6 @@
   justify-content: space-between;
 }
 
-.profile-container mat-icon{
+.profile-container button:first-child {
   margin-right: 1em;
-  transform: scale(1.5);
-}
-
-.profile-container mat-icon:hover{
-  cursor: pointer;
-  transform: scale(1.6);
 }

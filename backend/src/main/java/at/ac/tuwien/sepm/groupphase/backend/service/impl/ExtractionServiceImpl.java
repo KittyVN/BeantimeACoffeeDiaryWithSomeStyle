@@ -2,13 +2,17 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanAvgExtractionRating;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionCreateDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionSearchDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
+import at.ac.tuwien.sepm.groupphase.backend.mapper.UserProfileMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.CoffeeBeanRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
@@ -17,8 +21,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Tuple;
 import java.lang.invoke.MethodHandles;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -30,13 +40,16 @@ public class ExtractionServiceImpl implements ExtractionService {
 
     private final CoffeeBeanRepository coffeeBeanRepository;
     private final ExtractionMapper mapper;
+    private final UserProfileMapper userProfileMapper;
 
 
     @Autowired
-    public ExtractionServiceImpl(ExtractionRepository extractionRepository, ExtractionMapper mapper, CoffeeBeanRepository coffeeBeanRepository) {
+    public ExtractionServiceImpl(ExtractionRepository extractionRepository, ExtractionMapper mapper,
+                                 CoffeeBeanRepository coffeeBeanRepository, UserProfileMapper userProfileMapper) {
         this.extractionRepository = extractionRepository;
         this.coffeeBeanRepository = coffeeBeanRepository;
         this.mapper = mapper;
+        this.userProfileMapper = userProfileMapper;
     }
 
     @Override
@@ -120,4 +133,56 @@ public class ExtractionServiceImpl implements ExtractionService {
         }
     }
 
+    @Override
+    public ExtractionMatrixDto getExtractionMatrixByUserId(Long id) {
+        List<Tuple> dayStatsTuples = extractionRepository.findDailyCountsForLast53WeeksByUserId(id);
+        List<ExtractionDayStatsDto> dayStatsList = new ArrayList<>(dayStatsTuples
+            .stream()
+            .map(userProfileMapper::tupleToExtractionDayStatsDto)
+            .toList());
+
+        int max = 0;
+        int sumExtractions = 0;
+        for (ExtractionDayStatsDto dayStat : dayStatsList) {
+            sumExtractions += dayStat.getNumExtractions();
+            if (dayStat.getNumExtractions() > max) {
+                max = dayStat.getNumExtractions();
+            }
+        }
+
+        for (ExtractionDayStatsDto dayStat : dayStatsList) {
+            if (dayStat.getNumExtractions() > 0) {
+                dayStat.setRelFrequency((int) ((double) dayStat.getNumExtractions() / (double) max * 3) + 1);
+            }
+        }
+
+        List<LocalDate> dates = dayStatsList.stream().map(dto -> dto.getDate()).toList();
+        LocalDate today = LocalDate.now();
+        LocalDate start = today.minusDays(today.getDayOfWeek().getValue() - 1 + 52 * 7);
+
+        while (start.isBefore(today) || start.isEqual(today)) {
+            if (!dates.contains(start)) {
+                dayStatsList.add(new ExtractionDayStatsDto(start, 0, 0));
+            }
+
+            start = start.plusDays(1);
+        }
+
+        Collections.sort(dayStatsList, Comparator.comparing(ExtractionDayStatsDto::getDate));
+
+        return new ExtractionMatrixDto(sumExtractions,
+            dayStatsList.toArray(new ExtractionDayStatsDto[dayStatsList.size()]));
+    }
+
+    @Override
+    public List<ExtractionListDto> getTop5RatedByUserId(Long id) {
+        List<Tuple> top5Tuples = extractionRepository.findTop5RatedByUserId(id);
+        List<ExtractionListDto> top5Extractions = new ArrayList<>(top5Tuples
+            .stream()
+            .map(userProfileMapper::tupleToExtractionListDto)
+            .toList()
+        );
+
+        return top5Extractions;
+    }
 }

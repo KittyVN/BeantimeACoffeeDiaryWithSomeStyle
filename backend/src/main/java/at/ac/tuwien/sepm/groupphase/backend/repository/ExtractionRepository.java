@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
 import java.util.List;
 
 public interface ExtractionRepository extends JpaRepository<Extraction, Long>, ExtractionRepositoryCustom {
@@ -37,4 +38,30 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long>, E
     @Query(value = "DELETE FROM COFFEE_EXTRACTION WHERE EXISTS(SELECT * FROM COFFEE_BEAN b WHERE b.USER_ID = :id)", nativeQuery = true)
     void deleteByUserId(@Param("id") Long id);
 
+    /**
+     * Find the daily extraction counts of a specific user from 52 weeks before the current week's Monday.
+     *
+     * @param id of the user
+     * @return a List of Tuples
+     */
+    @Query(value = "SELECT CAST(e.EXTRACTION_DATE as DATE), COUNT(e.ID), 0 FROM COFFEE_EXTRACTION e "
+        + "JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID JOIN APPLICATION_USER u on u.ID = b.USER_ID "
+        + "WHERE u.ID = :id AND e.EXTRACTION_DATE >= (CURRENT_DATE - (ISO_DAY_OF_WEEK(CURRENT_DATE) - 1) - 52 * 7) "
+        + "GROUP BY e.EXTRACTION_DATE ORDER BY CAST(e.EXTRACTION_DATE as DATE)",
+        nativeQuery = true)
+    List<Tuple> findDailyCountsForLast53WeeksByUserId(@Param("id") Long id);
+
+    /**
+     * Find the 10 top-rated extractions of a specific user.
+     *
+     * @param id of the user
+     * @return a List of Tuples
+     */
+    @Query(value = "SELECT e.ID, e.EXTRACTION_DATE, b.NAME AS BEAN_NAME, b.ID AS BEAN_ID,"
+        + "(e.ACIDITY + e.AFTERTASTE + e.AROMATICS + e.BODY + e.SWEETNESS) AS rating "
+        + "FROM COFFEE_EXTRACTION e JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID "
+        + "WHERE b.USER_ID = :id "
+        + "ORDER BY rating DESC, e.EXTRACTION_DATE DESC, b.name LIMIT 5",
+        nativeQuery = true)
+    List<Tuple> findTop5RatedByUserId(@Param("id") Long id);
 }

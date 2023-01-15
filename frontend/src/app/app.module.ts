@@ -26,6 +26,8 @@ import { Subject } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgChartsModule } from 'ng2-charts';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -105,6 +107,8 @@ import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.compo
     MatSlideToggleModule,
     MatStepperModule,
     NgChartsModule,
+    MatTooltipModule,
+    MatListModule,
   ],
   providers: [
     Subject,

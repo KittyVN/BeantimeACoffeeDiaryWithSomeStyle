@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserAdminEditDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserProfileDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -80,7 +82,11 @@ public class UserEndpoint {
         + "and authentication.principal.equals(#userUpdateRequestDto.getId().toString())")
     @PutMapping("/{id}")
     public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
-        service.updateUser(userUpdateRequestDto);
+        try {
+            service.updateUser(userUpdateRequestDto);
+        } catch (BadCredentialsException e) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        }
     }
 
     @Secured("ROLE_ADMIN")
@@ -115,6 +121,18 @@ public class UserEndpoint {
         LOGGER.info("Request id: {}, Request body {}", id, userDto);
         try {
             return service.updateByAdmin(id, userDto);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+        }
+    }
+
+    @PreAuthorize("authentication.principal.equals(#id.toString())")
+    @GetMapping("profile/{id}")
+    public UserProfileDto getProfileById(@PathVariable Long id) {
+        LOGGER.info(String.format("GET %s/%d", BASE_PATH + "/profile", id));
+        LOGGER.info("Request id: {}", id);
+        try {
+            return service.getProfileById(id);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
         }

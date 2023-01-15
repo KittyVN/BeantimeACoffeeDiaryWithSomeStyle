@@ -1,0 +1,109 @@
+main {
+  padding: 2rem;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+#extractionMatrixCard {
+  margin-top: 32px;
+}
+
+#extractionMatrixCard mat-card-content {
+  margin: 16px 16px 4px 16px;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#extractionMatrix {
+  display: grid;
+  grid-template-columns: 24px repeat(53, 12px);
+  grid-template-rows: 24px repeat(7, 12px);
+  grid-gap: 4px;
+  justify-content: end;
+  width: calc(24px + 53 * 12px + 53 * 4px);
+  margin: 0 auto;
+}
+
+#extractionMatrixLegend {
+  padding: 4px 16px 16px 16px;
+  display: grid;
+  grid-template-columns: 24px repeat(5, 12px) 24px;
+  grid-template-rows: 100%;
+  grid-gap: 4px;
+  justify-content: end;
+  width: calc(24px + 53 * 12px + 53 * 4px);
+  margin: 0 auto;
+}
+
+@media(max-width: 904px) {
+  #extractionMatrix, #extractionMatrixLegend {
+    margin: 0;
+    width: auto;
+  }
+}
+
+span.label {
+  font-size: 11px;
+  line-height: 12px;
+}
+
+span.label.day {
+  text-align: right;
+}
+
+span.label.month {
+  line-height: 40px;
+}
+
+span.dot {
+  border: 1px solid #ccc;
+  background-color: #eee;
+  border-radius: 2px;
+}
+
+span.dot.fr1 {
+  border-color: #DDB4C2;
+  background-color: #FFD0E0;
+}
+
+span.dot.fr2 {
+  border-color: #DD8AA7;
+  background-color: #FFA0C0;
+}
+
+span.dot.fr3 {
+  border-color: #DD618B;
+  background-color: #FF70A1;
+}
+
+span.dot.fr4 {
+  border-color: #DD3770;
+  background-color: #FF4081;
+}
+
+div#listGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 32px;
+  margin-top: 32px;
+}
+
+@media(max-width: 1104px) {
+  div#listGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 763px) {
+  div#listGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+div#listGrid span[matlistitemavatar] {
+  line-height: 40px;
+  text-align: center;
+}
