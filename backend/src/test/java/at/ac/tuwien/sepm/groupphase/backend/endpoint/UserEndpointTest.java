@@ -271,4 +271,23 @@ public class UserEndpointTest {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
     }
+
+    @Test
+    @Transactional
+    public void getProfileByOtherUserIdReturns403() throws Exception {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/profile/0")).andExpect(status().isForbidden());
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof AccessDeniedException);
+        }
+    }
+    @Test
+    @Transactional
+    public void getProfileByNonExistentUserIdReturns404() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/profile/0")).andExpect(status().isNotFound());
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof NotFoundException);
+        }
+    }
 }
