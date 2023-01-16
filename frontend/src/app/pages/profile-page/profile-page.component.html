@@ -4,6 +4,21 @@
 <button mat-raised-button color="primary" type="button" (click)="openDialog()">
   Delete Account
 </button>
-<button mat-raised-button color="primary" type="button" (click)="goToReddit()">
+<button
+  *ngIf="!redditLoggedIn"
+  mat-raised-button
+  color="primary"
+  type="button"
+  (click)="goToReddit()">
   Connect to Reddit
+</button>
+<button
+  *ngIf="redditLoggedIn"
+  class="redditConnection"
+  disabled
+  mat-raised-button
+  color="primary"
+  type="button"
+  (click)="goToReddit()">
+  Connected with Reddit
 </button>

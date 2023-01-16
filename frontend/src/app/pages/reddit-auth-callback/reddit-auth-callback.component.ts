@@ -1,5 +1,6 @@
+import { Token } from '@angular/compiler';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RedditAuthService } from 'src/services/reddit-auth.service';
 
 @Component({
@@ -9,17 +10,35 @@ import { RedditAuthService } from 'src/services/reddit-auth.service';
 })
 export class RedditAuthCallbackComponent {
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private redditAuthService: RedditAuthService
   ) {}
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    localStorage.removeItem('redditToken');
+    this.route.queryParamMap.subscribe(params => {
       if (params.get('state') !== localStorage.getItem('redditAuthString')) {
         console.log('Wrong state string');
       } else {
         let code = params.get('code');
-        if (code) this.redditAuthService.getAccessToken(code);
+        if (code)
+          this.redditAuthService.getAccessToken(code).subscribe({
+            next: data => {
+              console.log(data);
+              localStorage.setItem('redditToken', JSON.stringify(data));
+              localStorage.setItem(
+                'redditTokenExpiration',
+                this.addMinutes(new Date(), 59).toString()
+              );
+              this.router.navigate(['/home']);
+            },
+          });
       }
     });
+  }
+
+  addMinutes(date: Date, minutes: number) {
+    date.setMinutes(date.getMinutes() + minutes);
+    return date;
   }
 }

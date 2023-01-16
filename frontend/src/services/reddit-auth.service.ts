@@ -1,18 +1,29 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RedditAuthService {
-  constructor(private sanitizer: DomSanitizer, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
+  client_id = 'OQifFFFryiwul98sZqfusg';
+  client_secret = '90riMTELyKi8H28LPZ555ktRu1n_9g';
+  redirectURI = 'http://localhost:4200/socials/reddit/auth';
   authUrlOne =
     'https://www.reddit.com/api/v1/authorize?client_id=OQifFFFryiwul98sZqfusg&response_type=code&state=';
   authUrlTwo =
-    '&redirect_uri=http://localhost:4200/socials/reddit/auth&duration=temporary&scope=submit,mysubreddits,save,flair';
-  // declare all characters
+    '&redirect_uri=' +
+    this.redirectURI +
+    '&duration=temporary&scope=submit,mysubreddits,save,flair';
+
   characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: 'Basic ' + btoa(this.client_id + ':' + this.client_secret),
+    }),
+  };
 
   generateString(): string {
     let result = '';
@@ -29,11 +40,18 @@ export class RedditAuthService {
   redirectToAuth() {
     let randString = this.generateString();
     localStorage.setItem('redditAuthString', randString);
-    console.log(this.authUrlOne + randString + this.authUrlTwo);
     window.location.href = this.authUrlOne + randString + this.authUrlTwo;
   }
 
   getAccessToken(code: string) {
-    this.http.post('https://www.reddit.com/api/v1/access_token', code);
+    let data = new HttpParams()
+      .set('grant_type', 'authorization_code')
+      .set('code', code)
+      .set('redirect_uri', this.redirectURI);
+    return this.http.post(
+      'https://www.reddit.com/api/v1/access_token',
+      data,
+      this.httpOptions
+    );
   }
 }

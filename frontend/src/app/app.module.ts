@@ -26,6 +26,7 @@ import { Subject } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgChartsModule } from 'ng2-charts';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -105,6 +106,7 @@ import { RedditAuthCallbackComponent } from './pages/reddit-auth-callback/reddit
     MatSlideToggleModule,
     MatStepperModule,
     NgChartsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     Subject,
