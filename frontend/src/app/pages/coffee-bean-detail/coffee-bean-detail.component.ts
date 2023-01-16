@@ -13,7 +13,6 @@ import { CoffeeBeanDto, ExtractionDetailDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
 import { CoffeeBeanService } from '../../../services/coffee-bean.service';
 import { CoffeeBeanAvgExtractionRating } from '../../../dtos/req/coffee-bean-avg-extraction-rating';
-import { CoffeeBeanDetailDto } from '../../../dtos/req/coffee-bean-detail.dto';
 
 @Component({
   selector: 'app-coffee-bean-detail',

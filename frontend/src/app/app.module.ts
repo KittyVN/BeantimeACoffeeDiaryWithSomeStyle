@@ -52,6 +52,7 @@ import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.compo
 import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
 import { MillisecondsToSecondsPipe } from './pages/extraction-create-edit/milliseconds-to-seconds.pipe';
 import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.component';
+import { RecipesDashboardComponent } from './pages/recipes-dashboard/recipes-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.compo
     CommunityDashboardComponent,
     MillisecondsToSecondsPipe,
     RecipeDetailComponent,
+    RecipesDashboardComponent,
   ],
   imports: [
     BrowserModule,

@@ -57,4 +57,19 @@ public interface RecipeService {
      * @throws NotFoundException if id doesnt exist
      */
     CommunityRecipeDto getById(Long id) throws NotFoundException;
+
+    /**
+     * Deletes an already persisted recipe by its id.
+     *
+     * @param id of the recipe to be deleted
+     */
+    void delete(Long id);
+
+    /**
+     * Fetches all saved recipes with specific user id from the persistent data storage.
+     *
+     * @param id of the user
+     * @return a stream of the found recipes
+     */
+    Stream<CommunityRecipeDto> getAllByUserId(Long id);
 }

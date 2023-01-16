@@ -34,15 +34,19 @@
   }
 
   .description-box {
-    max-height: 13em;
-    max-width: 130px;
     overflow-wrap: break-word;
     hyphens: manual;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-top: 3px;
     margin-bottom: 5px;
+    height: 100px;
   }
 
   .rating-item {
     margin-right: 15px;
+  }
+
+  .dashboard-card-buttons{
+    height: 100px;
   }

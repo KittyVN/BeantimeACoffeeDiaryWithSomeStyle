@@ -24,6 +24,7 @@ import {
 import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
 import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
 import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.component';
+import { RecipesDashboardComponent } from './pages/recipes-dashboard/recipes-dashboard.component';
 
 import type { Routes } from '@angular/router';
 
@@ -54,6 +55,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'community', component: CommunityDashboardComponent },
   { path: 'community/:id', component: RecipeDetailComponent },
+  {
+    path: 'my-recipes',
+    component: RecipesDashboardComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'profile',
     canActivate: [AuthGuard],

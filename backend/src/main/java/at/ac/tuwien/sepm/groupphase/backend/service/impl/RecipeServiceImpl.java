@@ -89,4 +89,16 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return mapper.objectToDto(recipe);
     }
+
+    @Override
+    public void delete(Long id) {
+        recipeRepository.deleteById(id);
+    }
+
+    @Override
+    public Stream<CommunityRecipeDto> getAllByUserId(Long id) {
+        LOGGER.trace("getAllByUserId({})", id);
+        Stream<Object> recipes = recipeRepository.findAllRecipesByUserId(id).stream();
+        return recipes.map(recipe -> mapper.objectToDto(recipe));
+    }
 }

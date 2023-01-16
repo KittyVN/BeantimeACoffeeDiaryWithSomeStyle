@@ -1,18 +1,18 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Recipes</h1>
+  <h1 class="mat-h1">My Shared Recipes</h1>
   <div class="descriptionRecipes">
-    On this page you can find a list of all the coffee recipes the community has
-    graciously shared. If you yourself are also interested in sharing your own
-    recipe, then please head on to your own dashboard and share one of your
-    extractions, preferably one of the best ones :)
+    On this page you can find a list of all the coffee recipes that you have
+    graciously shared with the community.
   </div>
   <mat-grid-list cols="4" rowHeight="400px">
     <mat-grid-tile *ngFor="let recipe of recipes">
       <mat-card class="recipe-card">
         <mat-card-header>
           <mat-card-title class="card-title">
-            <div>Recipe for {{ recipe.coffeeBeanName }}</div>
-            <div>using {{ formatBrewMethod(recipe) }}</div>
+            <div>
+              <div>Recipe for {{ recipe.coffeeBeanName }}</div>
+              <div>using {{ formatBrewMethod(recipe) }}</div>
+            </div>
           </mat-card-title>
           <mat-card-subtitle>
             <div>Coffee Roast: {{ formatRoast(recipe) }}</div>
@@ -51,6 +51,37 @@
               <mat-icon>open_in_new</mat-icon>
               Buy Coffee
             </a>
+            <button
+              mat-stroked-button
+              [routerLink]="[
+                '/coffee/' +
+                  this.recipe.coffeeBeanId +
+                  '/extraction/' +
+                  this.recipe.extractionId +
+                  '/recipe/create'
+              ]">
+              <mat-icon>edit</mat-icon>
+              Edit Recipe
+            </button>
+            <button
+              mat-stroked-button
+              [routerLink]="[
+                '/coffee/' +
+                  this.recipe.coffeeBeanId +
+                  '/extraction/' +
+                  this.recipe.extractionId +
+                  '/edit'
+              ]">
+              <mat-icon>edit</mat-icon>
+              Edit Extraction
+            </button>
+            <button
+              mat-stroked-button
+              color="warn"
+              (click)="deleteRecipe(this.recipe.recipeId)">
+              <mat-icon>delete</mat-icon>
+              Delete Recipe
+            </button>
           </div>
         </mat-card-actions>
       </mat-card>
