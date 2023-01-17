@@ -1,7 +1,7 @@
 import { Token } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RedditAuthService } from 'src/services/reddit-auth.service';
+import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
 
 @Component({
   selector: 'app-reddit-auth-callback',
@@ -26,6 +26,7 @@ export class RedditAuthCallbackComponent {
             next: data => {
               console.log(data);
               localStorage.setItem('redditToken', JSON.stringify(data));
+              localStorage.removeItem('redditTokenExpiration');
               localStorage.setItem(
                 'redditTokenExpiration',
                 this.addMinutes(new Date(), 59).toString()

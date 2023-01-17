@@ -39,6 +39,7 @@ export class RedditAuthService {
 
   redirectToAuth() {
     let randString = this.generateString();
+    localStorage.removeItem('redditAuthString');
     localStorage.setItem('redditAuthString', randString);
     window.location.href = this.authUrlOne + randString + this.authUrlTwo;
   }

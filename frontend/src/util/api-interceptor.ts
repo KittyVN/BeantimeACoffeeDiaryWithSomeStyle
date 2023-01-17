@@ -14,7 +14,10 @@ export class APIInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url !== 'https://www.reddit.com/api/v1/access_token') {
+    if (
+      req.url !== 'https://www.reddit.com/api/v1/access_token' &&
+      req.url !== 'https://oauth.reddit.com/api/submit'
+    ) {
       const apiReq = req.clone({
         url: `${environment.apiBase}/${req.url}`,
       });

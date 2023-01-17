@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DeleteDialogComponent } from 'src/app/components/dialog/delete-dialog/delete-dialog.component';
 import { UserService } from 'src/services/user.service';
-import { RedditAuthService } from 'src/services/reddit-auth.service';
+import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -54,7 +54,6 @@ export class ProfilePageComponent implements OnInit {
   }
 
   goToReddit() {
-    console.log('test');
     this.redditAuthService.redirectToAuth();
   }
 }
