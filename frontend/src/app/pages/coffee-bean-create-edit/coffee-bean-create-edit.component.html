@@ -79,6 +79,14 @@
             formControlName="url"
             [(ngModel)]="coffeeBeanDto.urlToCoffee" />
         </mat-form-field>
+        <mat-form-field>
+          <mat-label>Coffee Strength</mat-label>
+          <input
+            placeholder="Coffee Strength"
+            matInput
+            formControlName="coffeeStrength"
+            [(ngModel)]="coffeeBeanDto.coffeeStrength" />
+        </mat-form-field>
         <button type="submit" mat-raised-button color="primary">
           {{ submitButtonText }}
         </button>

@@ -48,6 +48,9 @@ public class CoffeeBean {
     @Column(name = "description", length = 5000)
     private String description;
 
+    @Column(name = "strength")
+    private String coffeeStrength;
+
     @ManyToOne()
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
@@ -71,7 +74,7 @@ public class CoffeeBean {
 
     public CoffeeBean() {}
 
-    public CoffeeBean(String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String beanBlend, String urlToCoffee, String description, User user) {
+    public CoffeeBean(String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String beanBlend, String urlToCoffee, String description, String strength, User user) {
         this.name = name;
         this.price = price;
         this.origin = origin;
@@ -80,8 +83,24 @@ public class CoffeeBean {
         this.beanBlend = beanBlend;
         this.urlToCoffee = urlToCoffee;
         this.description = description;
+        this.coffeeStrength = strength;
         this.user = user;
     }
+
+    public CoffeeBean(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String beanBlend, String urlToCoffee, String description, String strength, User user) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.origin = origin;
+        this.height = height;
+        this.coffeeRoast = coffeeRoast;
+        this.beanBlend = beanBlend;
+        this.urlToCoffee = urlToCoffee;
+        this.description = description;
+        this.coffeeStrength = strength;
+        this.user = user;
+    }
+
 
     public CoffeeBean(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, User user) {
         this.id = id;
@@ -179,5 +198,11 @@ public class CoffeeBean {
         this.description = description;
     }
 
+    public String getCoffeeStrength() {
+        return coffeeStrength;
+    }
 
+    public void setCoffeeStrength(String coffeeStrength) {
+        this.coffeeStrength = coffeeStrength;
+    }
 }

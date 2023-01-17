@@ -28,12 +28,12 @@ public class CoffeeBeanDataGenerator {
         } else {
             LOGGER.debug("Generating Coffee beans");
             CoffeeBean cb1 = new CoffeeBean("Another coffee bean", 9.90F, "Brasil", 5, CoffeeRoast.MEDIUM,
-                "100% Arabica", null, "A description goes here", new User(1L));
+                "100% Arabica", null, "A description goes here", "4/8", new User(1L));
 
             CoffeeBean cb2 = new CoffeeBean("Espresso House Blend", 9.90F, "Brasil, Colombia, Congo, Laos", null, CoffeeRoast.DARK,
                 "100 % Arabica, Blend", "https://www.coffeecircle.com/de/p/house-blend-espresso",
                 "Unser House Blend Espresso besteht aus 100% Arabica Bohnen und vereint die Herkunftsländer Brasilien, Kolumbien, Kongo, D.R. und Laos"
-                + " zu einem ausgewogenen und mittelkräftigen Espresso.",
+                + " zu einem ausgewogenen und mittelkräftigen Espresso.", "7/8",
                 new User(1L));
 
             CoffeeBean cb3 = new CoffeeBean("Yet another coffee bean", 0F, "Everywhere", 2, CoffeeRoast.DARK,

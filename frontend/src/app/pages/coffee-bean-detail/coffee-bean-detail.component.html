@@ -21,15 +21,25 @@
         <strong>Origin</strong>
         <span>{{ coffee.origin }}</span>
       </div>
-      <div class="attribute">
+      <div *ngIf="coffee.height !== null" class="attribute">
         <mat-icon fontIcon="height"></mat-icon>
         <strong>Height</strong>
         <span>{{ coffee.height }}m</span>
+      </div>
+      <div *ngIf="coffee.height === null" class="attribute">
+        <mat-icon fontIcon="height"></mat-icon>
+        <strong>Height</strong>
+        <span>Unknown</span>
       </div>
       <div class="attribute">
         <mat-icon fontIcon="grain"></mat-icon>
         <strong>Roast</strong>
         <span>{{ coffee.coffeeRoast }}</span>
+      </div>
+      <div class="attribute">
+        <mat-icon fontIcon="show_chart"></mat-icon>
+        <strong>Strength</strong>
+        <span>{{ coffee.coffeeStrength }}</span>
       </div>
       <div class="stats">
         <div>

@@ -31,6 +31,12 @@ public class RecipeMapper {
         );
     }
 
+    /**
+     * Converts an Object Entity object to a {@link at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto}.
+     *
+     * @param obj the object to convert
+     * @return the converted Recipe {@link CommunityRecipeDto}
+     */
     public CommunityRecipeDto objectToDto(Object obj) {
         Object[] objects = (Object[]) obj;
         BigInteger recipeId = (BigInteger) objects[0];
@@ -58,9 +64,10 @@ public class RecipeMapper {
         String coffeeBeanRoast = (String) objects[22];
         String coffeeBeanUrl = (String) objects[23];
         String coffeeBeanDescription = (String) objects[24];
+        String coffeeBeanStrength = (String) objects[25];
         return new CommunityRecipeDto(recipeId.longValue(), recipeDescription, extractionId.longValue(), extractionDate.toLocalDateTime(), extractionBrewMethod, extractionGrindSetting,
                 extractionWaterTemperature, extractionDose, extractionWaterAmount, extractionBrewTime.longValue(), extractionBody, extractionAcidity,
                 extractionAromatics, extractionSweetness, extractionAftertaste, extractionRatingNotes, coffeeBeanId.longValue(), coffeeBeanName,
-                coffeeBeanPrice, coffeeBeanBlend, coffeeBeanOrigin, coffeeBeanHeight, coffeeBeanRoast, coffeeBeanUrl, coffeeBeanDescription);
+                coffeeBeanPrice, coffeeBeanBlend, coffeeBeanOrigin, coffeeBeanHeight, coffeeBeanRoast, coffeeBeanUrl, coffeeBeanDescription, coffeeBeanStrength);
     }
 }

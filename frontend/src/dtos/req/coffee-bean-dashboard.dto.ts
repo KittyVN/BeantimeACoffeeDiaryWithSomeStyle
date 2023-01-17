@@ -6,4 +6,6 @@ export interface CoffeeBeanDashboardDto {
   coffeeRoast: CoffeeRoast;
   description: string;
   beanBlend: string;
+  coffeeStrength: string;
+  coffeeBeanUrl: string;
 }

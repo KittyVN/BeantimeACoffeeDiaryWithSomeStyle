@@ -40,6 +40,7 @@ public class CoffeeBeanServiceTest {
             null,
             null,
             null,
+            null,
             null
         );
         CoffeeBeanDto result = coffeeBeanService.create(coffeeBeanDto);
@@ -58,6 +59,7 @@ public class CoffeeBeanServiceTest {
             "Mexico",
             null,
             CoffeeRoast.DARK,
+            null,
             null,
             null,
             null,

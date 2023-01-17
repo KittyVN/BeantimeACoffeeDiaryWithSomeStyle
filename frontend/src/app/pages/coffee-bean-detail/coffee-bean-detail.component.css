@@ -38,7 +38,7 @@ mat-card:first-child mat-card-content mat-icon {
 }
 
 mat-card:first-child mat-card-content div.attribute strong {
-  width: 56px;
+  width: 70px;
 }
 
 mat-card:first-child mat-card-content strong,

@@ -10,5 +10,6 @@ export interface CoffeeBeanDto {
   description?: string;
   beanBlend?: string;
   urlToCoffee?: string;
+  coffeeStrength?: string;
   userId?: number;
 }

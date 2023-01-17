@@ -40,7 +40,7 @@ public class CoffeeBeanEndpointTest {
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
-        this.requestJson = new CoffeeBeanDto(null, null, null, null, null, null, null, null, null, null);
+        this.requestJson = new CoffeeBeanDto(null, null, null, null, null, null, null, null, null, null, null);
     }
 
 

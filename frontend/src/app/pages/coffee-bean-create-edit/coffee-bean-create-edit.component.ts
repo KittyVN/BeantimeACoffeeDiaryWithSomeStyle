@@ -43,6 +43,7 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
     description: new FormControl('', Validators.maxLength(5000)),
     beanBlend: new FormControl('', Validators.maxLength(255)),
     url: new FormControl('', Validators.maxLength(255)),
+    coffeeStrength: new FormControl('', Validators.maxLength(255)),
   });
 
   public get heading(): string {
