@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
 import { RedditService } from 'src/services/reddit.service';
+import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
 
 @Component({
   selector: 'app-community-dashboard',
@@ -18,28 +19,14 @@ export class CommunityDashboardComponent implements OnInit {
     private route: RouterModule,
     private snackBar: MatSnackBar,
     private recipeService: RecipeService,
-    private redditService: RedditService
+    private redditService: RedditService,
+    private redditAuthService: RedditAuthService
   ) {}
 
   redditLoggedIn: boolean = false;
 
   ngOnInit(): void {
-    let token = localStorage.getItem('redditToken');
-    if (token) {
-      let expirationDate = localStorage.getItem('redditTokenExpiration');
-      if (expirationDate) {
-        let now = new Date();
-        if (now > new Date(expirationDate)) {
-          localStorage.removeItem('redditToken');
-          localStorage.removeItem('redditTokenExpiration');
-          this.redditLoggedIn = false;
-        } else {
-          this.redditLoggedIn = true;
-        }
-      }
-    } else {
-      this.redditLoggedIn = false;
-    }
+    this.redditLoggedIn = this.redditAuthService.isAuthenticated();
     this.recipeService.getAll().subscribe({
       next: data => {
         this.recipes = data;

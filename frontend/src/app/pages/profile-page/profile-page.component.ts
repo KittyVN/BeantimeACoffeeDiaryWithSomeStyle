@@ -22,22 +22,7 @@ export class ProfilePageComponent implements OnInit {
   redditLoggedIn: boolean = false;
 
   ngOnInit() {
-    let token = localStorage.getItem('redditToken');
-    if (token) {
-      let expirationDate = localStorage.getItem('redditTokenExpiration');
-      if (expirationDate) {
-        let now = new Date();
-        if (now > new Date(expirationDate)) {
-          localStorage.removeItem('redditToken');
-          localStorage.removeItem('redditTokenExpiration');
-          this.redditLoggedIn = false;
-        } else {
-          this.redditLoggedIn = true;
-        }
-      }
-    } else {
-      this.redditLoggedIn = false;
-    }
+    this.redditLoggedIn = this.redditAuthService.isAuthenticated();
   }
 
   openDialog(): void {

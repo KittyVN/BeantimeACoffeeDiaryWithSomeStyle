@@ -44,6 +44,36 @@ export class RedditAuthService {
     window.location.href = this.authUrlOne + randString + this.authUrlTwo;
   }
 
+  isAuthenticated() {
+    let token = localStorage.getItem('redditToken');
+    if (token) {
+      let expirationDate = localStorage.getItem('redditTokenExpiration');
+      if (expirationDate) {
+        let now = new Date();
+        if (now > new Date(expirationDate)) {
+          localStorage.removeItem('redditToken');
+          localStorage.removeItem('redditTokenExpiration');
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  getStoredAccessToken() {
+    let token = localStorage.getItem('redditToken');
+    if (token) {
+      return JSON.parse(token).access_token;
+    } else {
+      return undefined;
+    }
+  }
+
   getAccessToken(code: string) {
     let data = new HttpParams()
       .set('grant_type', 'authorization_code')

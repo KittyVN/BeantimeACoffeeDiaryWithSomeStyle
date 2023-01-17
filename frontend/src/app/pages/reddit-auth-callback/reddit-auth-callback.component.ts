@@ -8,12 +8,13 @@ import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
   templateUrl: './reddit-auth-callback.component.html',
   styleUrls: ['./reddit-auth-callback.component.css'],
 })
-export class RedditAuthCallbackComponent {
+export class RedditAuthCallbackComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private redditAuthService: RedditAuthService
   ) {}
+
   ngOnInit() {
     localStorage.removeItem('redditToken');
     this.route.queryParamMap.subscribe(params => {
