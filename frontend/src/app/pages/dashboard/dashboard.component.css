@@ -43,6 +43,10 @@
   bottom: 15px;
 }
 
+.descriptionRecipes {
+  margin-bottom: 10px;
+}
+
 .card-title {
   max-width: 25em;
   overflow: hidden;

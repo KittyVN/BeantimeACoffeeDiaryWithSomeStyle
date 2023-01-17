@@ -6,7 +6,7 @@
     recipe, then please head on to your own dashboard and share one of your
     extractions, preferably one of the best ones :)
   </div>
-  <mat-grid-list cols="4" rowHeight="400px">
+  <mat-grid-list cols="4" rowHeight="410px">
     <mat-grid-tile *ngFor="let recipe of recipes">
       <mat-card class="recipe-card">
         <mat-card-header>
@@ -16,6 +16,7 @@
           </mat-card-title>
           <mat-card-subtitle>
             <div>Coffee Roast: {{ formatRoast(recipe) }}</div>
+            <div>Strength: {{ recipe.coffeeBeanStrength }}</div>
             <div>Blend: {{ recipe.coffeeBeanBlend }}</div>
           </mat-card-subtitle>
         </mat-card-header>

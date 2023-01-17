@@ -24,4 +24,5 @@ export interface CommunityRecipeDto {
   coffeeBeanRoast?: string;
   coffeeBeanUrl?: string;
   coffeeBeanDescription?: string;
+  coffeeBeanStrength?: string;
 }

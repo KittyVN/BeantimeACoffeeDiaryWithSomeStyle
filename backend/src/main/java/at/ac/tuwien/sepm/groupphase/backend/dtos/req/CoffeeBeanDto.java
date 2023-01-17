@@ -29,6 +29,9 @@ public class CoffeeBeanDto {
     private String beanBlend;
     @ValidCoffeeRoast
     private CoffeeRoast coffeeRoast;
+
+    @Size(max = 255, message = "Strength cannot be longer than 255 characters")
+    private String coffeeStrength;
     @Size(max = 5000, message = "Description cannot be longer than 5000 characters")
     private String description;
     @NotNull
@@ -39,7 +42,7 @@ public class CoffeeBeanDto {
     }
 
     public CoffeeBeanDto(Long id, String name, Float price, String origin, Integer height, CoffeeRoast coffeeRoast, String description, String beanBlend, String url,
-                         Long userId) {
+                         String strength, Long userId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -49,6 +52,7 @@ public class CoffeeBeanDto {
         this.description = description;
         this.beanBlend = beanBlend;
         this.urlToCoffee = url;
+        this.coffeeStrength = strength;
         this.userId = userId;
     }
 
@@ -130,5 +134,13 @@ public class CoffeeBeanDto {
 
     public void setUrlToCoffee(String urlToCoffee) {
         this.urlToCoffee = urlToCoffee;
+    }
+
+    public String getCoffeeStrength() {
+        return coffeeStrength;
+    }
+
+    public void setCoffeeStrength(String coffeeStrength) {
+        this.coffeeStrength = coffeeStrength;
     }
 }

@@ -28,6 +28,7 @@ public class CommunityRecipeDto {
     private String coffeeBeanRoast;
     private String coffeeBeanUrl;
     private String coffeeBeanDescription;
+    private String coffeeBeanStrength;
 
     public CommunityRecipeDto() {
     }
@@ -37,7 +38,8 @@ public class CommunityRecipeDto {
                               Double extractionDose, Double extractionWaterAmount, Long extractionBrewTime, Integer extractionBody,
                               Integer extractionAcidity, Integer extractionAromatics, Integer extractionSweetness, Integer extractionAftertaste,
                               String extractionRatingNotes, Long coffeeBeanId, String coffeeBeanName, Float coffeeBeanPrice, String coffeeBeanBlend,
-                              String coffeeBeanOrigin, Integer coffeeBeanHeight, String coffeeBeanRoast, String coffeeBeanUrl, String coffeeBeanDescription) {
+                              String coffeeBeanOrigin, Integer coffeeBeanHeight, String coffeeBeanRoast, String coffeeBeanUrl, String coffeeBeanDescription,
+                              String coffeeBeanStrength) {
         this.recipeId = recipeId;
         this.recipeDescription = recipeDescription;
         this.extractionId = extractionId;
@@ -63,6 +65,7 @@ public class CommunityRecipeDto {
         this.coffeeBeanRoast = coffeeBeanRoast;
         this.coffeeBeanUrl = coffeeBeanUrl;
         this.coffeeBeanDescription = coffeeBeanDescription;
+        this.coffeeBeanStrength = coffeeBeanStrength;
     }
 
     public Long getRecipeId() {
@@ -127,6 +130,14 @@ public class CommunityRecipeDto {
 
     public void setExtractionWaterTemperature(Double extractionWaterTemperature) {
         this.extractionWaterTemperature = extractionWaterTemperature;
+    }
+
+    public String getCoffeeBeanStrength() {
+        return coffeeBeanStrength;
+    }
+
+    public void setCoffeeBeanStrength(String coffeeBeanStrength) {
+        this.coffeeBeanStrength = coffeeBeanStrength;
     }
 
     public Double getExtractionDose() {

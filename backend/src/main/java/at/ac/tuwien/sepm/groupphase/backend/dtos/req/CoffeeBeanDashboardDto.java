@@ -7,23 +7,23 @@ public class CoffeeBeanDashboardDto {
     private String name;
     private CoffeeRoast coffeeRoast;
     private String description;
-
     private String beanBlend;
-
+    private String coffeeBeanUrl;
+    private String coffeeStrength;
     private ExtractionDetailDto bestExtraction;
-
     private ExtractionDetailDto lastExtraction;
-
     private Integer overallAverageRating;
 
     public CoffeeBeanDashboardDto() {}
 
-    public CoffeeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description, String beanBlend) {
+    public CoffeeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description, String beanBlend, String strength, String url) {
         this.id = id;
         this.name = name;
         this.coffeeRoast = coffeeRoast;
         this.description = description;
         this.beanBlend = beanBlend;
+        this.coffeeStrength = strength;
+        this.coffeeBeanUrl = url;
     }
 
     public Long getId() {

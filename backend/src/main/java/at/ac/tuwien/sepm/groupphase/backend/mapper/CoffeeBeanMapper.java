@@ -31,6 +31,7 @@ public class CoffeeBeanMapper {
             coffeeBean.getDescription(),
             coffeeBean.getBeanBlend(),
             coffeeBean.getUrlToCoffee(),
+            coffeeBean.getCoffeeStrength(),
             id
         );
     }
@@ -47,7 +48,9 @@ public class CoffeeBeanMapper {
             coffeeBean.getName(),
             coffeeBean.getCoffeeRoast(),
             coffeeBean.getDescription(),
-            coffeeBean.getBeanBlend()
-        );
+            coffeeBean.getBeanBlend(),
+            coffeeBean.getCoffeeStrength(),
+            coffeeBean.getUrlToCoffee()
+            );
     }
 }
