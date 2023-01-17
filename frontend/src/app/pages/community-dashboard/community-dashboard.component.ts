@@ -152,8 +152,4 @@ export class CommunityDashboardComponent implements OnInit {
       }
     }
   }
-
-  shareOnReddit() {
-    this.redditService.postToReddit();
-  }
 }

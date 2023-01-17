@@ -7,6 +7,7 @@ import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
 import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
 import { RecipeService } from 'src/services/recipe.service';
 import { UserService } from 'src/services/user.service';
+import { RedditService } from 'src/services/reddit.service';
 
 @Component({
   selector: 'app-recipes-dashboard',
@@ -20,7 +21,8 @@ export class RecipesDashboardComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private recipeService: RecipeService,
-    private userService: UserService
+    private userService: UserService,
+    private redditService: RedditService
   ) {}
 
   ngOnInit(): void {
@@ -163,5 +165,9 @@ export class RecipesDashboardComponent implements OnInit {
         });
       },
     });
+  }
+
+  shareOnReddit(recipe: CommunityRecipeDto) {
+    this.redditService.postToReddit(recipe);
   }
 }
