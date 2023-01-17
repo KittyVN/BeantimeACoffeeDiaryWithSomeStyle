@@ -1,6 +1,24 @@
 <main>
   <mat-toolbar color="accent">
     <span>{{ profile.email }}</span>
+    <button
+      *ngIf="!redditLoggedIn"
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="goToReddit()">
+      Connect to Reddit
+    </button>
+    <button
+      *ngIf="redditLoggedIn"
+      class="redditConnection"
+      disabled
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="goToReddit()">
+      Connected with Reddit
+    </button>
     <a mat-flat-button routerLink="settings">
       <mat-icon>settings</mat-icon>
       Settings

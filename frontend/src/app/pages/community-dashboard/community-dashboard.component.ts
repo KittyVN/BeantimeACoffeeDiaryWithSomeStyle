@@ -6,6 +6,8 @@ import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting';
 import { CoffeeRoast } from 'src/dtos/req/coffee-roast';
 import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
 import { RecipeService } from 'src/services/recipe.service';
+import { RedditService } from 'src/services/reddit.service';
+import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
 
 @Component({
   selector: 'app-community-dashboard',
@@ -19,10 +21,15 @@ export class CommunityDashboardComponent implements OnInit {
     private router: Router,
     private route: RouterModule,
     private snackBar: MatSnackBar,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private redditService: RedditService,
+    private redditAuthService: RedditAuthService
   ) {}
 
+  redditLoggedIn: boolean = false;
+
   ngOnInit(): void {
+    this.redditLoggedIn = this.redditAuthService.isAuthenticated();
     this.recipeService.getAll().subscribe({
       next: data => {
         this.recipes = data;
@@ -144,5 +151,9 @@ export class CommunityDashboardComponent implements OnInit {
         return 'Unknown brewing method';
       }
     }
+  }
+
+  shareOnReddit() {
+    this.redditService.postToReddit();
   }
 }

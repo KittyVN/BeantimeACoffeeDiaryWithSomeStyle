@@ -25,6 +25,7 @@ import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.compo
 import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
 import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.component';
 import { RecipesDashboardComponent } from './pages/recipes-dashboard/recipes-dashboard.component';
+import { RedditAuthCallbackComponent } from './pages/reddit-auth-callback/reddit-auth-callback.component';
 
 import type { Routes } from '@angular/router';
 
@@ -59,6 +60,11 @@ const routes: Routes = [
     path: 'my-recipes',
     component: RecipesDashboardComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'socials/reddit/auth',
+    canActivate: [AuthGuard],
+    component: RedditAuthCallbackComponent,
   },
   {
     path: 'profile',

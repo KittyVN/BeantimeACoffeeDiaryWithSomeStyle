@@ -28,6 +28,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,6 +54,7 @@ import { CommunityDashboardComponent } from './pages/community-dashboard/communi
 import { MillisecondsToSecondsPipe } from './pages/extraction-create-edit/milliseconds-to-seconds.pipe';
 import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.component';
 import { RecipesDashboardComponent } from './pages/recipes-dashboard/recipes-dashboard.component';
+import { RedditAuthCallbackComponent } from './pages/reddit-auth-callback/reddit-auth-callback.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,7 @@ import { RecipesDashboardComponent } from './pages/recipes-dashboard/recipes-das
     MillisecondsToSecondsPipe,
     RecipeDetailComponent,
     RecipesDashboardComponent,
+    RedditAuthCallbackComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,6 +114,7 @@ import { RecipesDashboardComponent } from './pages/recipes-dashboard/recipes-das
     NgChartsModule,
     MatTooltipModule,
     MatListModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     Subject,

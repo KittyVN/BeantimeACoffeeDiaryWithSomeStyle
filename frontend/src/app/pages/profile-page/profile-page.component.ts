@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
+import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
 
 import { UserProfileDto } from '../../../dtos/req/userProfile.dto';
 
@@ -10,7 +12,12 @@ import { UserProfileDto } from '../../../dtos/req/userProfile.dto';
   styleUrls: ['./profile-page.component.css'],
 })
 export class ProfilePageComponent implements OnInit {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    private userService: UserService,
+    private redditAuthService: RedditAuthService
+  ) {}
 
   userId: number = this.userService.thisUserId();
   profile: UserProfileDto = {
@@ -20,7 +27,11 @@ export class ProfilePageComponent implements OnInit {
   extractionMatrixMonthLabels: Map<number, string> = new Map<number, string>();
   Math = Math;
 
-  ngOnInit(): void {
+  redditLoggedIn: boolean = false;
+
+  ngOnInit() {
+    this.redditLoggedIn = this.redditAuthService.isAuthenticated();
+
     let today = new Date();
     let startDate = new Date();
     startDate.setDate(today.getDate() - ((today.getDay() + 6) % 7) - 52 * 7);
@@ -46,5 +57,9 @@ export class ProfilePageComponent implements OnInit {
         this.profile = profile;
       },
     });
+  }
+
+  goToReddit() {
+    this.redditAuthService.redirectToAuth();
   }
 }
