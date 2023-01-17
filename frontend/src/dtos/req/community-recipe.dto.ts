@@ -1,5 +1,5 @@
 export interface CommunityRecipeDto {
-  recipeId?: number;
+  recipeId: number;
   recipeDescription?: string;
   extractionId?: number;
   extractionDate?: Date;

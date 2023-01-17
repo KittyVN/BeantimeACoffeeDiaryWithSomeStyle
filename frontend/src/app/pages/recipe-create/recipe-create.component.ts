@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { filter, pairwise } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { ExtractionDetailDto } from 'src/dtos';
 import { RecipeDto } from 'src/dtos/req/recipe.dto';
@@ -23,11 +24,11 @@ export class RecipeCreateComponent implements OnInit {
     private recipeService: RecipeService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private jwtHelper: JwtHelperService
+    private snackBar: MatSnackBar
   ) {}
 
   id: string | null = null;
+  previousUrl: string = 'Not an url';
   coffeeId: string | null = null;
   recipeDto: RecipeDto = {
     id: 0,
@@ -52,6 +53,15 @@ export class RecipeCreateComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.mode = data['mode'];
     });
+    this.router.events
+      .pipe(
+        filter((evt: any) => evt instanceof RoutesRecognized),
+        pairwise()
+      )
+      .subscribe((events: RoutesRecognized[]) => {
+        this.previousUrl = events[0].urlAfterRedirects;
+        console.log(this.previousUrl);
+      });
     this.route.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
       this.coffeeId = paramMap.get('coffeeId');
@@ -83,7 +93,6 @@ export class RecipeCreateComponent implements OnInit {
   });
 
   onSubmit() {
-    console.log(this.recipeDto);
     if (this.createRecipeForm.valid) {
       let observable: Observable<string>;
       switch (this.mode) {

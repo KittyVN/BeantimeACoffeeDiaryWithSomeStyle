@@ -49,9 +49,8 @@ public interface CoffeeBeanService {
      * Deletes an already persisted coffee bean by its id.
      *
      * @param id of the coffee bean to be deleted
-     * @throws NotFoundException in case the coffee bean with given id is not found
      */
-    void delete(Long id) throws NotFoundException;
+    void delete(Long id);
 
     /**
      * Gets an already persisted coffee bean by its id.

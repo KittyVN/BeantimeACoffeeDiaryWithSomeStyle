@@ -140,7 +140,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public void delete(Long id) throws NotFoundException {
+    public void delete(Long id) {
         coffeeBeanRepository.deleteById(id);
     }
 

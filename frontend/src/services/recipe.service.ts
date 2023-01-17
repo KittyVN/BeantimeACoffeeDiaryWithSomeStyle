@@ -59,4 +59,23 @@ export class RecipeService {
   public getById(id: string): Observable<CommunityRecipeDto> {
     return this.http.get<CommunityRecipeDto>('recipes/' + id);
   }
+
+  /**
+   * Get all recipes from the user out of the data storage
+   *
+   * @returns the recipes as an Observable List
+   */
+  public getAllByUser(id: number): Observable<CommunityRecipeDto[]> {
+    const idAsString = String(id);
+    return this.http.get<CommunityRecipeDto[]>('recipes/user/' + idAsString);
+  }
+
+  /**
+   * Delete a recipe out of the data storage by its id
+   *
+   * @param id the id of the recipe to delete
+   */
+  public delete(id: string) {
+    return this.http.delete('recipes/' + id);
+  }
 }
