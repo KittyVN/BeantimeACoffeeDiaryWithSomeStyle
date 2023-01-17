@@ -1,5 +1,4 @@
-import { Token } from '@angular/compiler';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
 
