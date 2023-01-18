@@ -16,7 +16,12 @@ export class ExtractionCardComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   public doughnutChartData: ChartData<'doughnut'> = {
-    datasets: [{ data: this.getOverallRating() }],
+    datasets: [
+      {
+        data: this.getOverallRating(),
+        backgroundColor: ['#4caf50', '#f68f83'],
+      },
+    ],
   };
   public doughnutChartType: ChartConfiguration<'doughnut'>['type'] = 'doughnut';
   public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
@@ -49,6 +54,7 @@ export class ExtractionCardComponent implements OnInit {
     this.doughnutChartData.datasets = [
       {
         data: this.getOverallRating(),
+        backgroundColor: ['#4caf50', '#f68f83'],
       },
     ];
     console.log(this.getOverallRating());

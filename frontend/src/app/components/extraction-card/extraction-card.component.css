@@ -50,6 +50,7 @@
 
 .input-container {
     flex-grow: 3;
+    max-width: 20em;
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 10px;
@@ -97,7 +98,6 @@
     font-size: 1em;
     padding-top: 2px;
 }
-
 
 .chart {
     max-height: 96px;

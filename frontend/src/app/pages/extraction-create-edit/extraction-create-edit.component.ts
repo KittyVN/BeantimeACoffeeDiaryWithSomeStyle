@@ -54,8 +54,8 @@ export class ExtractionCreateEditComponent implements OnInit {
       Validators.min(0),
       Validators.max(100),
     ]),
-    dose: new FormControl('', [Validators.min(0)]),
-    waterAmount: new FormControl('', [Validators.min(0), Validators.max(3000)]),
+    dose: new FormControl('', [Validators.min(0), Validators.max(500)]),
+    waterAmount: new FormControl('', [Validators.min(0), Validators.max(2000)]),
   });
   timerForm = new FormGroup({
     brewTime: new FormControl('', [Validators.min(0)]),
@@ -92,7 +92,7 @@ export class ExtractionCreateEditComponent implements OnInit {
     }
     observable.subscribe({
       next: data => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/coffee/' + this.coffee.id]);
       },
       error: err => {
         this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
@@ -134,7 +134,7 @@ export class ExtractionCreateEditComponent implements OnInit {
     }
     observable.subscribe({
       next: data => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/coffee/' + this.coffee.id]);
       },
       error: err => {
         this.snackBar.open(err.error.match('\\[.*?\\]'), 'Close', {
