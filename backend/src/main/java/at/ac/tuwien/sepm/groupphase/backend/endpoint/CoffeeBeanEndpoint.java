@@ -72,7 +72,7 @@ public class CoffeeBeanEndpoint {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") long id) {
+    public void delete(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         try {
             coffeeBeanService.delete(id);
@@ -82,7 +82,7 @@ public class CoffeeBeanEndpoint {
     }
 
     @GetMapping("{id}")
-    public CoffeeBeanDetailDto getById(@PathVariable("id") long id) {
+    public CoffeeBeanDetailDto getById(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
         try {
             return new CoffeeBeanDetailDto(id,
@@ -92,6 +92,4 @@ public class CoffeeBeanEndpoint {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-
-
 }

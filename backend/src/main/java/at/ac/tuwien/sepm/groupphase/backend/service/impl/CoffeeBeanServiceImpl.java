@@ -55,13 +55,17 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public Stream<CoffeeBeanDashboardDto> getAllByUser(Long id) {
+    public Stream<CoffeeBeanDashboardDto> getAllByUser(Long id) throws NotFoundException {
         LOGGER.trace("getAllByUser({})", id);
-        return coffeeBeanRepository.findAllByUser(id).stream().map(mapper::entityToDashboardDto);
+        if (userRepository.existsById(id)) {
+            return coffeeBeanRepository.findAllByUser(id).stream().map(mapper::entityToDashboardDto);
+        } else {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
     }
 
     @Override
-    public Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Long id) {
+    public Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Long id) throws NotFoundException {
         LOGGER.trace("search coffee beans with params: {}", searchParams);
         List<CoffeeBeanDashboardDto> coffees;
         if (userRepository.existsById(id)) {
@@ -111,7 +115,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     }
 
     @Override
-    public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) {
+    public CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) throws NotFoundException, ResponseStatusException {
         LOGGER.trace("update {}", coffeeBeanDto);
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(coffeeBeanDto.getId());
         if (!coffeeBean.isPresent()) {

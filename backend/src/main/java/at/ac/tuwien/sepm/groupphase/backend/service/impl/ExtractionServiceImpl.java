@@ -55,7 +55,6 @@ public class ExtractionServiceImpl implements ExtractionService {
     @Override
     public CoffeeBeanAvgExtractionRating getAvgExtractionEvaluationParamsByCoffeeBeanId(Long id) {
         CoffeeBeanAvgExtractionRating avgRating = this.extractionRepository.findAvgExtractionRatingByCoffeeBeanId(id);
-
         if (avgRating == null) {
             return new CoffeeBeanAvgExtractionRating(id, 0D, 0D, 0D, 0D, 0D);
         } else {
@@ -69,7 +68,7 @@ public class ExtractionServiceImpl implements ExtractionService {
         if (coffeeBeanRepository.existsById(id)) {
             return extractionRepository.search(searchParams, id).stream().map(mapper::entityToDto);
         } else {
-            throw new NotFoundException(String.format("No user with ID %d found", id));
+            throw new NotFoundException(String.format("No bean with ID %d found", id));
         }
     }
 
@@ -96,14 +95,18 @@ public class ExtractionServiceImpl implements ExtractionService {
     }
 
     @Override
-    public ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto) {
+    public ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto) throws NotFoundException {
         LOGGER.trace("create {}", extractionCreateDto);
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(extractionCreateDto.getBeanId());
-        Extraction extraction = new Extraction(LocalDateTime.now(), extractionCreateDto.getBrewMethod(), extractionCreateDto.getGrindSetting(),
-            extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(), extractionCreateDto.getBrewTime(),
-            extractionCreateDto.getBody(), extractionCreateDto.getAcidity(), extractionCreateDto.getSweetness(), extractionCreateDto.getAromatics(),
-            extractionCreateDto.getAftertaste(), extractionCreateDto.getRatingNotes(), coffeeBean.get());
-        return mapper.entityToCreateDto(extractionRepository.save(extraction));
+        if (coffeeBean.isPresent()) {
+            Extraction extraction = new Extraction(LocalDateTime.now(), extractionCreateDto.getBrewMethod(), extractionCreateDto.getGrindSetting(),
+                extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(), extractionCreateDto.getBrewTime(),
+                extractionCreateDto.getBody(), extractionCreateDto.getAcidity(), extractionCreateDto.getSweetness(), extractionCreateDto.getAromatics(),
+                extractionCreateDto.getAftertaste(), extractionCreateDto.getRatingNotes(), coffeeBean.get());
+            return mapper.entityToCreateDto(extractionRepository.save(extraction));
+        } else {
+            throw new NotFoundException(String.format("No bean with ID %d found", extractionCreateDto.getBeanId()));
+        }
     }
 
     @Override
