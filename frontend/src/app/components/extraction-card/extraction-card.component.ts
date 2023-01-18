@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { ChartData, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
@@ -18,7 +18,11 @@ export class ExtractionCardComponent implements OnInit {
   public doughnutChartData: ChartData<'doughnut'> = {
     datasets: [{ data: this.getOverallRating() }],
   };
-  public doughnutChartType: ChartType = 'doughnut';
+  public doughnutChartType: ChartConfiguration<'doughnut'>['type'] = 'doughnut';
+  public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+    responsive: true,
+    cutout: '70%',
+  };
 
   rated(): boolean {
     if (this.extraction) {

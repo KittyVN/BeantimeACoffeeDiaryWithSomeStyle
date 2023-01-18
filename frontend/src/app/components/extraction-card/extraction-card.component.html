@@ -1,21 +1,23 @@
 <mat-card class="extraction-card">
   <mat-card-content>
     <div class="extraction-container">
-      <button
-        *ngIf="extraction"
-        class="edit-button"
-        [routerLink]="[
-          '/coffee/' +
-            this.extraction.beanId +
-            '/extraction/' +
-            this.extraction.id +
-            '/edit'
-        ]">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <div *ngIf="exists">
+      <div *ngIf="exists" class="card-buttons">
         <button
-          class="share-button"
+          *ngIf="extraction"
+          class="card-button"
+          mat-icon-button
+          [routerLink]="[
+            '/coffee/' +
+              this.extraction.beanId +
+              '/extraction/' +
+              this.extraction.id +
+              '/edit'
+          ]">
+          <mat-icon class="action-icon">edit</mat-icon>
+        </button>
+        <button
+          class="card-button"
+          mat-icon-button
           [routerLink]="[
             '/coffee/' +
               this.coffeeBeanId +
@@ -23,21 +25,33 @@
               this.extraction?.id +
               '/recipe/create'
           ]">
-          Share
+          <mat-icon class="action-icon">share</mat-icon>
         </button>
       </div>
       <div class="sum-container">
         <div *ngIf="rated()">
-          <b>Rating:</b>
-          <p>{{ this.extraction?.overallRating }} / 25</p>
-          <canvas
-            baseChart
-            class="chart"
-            [data]="doughnutChartData"
-            [type]="doughnutChartType">
-          </canvas>
+          <div
+            class="score-container"
+            [ngClass]="[
+              realizeOverallRating() > 9
+                ? 'score-container'
+                : 'score-to-9-container'
+            ]">
+            <b>{{ this.extraction?.overallRating }} / 25</b>
+          </div>
+          <div class="chart-container">
+            <canvas
+              baseChart
+              class="chart"
+              [data]="doughnutChartData"
+              [type]="doughnutChartType"
+              [options]="doughnutChartOptions">
+            </canvas>
+          </div>
         </div>
-        <p *ngIf="!rated()"><b>Not rated</b></p>
+        <div *ngIf="!rated()" id="unrated-element">
+          <mat-icon>chevron_left</mat-icon><b id="unrated-text">Rate now</b>
+        </div>
       </div>
       <div class="separator-line"></div>
       <div class="input-container">
