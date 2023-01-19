@@ -3,11 +3,15 @@
     <span>{{ profile.email }}</span>
     <button
       *ngIf="!redditLoggedIn"
+      class="redditConnection"
       mat-raised-button
       color="primary"
       type="button"
       (click)="goToReddit()">
-      Connect to Reddit
+      <div class="redditButtonContent">Connect to</div>
+      <div class="redditButtonContent">
+        <mat-icon class="redditLogo" svgIcon="reddit_logo"></mat-icon>
+      </div>
     </button>
     <button
       *ngIf="redditLoggedIn"
@@ -17,7 +21,10 @@
       color="primary"
       type="button"
       (click)="goToReddit()">
-      Connected with Reddit
+      <div class="redditButtonContent">Connected with</div>
+      <div class="redditButtonContent">
+        <mat-icon class="redditLogo" svgIcon="reddit_logo"></mat-icon>
+      </div>
     </button>
     <a mat-flat-button routerLink="settings">
       <mat-icon>settings</mat-icon>

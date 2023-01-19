@@ -109,6 +109,22 @@ div#listGrid span[matlistitemavatar] {
 }
 
 .redditConnection{
-    background-color: rgb(255, 86, 0, 1) !important;
+    background-color: rgb(255, 69, 0, 1) !important;
     color: white !important;
 }
+
+.redditContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.redditButtonContent{
+  display: inline-block;
+}
+
+.redditLogo{
+  transform: translateY(6px);
+}
+
