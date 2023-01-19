@@ -207,7 +207,15 @@ export class RedditService {
       this.http
         .post('https://oauth.reddit.com/api/submit', data, httpOptions)
         .subscribe({
-          next: data => {},
+          next: data => {
+            this.snackBar.open(
+              'Successfully posted to test subreddit!',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+          },
           error: err => {
             console.log(err);
           },
