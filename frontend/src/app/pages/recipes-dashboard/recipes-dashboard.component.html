@@ -84,11 +84,11 @@
               Delete Recipe
             </button>
             <button
-              mat-stroked-button
-              color="primary"
+              mat-raised-button
+              class="shareButton"
               type="button"
               (click)="shareOnReddit(this.recipe)">
-              Share on Reddit
+              Share<mat-icon svgIcon="reddit_logo"></mat-icon>
             </button>
           </div>
         </mat-card-actions>

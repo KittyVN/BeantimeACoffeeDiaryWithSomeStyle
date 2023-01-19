@@ -50,3 +50,8 @@
 .dashboard-card-buttons{
   height: 100px;
 }
+
+.shareButton{
+  background-color: rgb(255, 69, 0, 1) !important;
+  color: white !important;
+}
