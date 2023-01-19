@@ -38,7 +38,7 @@ public class RecipeEndpoint {
     }
 
     @PostMapping
-    public RecipeDto create(@RequestBody RecipeDto recipeDto) {
+    public RecipeDto create(@RequestBody RecipeDto recipeDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", recipeDto.toString());
         try {
             return service.create(recipeDto);
@@ -59,13 +59,13 @@ public class RecipeEndpoint {
     }
 
     @GetMapping
-    public Stream<CommunityRecipeDto> getAll() throws ResponseStatusException {
+    public Stream<CommunityRecipeDto> getAll() {
         LOGGER.info("GET " + BASE_PATH);
         return service.getAllWithExtractions();
     }
 
     @GetMapping("extraction/{id}")
-    public RecipeDto getByExtractionId(@PathVariable("id") long id) {
+    public RecipeDto getByExtractionId(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with extraction id: {}", id);
         try {
             return service.getByExtractionId(id);
@@ -75,7 +75,7 @@ public class RecipeEndpoint {
     }
 
     @GetMapping("{id}")
-    public CommunityRecipeDto getById(@PathVariable("id") long id) {
+    public CommunityRecipeDto getById(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
         try {
             return service.getById(id);
@@ -85,7 +85,7 @@ public class RecipeEndpoint {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") long id) {
+    public void delete(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         try {
             service.delete(id);
@@ -97,8 +97,12 @@ public class RecipeEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
         + "and authentication.principal.equals(#id.toString())")
     @GetMapping("user/{id}")
-    public Stream<CommunityRecipeDto> getAllByUserId(@PathVariable Long id) {
+    public Stream<CommunityRecipeDto> getAllByUserId(@PathVariable Long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with user id: {}", id);
-        return service.getAllByUserId(id);
+        try {
+            return service.getAllByUserId(id);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 }

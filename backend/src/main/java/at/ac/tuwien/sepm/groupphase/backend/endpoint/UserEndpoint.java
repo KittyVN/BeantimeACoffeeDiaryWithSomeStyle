@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -52,19 +53,27 @@ public class UserEndpoint {
 
     @PermitAll
     @GetMapping("/checkemail")
-    public UserResetPasswordDto checkEmail(@Valid @RequestParam String email) {
+    public UserResetPasswordDto checkEmail(@Valid @RequestParam String email) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + "/checkemail");
         LOGGER.info("Request parameters: {}", email);
-        return new UserResetPasswordDto(service.findApplicationUserByEmail(email.trim()).getEmail());
+        try {
+            return new UserResetPasswordDto(service.findApplicationUserByEmail(email.trim()).getEmail());
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @PermitAll
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/resetpassword")
-    public void resetPassword(@Valid @RequestBody UserResetPasswordDto emailToReset) {
+    public void resetPassword(@Valid @RequestBody UserResetPasswordDto emailToReset) throws ResponseStatusException {
         LOGGER.info("PUT " + BASE_PATH + "/resetpassword");
         LOGGER.info("Request parameters: {}", emailToReset.getEmail());
-        service.resetPassword(emailToReset);
+        try {
+            service.resetPassword(emailToReset);
+        } catch (UsernameNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
@@ -81,7 +90,7 @@ public class UserEndpoint {
         + "and authentication.principal.equals(#id.toString()) "
         + "and authentication.principal.equals(#userUpdateRequestDto.getId().toString())")
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+    public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) throws ResponseStatusException {
         try {
             service.updateUser(userUpdateRequestDto);
         } catch (BadCredentialsException e) {
@@ -91,50 +100,50 @@ public class UserEndpoint {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("admin/{id}")
-    public UserDetailDto getById(@PathVariable Long id) {
+    public UserDetailDto getById(@PathVariable Long id) throws ResponseStatusException {
         LOGGER.info(String.format("GET %s/%d", BASE_PATH, id));
         LOGGER.info("Request id: {}", id);
         try {
             return service.getById(id);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
         + "and authentication.principal.equals(#id.toString()) ")
     @GetMapping("{id}")
-    public UserDetailDto getSelf(@PathVariable Long id) {
+    public UserDetailDto getSelf(@PathVariable Long id) throws ResponseStatusException {
         LOGGER.info(String.format("GET %s/%d", BASE_PATH, id));
         LOGGER.info("Request id: {}", id);
         try {
             return service.getById(id);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
     @Secured("ROLE_ADMIN")
     @PatchMapping("{id}")
-    public UserDetailDto updateByAdmin(@PathVariable Long id, @RequestBody UserAdminEditDto userDto) {
+    public UserDetailDto updateByAdmin(@PathVariable Long id, @RequestBody UserAdminEditDto userDto) throws ResponseStatusException {
         LOGGER.info(String.format("PUT %s/%d", BASE_PATH, id));
         LOGGER.info("Request id: {}, Request body {}", id, userDto);
         try {
             return service.updateByAdmin(id, userDto);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
     @PreAuthorize("authentication.principal.equals(#id.toString())")
     @GetMapping("profile/{id}")
-    public UserProfileDto getProfileById(@PathVariable Long id) {
+    public UserProfileDto getProfileById(@PathVariable Long id) throws ResponseStatusException {
         LOGGER.info(String.format("GET %s/%d", BASE_PATH + "/profile", id));
         LOGGER.info("Request id: {}", id);
         try {
             return service.getProfileById(id);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 }

@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findApplicationUserByEmail(String email) {
+    public User findApplicationUserByEmail(String email) throws NotFoundException {
         LOGGER.debug("Find application user by email");
         User user = userRepository.findByEmail(email);
         if (user != null) {
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(UserLoginDto userLoginDto) {
+    public String login(UserLoginDto userLoginDto) throws BadCredentialsException {
         LOGGER.debug("Login user {}", userLoginDto);
         UserCredentialsDto userDetails = loadUserByUsername(userLoginDto.getEmail());
         if (userDetails != null
@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
+    public void updateUser(UserUpdateRequestDto userUpdateRequestDto) throws BadCredentialsException {
         LOGGER.debug("Update user {}", userUpdateRequestDto);
         User user = userRepository.findFirstById(userUpdateRequestDto.getId());
         if (passwordEncoder.matches(userUpdateRequestDto.getPassword(), user.getPassword())) {
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void resetPassword(UserResetPasswordDto userToReset) {
+    public void resetPassword(UserResetPasswordDto userToReset) throws UsernameNotFoundException {
         String randomPassword = RandomStringUtils.randomAlphanumeric(10);
         User user = userRepository.findByEmail(userToReset.getEmail());
         if (user != null) {
@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetailDto getById(Long id) {
+    public UserDetailDto getById(Long id) throws NotFoundException {
         LOGGER.trace("Get user by id {}", id);
         User user = userRepository.findFirstById(id);
         if (user == null) {
@@ -192,25 +192,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailDto updateByAdmin(Long id, UserAdminEditDto userDto) throws NotFoundException {
         User user = userRepository.findFirstById(id);
-        user.setRole(userDto.getRole());
-        user.setActive(userDto.isActive());
-        userRepository.save(user);
-
-        return mapper.entityToDto(user);
+        if (user != null) {
+            user.setRole(userDto.getRole());
+            user.setActive(userDto.isActive());
+            userRepository.save(user);
+            return mapper.entityToDto(user);
+        } else {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
     }
 
     @Override
     public UserProfileDto getProfileById(Long id) throws NotFoundException {
         User user = userRepository.findFirstById(id);
-        List<ExtractionListDto> topRatedList = extractionService.getTop5RatedByUserId(id);
-        List<CoffeeBeanExtractionsListDto> topExtractionsList = beanService.getTop5ExtractedByUserId(id);
-        List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop5RatedByUserId(id);
+        if (user != null) {
+            List<ExtractionListDto> topRatedList = extractionService.getTop5RatedByUserId(id);
+            List<CoffeeBeanExtractionsListDto> topExtractionsList = beanService.getTop5ExtractedByUserId(id);
+            List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop5RatedByUserId(id);
 
-        return new UserProfileDto(
-            user.getEmail(),
-            extractionService.getExtractionMatrixByUserId(id),
-            topRatedList.toArray(new ExtractionListDto[topRatedList.size()]),
-            topExtractionsList.toArray(new CoffeeBeanExtractionsListDto[topExtractionsList.size()]),
-            topRatingsList.toArray(new CoffeeBeanRatingListDto[topRatingsList.size()]));
+            return new UserProfileDto(
+                user.getEmail(),
+                extractionService.getExtractionMatrixByUserId(id),
+                topRatedList.toArray(new ExtractionListDto[topRatedList.size()]),
+                topExtractionsList.toArray(new CoffeeBeanExtractionsListDto[topExtractionsList.size()]),
+                topRatingsList.toArray(new CoffeeBeanRatingListDto[topRatingsList.size()]));
+        } else {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
+
     }
 }

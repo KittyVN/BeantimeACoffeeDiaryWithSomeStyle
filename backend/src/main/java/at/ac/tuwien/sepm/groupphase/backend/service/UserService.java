@@ -12,6 +12,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserUpdateRequestDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -37,17 +38,18 @@ public interface UserService extends UserDetailsService {
      *
      * @param email the email address
      * @return a application user
+     * @throws NotFoundException if user by email doesnt exist
      */
-    User findApplicationUserByEmail(String email);
+    User findApplicationUserByEmail(String email) throws NotFoundException;
 
     /**
      * Log in a user.
      *
      * @param userLoginDto login credentials
      * @return the JWT, if successful
-     * @throws org.springframework.security.authentication.BadCredentialsException if credentials are bad
+     * @throws BadCredentialsException if credentials are bad
      */
-    String login(UserLoginDto userLoginDto);
+    String login(UserLoginDto userLoginDto) throws BadCredentialsException;
 
     /**
      * Register a new user.
@@ -63,15 +65,17 @@ public interface UserService extends UserDetailsService {
      *
      * @param userUpdateRequestDto the new user data
      * @throws AccessDeniedException in case the sender of the request is trying to change data of another user
+     * @throws BadCredentialsException if password is false
      */
-    void updateUser(UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException;
+    void updateUser(UserUpdateRequestDto userUpdateRequestDto) throws AccessDeniedException, BadCredentialsException;
 
     /**
      * Reset the password for a given email.
      *
      * @param email emailaddress
+     * @throws UsernameNotFoundException if user doesnt exist
      */
-    void resetPassword(UserResetPasswordDto email);
+    void resetPassword(UserResetPasswordDto email) throws UsernameNotFoundException;
 
     /**
      * Deletes an account.

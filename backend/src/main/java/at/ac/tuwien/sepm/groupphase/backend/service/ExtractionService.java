@@ -8,6 +8,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,16 +30,18 @@ public interface ExtractionService {
      * @param id of the bean
      * @param searchParams the parameters to search extractions by
      * @return a stream of the found extractions
+     * @throws ResponseStatusException if bean by id doesnt exist
      */
-    Stream<ExtractionDetailDto> searchByBeanId(ExtractionSearchDto searchParams, Long id);
+    Stream<ExtractionDetailDto> searchByBeanId(ExtractionSearchDto searchParams, Long id)  throws ResponseStatusException;
 
     /**
      * Fetches all saved extractions, belonging to the bean, from the persistent data storage.
      *
      * @param id of the bean
      * @return a stream of the found extractions
+     * @throws ResponseStatusException if bean by id doesnt exist
      */
-    Stream<ExtractionDetailDto> getAllByBeanId(Long id);
+    Stream<ExtractionDetailDto> getAllByBeanId(Long id) throws ResponseStatusException;
 
     /**
      * Fetches extraction from persistent data storage by its id.
@@ -54,8 +57,9 @@ public interface ExtractionService {
      *
      * @param extractionCreateDto the extraction to create
      * @return the created extraction
+     * @throws NotFoundException in case the bean with the id is not found
      */
-    ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto);
+    ExtractionCreateDto create(ExtractionCreateDto extractionCreateDto) throws NotFoundException;
 
     /**
      * Updates a persisted extraction in storage.

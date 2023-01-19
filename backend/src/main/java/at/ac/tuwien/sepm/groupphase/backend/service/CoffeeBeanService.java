@@ -6,6 +6,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanExtractionsListDt
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -16,8 +17,9 @@ public interface CoffeeBeanService {
      *
      * @param id The id of the requesting user
      * @return a stream of the found coffee beans
+     * @throws NotFoundException if id doesnt exist
      */
-    Stream<CoffeeBeanDashboardDto> getAllByUser(Long id);
+    Stream<CoffeeBeanDashboardDto> getAllByUser(Long id) throws NotFoundException;
 
     /**
      * Fetches all saved coffee beans from the persistent data storage
@@ -26,8 +28,9 @@ public interface CoffeeBeanService {
      * @param searchParams A dto containing the search parameters
      * @param id the id of the user searching
      * @return a stream of the found coffee beans
+     * @throws NotFoundException if id doesnt exist
      */
-    Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Long id);
+    Stream<CoffeeBeanDashboardDto> search(CoffeeBeanSearchDto searchParams, Long id) throws NotFoundException;
 
     /**
      * Adds a new CoffeeBean to the persistent data storage.
@@ -42,8 +45,10 @@ public interface CoffeeBeanService {
      *
      * @param coffeeBeanDto to update
      * @return the updated CoffeeBean
+     * @throws NotFoundException coffee bean id doesnt exist
+     * @throws ResponseStatusException if there was a conflict
      */
-    CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto);
+    CoffeeBeanDto update(CoffeeBeanDto coffeeBeanDto) throws NotFoundException, ResponseStatusException;
 
     /**
      * Deletes an already persisted coffee bean by its id.

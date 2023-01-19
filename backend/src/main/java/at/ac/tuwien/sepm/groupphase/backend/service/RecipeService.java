@@ -46,8 +46,9 @@ public interface RecipeService {
      *
      * @param id of the extraction
      * @return the found recipe
+     * @throws NotFoundException if extraction by id doesnt exist
      */
-    RecipeDto getByExtractionId(Long id);
+    RecipeDto getByExtractionId(Long id) throws NotFoundException;
 
     /**
      * Fetches a saved recipe with the specific id from the persistent data storage.
@@ -70,6 +71,7 @@ public interface RecipeService {
      *
      * @param id of the user
      * @return a stream of the found recipes
+     * @throws NotFoundException if id doesnt exist
      */
-    Stream<CommunityRecipeDto> getAllByUserId(Long id);
+    Stream<CommunityRecipeDto> getAllByUserId(Long id) throws NotFoundException;
 }

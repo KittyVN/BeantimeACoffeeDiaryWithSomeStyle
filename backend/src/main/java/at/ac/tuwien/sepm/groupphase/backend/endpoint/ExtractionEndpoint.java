@@ -41,7 +41,7 @@ public class ExtractionEndpoint {
         try {
             return service.getAllByBeanId(id);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bean not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
@@ -53,7 +53,7 @@ public class ExtractionEndpoint {
         try {
             return service.searchByBeanId(searchParams, id);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bean not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
@@ -64,7 +64,7 @@ public class ExtractionEndpoint {
         try {
             return service.getById(id);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
@@ -75,7 +75,7 @@ public class ExtractionEndpoint {
         try {
             return service.update(extractionCreateDto);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Extraction not found", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,  e.getMessage(), e);
         } catch (ConflictException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
         }
@@ -83,9 +83,13 @@ public class ExtractionEndpoint {
 
 
     @PostMapping
-    public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) {
+    public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto.toString());
-        return service.create(extractionCreateDto);
+        try {
+            return service.create(extractionCreateDto);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
 }

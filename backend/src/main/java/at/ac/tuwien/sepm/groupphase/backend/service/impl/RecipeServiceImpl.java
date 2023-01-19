@@ -8,6 +8,7 @@ import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.RecipeMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
 import at.ac.tuwien.sepm.groupphase.backend.repository.RecipeRepository;
+import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +24,15 @@ public class RecipeServiceImpl implements RecipeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final RecipeRepository recipeRepository;
     private final ExtractionRepository extractionRepository;
+    private final UserRepository userRepository;
+
     private final RecipeMapper mapper;
 
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, ExtractionRepository extractionRepository, RecipeMapper mapper) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, ExtractionRepository extractionRepository, UserRepository userRepository, RecipeMapper mapper) {
         this.recipeRepository = recipeRepository;
         this.extractionRepository = extractionRepository;
+        this.userRepository = userRepository;
         this.mapper = mapper;
     }
 
@@ -52,9 +56,8 @@ public class RecipeServiceImpl implements RecipeService {
         if (recipe == null) {
             throw new NotFoundException(String.format("No recipe with extraction ID %d found", recipeDto.getExtractionId()));
         } else {
-            Recipe newRecipe = recipe;
-            newRecipe.setDescription(recipeDto.getDescription());
-            return mapper.entityToDto(recipeRepository.save(newRecipe));
+            recipe.setDescription(recipeDto.getDescription());
+            return mapper.entityToDto(recipeRepository.save(recipe));
         }
     }
 
@@ -85,7 +88,7 @@ public class RecipeServiceImpl implements RecipeService {
     public CommunityRecipeDto getById(Long id) throws NotFoundException {
         Object recipe = recipeRepository.findRecipeJoinedWithExtractionById(id);
         if (recipe == null) {
-            throw new NotFoundException();
+            throw new NotFoundException(String.format("No recipe with the ID %d found", id));
         }
         return mapper.objectToDto(recipe);
     }
@@ -96,9 +99,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Stream<CommunityRecipeDto> getAllByUserId(Long id) {
+    public Stream<CommunityRecipeDto> getAllByUserId(Long id) throws NotFoundException {
         LOGGER.trace("getAllByUserId({})", id);
-        Stream<Object> recipes = recipeRepository.findAllRecipesByUserId(id).stream();
-        return recipes.map(recipe -> mapper.objectToDto(recipe));
+        if (userRepository.existsById(id)) {
+            return recipeRepository.findAllRecipesByUserId(id).stream().map(recipe -> mapper.objectToDto(recipe));
+        } else {
+            throw new NotFoundException(String.format("No user with ID %d found", id));
+        }
     }
 }
