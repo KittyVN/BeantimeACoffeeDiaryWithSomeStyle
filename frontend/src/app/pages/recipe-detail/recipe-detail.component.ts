@@ -12,6 +12,32 @@ import { RecipeService } from 'src/services/recipe.service';
 export class RecipeDetailComponent implements OnInit {
   recipe: CommunityRecipeDto = {
     recipeId: 0,
+    recipeShared: false,
+    extractionId: 0,
+    extractionAcidity: 0,
+    extractionAftertaste: 0,
+    extractionAromatics: 0,
+    extractionBody: 0,
+    extractionBrewMethod: '',
+    extractionBrewTime: 0,
+    extractionDate: new Date(),
+    extractionDose: 0,
+    extractionGrindSetting: '',
+    extractionRatingNotes: '',
+    extractionRecipeSteps: '',
+    extractionSweetness: 0,
+    extractionWaterAmount: 0,
+    extractionWaterTemperature: 0,
+    coffeeBeanBlend: '',
+    coffeeBeanDescription: '',
+    coffeeBeanHeight: 0,
+    coffeeBeanId: 0,
+    coffeeBeanName: '',
+    coffeeBeanOrigin: '',
+    coffeeBeanPrice: 0,
+    coffeeBeanRoast: '',
+    coffeeBeanStrength: '',
+    coffeeBeanUrl: '',
   };
 
   constructor(
@@ -28,6 +54,7 @@ export class RecipeDetailComponent implements OnInit {
         this.recipeService.getById(String(this.recipe.recipeId)).subscribe({
           next: data => {
             this.recipe = data;
+            console.log(this.recipe);
           },
           error: error => {
             if (error.status == 404) {

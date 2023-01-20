@@ -17,12 +17,9 @@ public class RecipeDataGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final RecipeRepository recipeRepository;
-    private final ExtractionRepository extractionRepository;
 
-
-    public RecipeDataGenerator(RecipeRepository recipeRepository, ExtractionRepository extractionRepository) {
+    public RecipeDataGenerator(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
-        this.extractionRepository = extractionRepository;
     }
 
     public void generateRecipes() {
@@ -32,11 +29,17 @@ public class RecipeDataGenerator {
             LOGGER.debug("Generating recipes");
 
             Recipe e1 = new Recipe(
-                "This is my favorite recipe for brewing cold black coffee. There are no extra steps like stiring, or any additional things like sugar or cream needed.",
+                true,
                 new Extraction(5L)
             );
 
+            Recipe e2 = new Recipe(
+                false,
+                new Extraction(4L)
+            );
+
             this.recipeRepository.save(e1);
+            this.recipeRepository.save(e2);
         }
     }
 }

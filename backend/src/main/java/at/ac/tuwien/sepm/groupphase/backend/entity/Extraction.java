@@ -67,6 +67,9 @@ public class Extraction {
     @Column(name = "rating_notes", length = 5000)
     private String ratingNotes;
 
+    @Column(name = "recipe_steps", length = 5000)
+    private String recipeSteps;
+
     @ManyToOne()
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "coffee_bean_id")
@@ -80,7 +83,7 @@ public class Extraction {
 
     public Extraction(LocalDateTime dateTime, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
                       Double waterTemperature, Double dose, Double waterAmount, Long brewTime, Integer body, Integer acidity,
-                      Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes,
+                      Integer sweetness, Integer aromatics, Integer aftertaste, String ratingNotes, String recipeSteps,
                       CoffeeBean coffeeBean) {
         this.extractionDate = dateTime;
         this.brewMethod = brewMethod;
@@ -95,6 +98,7 @@ public class Extraction {
         this.aromatics = aromatics;
         this.aftertaste = aftertaste;
         this.ratingNotes = ratingNotes;
+        this.recipeSteps = recipeSteps;
         this.coffeeBean = coffeeBean;
     }
 
@@ -228,5 +232,13 @@ public class Extraction {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public String getRecipeSteps() {
+        return recipeSteps;
+    }
+
+    public void setRecipeSteps(String recipeSteps) {
+        this.recipeSteps = recipeSteps;
     }
 }

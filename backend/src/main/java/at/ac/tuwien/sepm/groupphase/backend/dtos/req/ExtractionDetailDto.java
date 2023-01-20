@@ -56,6 +56,9 @@ public class ExtractionDetailDto {
     @Max(value = 25, message = "overallRating cannot be higher than 25")
     private Integer overallRating;
 
+    @Size(max = 5000, message = "Recipe cannot be longer than 5000 characters")
+    private String recipeSteps;
+
     @NotNull
     private Long beanId;
 
@@ -66,7 +69,7 @@ public class ExtractionDetailDto {
                                CoffeeGrindSetting grindSetting, Double waterTemperature, Double dose,
                                Double waterAmount, Long brewTime, Integer body, Integer acidity,
                                Integer aromatics, Integer sweetness, Integer aftertaste,
-                               String ratingNotes, Integer overallRating, Long beanId) {
+                               String ratingNotes, String recipeSteps, Integer overallRating, Long beanId) {
         this.id = id;
         this.dateTime = dateTime;
         this.brewMethod = brewMethod;
@@ -81,6 +84,7 @@ public class ExtractionDetailDto {
         this.sweetness = sweetness;
         this.aftertaste = aftertaste;
         this.ratingNotes = ratingNotes;
+        this.recipeSteps = recipeSteps;
         this.overallRating = overallRating;
         this.beanId = beanId;
     }
@@ -211,5 +215,13 @@ public class ExtractionDetailDto {
 
     public void setBeanId(Long beanId) {
         this.beanId = beanId;
+    }
+
+    public String getRecipeSteps() {
+        return recipeSteps;
+    }
+
+    public void setRecipeSteps(String recipeSteps) {
+        this.recipeSteps = recipeSteps;
     }
 }

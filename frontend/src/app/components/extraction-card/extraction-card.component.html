@@ -15,14 +15,9 @@
       </button>
       <div *ngIf="exists">
         <button
+          *ngIf="extraction"
           class="share-button"
-          [routerLink]="[
-            '/coffee/' +
-              this.coffeeBeanId +
-              '/extraction/' +
-              this.extraction?.id +
-              '/recipe/create'
-          ]">
+          (click)="onSubmitRecipe(this.extraction.id)">
           Share
         </button>
       </div>

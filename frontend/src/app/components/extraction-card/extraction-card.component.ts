@@ -1,9 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { Observable } from 'rxjs/internal/Observable';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
 import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
+import { RecipeDto } from 'src/dtos/req/recipe.dto';
+import { RecipeService } from 'src/services/recipe.service';
 
 @Component({
   selector: 'app-extraction-card',
@@ -14,6 +19,13 @@ export class ExtractionCardComponent implements OnInit {
   @Input() extraction?: ExtractionDetailDto;
   @Input() coffeeBeanId?: number;
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
+  constructor(
+    private recipeService: RecipeService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
+  ) {}
 
   public doughnutChartData: ChartData<'doughnut'> = {
     datasets: [{ data: this.getOverallRating() }],
@@ -204,5 +216,37 @@ export class ExtractionCardComponent implements OnInit {
       }
     }
     return '???';
+  }
+
+  onSubmitRecipe(extractionId: number) {
+    let observable: Observable<string>;
+    let recipeDto: RecipeDto = {
+      id: 0,
+      shared: false,
+      extractionId: extractionId,
+    };
+
+    observable = this.recipeService.create(recipeDto);
+
+    observable.subscribe({
+      next: data => {
+        this.snackBar.open('Recipe was successfully shared', 'Close', {
+          duration: 5000,
+        });
+        this.router.navigate(['/coffee/' + this.extraction?.beanId]);
+      },
+      error: err => {
+        if (err.status == 409) {
+          this.snackBar.open(
+            'There already exists a recipe for this extraction',
+            'Close',
+            {
+              duration: 5000,
+            }
+          );
+          this.router.navigate(['/coffee/' + this.extraction?.beanId]);
+        }
+      },
+    });
   }
 }

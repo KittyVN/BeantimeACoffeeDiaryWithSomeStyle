@@ -68,6 +68,10 @@ export class ExtractionCreateEditComponent implements OnInit {
     ratingNotes: new FormControl('', Validators.maxLength(255)),
   });
 
+  recipeForm = new FormGroup({
+    recipeSteps: new FormControl('', Validators.maxLength(5000)),
+  });
+
   get modeIsCreate(): boolean {
     return this.mode === ExtractionCreateEditMode.create;
   }
@@ -210,7 +214,7 @@ export class ExtractionCreateEditComponent implements OnInit {
         },
       });
       if (this.mode === ExtractionCreateEditMode.edit) {
-        this.currentStep = 2;
+        this.currentStep = 3;
         this.route.paramMap.subscribe(paramMap => {
           this.id = paramMap.get('id');
         });

@@ -1,13 +1,11 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class RecipeDto {
     private Long id;
 
-    @Size(max = 5000, message = "Description cannot be longer than 5000 characters")
-    private String description;
+    private boolean shared;
 
     @NotNull
     private Long extractionId;
@@ -20,14 +18,6 @@ public class RecipeDto {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Long getExtractionId() {
         return extractionId;
     }
@@ -36,10 +26,18 @@ public class RecipeDto {
         this.extractionId = extractionId;
     }
 
-    public RecipeDto(Long id, String description, Long extractionId) {
+    public RecipeDto(Long id, boolean shared, Long extractionId) {
         this.id = id;
-        this.description = description;
+        this.shared = shared;
         this.extractionId = extractionId;
+    }
+
+    public boolean isShared() {
+        return shared;
+    }
+
+    public void setShared(boolean shared) {
+        this.shared = shared;
     }
 
     public RecipeDto() {
@@ -49,7 +47,7 @@ public class RecipeDto {
     public String toString() {
         return "RecipeDto{"
             + "id=" + id
-            + ", description='" + description + '\''
+            + ", shared=" + shared
             + ", extractionId=" + extractionId
             + '}';
     }

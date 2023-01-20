@@ -40,6 +40,7 @@ public class ExtractionDataGenerator {
                 200D,
                 15018250L,
                 5, 5, 5, 5, 5, "Very good!",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
@@ -52,6 +53,7 @@ public class ExtractionDataGenerator {
                 200D,
                 600L,
                 1, 2, 3, 4, 5, "Ascending!",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
@@ -64,6 +66,7 @@ public class ExtractionDataGenerator {
                 200D,
                 54000L,
                 5, 4, 3, 2, 1, "Descending!",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
@@ -76,6 +79,7 @@ public class ExtractionDataGenerator {
                 200D,
                 18000L,
                 1, 3, 5, 3, 1, "Triangular!",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
@@ -88,6 +92,7 @@ public class ExtractionDataGenerator {
                 200D,
                 30000L,
                 4, 4, 5, 5, 5, "Wild",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
@@ -100,6 +105,7 @@ public class ExtractionDataGenerator {
                 200D,
                 21000L,
                 1, 2, 2, 1, 4, "Bad",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(2L).get()
             );
 
@@ -112,6 +118,7 @@ public class ExtractionDataGenerator {
                 100D,
                 16000L,
                 1, 2, 2, 1, 1, "Not my best one",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(4L).get()
             );
 
@@ -124,6 +131,7 @@ public class ExtractionDataGenerator {
                 150D,
                 5100L,
                 5, 5, 5, 5, 5, "Excellent",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(4L).get()
             );
 
@@ -136,6 +144,7 @@ public class ExtractionDataGenerator {
                 200D,
                 11600L,
                 5, 2, 3, 1, 5, "Decent",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(4L).get()
             );
 
@@ -148,6 +157,7 @@ public class ExtractionDataGenerator {
                 200D,
                 20000L,
                 5, 3, 4, 5, 5, "Proud of that one",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(5L).get()
             );
             Extraction e11 = new Extraction(
@@ -159,6 +169,7 @@ public class ExtractionDataGenerator {
                 200D,
                 30000L,
                 3, 2, 3, 3, 3, "Okay",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(5L).get()
             );
             Extraction e12 = new Extraction(
@@ -170,6 +181,7 @@ public class ExtractionDataGenerator {
                 200D,
                 22220L,
                 2, 3, 2, 1, 1, "Instant coffee only gets that good....",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(5L).get()
             );
 
@@ -182,6 +194,7 @@ public class ExtractionDataGenerator {
                 200D,
                 17777L,
                 5, 3, 4, 5, 5, "Proud of that one",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(6L).get()
             );
             Extraction e14 = new Extraction(
@@ -193,6 +206,7 @@ public class ExtractionDataGenerator {
                 200D,
                 28000L,
                 3, 2, 3, 3, 3, "Okay",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(6L).get()
             );
             Extraction e15 = new Extraction(
@@ -204,6 +218,7 @@ public class ExtractionDataGenerator {
                 200D,
                 33000L,
                 2, 3, 2, 1, 1, "Instant coffee only gets that good....",
+                "Test Anleitung",
                 this.coffeeBeanRepository.findById(6L).get()
             );
 

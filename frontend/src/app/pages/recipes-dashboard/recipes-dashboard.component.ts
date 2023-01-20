@@ -8,6 +8,8 @@ import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
 import { RecipeService } from 'src/services/recipe.service';
 import { UserService } from 'src/services/user.service';
 import { RedditService } from 'src/services/reddit.service';
+import { Observable } from 'rxjs';
+import { RecipeDto } from 'src/dtos/req/recipe.dto';
 
 @Component({
   selector: 'app-recipes-dashboard',
@@ -152,7 +154,7 @@ export class RecipesDashboardComponent implements OnInit {
   deleteRecipe(id: number): void {
     this.recipeService.delete(String(id)).subscribe({
       next: res => {
-        this.snackBar.open('Successfully deleted coffee bean', 'Close', {
+        this.snackBar.open('Successfully deleted recipe', 'Close', {
           duration: 5000,
         });
         this.recipes = this.recipes.filter(obj => {
@@ -169,5 +171,45 @@ export class RecipesDashboardComponent implements OnInit {
 
   shareOnReddit(recipe: CommunityRecipeDto) {
     this.redditService.postToReddit(recipe);
+  }
+
+  editRecipe(recipe: CommunityRecipeDto) {
+    let observable: Observable<string>;
+    let recipeDto: RecipeDto = {
+      id: recipe.recipeId,
+      shared: recipe.recipeShared,
+      extractionId: recipe.extractionId,
+    };
+
+    for (let i = 0; i < this.recipes.length; i++) {
+      if (this.recipes[i].recipeId === recipe.recipeId) {
+        if (recipe.recipeShared) {
+          recipeDto.shared = false;
+        } else {
+          recipeDto.shared = true;
+        }
+        observable = this.recipeService.edit(recipeDto);
+
+        observable.subscribe({
+          next: data => {
+            this.recipes[i].recipeShared = recipeDto.shared;
+          },
+          error: err => {
+            if (err.status == 404) {
+              this.snackBar.open('There is no recipe by that id', 'Close', {
+                duration: 5000,
+              });
+            }
+          },
+        });
+      }
+    }
+  }
+
+  exists(): boolean {
+    if (this.recipes) {
+      return true;
+    }
+    return false;
   }
 }

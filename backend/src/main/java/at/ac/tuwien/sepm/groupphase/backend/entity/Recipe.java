@@ -22,8 +22,8 @@ public class Recipe {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "description", length = 5000)
-    private String description;
+    @Column(name = "shared")
+    private boolean shared;
 
     @OneToOne(cascade = CascadeType.MERGE)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -33,8 +33,8 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(String description, Extraction extraction) {
-        this.description = description;
+    public Recipe(boolean shared, Extraction extraction) {
+        this.shared = shared;
         this.extraction = extraction;
     }
 
@@ -46,19 +46,19 @@ public class Recipe {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Extraction getExtraction() {
         return extraction;
     }
 
     public void setExtraction(Extraction extraction) {
         this.extraction = extraction;
+    }
+
+    public boolean isShared() {
+        return shared;
+    }
+
+    public void setShared(boolean shared) {
+        this.shared = shared;
     }
 }
