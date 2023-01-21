@@ -25,7 +25,6 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final ExtractionRepository extractionRepository;
     private final UserRepository userRepository;
-
     private final RecipeMapper mapper;
 
 
@@ -41,7 +40,7 @@ public class RecipeServiceImpl implements RecipeService {
         LOGGER.trace("create {}", recipeDto);
         Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
         Recipe recipeExist = recipeRepository.findRecipeByExtractionId(recipeDto.getExtractionId());
-        Recipe recipe = new Recipe(recipeDto.getDescription(), extraction.get());
+        Recipe recipe = new Recipe(false, extraction.get());
         if (recipeExist == null) {
             return mapper.entityToDto(recipeRepository.save(recipe));
         } else {
@@ -56,7 +55,7 @@ public class RecipeServiceImpl implements RecipeService {
         if (recipe == null) {
             throw new NotFoundException(String.format("No recipe with extraction ID %d found", recipeDto.getExtractionId()));
         } else {
-            recipe.setDescription(recipeDto.getDescription());
+            recipe.setShared(recipeDto.isShared());
             return mapper.entityToDto(recipeRepository.save(recipe));
         }
     }

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class CommunityRecipeDto {
     private Long recipeId;
-    private String recipeDescription;
+    private Boolean recipeShared;
     private Long extractionId;
     private LocalDateTime extractionDate;
     private String extractionBrewMethod;
@@ -19,6 +19,7 @@ public class CommunityRecipeDto {
     private Integer extractionSweetness;
     private Integer extractionAftertaste;
     private String extractionRatingNotes;
+    private String extractionRecipeSteps;
     private Long coffeeBeanId;
     private String coffeeBeanName;
     private Float coffeeBeanPrice;
@@ -33,15 +34,15 @@ public class CommunityRecipeDto {
     public CommunityRecipeDto() {
     }
 
-    public CommunityRecipeDto(Long recipeId, String recipeDescription, Long extractionId, LocalDateTime extractionDate,
+    public CommunityRecipeDto(Long recipeId, Boolean recipeShared, Long extractionId, LocalDateTime extractionDate,
                               String extractionBrewMethod, String extractionGrindSetting, Double extractionWaterTemperature,
                               Double extractionDose, Double extractionWaterAmount, Long extractionBrewTime, Integer extractionBody,
                               Integer extractionAcidity, Integer extractionAromatics, Integer extractionSweetness, Integer extractionAftertaste,
-                              String extractionRatingNotes, Long coffeeBeanId, String coffeeBeanName, Float coffeeBeanPrice, String coffeeBeanBlend,
+                              String extractionRatingNotes, String extractionRecipeSteps ,Long coffeeBeanId, String coffeeBeanName, Float coffeeBeanPrice, String coffeeBeanBlend,
                               String coffeeBeanOrigin, Integer coffeeBeanHeight, String coffeeBeanRoast, String coffeeBeanUrl, String coffeeBeanDescription,
                               String coffeeBeanStrength) {
         this.recipeId = recipeId;
-        this.recipeDescription = recipeDescription;
+        this.recipeShared = recipeShared;
         this.extractionId = extractionId;
         this.extractionDate = extractionDate;
         this.extractionBrewMethod = extractionBrewMethod;
@@ -56,6 +57,7 @@ public class CommunityRecipeDto {
         this.extractionSweetness = extractionSweetness;
         this.extractionAftertaste = extractionAftertaste;
         this.extractionRatingNotes = extractionRatingNotes;
+        this.extractionRecipeSteps = extractionRecipeSteps;
         this.coffeeBeanId = coffeeBeanId;
         this.coffeeBeanName = coffeeBeanName;
         this.coffeeBeanPrice = coffeeBeanPrice;
@@ -74,14 +76,6 @@ public class CommunityRecipeDto {
 
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
-    }
-
-    public String getRecipeDescription() {
-        return recipeDescription;
-    }
-
-    public void setRecipeDescription(String recipeDescription) {
-        this.recipeDescription = recipeDescription;
     }
 
     public Long getExtractionId() {
@@ -272,7 +266,23 @@ public class CommunityRecipeDto {
         return coffeeBeanDescription;
     }
 
+    public String getExtractionRecipeSteps() {
+        return extractionRecipeSteps;
+    }
+
+    public void setExtractionRecipeSteps(String extractionRecipeSteps) {
+        this.extractionRecipeSteps = extractionRecipeSteps;
+    }
+
     public void setCoffeeBeanDescription(String coffeeBeanDescription) {
         this.coffeeBeanDescription = coffeeBeanDescription;
+    }
+
+    public Boolean getRecipeShared() {
+        return recipeShared;
+    }
+
+    public void setRecipeShared(Boolean recipeShared) {
+        this.recipeShared = recipeShared;
     }
 }

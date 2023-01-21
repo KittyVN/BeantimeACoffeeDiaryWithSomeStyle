@@ -42,7 +42,7 @@ public class RecipeEndpointTest {
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
-        this.requestJson = new RecipeDto(null, null, null);
+        this.requestJson = new RecipeDto(null, false, null);
     }
 
     @Autowired
@@ -53,7 +53,7 @@ public class RecipeEndpointTest {
     @Rollback
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void createRecipeForExistingExtractionReturnsConflict() throws Exception {
-        requestJson.setDescription("Test");
+        requestJson.setShared(false);
         requestJson.setExtractionId(5L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
@@ -74,7 +74,7 @@ public class RecipeEndpointTest {
     @Rollback
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void createValidRecipeReturnsRecipe() throws Exception {
-        requestJson.setDescription("Test");
+        requestJson.setShared(false);
         requestJson.setExtractionId(2L);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
@@ -91,8 +91,8 @@ public class RecipeEndpointTest {
         assertThat(result).isNotNull();
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
-            .map(RecipeDto::getDescription)
-            .contains("Test");
+            .map(RecipeDto::isShared)
+            .contains(false);
 
     }
 

@@ -49,6 +49,10 @@ public class ExtractionCreateDto {
     @Size(max = 1500, message = "Note cannot be longer than 1500 characters")
     private String ratingNotes;
 
+    @Size(max = 5000, message = "Recipe cannot be longer than 5000 characters")
+    private String recipeSteps;
+
+
     @NotNull
     private Long beanId;
 
@@ -58,7 +62,7 @@ public class ExtractionCreateDto {
     public ExtractionCreateDto(Long id, ExtractionBrewMethod brewMethod, CoffeeGrindSetting grindSetting,
                                Double waterTemperature, Double dose, Double waterAmount, Long brewTime,
                                Integer body, Integer acidity, Integer aromatics, Integer sweetness, Integer aftertaste,
-                               String ratingNotes, Long beanId) {
+                               String ratingNotes, String recipeSteps, Long beanId) {
         this.id = id;
         this.brewMethod = brewMethod;
         this.grindSetting = grindSetting;
@@ -72,6 +76,7 @@ public class ExtractionCreateDto {
         this.sweetness = sweetness;
         this.aftertaste = aftertaste;
         this.ratingNotes = ratingNotes;
+        this.recipeSteps = recipeSteps;
         this.beanId = beanId;
     }
 
@@ -181,6 +186,18 @@ public class ExtractionCreateDto {
 
     public Double getWaterAmount() {
         return waterAmount;
+    }
+
+    public void setWaterAmount(Double waterAmount) {
+        this.waterAmount = waterAmount;
+    }
+
+    public String getRecipeSteps() {
+        return recipeSteps;
+    }
+
+    public void setRecipeSteps(String recipeSteps) {
+        this.recipeSteps = recipeSteps;
     }
 
     @Override

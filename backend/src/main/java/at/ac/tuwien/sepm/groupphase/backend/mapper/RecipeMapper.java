@@ -26,7 +26,7 @@ public class RecipeMapper {
         }
         return new RecipeDto(
             recipe.getId(),
-            recipe.getDescription(),
+            recipe.isShared(),
             id
         );
     }
@@ -40,7 +40,7 @@ public class RecipeMapper {
     public CommunityRecipeDto objectToDto(Object obj) {
         Object[] objects = (Object[]) obj;
         BigInteger recipeId = (BigInteger) objects[0];
-        String recipeDescription = (String) objects[1];
+        Boolean recipeShared = (Boolean) objects[1];
         BigInteger extractionId = (BigInteger) objects[2];
         Timestamp extractionDate = (Timestamp) objects[3];
         String extractionBrewMethod = (String) objects[4];
@@ -55,19 +55,20 @@ public class RecipeMapper {
         Integer extractionSweetness = (Integer) objects[13];
         Integer extractionAftertaste = (Integer) objects[14];
         String extractionRatingNotes = (String) objects[15];
-        BigInteger coffeeBeanId = (BigInteger) objects[16];
-        String coffeeBeanName = (String) objects[17];
-        Float coffeeBeanPrice = (Float) objects[18];
-        String coffeeBeanBlend = (String) objects[19];
-        String coffeeBeanOrigin = (String) objects[20];
-        Integer coffeeBeanHeight = (Integer) objects[21];
-        String coffeeBeanRoast = (String) objects[22];
-        String coffeeBeanUrl = (String) objects[23];
-        String coffeeBeanDescription = (String) objects[24];
-        String coffeeBeanStrength = (String) objects[25];
-        return new CommunityRecipeDto(recipeId.longValue(), recipeDescription, extractionId.longValue(), extractionDate.toLocalDateTime(), extractionBrewMethod, extractionGrindSetting,
+        String extractionRecipeSteps = (String) objects[16];
+        BigInteger coffeeBeanId = (BigInteger) objects[17];
+        String coffeeBeanName = (String) objects[18];
+        Float coffeeBeanPrice = (Float) objects[19];
+        String coffeeBeanBlend = (String) objects[20];
+        String coffeeBeanOrigin = (String) objects[21];
+        Integer coffeeBeanHeight = (Integer) objects[22];
+        String coffeeBeanRoast = (String) objects[23];
+        String coffeeBeanUrl = (String) objects[24];
+        String coffeeBeanDescription = (String) objects[25];
+        String coffeeBeanStrength = (String) objects[26];
+        return new CommunityRecipeDto(recipeId.longValue(), recipeShared, extractionId.longValue(), extractionDate.toLocalDateTime(), extractionBrewMethod, extractionGrindSetting,
                 extractionWaterTemperature, extractionDose, extractionWaterAmount, extractionBrewTime.longValue(), extractionBody, extractionAcidity,
-                extractionAromatics, extractionSweetness, extractionAftertaste, extractionRatingNotes, coffeeBeanId.longValue(), coffeeBeanName,
+                extractionAromatics, extractionSweetness, extractionAftertaste, extractionRatingNotes, extractionRecipeSteps, coffeeBeanId.longValue(), coffeeBeanName,
                 coffeeBeanPrice, coffeeBeanBlend, coffeeBeanOrigin, coffeeBeanHeight, coffeeBeanRoast, coffeeBeanUrl, coffeeBeanDescription, coffeeBeanStrength);
     }
 }

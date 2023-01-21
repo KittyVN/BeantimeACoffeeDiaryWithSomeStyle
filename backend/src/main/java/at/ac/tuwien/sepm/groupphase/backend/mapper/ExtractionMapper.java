@@ -44,6 +44,7 @@ public class ExtractionMapper {
             extraction.getSweetness(),
             extraction.getAftertaste(),
             extraction.getRatingNotes(),
+            extraction.getRecipeSteps(),
             overallRating,
             id
         );
@@ -72,6 +73,7 @@ public class ExtractionMapper {
             extraction.getSweetness(),
             extraction.getAftertaste(),
             extraction.getRatingNotes(),
+            extraction.getRecipeSteps(),
             id
         );
     }

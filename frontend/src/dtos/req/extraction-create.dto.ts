@@ -15,5 +15,6 @@ export interface ExtractionCreateDto {
   sweetness?: number;
   aftertaste?: number;
   ratingNotes?: string;
+  recipeSteps?: string;
   beanId?: number;
 }

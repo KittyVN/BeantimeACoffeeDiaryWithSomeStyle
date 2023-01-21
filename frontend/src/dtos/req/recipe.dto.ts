@@ -2,6 +2,6 @@ import { ExtractionDetailDto } from './extraction-detail.dto';
 
 export interface RecipeDto {
   id: number;
-  description: string;
+  shared: boolean;
   extractionId: number;
 }

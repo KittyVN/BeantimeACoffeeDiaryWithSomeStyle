@@ -21,7 +21,6 @@ import {
   ExtractionCreateEditComponent,
   ExtractionCreateEditMode,
 } from './pages/extraction-create-edit/extraction-create-edit.component';
-import { RecipeCreateComponent } from './pages/recipe-create/recipe-create.component';
 import { CommunityDashboardComponent } from './pages/community-dashboard/community-dashboard.component';
 import { RecipeDetailComponent } from './pages/recipe-detail/recipe-detail.component';
 import { RecipesDashboardComponent } from './pages/recipes-dashboard/recipes-dashboard.component';
@@ -91,11 +90,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: ExtractionCreateEditComponent,
     data: { mode: ExtractionCreateEditMode.edit },
-  },
-  {
-    path: 'coffee/:coffeeId/extraction/:id/recipe/create',
-    canActivate: [AuthGuard],
-    component: RecipeCreateComponent,
   },
   {
     path: 'coffee/create',

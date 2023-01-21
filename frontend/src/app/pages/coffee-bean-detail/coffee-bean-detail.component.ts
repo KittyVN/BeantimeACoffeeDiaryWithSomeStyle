@@ -5,9 +5,10 @@ import { ExtractionService } from 'src/services/extraction.service';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { ExtractionSearchDto } from 'src/dtos/req/extraction-search-dto';
-import { debounce, interval, scan, Subject } from 'rxjs';
+import { debounce, interval, Observable, scan, Subject } from 'rxjs';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
+import { RecipeService } from 'src/services/recipe.service';
 
 import { CoffeeBeanDto, ExtractionDetailDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
@@ -88,6 +89,7 @@ export class CoffeeBeanDetailComponent implements OnInit {
   constructor(
     private coffeeService: CoffeeBeanService,
     private extractionService: ExtractionService,
+    private recipeService: RecipeService,
     private router: Router,
     private route: ActivatedRoute,
     public keyUp: Subject<KeyboardEvent | Event>,

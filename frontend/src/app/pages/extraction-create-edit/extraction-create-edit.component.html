@@ -90,6 +90,24 @@
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <form [formGroup]="recipeForm">
+      <ng-template matStepLabel>Recipe step by step</ng-template>
+      <div>
+        <mat-form-field>
+          <mat-label>Recipe</mat-label>
+          <textarea
+            matInput
+            formControlName="recipeSteps"
+            [(ngModel)]="extraction.recipeSteps"></textarea>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
         <button mat-raised-button (click)="submitNoRating()">
           Skip Rating
         </button>

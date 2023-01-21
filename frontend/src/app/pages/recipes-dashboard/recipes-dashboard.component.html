@@ -53,16 +53,22 @@
               Buy Coffee
             </a>
             <button
+              *ngIf="
+                this.recipe.extractionId && this.recipe.recipeShared === true
+              "
               mat-stroked-button
-              [routerLink]="[
-                '/coffee/' +
-                  this.recipe.coffeeBeanId +
-                  '/extraction/' +
-                  this.recipe.extractionId +
-                  '/recipe/create'
-              ]">
+              (click)="editRecipe(this.recipe)">
               <mat-icon>edit</mat-icon>
-              Edit Recipe
+              Unshare
+            </button>
+            <button
+              *ngIf="
+                this.recipe.extractionId && this.recipe.recipeShared === false
+              "
+              mat-stroked-button
+              (click)="editRecipe(this.recipe)">
+              <mat-icon>edit</mat-icon>
+              Share
             </button>
             <button
               mat-stroked-button
