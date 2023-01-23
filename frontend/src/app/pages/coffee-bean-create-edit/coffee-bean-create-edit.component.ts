@@ -35,10 +35,14 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
   };
 
   createEditBeanForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(150),
+      Validators.minLength(5),
+    ]),
     price: new FormControl('', [Validators.min(0)]),
     origin: new FormControl('', Validators.maxLength(255)),
-    height: new FormControl('', [Validators.min(0)]),
+    height: new FormControl('', [Validators.min(0), Validators.max(9000)]),
     coffeeRoast: new FormControl('LIGHT', [Validators.required]),
     description: new FormControl('', Validators.maxLength(5000)),
     beanBlend: new FormControl('', Validators.maxLength(255)),

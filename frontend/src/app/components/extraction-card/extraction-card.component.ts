@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
 import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
@@ -50,6 +52,8 @@ export class ExtractionCardComponent implements OnInit {
     return false;
   }
 
+  constructor(private router: Router, private snackBar: MatSnackBar) {}
+
   ngOnInit(): void {
     this.doughnutChartData.datasets = [
       {
@@ -69,6 +73,32 @@ export class ExtractionCardComponent implements OnInit {
       ];
     } else {
       return [1, 2];
+    }
+  }
+
+  shareRecipe(): void {
+    if (
+      this.rated() &&
+      this.extraction?.brewMethod &&
+      this.extraction.brewTime &&
+      this.extraction.dose &&
+      this.extraction.waterTemperature &&
+      this.extraction.grindSetting &&
+      this.extraction.waterAmount
+    ) {
+      this.router.navigate([
+        '/coffee/' +
+          this.coffeeBeanId +
+          '/extraction/' +
+          this.extraction?.id +
+          '/recipe/create',
+      ]);
+    } else {
+      this.snackBar.open(
+        'An extraction needs to be complete and rated before it can be shared',
+        'Close',
+        { duration: 5000 }
+      );
     }
   }
 
@@ -134,7 +164,7 @@ export class ExtractionCardComponent implements OnInit {
         (seconds < 10 ? '0' + seconds : seconds)
       );
     }
-    return '???';
+    return 'undefined';
   }
 
   formatBrewMethod(): string {
@@ -187,7 +217,7 @@ export class ExtractionCardComponent implements OnInit {
         }
       }
     }
-    return '???';
+    return 'undefined';
   }
 
   formatGrindSetting(): string {
@@ -213,6 +243,6 @@ export class ExtractionCardComponent implements OnInit {
         }
       }
     }
-    return '???';
+    return 'undefined';
   }
 }

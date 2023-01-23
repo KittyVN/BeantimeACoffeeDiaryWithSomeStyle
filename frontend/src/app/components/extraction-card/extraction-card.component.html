@@ -15,16 +15,7 @@
           ]">
           <mat-icon class="action-icon">edit</mat-icon>
         </button>
-        <button
-          class="card-button"
-          mat-icon-button
-          [routerLink]="[
-            '/coffee/' +
-              this.coffeeBeanId +
-              '/extraction/' +
-              this.extraction?.id +
-              '/recipe/create'
-          ]">
+        <button class="card-button" mat-icon-button (click)="shareRecipe()">
           <mat-icon class="action-icon">share</mat-icon>
         </button>
       </div>
@@ -76,7 +67,10 @@
             <p><b>Temp: </b></p>
           </div>
           <div class="info-value">
-            <p>{{ this.extraction?.waterTemperature }}°C</p>
+            <p *ngIf="this.extraction?.waterTemperature">
+              {{ this.extraction?.waterTemperature }}°C
+            </p>
+            <p *ngIf="!this.extraction?.waterTemperature">undefined</p>
           </div>
         </div>
         <div class="info-element">
@@ -84,7 +78,8 @@
             <p><b>Dose: </b></p>
           </div>
           <div class="info-value">
-            <p>{{ this.extraction?.dose }}g</p>
+            <p *ngIf="this.extraction?.dose">{{ this.extraction?.dose }}g</p>
+            <p *ngIf="!this.extraction?.dose">undefined</p>
           </div>
         </div>
         <div class="info-element">
@@ -92,7 +87,10 @@
             <p><b>Water: </b></p>
           </div>
           <div class="info-value">
-            <p>{{ this.extraction?.waterAmount }}ml</p>
+            <p *ngIf="this.extraction?.waterAmount">
+              {{ this.extraction?.waterAmount }}ml
+            </p>
+            <p *ngIf="!this.extraction?.waterAmount">undefined</p>
           </div>
         </div>
         <div class="info-element">

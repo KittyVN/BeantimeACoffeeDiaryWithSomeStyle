@@ -1,6 +1,6 @@
 .extraction-card {
     margin: 5px;
-    min-width: 61em;
+    min-width: 63em;
 
 }
 
@@ -69,14 +69,15 @@
 }
 
 .info-element {
-    height: 30%;
+    height: 26%;
     width: 50%;
     display: flex;
 }
 
 .info-legend {
-    width: 30%;
+    width: 35%;
     text-align: right;
+    overflow-block: auto;
 }
 
 .info-value {

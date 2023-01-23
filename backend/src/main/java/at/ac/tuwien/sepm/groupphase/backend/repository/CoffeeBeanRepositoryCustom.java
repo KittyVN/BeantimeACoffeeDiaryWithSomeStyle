@@ -13,6 +13,7 @@ public interface CoffeeBeanRepositoryCustom {
      * A bean is considered matched,
      * if its name contains {@code searchParameters.name},
      * if its description contains {@code searchParameters.description},
+     * if its blend contains {@code searchParameters.beanBlend},
      * if its Roast matches {@code searchParameters.coffeeRoast}.
      * All parameters are optional.
      * </p>

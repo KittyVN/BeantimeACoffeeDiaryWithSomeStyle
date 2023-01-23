@@ -1,100 +1,187 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
-  <div class="form">
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input
-        type="text"
-        matInput
-        name="searchParamsName"
-        [(ngModel)]="this.searchParams.name"
-        (change)="keyUp.next($event)"
-        (keyup)="keyUp.next($event)" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Description</mat-label>
-      <input
-        type="text"
-        matInput
-        name="searchParamsDescription"
-        [(ngModel)]="this.searchParams.description"
-        (keyup)="keyUp.next($event)" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Roast</mat-label>
-      <select
-        matNativeControl
-        name="searchParamsRoast"
-        [(ngModel)]="this.searchParams.roast"
-        (change)="keyUp.next($event)">
-        <option value="" selected>Any</option>
-        <option value="LIGHT">Light</option>
-        <option value="MEDIUM">Medium</option>
-        <option value="DARK">Dark</option>
-      </select>
-    </mat-form-field>
-  </div>
-  <div class="filter-button-row">
-    <button
-      *ngIf="
-        this.sortingDirective !== 'name' && this.sortingDirective !== '-name'
-      "
-      mat-stroked-button
-      (click)="this.sortingDirective = 'name'; sortCoffeesByDirective()">
-      Name <mat-icon>unfold_more</mat-icon>
-    </button>
-    <button
-      *ngIf="this.sortingDirective === 'name'"
-      mat-stroked-button
-      (click)="this.sortingDirective = '-name'; sortCoffeesByDirective()">
-      Name <mat-icon>expand_less</mat-icon>
-    </button>
-    <button
-      *ngIf="this.sortingDirective === '-name'"
-      mat-stroked-button
-      (click)="this.sortingDirective = '-id'; sortCoffeesByDirective()">
-      Name <mat-icon>expand_more</mat-icon>
-    </button>
-    <button
-      *ngIf="this.sortingDirective !== 'id' && this.sortingDirective !== '-id'"
-      mat-stroked-button
-      (click)="this.sortingDirective = 'id'; sortCoffeesByDirective()">
-      Created <mat-icon>unfold_more</mat-icon>
-    </button>
-    <button
-      *ngIf="this.sortingDirective === 'id'"
-      mat-stroked-button
-      (click)="this.sortingDirective = '-id'; sortCoffeesByDirective()">
-      Created <mat-icon>expand_less</mat-icon>
-    </button>
-    <button
-      *ngIf="this.sortingDirective === '-id'"
-      mat-stroked-button
-      (click)="this.sortingDirective = 'id'; sortCoffeesByDirective()">
-      Created <mat-icon>expand_more</mat-icon>
-    </button>
+  <div class="control-panel">
+    <form class="form" [formGroup]="searchCoffeeForm">
+      <mat-form-field appearance="outline" class="search-input">
+        <mat-label>Name</mat-label>
+        <input
+          type="text"
+          matInput
+          name="searchParamsName"
+          formControlName="name"
+          [(ngModel)]="this.searchParams.name"
+          (keyup)="keyUp.next($event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="search-input">
+        <mat-label>Description</mat-label>
+        <input
+          type="text"
+          matInput
+          name="searchParamsDescription"
+          formControlName="description"
+          [(ngModel)]="this.searchParams.description"
+          (keyup)="keyUp.next($event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="search-input">
+        <mat-label>Blend</mat-label>
+        <input
+          type="text"
+          matInput
+          name="searchParamsBlend"
+          formControlName="beanBlend"
+          [(ngModel)]="this.searchParams.beanBlend"
+          (keyup)="keyUp.next($event)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="search-input">
+        <mat-label>Roast</mat-label>
+        <select
+          matNativeControl
+          name="searchParamsRoast"
+          formControlName="roast"
+          [(ngModel)]="this.searchParams.roast"
+          (change)="keyUp.next($event)">
+          <option value="" selected>Any</option>
+          <option value="LIGHT">Light</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="DARK">Dark</option>
+          <option value="DOUBLE">Double</option>
+          <option value="ESPRESSO">Espresso</option>
+          <option value="SPANISH">Spanish</option>
+        </select>
+      </mat-form-field>
+    </form>
+    <div class="filter-button-row">
+      <button
+        *ngIf="
+          this.sortingDirective !== 'name' && this.sortingDirective !== '-name'
+        "
+        mat-stroked-button
+        (click)="this.sortingDirective = 'name'; sortCoffeesByDirective()">
+        Name <mat-icon>unfold_more</mat-icon>
+      </button>
+      <button
+        *ngIf="this.sortingDirective === 'name'"
+        mat-flat-button
+        color="primary"
+        (click)="this.sortingDirective = '-name'; sortCoffeesByDirective()">
+        Name <mat-icon>expand_less</mat-icon>
+      </button>
+      <button
+        *ngIf="this.sortingDirective === '-name'"
+        mat-flat-button
+        color="primary"
+        (click)="this.sortingDirective = '-id'; sortCoffeesByDirective()">
+        Name <mat-icon>expand_more</mat-icon>
+      </button>
+      <button
+        *ngIf="
+          this.sortingDirective !== 'score' &&
+          this.sortingDirective !== '-score'
+        "
+        mat-stroked-button
+        (click)="this.sortingDirective = '-score'; sortCoffeesByDirective()">
+        Avg. Rating <mat-icon>unfold_more</mat-icon>
+      </button>
+      <button
+        *ngIf="this.sortingDirective === '-score'"
+        mat-flat-button
+        color="primary"
+        (click)="this.sortingDirective = 'score'; sortCoffeesByDirective()">
+        Avg. Rating <mat-icon>expand_more</mat-icon>
+      </button>
+      <button
+        *ngIf="this.sortingDirective === 'score'"
+        mat-flat-button
+        color="primary"
+        (click)="this.sortingDirective = '-id'; sortCoffeesByDirective()">
+        Avg. Rating <mat-icon>expand_less</mat-icon>
+      </button>
+      <button
+        *ngIf="
+          this.sortingDirective !== 'id' && this.sortingDirective !== '-id'
+        "
+        mat-stroked-button
+        (click)="this.sortingDirective = 'id'; sortCoffeesByDirective()">
+        Created <mat-icon>unfold_more</mat-icon>
+      </button>
+      <button
+        *ngIf="this.sortingDirective === 'id'"
+        mat-flat-button
+        color="primary"
+        (click)="this.sortingDirective = '-id'; sortCoffeesByDirective()">
+        Created <mat-icon>expand_less</mat-icon>
+      </button>
+      <button
+        *ngIf="this.sortingDirective === '-id'"
+        mat-flat-button
+        color="primary"
+        (click)="this.sortingDirective = 'id'; sortCoffeesByDirective()">
+        Created <mat-icon>expand_more</mat-icon>
+      </button>
+    </div>
   </div>
   <button
     class="adder-button"
     mat-stroked-button
     [routerLink]="['/coffee/create']">
     <mat-icon>add_circle_outline</mat-icon>
-    Add custom coffee
+    Add new coffee
   </button>
-  <mat-grid-list cols="2" rowHeight="350px">
+  <mat-grid-list cols="1" rowHeight="465px">
     <mat-grid-tile *ngFor="let coffee of coffees">
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title class="card-title">
             {{ coffee.name }}
           </mat-card-title>
-          <mat-card-subtitle>
+          <mat-card-subtitle class="card-subtitle">
             {{ formatRoast(coffee) }}
           </mat-card-subtitle>
         </mat-card-header>
+        <mat-divider></mat-divider>
         <mat-card-content class="dashboard-card-content">
-          <div class="description-box">{{ coffee.description }}</div>
-          <div class="extraction-box"></div>
+          <div class="description-box">
+            <mat-card class="score-card">
+              <div class="average-score" *ngIf="coffee.overallAverageRating">
+                <b>{{ coffee.overallAverageRating }} / 25</b>
+              </div>
+              <div class="average-score" *ngIf="!coffee.overallAverageRating">
+                <b>Unrated</b>
+              </div>
+              <div class="doughnut-chart-container">
+                <canvas
+                  baseChart
+                  class="chart"
+                  [data]="doughnutChartData(coffee)"
+                  [type]="doughnutChartType"
+                  [options]="doughnutChartOptions">
+                </canvas>
+              </div>
+              <div class="info-box" *ngIf="coffee.beanBlend">
+                <p>Blend of:</p>
+                <p>{{ coffee.beanBlend }}</p>
+              </div>
+              <div class="info-box" *ngIf="!coffee.beanBlend">
+                <p>Add blend information for more data at a glance!</p>
+              </div>
+            </mat-card>
+          </div>
+          <div
+            class="extraction-box"
+            *ngIf="coffee.bestExtraction && coffee.lastExtraction">
+            <app-extraction-card
+              [extraction]="coffee.bestExtraction"
+              [coffeeBeanId]="coffee.id"></app-extraction-card>
+            <app-extraction-card
+              [extraction]="coffee.lastExtraction"
+              [coffeeBeanId]="coffee.id"></app-extraction-card>
+          </div>
+          <div
+            class="extraction-box"
+            *ngIf="!(coffee.bestExtraction && coffee.lastExtraction)">
+            <p>It seems like you dont have any extractions yet ...</p>
+            <p>Click on <b>New Extraction</b> and start making coffee now!</p>
+          </div>
         </mat-card-content>
         <mat-divider></mat-divider>
         <mat-card-actions class="dashboard-card-buttons">
