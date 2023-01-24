@@ -59,12 +59,19 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-stroked-button (click)="excelExport()">Export</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [routerLink]="['./extraction/create']">
+        <mat-icon>play_arrow</mat-icon>
+        New extraction
+      </button>
     </mat-card-actions>
   </mat-card>
   <mat-card>
     <div class="form">
       <mat-form-field appearance="outline">
-        <mat-label>Rating Search</mat-label>
+        <mat-label>Rating Mode</mat-label>
         <select
           matNativeControl
           name="searchParamsReverseScore"
@@ -87,7 +94,7 @@
           (keyup)="keyUp.next($event)" />
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Date Search</mat-label>
+        <mat-label>Date Mode</mat-label>
         <select
           matNativeControl
           name="searchParamsReverseCreated"

@@ -1,3 +1,7 @@
+mat-card {
+  min-width: 63em;
+}
+
 mat-card:not(:first-of-type) {
   margin-top: 32px;
 }
@@ -57,6 +61,14 @@ mat-card:first-child mat-card-content div.stats div.rating {
   font-size: 34px;
   height: 40px;
   line-height: 40px;
+}
+
+mat-card:first-child mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 0.5em;
 }
 
 .form {

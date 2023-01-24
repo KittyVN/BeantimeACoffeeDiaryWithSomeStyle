@@ -16,14 +16,14 @@ public class CoffeeBeanDashboardDto {
 
     public CoffeeBeanDashboardDto() {}
 
-    public CoffeeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description, String beanBlend, String strength, String url) {
+    public CoffeeBeanDashboardDto(Long id, String name, CoffeeRoast coffeeRoast, String description, String beanBlend, String coffeeStrength, String coffeeBeanUrl) {
         this.id = id;
         this.name = name;
         this.coffeeRoast = coffeeRoast;
         this.description = description;
         this.beanBlend = beanBlend;
-        this.coffeeStrength = strength;
-        this.coffeeBeanUrl = url;
+        this.coffeeStrength = coffeeStrength;
+        this.coffeeBeanUrl = coffeeBeanUrl;
     }
 
     public Long getId() {
@@ -76,5 +76,33 @@ public class CoffeeBeanDashboardDto {
 
     public void setBeanBlend(String beanBlend) {
         this.beanBlend = beanBlend;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCoffeeRoast(CoffeeRoast coffeeRoast) {
+        this.coffeeRoast = coffeeRoast;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCoffeeBeanUrl() {
+        return coffeeBeanUrl;
+    }
+
+    public void setCoffeeBeanUrl(String coffeeBeanUrl) {
+        this.coffeeBeanUrl = coffeeBeanUrl;
+    }
+
+    public String getCoffeeStrength() {
+        return coffeeStrength;
+    }
+
+    public void setCoffeeStrength(String coffeeStrength) {
+        this.coffeeStrength = coffeeStrength;
     }
 }

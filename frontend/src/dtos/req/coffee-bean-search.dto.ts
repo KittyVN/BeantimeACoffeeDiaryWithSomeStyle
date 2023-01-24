@@ -4,4 +4,5 @@ export interface coffeeBeanSearchDto {
   name?: string;
   roast?: CoffeeRoast;
   description?: string;
+  beanBlend?: string;
 }

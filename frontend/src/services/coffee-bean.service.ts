@@ -53,6 +53,10 @@ export class CoffeeBeanService {
       params = params.set('description', searchParams.description);
     }
 
+    if (searchParams.beanBlend != null && searchParams.beanBlend !== '') {
+      params = params.set('beanBlend', searchParams.beanBlend);
+    }
+
     return this.http.get<CoffeeBeanDashboardDto[]>(
       'coffee-beans/user/' + tokenPayload.jti,
       {

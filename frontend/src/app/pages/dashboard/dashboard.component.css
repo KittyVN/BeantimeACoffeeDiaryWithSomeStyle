@@ -9,12 +9,20 @@
   margin-right: 5%;
 }
 
-.form {
-  width: 60%;
-  margin-left: 20%;
-  margin-right: 20%;
+.control-panel {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 3em;
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+.search-input {
+  max-width: 140px;
 }
 
 .filter-button-row {
@@ -26,17 +34,21 @@
 
 .adder-button {
   height: 3em;
-  width: 80%;
-  right: 10%;
-  left: 10%;
+  width: 60%;
+  right: 20%;
+  left: 21%;
   margin-top: 1em;
 }
 
 .dashboard-card {
+  max-width: 120em;
+  min-width: 80em;
+  min-height: 428px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: absolute;
+
+  align-self: center;
   top: 15px;
   left: 15px;
   right: 15px;
@@ -54,11 +66,8 @@
   word-wrap: break-all;
 }
 
-.adder-button {
-  height: 3em;
-  width: 80%;
-  right: 10%;
-  left: 10%
+.card-subtitle {
+  margin-bottom: 5px;
 }
 
 .dashboard-card-content {
@@ -70,8 +79,8 @@
 }
 
 .description-box {
-  max-height: 13em;
-  max-width: 130px;
+  min-height: 13em;
+  width: 130px;
   overflow-wrap: break-word;
   hyphens: manual;
   overflow: hidden;
@@ -80,6 +89,10 @@
 
 .extraction-box {
   flex-grow: 1;
+  display: flex;
+  flex-flow: column wrap;
+  margin-bottom: 2em;
+  padding-bottom: 10px;
 }
 
 .button-row {
@@ -87,4 +100,29 @@
   display: flex;
   justify-content: space-around;
   position: absolute;
+}
+
+.score-card {
+  height: 276px;
+  position: relative;
+  overflow-wrap: break-word;
+  hyphens: manual;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.average-score {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  right: 5px;
+  top: 4.7em;
+  font-size: 1em;
+}
+
+.chart {
+  max-height: 120px;
+  max-width: 120px;
+  margin-top: 0.8em;
+  margin-bottom: 1.2em;
 }

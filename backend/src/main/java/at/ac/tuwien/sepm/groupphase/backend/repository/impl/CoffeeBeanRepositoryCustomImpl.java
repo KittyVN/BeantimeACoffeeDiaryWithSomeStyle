@@ -38,6 +38,7 @@ public class CoffeeBeanRepositoryCustomImpl implements CoffeeBeanRepositoryCusto
         Path<Long> idPath = user.get("id");
         Path<String> namePath = bean.get("name");
         Path<String> descriptionPath = bean.get("description");
+        Path<String> blendPath = bean.get("beanBlend");
         Path<CoffeeRoast> coffeeRoastPath = bean.get("coffeeRoast");
 
         List<Predicate> predicates = new ArrayList<>();
@@ -52,6 +53,10 @@ public class CoffeeBeanRepositoryCustomImpl implements CoffeeBeanRepositoryCusto
 
         if (searchParameters.getDescription() != null) {
             predicates.add(cb.like(cb.upper(descriptionPath), String.format("%%%s%%", searchParameters.getDescription().toUpperCase())));
+        }
+
+        if (searchParameters.getBeanBlend() != null) {
+            predicates.add(cb.like(cb.upper(blendPath), String.format("%%%s%%", searchParameters.getBeanBlend().toUpperCase())));
         }
 
         if (searchParameters.getCoffeeRoast() != null) {

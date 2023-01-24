@@ -1,48 +1,83 @@
 .extraction-card {
     margin: 5px;
-    min-width: 67em;
+    min-width: 63em;
+
 }
 
 .extraction-container {
     display: flex;
+    height: 7em;
+}
+
+.card-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .sum-container {
-    height: 15em;
+    position: relative;
     flex-grow: 0;
     margin-right: 5px;
     margin-left: 5px;
     text-align: center;
     display: flex;
-    align-items: center;
+}
+
+.score-container {
+    position: absolute;
+    top: 42px;
+    left: 23px;
+}
+
+.score-to-9-container {
+    position: absolute;
+    top: 42px;
+    left: 28px;
+}
+
+#unrated-element {
+    display: flex;
+    justify-content: center;
+    margin-right: 0.6em;
+    margin-top: 0.8em;
+
+}
+
+#unrated-text {
+    margin-top: 2px;
 }
 
 .input-container {
-    flex-grow: 2;
+    flex-grow: 3;
+    max-width: 20em;
     margin-left: 10px;
     margin-right: 10px;
+    margin-top: 10px;
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
 }
 
 .rating-container {
-    flex-grow: 2;
+    flex-grow: 4;
     margin-left: 10px;
+    margin-top: 10px;
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
 }
 
 .info-element {
-    height: 30%;
+    height: 26%;
     width: 50%;
     display: flex;
 }
 
 .info-legend {
-    width: 30%;
+    width: 35%;
     text-align: right;
+    overflow-block: auto;
 }
 
 .info-value {
@@ -50,7 +85,7 @@
     text-align: left;
     overflow-wrap: break-word;
     overflow: hidden;
-    padding-left: 5px;
+    padding-left: 8px;
 }
 
 .separator-line {
@@ -64,7 +99,6 @@
     font-size: 1em;
     padding-top: 2px;
 }
-
 
 .chart {
     max-height: 96px;

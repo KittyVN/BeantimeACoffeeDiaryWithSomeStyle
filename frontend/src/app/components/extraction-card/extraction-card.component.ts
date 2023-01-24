@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ChartData, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Observable } from 'rxjs/internal/Observable';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
@@ -28,9 +28,18 @@ export class ExtractionCardComponent implements OnInit {
   ) {}
 
   public doughnutChartData: ChartData<'doughnut'> = {
-    datasets: [{ data: this.getOverallRating() }],
+    datasets: [
+      {
+        data: this.getOverallRating(),
+        backgroundColor: ['#4caf50', '#f68f83'],
+      },
+    ],
   };
-  public doughnutChartType: ChartType = 'doughnut';
+  public doughnutChartType: ChartConfiguration<'doughnut'>['type'] = 'doughnut';
+  public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+    responsive: true,
+    cutout: '70%',
+  };
 
   rated(): boolean {
     if (this.extraction) {
@@ -57,6 +66,7 @@ export class ExtractionCardComponent implements OnInit {
     this.doughnutChartData.datasets = [
       {
         data: this.getOverallRating(),
+        backgroundColor: ['#4caf50', '#f68f83'],
       },
     ];
     console.log(this.getOverallRating());
@@ -136,7 +146,7 @@ export class ExtractionCardComponent implements OnInit {
         (seconds < 10 ? '0' + seconds : seconds)
       );
     }
-    return '???';
+    return 'undefined';
   }
 
   formatBrewMethod(): string {
@@ -189,7 +199,7 @@ export class ExtractionCardComponent implements OnInit {
         }
       }
     }
-    return '???';
+    return 'undefined';
   }
 
   formatGrindSetting(): string {
@@ -215,38 +225,54 @@ export class ExtractionCardComponent implements OnInit {
         }
       }
     }
-    return '???';
+    return 'undefined';
   }
 
   onSubmitRecipe(extractionId: number) {
-    let observable: Observable<string>;
-    let recipeDto: RecipeDto = {
-      id: 0,
-      shared: false,
-      extractionId: extractionId,
-    };
+    if (
+      this.rated() &&
+      this.extraction?.brewMethod &&
+      this.extraction.brewTime &&
+      this.extraction.dose &&
+      this.extraction.waterTemperature &&
+      this.extraction.grindSetting &&
+      this.extraction.waterAmount
+    ) {
+      let observable: Observable<string>;
+      let recipeDto: RecipeDto = {
+        id: 0,
+        shared: false,
+        extractionId: extractionId,
+      };
 
-    observable = this.recipeService.create(recipeDto);
+      observable = this.recipeService.create(recipeDto);
 
-    observable.subscribe({
-      next: data => {
-        this.snackBar.open('Recipe was successfully shared', 'Close', {
-          duration: 5000,
-        });
-        this.router.navigate(['/coffee/' + this.extraction?.beanId]);
-      },
-      error: err => {
-        if (err.status == 409) {
-          this.snackBar.open(
-            'There already exists a recipe for this extraction',
-            'Close',
-            {
-              duration: 5000,
-            }
-          );
+      observable.subscribe({
+        next: data => {
+          this.snackBar.open('Recipe was successfully shared', 'Close', {
+            duration: 5000,
+          });
           this.router.navigate(['/coffee/' + this.extraction?.beanId]);
-        }
-      },
-    });
+        },
+        error: err => {
+          if (err.status == 409) {
+            this.snackBar.open(
+              'There already exists a recipe for this extraction',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+            this.router.navigate(['/coffee/' + this.extraction?.beanId]);
+          }
+        },
+      });
+    } else {
+      this.snackBar.open(
+        'An extraction needs to be complete and rated before it can be shared',
+        'Close',
+        { duration: 5000 }
+      );
+    }
   }
 }

@@ -38,7 +38,7 @@ public class CommunityRecipeDto {
                               String extractionBrewMethod, String extractionGrindSetting, Double extractionWaterTemperature,
                               Double extractionDose, Double extractionWaterAmount, Long extractionBrewTime, Integer extractionBody,
                               Integer extractionAcidity, Integer extractionAromatics, Integer extractionSweetness, Integer extractionAftertaste,
-                              String extractionRatingNotes, String extractionRecipeSteps ,Long coffeeBeanId, String coffeeBeanName, Float coffeeBeanPrice, String coffeeBeanBlend,
+                              String extractionRatingNotes, String extractionRecipeSteps, Long coffeeBeanId, String coffeeBeanName, Float coffeeBeanPrice, String coffeeBeanBlend,
                               String coffeeBeanOrigin, Integer coffeeBeanHeight, String coffeeBeanRoast, String coffeeBeanUrl, String coffeeBeanDescription,
                               String coffeeBeanStrength) {
         this.recipeId = recipeId;

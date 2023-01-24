@@ -1,4 +1,5 @@
 import { CoffeeRoast } from './coffee-roast';
+import { ExtractionDetailDto } from './extraction-detail.dto';
 
 export interface CoffeeBeanDashboardDto {
   id: number;
@@ -8,4 +9,7 @@ export interface CoffeeBeanDashboardDto {
   beanBlend: string;
   coffeeStrength: string;
   coffeeBeanUrl: string;
+  bestExtraction: ExtractionDetailDto;
+  lastExtraction: ExtractionDetailDto;
+  overallAverageRating: number;
 }
