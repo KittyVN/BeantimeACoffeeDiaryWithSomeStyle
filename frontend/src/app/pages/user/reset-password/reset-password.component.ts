@@ -53,9 +53,13 @@ export class ResetPasswordComponent {
           },
           error: err => {
             console.log(err.error);
-            this.snackBar.open(err.error, 'Close', {
-              duration: 5000,
-            });
+            this.snackBar.open(
+              'Could not find a user with email ' + email,
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
           },
         });
       }

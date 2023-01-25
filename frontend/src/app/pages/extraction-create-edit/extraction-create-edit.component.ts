@@ -76,6 +76,36 @@ export class ExtractionCreateEditComponent implements OnInit {
     return this.mode === ExtractionCreateEditMode.create;
   }
 
+  getWaterTempMessage() {
+    if (this.extraction.waterTemperature) {
+      return this.extraction.waterTemperature < 0
+        ? 'Water Temperature cannot be below 0 C°!'
+        : 'Water Temperature cannot be above 100 C°';
+    } else {
+      return '';
+    }
+  }
+
+  getWaterAmountMessage() {
+    if (this.extraction.waterAmount) {
+      return this.extraction.waterAmount < 0
+        ? 'Water Amount cannot be negative!'
+        : 'Water Amount is too high!';
+    } else {
+      return '';
+    }
+  }
+
+  getDoseMessage() {
+    if (this.extraction.dose) {
+      return this.extraction.dose < 0
+        ? 'Dose cannot be negative!'
+        : 'Dose is too high!';
+    } else {
+      return '';
+    }
+  }
+
   displayTime(): number {
     console.log('a');
     if (this.extraction.brewTime) return this.extraction.brewTime * 100;

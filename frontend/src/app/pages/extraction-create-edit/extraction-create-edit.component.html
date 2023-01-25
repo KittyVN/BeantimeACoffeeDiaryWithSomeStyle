@@ -48,6 +48,9 @@
           type="number"
           formControlName="waterTemperature"
           [(ngModel)]="extraction.waterTemperature" />
+        <mat-error *ngIf="parameterForm.controls.waterTemperature.invalid">{{
+          getWaterTempMessage()
+        }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Dose in Grams</mat-label>
@@ -56,6 +59,9 @@
           type="number"
           formControlName="dose"
           [(ngModel)]="extraction.dose" />
+        <mat-error *ngIf="parameterForm.controls.dose.invalid">{{
+          getDoseMessage()
+        }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Amount of Water in ml</mat-label>
@@ -64,6 +70,9 @@
           type="number"
           formControlName="waterAmount"
           [(ngModel)]="extraction.waterAmount" />
+        <mat-error *ngIf="parameterForm.controls.waterAmount.invalid">{{
+          getWaterAmountMessage()
+        }}</mat-error>
       </mat-form-field>
     </form>
     <div>
@@ -85,6 +94,9 @@
             type="number"
             [ngModel]="extraction.brewTime | millisecondsToSeconds"
             (ngModelChange)="brewTimeChanged($event)" />
+          <mat-error *ngIf="timerForm.controls.brewTime.invalid"
+            >Time cannot be negative!</mat-error
+          >
         </mat-form-field>
       </div>
       <div>
@@ -103,6 +115,9 @@
             matInput
             formControlName="recipeSteps"
             [(ngModel)]="extraction.recipeSteps"></textarea>
+          <mat-error *ngIf="recipeForm.controls.recipeSteps.invalid"
+            >Recipe is too long!</mat-error
+          >
         </mat-form-field>
       </div>
       <div>
