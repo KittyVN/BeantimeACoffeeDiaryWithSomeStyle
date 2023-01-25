@@ -1,12 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ExtractionService } from 'src/services/extraction.service';
-
-import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
-
 @Component({
   selector: 'app-delete-dialog-extraction',
   templateUrl: './delete-dialog-extraction.component.html',
@@ -16,7 +12,7 @@ export class DeleteDialogExtractionComponent {
   id: number | undefined;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<DeleteDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteDialogExtractionComponent>,
     private extractionService: ExtractionService,
     private snackBar: MatSnackBar
   ) {}
