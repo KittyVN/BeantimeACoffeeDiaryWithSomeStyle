@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit {
   public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
     responsive: true,
     cutout: '60%',
+    animation: { animateRotate: false },
   };
 
   searchCoffeeForm = new FormGroup({

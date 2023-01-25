@@ -4,20 +4,22 @@
     On this page you can find a list of all the coffee recipes that you have
     graciously shared with the community.
   </div>
-  <mat-grid-list cols="4" rowHeight="410px">
+  <mat-grid-list cols="4" rowHeight="40em">
     <mat-grid-tile *ngFor="let recipe of recipes">
       <mat-card class="recipe-card">
         <mat-card-header>
-          <mat-card-title class="card-title">
+          <mat-card-title>
             <div>
-              <div>Recipe for {{ recipe.coffeeBeanName }}</div>
-              <div>using {{ formatBrewMethod(recipe) }}</div>
+              <div class="card-title">
+                Recipe for {{ recipe.coffeeBeanName }}
+              </div>
+              <p>using {{ formatBrewMethod(recipe) }}</p>
             </div>
           </mat-card-title>
           <mat-card-subtitle>
-            <div>Coffee Roast: {{ formatRoast(recipe) }}</div>
-            <div>Strength: {{ recipe.coffeeBeanStrength }}</div>
-            <div>Blend: {{ recipe.coffeeBeanBlend }}</div>
+            <p class="coffee-info">Coffee Roast: {{ formatRoast(recipe) }}</p>
+            <p class="coffee-info">Strength: {{ recipe.coffeeBeanStrength }}</p>
+            <p class="coffee-info">Blend: {{ recipe.coffeeBeanBlend }}</p>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
@@ -49,7 +51,7 @@
               Details
             </button>
             <a
-              *ngIf="recipe.coffeeBeanUrl"
+              [disabled]="!recipe.coffeeBeanUrl"
               mat-stroked-button
               [href]="recipe.coffeeBeanUrl"
               target="_blank">

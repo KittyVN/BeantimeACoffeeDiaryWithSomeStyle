@@ -3,8 +3,8 @@
 }
 
 .grid-container {
-  top: 40px;
-  margin: 20px;
+  top: 3em;
+  margin: 2em;
   margin-left: 5%;
   margin-right: 5%;
 }
@@ -14,23 +14,39 @@
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+  top: 1em;
+  left: 1em;
+  right: 1em;
+  bottom: 1em;
 }
 
 .card-title {
-  max-width: 25em;
+  max-width: 18.5em;
+  max-height: 4em;
   overflow: hidden;
+  overflow-wrap: break-all;
   text-overflow: ellipsis;
   word-wrap: break-all;
+  hyphens: manual;
+  white-space: nowrap;
 }
 
 .ratings-box {
   display: flex;
   flex-direction: row;
-  margin-top: 5px;
+  margin-top: 0.2em;
+}
+
+.coffee-info {
+  margin: 0;
+  margin-bottom: 0.2em;
+  max-width: 26em;
+  max-height: 3em;
+  overflow-wrap: break-word;
+  hyphens: manual;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .description-box {
@@ -38,17 +54,21 @@
   hyphens: manual;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 5px;
-  height: 100px;
-  margin-top: 3px;
+  margin-bottom: 0.5em;
+  height: 12em;
+  margin-top: 0.3em;
 }
 
 .rating-item {
-  margin-right: 15px;
+  margin-right: 1em;
 }
 
-.dashboard-card-buttons{
-  height: 100px;
+.button-row{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;
+  align-items: flex-start;
+  gap: 0.5em;
 }
 
 .shareButton{
