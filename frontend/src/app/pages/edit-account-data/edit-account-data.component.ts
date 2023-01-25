@@ -13,8 +13,6 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogUserComponent } from 'src/app/components/dialog/delete-dialog-user/delete-dialog-user.component';
 
-import { DeleteDialogComponent } from '../../components/dialog/delete-dialog/delete-dialog.component';
-
 @Component({
   selector: 'app-edit-account-data',
   templateUrl: './edit-account-data.component.html',

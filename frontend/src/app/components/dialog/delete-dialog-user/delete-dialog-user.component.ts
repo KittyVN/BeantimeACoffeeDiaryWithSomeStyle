@@ -5,8 +5,6 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'src/services/user.service';
 
-import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
-
 @Component({
   selector: 'app-delete-dialog-user',
   templateUrl: './delete-dialog-user.component.html',
@@ -15,7 +13,7 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 export class DeleteDialogUserComponent {
   id: number | undefined;
   constructor(
-    public dialogRef: MatDialogRef<DeleteDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteDialogUserComponent>,
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
