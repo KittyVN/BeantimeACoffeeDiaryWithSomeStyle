@@ -178,7 +178,117 @@ export class CoffeeBeanDetailComponent implements OnInit {
       });
   }
 
-  excelExport() {
+  exportSearchAsXlsx() {
+    this.excelExport(this.extractions);
+  }
+
+  exportAllAsXlsx() {
+    let val: ExtractionSearchDto = {};
+    this.extractionService
+      .search(val, this.coffee.id ? this.coffee.id : -1)
+      .subscribe({
+        next: data => {
+          this.excelExport(data);
+        },
+        error: error => {
+          console.error('Error fetching extractions', error);
+          this.snackBar.open(
+            'Unable to fetch extraction data, try again later',
+            'Close',
+            {
+              duration: 5000,
+            }
+          );
+        },
+      });
+  }
+
+  exportSearchAsCsv() {
+    this.csvExport(this.extractions);
+  }
+
+  exportAllAsCsv() {
+    let val: ExtractionSearchDto = {};
+    this.extractionService
+      .search(val, this.coffee.id ? this.coffee.id : -1)
+      .subscribe({
+        next: data => {
+          this.csvExport(data);
+        },
+        error: error => {
+          console.error('Error fetching extractions', error);
+          this.snackBar.open(
+            'Unable to fetch extraction data, try again later',
+            'Close',
+            {
+              duration: 5000,
+            }
+          );
+        },
+      });
+  }
+
+  csvExport(datasource: ExtractionDetailDto[]) {
+    let workbook = new Workbook();
+    let datamap = workbook.addWorksheet('Extractions');
+
+    datamap.columns = [
+      {
+        header:
+          'Creation DateTime,Grind setting,Brew Method,Water temp,' +
+          'Water amount,Coffee dose,Brew time,Rating,Rating(Body),' +
+          'Rating(Acidity),Rating(Aromatics),Rating(Sweetness),Rating(Aftertaste),Rating notes',
+        key: 'data',
+      },
+    ];
+
+    datamap.getRow(1).font = { bold: true };
+    datamap.getRow(1).alignment = { horizontal: 'center' };
+
+    if (datasource.length > 0) {
+      datasource.forEach(ex => {
+        datamap.addRow({
+          data:
+            ex.dateTime +
+            ',' +
+            ex.grindSetting +
+            ',' +
+            ex.brewMethod +
+            ',' +
+            ex.waterTemperature +
+            ',' +
+            ex.waterAmount +
+            ',' +
+            ex.dose +
+            ',' +
+            this.formatBrewTime(ex) +
+            ',' +
+            ex.overallRating +
+            ',' +
+            ex.body +
+            ',' +
+            ex.acidity +
+            ',' +
+            ex.aromatics +
+            ',' +
+            ex.sweetness +
+            ',' +
+            ex.aftertaste +
+            ',' +
+            ex.ratingNotes,
+        });
+      });
+
+      workbook.csv.writeBuffer().then(extractions => {
+        let blob = new Blob([extractions], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        saveAs(blob, 'Extractions_' + this.coffee.name + '.csv');
+      });
+    }
+  }
+
+  excelExport(datasource: ExtractionDetailDto[]) {
     let workbook = new Workbook();
     let datamap = workbook.addWorksheet('Extractions');
 
@@ -204,8 +314,8 @@ export class CoffeeBeanDetailComponent implements OnInit {
     datamap.getRow(1).font = { bold: true };
     datamap.getRow(1).alignment = { horizontal: 'center' };
 
-    if (this.extractions.length > 0) {
-      this.extractions.forEach(ex => {
+    if (datasource.length > 0) {
+      datasource.forEach(ex => {
         datamap.addRow({
           created: ex.dateTime,
           grind: ex.grindSetting,
