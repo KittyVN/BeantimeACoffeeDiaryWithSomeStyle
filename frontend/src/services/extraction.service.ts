@@ -94,4 +94,14 @@ export class ExtractionService {
   public getById(id: string): Observable<ExtractionDetailDto> {
     return this.http.get<ExtractionDetailDto>('extractions/' + id);
   }
+
+  /**
+   * Deletes an existing extraction in the system.
+   *
+   * @param id the id of the extraction that should be deleted
+   * @return nothing
+   */
+  public delete(id: number) {
+    return this.http.delete('extractions/' + id);
+  }
 }

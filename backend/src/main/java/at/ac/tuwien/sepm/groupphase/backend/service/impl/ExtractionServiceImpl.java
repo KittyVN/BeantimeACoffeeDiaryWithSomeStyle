@@ -189,4 +189,9 @@ public class ExtractionServiceImpl implements ExtractionService {
 
         return top5Extractions;
     }
+
+    @Override
+    public void delete(Long id) {
+        extractionRepository.deleteById(id);
+    }
 }

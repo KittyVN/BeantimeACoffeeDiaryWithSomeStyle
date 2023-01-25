@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  EventEmitter,
+  Output,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChartConfiguration, ChartData } from 'chart.js';
@@ -10,6 +18,8 @@ import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
 import { RecipeDto } from 'src/dtos/req/recipe.dto';
 import { RecipeService } from 'src/services/recipe.service';
 
+import { DeleteDialogExtractionComponent } from '../dialog/delete-dialog-extraction/delete-dialog-extraction.component';
+
 @Component({
   selector: 'app-extraction-card',
   templateUrl: './extraction-card.component.html',
@@ -18,13 +28,15 @@ import { RecipeService } from 'src/services/recipe.service';
 export class ExtractionCardComponent implements OnInit {
   @Input() extraction?: ExtractionDetailDto;
   @Input() coffeeBeanId?: number;
+  @Input() cardActions?: boolean;
+  @Output() deleteItemEvent = new EventEmitter<number>();
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   constructor(
     private recipeService: RecipeService,
     private router: Router,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   public doughnutChartData: ChartData<'doughnut'> = {
@@ -274,5 +286,21 @@ export class ExtractionCardComponent implements OnInit {
         { duration: 5000 }
       );
     }
+  }
+
+  deleteDialog(id: number): void {
+    const dialogRef = this.dialog.open(DeleteDialogExtractionComponent, {
+      width: '300px',
+      hasBackdrop: true,
+      data: {
+        dataKey: id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'closed') {
+        this.deleteItemEvent.emit(this.extraction?.id);
+      }
+    });
   }
 }

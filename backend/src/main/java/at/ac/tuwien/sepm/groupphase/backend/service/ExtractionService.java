@@ -87,4 +87,11 @@ public interface ExtractionService {
      * @return a Stream of the found extractions represented as ExtractionListDto.
      */
     List<ExtractionListDto> getTop5RatedByUserId(Long id);
+
+    /**
+     * Deletes an already persisted extraction by its id.
+     *
+     * @param id of the extraction to be deleted
+     */
+    void delete(Long id);
 }

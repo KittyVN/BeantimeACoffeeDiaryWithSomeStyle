@@ -363,4 +363,10 @@ export class CoffeeBeanDetailComponent implements OnInit {
     }
     return '???';
   }
+
+  deleteItemEvent(id: number) {
+    this.extractions = this.extractions.filter(obj => {
+      return obj.id !== id;
+    });
+  }
 }

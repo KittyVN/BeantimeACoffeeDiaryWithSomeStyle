@@ -175,10 +175,12 @@
             *ngIf="coffee.bestExtraction && coffee.lastExtraction">
             <app-extraction-card
               [extraction]="coffee.bestExtraction"
-              [coffeeBeanId]="coffee.id"></app-extraction-card>
+              [coffeeBeanId]="coffee.id"
+              [cardActions]="false"></app-extraction-card>
             <app-extraction-card
               [extraction]="coffee.lastExtraction"
-              [coffeeBeanId]="coffee.id"></app-extraction-card>
+              [coffeeBeanId]="coffee.id"
+              [cardActions]="false"></app-extraction-card>
           </div>
           <div
             class="extraction-box"

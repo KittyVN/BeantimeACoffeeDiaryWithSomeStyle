@@ -1,7 +1,7 @@
 <mat-card class="extraction-card">
   <mat-card-content>
     <div class="extraction-container">
-      <div *ngIf="exists" class="card-buttons">
+      <div *ngIf="exists && cardActions === true" class="card-buttons">
         <button
           *ngIf="extraction"
           class="card-button"
@@ -21,6 +21,14 @@
           mat-icon-button
           (click)="onSubmitRecipe(this.extraction.id)">
           <mat-icon class="action-icon">share</mat-icon>
+        </button>
+        <button
+          *ngIf="extraction"
+          mat-icon-button
+          color="warn"
+          type="button"
+          (click)="deleteDialog(this.extraction.id)">
+          <mat-icon class="action-icon">delete</mat-icon>
         </button>
       </div>
       <div class="sum-container">

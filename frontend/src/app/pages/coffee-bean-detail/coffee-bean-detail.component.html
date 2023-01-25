@@ -174,7 +174,11 @@
       </mat-form-field>
     </div>
     <mat-card-content *ngFor="let extraction of extractions">
-      <app-extraction-card [extraction]="extraction" [coffeeBeanId]="coffee.id">
+      <app-extraction-card
+        [extraction]="extraction"
+        [coffeeBeanId]="coffee.id"
+        [cardActions]="true"
+        (deleteItemEvent)="deleteItemEvent($event)">
       </app-extraction-card>
     </mat-card-content>
   </mat-card>
