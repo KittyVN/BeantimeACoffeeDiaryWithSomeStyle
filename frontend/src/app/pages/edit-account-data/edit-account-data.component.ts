@@ -11,8 +11,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
-import { DeleteDialogComponent } from '../../components/dialog/delete-dialog/delete-dialog.component';
+import { DeleteDialogUserComponent } from 'src/app/components/dialog/delete-dialog-user/delete-dialog-user.component';
 
 @Component({
   selector: 'app-edit-account-data',
@@ -117,7 +116,7 @@ export class EditAccountDataComponent implements OnInit {
   }
 
   deleteDialog(): void {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteDialogUserComponent, {
       width: '300px',
       hasBackdrop: true,
     });

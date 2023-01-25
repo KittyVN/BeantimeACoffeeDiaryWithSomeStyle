@@ -15,6 +15,17 @@
     justify-content: space-around;
 }
 
+.card-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+}
+
+.action-icon {
+    font-size: 19px;
+    padding-bottom: 3px;
+}
+
 .sum-container {
     position: relative;
     flex-grow: 0;

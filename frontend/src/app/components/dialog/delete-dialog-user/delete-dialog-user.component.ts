@@ -6,14 +6,14 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
 
 @Component({
-  selector: 'app-delete-dialog',
-  templateUrl: './delete-dialog.component.html',
-  styleUrls: ['./delete-dialog.component.css'],
+  selector: 'app-delete-dialog-user',
+  templateUrl: './delete-dialog-user.component.html',
+  styleUrls: ['./delete-dialog-user.component.css'],
 })
-export class DeleteDialogComponent {
+export class DeleteDialogUserComponent {
   id: number | undefined;
   constructor(
-    public dialogRef: MatDialogRef<DeleteDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteDialogUserComponent>,
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,

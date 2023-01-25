@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { ExtractionService } from 'src/services/extraction.service';
-
 @Component({
   selector: 'app-delete-dialog-extraction',
   templateUrl: './delete-dialog-extraction.component.html',
