@@ -27,9 +27,6 @@
             required
             type="password"
             matInput />
-          <mat-error *ngIf="registerForm.controls.email.invalid">{{
-            getErrorMessage()
-          }}</mat-error>
         </mat-form-field>
         <button type="submit" mat-raised-button color="primary">
           Register

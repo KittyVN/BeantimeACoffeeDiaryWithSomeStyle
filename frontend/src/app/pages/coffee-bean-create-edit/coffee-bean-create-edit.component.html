@@ -14,9 +14,12 @@
             matInput
             formControlName="name"
             [(ngModel)]="coffeeBeanDto.name" />
+          <mat-error *ngIf="createEditBeanForm.controls.name.invalid"
+            >{{ getErrorMessage() }}
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Price</mat-label>
+          <mat-label>Price/kg</mat-label>
           <input
             placeholder="0.00"
             matInput
@@ -25,17 +28,23 @@
             formControlName="price"
             [(ngModel)]="coffeeBeanDto.price" />
           <span matTextPrefix>€&nbsp;</span>
+          <mat-error *ngIf="createEditBeanForm.controls.price.invalid"
+            >Price cannot be negative</mat-error
+          >
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Origin</mat-label>
+          <mat-label>Origin of the Coffee</mat-label>
           <input
             placeholder="Origin"
             matInput
             formControlName="origin"
             [(ngModel)]="coffeeBeanDto.origin" />
+          <mat-error *ngIf="createEditBeanForm.controls.origin.invalid"
+            >Origin is too long!</mat-error
+          >
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Height in meters</mat-label>
+          <mat-label>Height (in meters) where coffee was grown </mat-label>
           <input
             placeholder="3000 m"
             matInput
@@ -43,6 +52,9 @@
             min="0"
             formControlName="height"
             [(ngModel)]="coffeeBeanDto.height" />
+          <mat-error *ngIf="createEditBeanForm.controls.height.invalid"
+            >Height is too great!</mat-error
+          >
         </mat-form-field>
         <mat-form-field>
           <mat-label>Roast</mat-label>
@@ -62,6 +74,9 @@
             matInput
             [(ngModel)]="coffeeBeanDto.description"
             formControlName="description"></textarea>
+          <mat-error *ngIf="createEditBeanForm.controls.description.invalid"
+            >Description is too long!</mat-error
+          >
         </mat-form-field>
         <mat-form-field>
           <mat-label>Bean Blend</mat-label>
@@ -70,6 +85,9 @@
             matInput
             formControlName="beanBlend"
             [(ngModel)]="coffeeBeanDto.beanBlend" />
+          <mat-error *ngIf="createEditBeanForm.controls.beanBlend.invalid"
+            >Bean blend is too long!</mat-error
+          >
         </mat-form-field>
         <mat-form-field>
           <mat-label>URL (e.g. shop)</mat-label>
@@ -78,6 +96,9 @@
             matInput
             formControlName="url"
             [(ngModel)]="coffeeBeanDto.urlToCoffee" />
+          <mat-error *ngIf="createEditBeanForm.controls.url.invalid"
+            >URL is too long!</mat-error
+          >
         </mat-form-field>
         <mat-form-field>
           <mat-label>Coffee Strength</mat-label>
@@ -86,6 +107,9 @@
             matInput
             formControlName="coffeeStrength"
             [(ngModel)]="coffeeBeanDto.coffeeStrength" />
+          <mat-error *ngIf="createEditBeanForm.controls.coffeeStrength.invalid"
+            >Coffee strength is too long!</mat-error
+          >
         </mat-form-field>
         <button type="submit" mat-raised-button color="primary">
           {{ submitButtonText }}

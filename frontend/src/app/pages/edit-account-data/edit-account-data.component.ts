@@ -106,6 +106,16 @@ export class EditAccountDataComponent implements OnInit {
     }
   }
 
+  getErrorMessage() {
+    if (this.form.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.form.controls.email.hasError('email')
+      ? 'Not a valid email'
+      : '';
+  }
+
   deleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '300px',

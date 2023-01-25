@@ -42,7 +42,7 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
     ]),
     price: new FormControl('', [Validators.min(0)]),
     origin: new FormControl('', Validators.maxLength(255)),
-    height: new FormControl('', [Validators.min(0), Validators.max(9000)]),
+    height: new FormControl('', [Validators.min(0), Validators.max(10000)]),
     coffeeRoast: new FormControl('LIGHT', [Validators.required]),
     description: new FormControl('', Validators.maxLength(5000)),
     beanBlend: new FormControl('', Validators.maxLength(255)),
@@ -85,6 +85,12 @@ export class CoffeeBeanCreateEditComponent implements OnInit {
 
   get modeIsCreate(): boolean {
     return this.mode === CoffeeBeanCreateEditMode.create;
+  }
+
+  getErrorMessage() {
+    return this.coffeeBeanDto.name.length < 5
+      ? 'Name has to be at least 5 characters long!'
+      : 'Name is too long!';
   }
 
   ngOnInit(): void {

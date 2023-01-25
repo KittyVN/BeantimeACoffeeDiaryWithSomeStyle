@@ -16,6 +16,9 @@
             required
             matInput
             [(ngModel)]="user.email" />
+          <mat-error *ngIf="form.controls.email.invalid">{{
+            getErrorMessage()
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Password</mat-label>

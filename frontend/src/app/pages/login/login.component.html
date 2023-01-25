@@ -11,9 +11,6 @@
             required
             name="email"
             matInput />
-          <mat-error *ngIf="loginForm.controls.email.invalid">{{
-            getErrorMessage()
-          }}</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Password</mat-label>
@@ -23,9 +20,6 @@
             required
             type="password"
             matInput />
-          <mat-error *ngIf="loginForm.controls.email.invalid">{{
-            getErrorMessage()
-          }}</mat-error>
         </mat-form-field>
         <button type="submit" mat-raised-button color="primary">Login</button>
         <p>
