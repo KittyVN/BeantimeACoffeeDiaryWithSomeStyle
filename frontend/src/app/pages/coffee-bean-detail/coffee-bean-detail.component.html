@@ -58,7 +58,22 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-stroked-button (click)="excelExport()">Export</button>
+      <button mat-stroked-button class="more-button" [matMenuTriggerFor]="menu">
+        Export extraction data
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="exportSearchAsXlsx()">
+          Current search as Excel sheet
+        </button>
+        <button mat-menu-item (click)="exportAllAsXlsx()">
+          All as Excel sheet
+        </button>
+        <button mat-menu-item (click)="exportSearchAsCsv()">
+          Current search as Csv
+        </button>
+        <button mat-menu-item (click)="exportAllAsCsv()">All as Csv</button>
+      </mat-menu>
       <button
         mat-raised-button
         color="primary"
