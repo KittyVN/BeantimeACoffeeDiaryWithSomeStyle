@@ -1,16 +1,18 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from 'src/services/user.service';
 
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+
 @Component({
-  selector: 'app-delete-dialog',
-  templateUrl: './delete-dialog.component.html',
-  styleUrls: ['./delete-dialog.component.css'],
+  selector: 'app-delete-dialog-user',
+  templateUrl: './delete-dialog-user.component.html',
+  styleUrls: ['./delete-dialog-user.component.css'],
 })
-export class DeleteDialogComponent {
+export class DeleteDialogUserComponent {
   id: number | undefined;
   constructor(
     public dialogRef: MatDialogRef<DeleteDialogComponent>,

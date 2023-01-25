@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Deletion</h1>
+<div mat-dialog-content>Are you sure you want to delete your account?</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="deleteAccount()"
+    cdkFocusInitial>
+    Delete
+  </button>
+</div>
