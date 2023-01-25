@@ -1,52 +1,71 @@
 .mat-h1 {
-    left: 40px;
-  }
-  
+  left: 40px;
+}
+
 .grid-container {
-    top: 40px;
-    margin: 20px;
-    margin-left: 5%;
-    margin-right: 5%;
-  }
+  top: 3em;
+  margin: 2em;
+  margin-left: 5%;
+  margin-right: 5%;
+}
 
-  .recipe-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-  }
-  
-  .card-title {
-    max-width: 25em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: break-all;
-  }
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  right: 1em;
+  bottom: 1em;
+}
 
-  .ratings-box {
-    display: flex;
-    flex-direction: row;
-    margin-top: 5px;
-  }
+.card-title {
+  max-width: 18em;
+  max-height: 4em;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  hyphens: manual;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  .description-box {
-    overflow-wrap: break-word;
-    hyphens: manual;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 3px;
-    margin-bottom: 5px;
-    height: 100px;
-  }
+.ratings-box {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.2em;
+}
 
-  .rating-item {
-    margin-right: 15px;
-  }
+.coffee-info {
+  margin: 0;
+  margin-bottom: 0.2em;
+  max-width: 26em;
+  max-height: 3em;
+  overflow-wrap: break-word;
+  hyphens: manual;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  .dashboard-card-buttons{
-    height: 100px;
-  }
+.description-box {
+  overflow-wrap: break-word;
+  hyphens: manual;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.5em;
+  height: 11em;
+  margin-top: 0.3em;
+}
+
+.rating-item {
+  margin-right: 1em;
+}
+
+.button-row{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;
+  align-items: flex-start;
+  gap: 0.5em;
+}

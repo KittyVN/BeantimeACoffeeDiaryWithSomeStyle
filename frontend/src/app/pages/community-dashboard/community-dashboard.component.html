@@ -6,18 +6,18 @@
     recipe, then please head on to your own dashboard and share one of your
     extractions, preferably one of the best ones :)
   </div>
-  <mat-grid-list cols="4" rowHeight="410px">
+  <mat-grid-list cols="4" rowHeight="35em">
     <mat-grid-tile *ngFor="let recipe of recipes">
       <mat-card class="recipe-card">
         <mat-card-header>
           <mat-card-title class="card-title">
             <div>Recipe for {{ recipe.coffeeBeanName }}</div>
-            <div>using {{ formatBrewMethod(recipe) }}</div>
+            <p>using {{ formatBrewMethod(recipe) }}</p>
           </mat-card-title>
           <mat-card-subtitle>
-            <div>Coffee Roast: {{ formatRoast(recipe) }}</div>
-            <div>Strength: {{ recipe.coffeeBeanStrength }}</div>
-            <div>Blend: {{ recipe.coffeeBeanBlend }}</div>
+            <p class="coffee-info">Coffee Roast: {{ formatRoast(recipe) }}</p>
+            <p class="coffee-info">Strength: {{ recipe.coffeeBeanStrength }}</p>
+            <p class="coffee-info">Blend: {{ recipe.coffeeBeanBlend }}</p>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
@@ -49,7 +49,7 @@
               Details
             </button>
             <a
-              *ngIf="recipe.coffeeBeanUrl"
+              [disabled]="!recipe.coffeeBeanUrl"
               mat-stroked-button
               [href]="recipe.coffeeBeanUrl"
               target="_blank">

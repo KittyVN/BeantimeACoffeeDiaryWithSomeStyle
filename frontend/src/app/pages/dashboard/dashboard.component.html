@@ -131,7 +131,7 @@
     <mat-icon>add_circle_outline</mat-icon>
     Add new coffee
   </button>
-  <mat-grid-list cols="1" rowHeight="465px">
+  <mat-grid-list cols="1" rowHeight="505px">
     <mat-grid-tile *ngFor="let coffee of coffees">
       <mat-card class="dashboard-card">
         <mat-card-header>
@@ -162,21 +162,27 @@
                 </canvas>
               </div>
               <div class="info-box" *ngIf="coffee.beanBlend">
-                <p>Blend of:</p>
+                <p>Coffee sort:</p>
                 <p>{{ coffee.beanBlend }}</p>
               </div>
               <div class="info-box" *ngIf="!coffee.beanBlend">
-                <p>Add blend information for more data at a glance!</p>
+                <p>Add sort and blend information for more data at a glance!</p>
               </div>
             </mat-card>
           </div>
           <div
             class="extraction-box"
             *ngIf="coffee.bestExtraction && coffee.lastExtraction">
+            <span class="extraction-header"
+              >Best extraction of this coffee</span
+            >
             <app-extraction-card
               [extraction]="coffee.bestExtraction"
               [coffeeBeanId]="coffee.id"
               [cardActions]="false"></app-extraction-card>
+            <span class="extraction-header"
+              >Latest extraction of this coffee</span
+            >
             <app-extraction-card
               [extraction]="coffee.lastExtraction"
               [coffeeBeanId]="coffee.id"

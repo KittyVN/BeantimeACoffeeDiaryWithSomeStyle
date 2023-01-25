@@ -3,8 +3,8 @@
 }
 
 .grid-container {
-  top: 40px;
-  margin: 20px;
+  top: 3em;
+  margin: 2em;
   margin-left: 5%;
   margin-right: 5%;
 }
@@ -13,23 +13,24 @@
   display: flex;
   justify-content: center;
   gap: 3em;
+  margin-top: 2em;
 }
 
 .form {
   display: flex;
   justify-content: space-around;
-  gap: 15px;
+  gap: 0.8em;
 }
 
 .search-input {
-  max-width: 140px;
+  max-width: 10em;
 }
 
 .filter-button-row {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 0.8em;
 }
 
 .adder-button {
@@ -43,20 +44,20 @@
 .dashboard-card {
   max-width: 120em;
   min-width: 80em;
-  min-height: 428px;
+  min-height: 33.8em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   align-self: center;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+  top: 1em;
+  left: 1em;
+  right: 1em;
+  bottom: 1em;
 }
 
 .descriptionRecipes {
-  margin-bottom: 10px;
+  margin-bottom: 1em;
 }
 
 .card-title {
@@ -67,24 +68,29 @@
 }
 
 .card-subtitle {
-  margin-bottom: 5px;
+  margin-bottom: 0.5em;
 }
 
 .dashboard-card-content {
   flex-grow: 1;
   text-align: left;
-  margin-top: 10px;
+  margin-top: 0.8em;
   display: flex;
   word-wrap: break-word;
 }
 
 .description-box {
   min-height: 13em;
-  width: 130px;
+  width: 10em;
   overflow-wrap: break-word;
   hyphens: manual;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.info-box {
+  margin-left: 0.8em;
+  margin-bottom: 1em;
 }
 
 .extraction-box {
@@ -92,7 +98,12 @@
   display: flex;
   flex-flow: column wrap;
   margin-bottom: 2em;
-  padding-bottom: 10px;
+  padding-bottom: 0.8em;
+}
+
+.extraction-header {
+  text-align: left;
+  padding-left: 1.5em;
 }
 
 .button-row {
@@ -103,7 +114,7 @@
 }
 
 .score-card {
-  height: 276px;
+  height: 22.5em;
   position: relative;
   overflow-wrap: break-word;
   hyphens: manual;
@@ -115,14 +126,14 @@
   position: absolute;
   text-align: center;
   width: 100%;
-  right: 5px;
-  top: 4.7em;
+  right: 7px;
+  top: 4.9em;
   font-size: 1em;
 }
 
 .chart {
-  max-height: 120px;
-  max-width: 120px;
+  max-height: 9em;
+  max-width: 9em;
   margin-top: 0.8em;
   margin-bottom: 1.2em;
 }
