@@ -164,6 +164,9 @@
           matInput
           formControlName="ratingNotes"
           [(ngModel)]="extraction.ratingNotes"></textarea>
+        <mat-error *ngIf="recipeForm.controls.ratingNotes.invalid"
+          >Notes are too long!</mat-error
+        >
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
