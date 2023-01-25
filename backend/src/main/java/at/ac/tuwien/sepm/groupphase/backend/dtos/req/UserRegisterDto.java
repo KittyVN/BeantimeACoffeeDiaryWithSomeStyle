@@ -53,28 +53,4 @@ public class UserRegisterDto {
             + ", password='" + password + '\''
             + '}';
     }
-
-
-    /*public static final class UserRegisterDtoBuilder {
-        private String email;
-        private String password;
-
-        public UserRegisterDtoBuilder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserRegisterDtoBuilder withPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserRegisterDto build() {
-            UserRegisterDto userRegisterDto = new UserRegisterDto();
-            userRegisterDto.setEmail(email);
-            userRegisterDto.setPassword(password);
-            return userRegisterDto;
-        }
-    }*/
-
 }

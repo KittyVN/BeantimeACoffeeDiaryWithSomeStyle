@@ -27,28 +27,42 @@ public class CoffeeBeanDataGenerator {
             LOGGER.debug("CoffeeBeans already generated");
         } else {
             LOGGER.debug("Generating Coffee beans");
-            CoffeeBean cb1 = new CoffeeBean("Another coffee bean", 9.90F, "Brasil", 5, CoffeeRoast.MEDIUM,
-                "100% Arabica", null, "A description goes here", "4/8", new User(1L));
+            CoffeeBean cb1 = new CoffeeBean("Buna Dimaa Coffee", 26.90F, "Columbia, Ethiopia, Peru", null, CoffeeRoast.DARK,
+                "100 % Arabica, Blend", "https://www.coffeecircle.com/en/p/buna-dimaa", "Buna Dimaa is our dark filter coffee roasting. The mixture of 50% Ethiopian and 50% Colombian highland "
+                + "Arabica beans results in a full-bodied and strong, yet low-acid filter coffee.", "6/6", new User(1L));
 
-            CoffeeBean cb2 = new CoffeeBean("Espresso House Blend", 9.90F, "Brasil, Colombia, Congo, Laos", null, CoffeeRoast.DARK,
-                "100 % Arabica, Blend", "https://www.coffeecircle.com/de/p/house-blend-espresso",
-                "Unser House Blend Espresso besteht aus 100% Arabica Bohnen und vereint die Herkunftsländer Brasilien, Kolumbien, Kongo, D.R. und Laos"
-                + " zu einem ausgewogenen und mittelkräftigen Espresso.", "7/8",
+            CoffeeBean cb2 = new CoffeeBean("Espresso House Blend", 31.90F, "Brasil, Colombia, Congo, Laos", null, CoffeeRoast.DARK,
+                "100 % Arabica, Blend", "https://www.coffeecircle.com/en/p/house-blend-espresso",
+                "Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.", "4/6",
                 new User(1L));
 
-            CoffeeBean cb3 = new CoffeeBean("Yet another coffee bean", 0F, "Everywhere", 2, CoffeeRoast.DARK,
-                "A normal description goes here again", new User(1L));
-
-            CoffeeBean cb4 = new CoffeeBean("Jingle Beans Holiday Blend", 21.50F,
-                "Ethiopia, Smallholder Farmers", 1900, CoffeeRoast.LIGHT,
-                "Two merry coffees that triumphantly coalesce into the best interpretation of aqueous fruit cake in a cup.",
+            CoffeeBean cb3 = new CoffeeBean("Sierra Nevada Coffee", 26.90F, "Brasil, Colombia, Congo, Laos", null, CoffeeRoast.MEDIUM,
+                "100 % Arabica, Single Origin", "https://www.coffeecircle.com/en/p/sierra-nevada",
+                "Colombia is one of the best-known and most popular coffee-growing countries in the world. The balanced, slightly nutty-caramel taste enriches our coffee selection.", "3/6",
                 new User(1L));
 
-            CoffeeBean cb5 = new CoffeeBean("West End Blues", 17.75F, "JIMMA, ETHIOPIA", null, CoffeeRoast.LIGHT,
-                "Traditional in name only,West End Blues is a complex blend of flavors and textures.", new User(1L));
+            CoffeeBean cb4 = new CoffeeBean("El Vergel Coffee", 43.90F, "Colombia", null, CoffeeRoast.MEDIUM,
+                "100 % Arabica, Single Origin", "https://www.coffeecircle.com/en/p/el-vergel",
+                "Our new Christmas coffee comes from Colombia. The filter coffee is named after the farm El Vergel, which we visited on our trip to Colombia in 2021."
+                + " We are excited about the innovative work of the farm and are very happy to offer you this very balanced and spicy coffee!", "4/6",
+                new User(1L));
 
-            CoffeeBean cb6 = new CoffeeBean("TIME & TEMPERATURE", 19F, "JIMMA, ETHIOPIA / INZÁ, COLOMBIA",
-                null, CoffeeRoast.LIGHT, "Effervescent, electric, and just plain cool, Time and Temperature is Tandem’s signature espresso blend.",
+            CoffeeBean cb5 = new CoffeeBean("Cerrado Coffee & Espresso", 36.90F, "Brazil", null, CoffeeRoast.MEDIUM,
+                "100 % Arabica, Single Origin", "https://www.coffeecircle.com/en/p/cerrado",
+                "The Cerrado is our first 100% Arabica coffee from Brazil and is some of the best quality coffee the country has to offer."
+                + " Cerrado is nutty, chocolatey and suitable for both filter coffee and espresso.", "4/6",
+                new User(1L));
+
+            CoffeeBean cb6 = new CoffeeBean("Limu Coffee", 31.90F, "Ethiopia", null, CoffeeRoast.MEDIUM,
+                "100 % Arabica, Single Origin", "https://www.coffeecircle.com/en/p/limu",
+                "This coffee comes from the highlands of the Limu region in western Ethiopia. It is one of the first coffees we ever imported and still inspires us with its quality.", "3/6",
+                new User(1L));
+
+            CoffeeBean cb7 = new CoffeeBean("APAS Coffee", 43.90F, "Brazil", null, CoffeeRoast.MEDIUM,
+                "100 % Arabica, Single Origin", "https://www.coffeecircle.com/en/p/apas",
+                "APAS is a naturally processed coffee from Brazil and one of our highlights of the last harvest. The coffee is extremely complex. "
+                + "The taste captivates with nutty-chocolaty aromas, which are rounded off by elegant fruity flavours."
+                + " We source this coffee directly from our close partners Alessandro and Ademilson from the APAS cooperative.", "4/6",
                 new User(1L));
 
             coffeeBeanRepository.save(cb1);
@@ -57,7 +71,7 @@ public class CoffeeBeanDataGenerator {
             coffeeBeanRepository.save(cb4);
             coffeeBeanRepository.save(cb5);
             coffeeBeanRepository.save(cb6);
+            coffeeBeanRepository.save(cb7);
         }
-
     }
 }

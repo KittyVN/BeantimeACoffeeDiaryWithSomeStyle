@@ -61,11 +61,11 @@ public class ExtractionServiceTest {
         assertThat(top5extractions.size()).isLessThanOrEqualTo(5);
         assertThat(top5extractions)
             .map(ExtractionListDto::getId, ExtractionListDto::getDateTime, ExtractionListDto::getBeanName, ExtractionListDto::getBeanId, ExtractionListDto::getRating)
-            .contains(tuple(8L, LocalDateTime.parse("2022-12-16T14:50:00"), "Jingle Beans Holiday Blend", 4L, 25))
+            .contains(tuple(8L, LocalDateTime.parse("2022-12-16T14:50:00"), "El Vergel Coffee", 4L, 25))
             .contains(tuple(1L, LocalDateTime.parse("2022-12-11T14:50:00"), "Espresso House Blend", 2L, 25))
             .contains(tuple(5L, LocalDateTime.parse("2022-12-15T14:50:00"), "Espresso House Blend", 2L, 23))
-            .contains(tuple(13L, LocalDateTime.parse("2022-12-16T14:50:00"), "TIME & TEMPERATURE", 6L, 22))
-            .contains(tuple(10L, LocalDateTime.parse("2022-12-16T14:50:00"), "West End Blues", 5L, 22));
+            .contains(tuple(10L, LocalDateTime.parse("2022-12-16T14:50:00"), "Cerrado Coffee & Espresso", 5L, 22))
+            .contains(tuple(13L, LocalDateTime.parse("2022-12-16T14:50:00"), "Limu Coffee", 6L, 22));
     }
 
     @Test

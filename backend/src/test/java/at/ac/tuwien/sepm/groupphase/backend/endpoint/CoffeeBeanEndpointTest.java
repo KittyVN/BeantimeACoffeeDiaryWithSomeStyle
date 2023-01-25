@@ -44,9 +44,6 @@ public class CoffeeBeanEndpointTest {
     }
 
 
-    @Autowired
-    private CoffeeBeanEndpoint coffeeBeanEndpoint;
-
     @Test
     @Transactional
     @Rollback
@@ -171,7 +168,7 @@ public class CoffeeBeanEndpointTest {
         assertThat(coffeeBeanResult.getId()).isEqualTo(2L);
         assertThat(coffeeBeanResult.getCoffeeBean()).isNotNull();
         assertThat(coffeeBeanResult.getCoffeeBean().getName()).isEqualTo("Espresso House Blend");
-        assertThat(coffeeBeanResult.getCoffeeBean().getPrice()).isEqualTo(9.90F);
+        assertThat(coffeeBeanResult.getCoffeeBean().getPrice()).isEqualTo(31.9F);
         assertThat(coffeeBeanResult.getCoffeeBean().getOrigin()).isEqualTo("Brasil, Colombia, Congo, Laos");
         assertThat(coffeeBeanResult.getCoffeeBean().getHeight()).isEqualTo(null);
         assertThat(coffeeBeanResult.getCoffeeBean().getCoffeeRoast()).isEqualTo(CoffeeRoast.DARK);

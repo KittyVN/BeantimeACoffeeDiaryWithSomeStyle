@@ -112,7 +112,7 @@ public class RecipeEndpointTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
             .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
-            .contains(tuple("Unser House Blend Espresso besteht aus 100% Arabica Bohnen und vereint die Herkunftsländer Brasilien, Kolumbien, Kongo, D.R. und Laos zu einem ausgewogenen und mittelkräftigen Espresso.", 4, "Wild"));
+            .contains(tuple("Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.", 4, "Wild"));
     }
 
     @Test
@@ -131,6 +131,6 @@ public class RecipeEndpointTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
             .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
-            .contains(tuple("Unser House Blend Espresso besteht aus 100% Arabica Bohnen und vereint die Herkunftsländer Brasilien, Kolumbien, Kongo, D.R. und Laos zu einem ausgewogenen und mittelkräftigen Espresso.", 4, "Wild"));
+            .contains(tuple("Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.", 4, "Wild"));
     }
 }

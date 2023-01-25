@@ -341,28 +341,28 @@ public class UserEndpointTest {
         assertThat(profile.getTopRatedExtractions().length).isLessThanOrEqualTo(5);
         assertThat(profile.getTopRatedExtractions())
             .extracting(ExtractionListDto::getId, ExtractionListDto::getDateTime, ExtractionListDto::getBeanName, ExtractionListDto::getBeanId, ExtractionListDto::getRating)
-            .contains(tuple(8L, LocalDateTime.parse("2022-12-16T14:50:00"), "Jingle Beans Holiday Blend", 4L, 25))
+            .contains(tuple(8L, LocalDateTime.parse("2022-12-16T14:50:00"), "El Vergel Coffee", 4L, 25))
             .contains(tuple(1L, LocalDateTime.parse("2022-12-11T14:50:00"), "Espresso House Blend", 2L, 25))
             .contains(tuple(5L, LocalDateTime.parse("2022-12-15T14:50:00"), "Espresso House Blend", 2L, 23))
-            .contains(tuple(13L, LocalDateTime.parse("2022-12-16T14:50:00"), "TIME & TEMPERATURE", 6L, 22))
-            .contains(tuple(10L, LocalDateTime.parse("2022-12-16T14:50:00"), "West End Blues", 5L, 22));
+            .contains(tuple(10L, LocalDateTime.parse("2022-12-16T14:50:00"), "Cerrado Coffee & Espresso", 5L, 22))
+            .contains(tuple(13L, LocalDateTime.parse("2022-12-16T14:50:00"), "Limu Coffee", 6L, 22));
 
         assertThat(profile.getTopRatedCoffees()).isNotNull();
         assertThat(profile.getTopRatedCoffees().length).isLessThanOrEqualTo(5);
         assertThat(profile.getTopRatedCoffees())
             .extracting(CoffeeBeanRatingListDto::getId, CoffeeBeanRatingListDto::getName, CoffeeBeanRatingListDto::getRating)
             .contains(tuple(2L, "Espresso House Blend", 16.83))
-            .contains(tuple(4L, "Jingle Beans Holiday Blend", 16.0))
-            .contains(tuple(6L, "TIME & TEMPERATURE", 15.0))
-            .contains(tuple(5L, "West End Blues", 15.0));
+            .contains(tuple(4L, "El Vergel Coffee", 16.))
+            .contains(tuple(5L, "Cerrado Coffee & Espresso", 15.0))
+            .contains(tuple(6L, "Limu Coffee", 15.0));
 
         assertThat(profile.getTopMostExtractedCoffees()).isNotNull();
         assertThat(profile.getTopMostExtractedCoffees().length).isLessThanOrEqualTo(5);
         assertThat(profile.getTopMostExtractedCoffees())
             .extracting(CoffeeBeanExtractionsListDto::getId, CoffeeBeanExtractionsListDto::getName, CoffeeBeanExtractionsListDto::getNumExtractions)
             .contains(tuple(2L, "Espresso House Blend", 6))
-            .contains(tuple(4L, "Jingle Beans Holiday Blend", 3))
-            .contains(tuple(6L, "TIME & TEMPERATURE", 3))
-            .contains(tuple(5L, "West End Blues", 3));
+            .contains(tuple(5L, "Cerrado Coffee & Espresso", 3))
+            .contains(tuple(4L, "El Vergel Coffee", 3))
+            .contains(tuple(6L, "Limu Coffee", 3));
     }
 }

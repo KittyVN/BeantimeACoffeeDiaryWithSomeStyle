@@ -84,7 +84,7 @@ public class CoffeeBeanServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualTo("Espresso House Blend");
-        assertThat(result.getPrice()).isEqualTo(9.90F);
+        assertThat(result.getPrice()).isEqualTo(31.90F);
         assertThat(result.getOrigin()).isEqualTo("Brasil, Colombia, Congo, Laos");
         assertThat(result.getHeight()).isEqualTo(null);
         assertThat(result.getCoffeeRoast()).isEqualTo(CoffeeRoast.DARK);
@@ -112,9 +112,9 @@ public class CoffeeBeanServiceTest {
         assertThat(top5coffees)
             .map(CoffeeBeanRatingListDto::getId, CoffeeBeanRatingListDto::getName, CoffeeBeanRatingListDto::getRating)
             .contains(tuple(2L, "Espresso House Blend", 16.83))
-            .contains(tuple(4L, "Jingle Beans Holiday Blend", 16.0))
-            .contains(tuple(6L, "TIME & TEMPERATURE", 15.0))
-            .contains(tuple(5L, "West End Blues", 15.0));
+            .contains(tuple(4L, "El Vergel Coffee", 16.0))
+            .contains(tuple(5L, "Cerrado Coffee & Espresso", 15.0))
+            .contains(tuple(6L, "Limu Coffee", 15.0));
     }
 
     @Test
@@ -137,9 +137,9 @@ public class CoffeeBeanServiceTest {
         assertThat(top5coffees)
             .map(CoffeeBeanExtractionsListDto::getId, CoffeeBeanExtractionsListDto::getName, CoffeeBeanExtractionsListDto::getNumExtractions)
             .contains(tuple(2L, "Espresso House Blend", 6))
-            .contains(tuple(4L, "Jingle Beans Holiday Blend", 3))
-            .contains(tuple(6L, "TIME & TEMPERATURE", 3))
-            .contains(tuple(5L, "West End Blues", 3));
+            .contains(tuple(5L, "Cerrado Coffee & Espresso", 3))
+            .contains(tuple(4L, "El Vergel Coffee", 3))
+            .contains(tuple(6L, "Limu Coffee", 3));
     }
 
     @Test
