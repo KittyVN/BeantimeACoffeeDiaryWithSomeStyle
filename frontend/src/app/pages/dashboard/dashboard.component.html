@@ -201,7 +201,7 @@
             <button
               mat-stroked-button
               color="warn"
-              [routerLink]="['/coffee/' + coffee.id + '/delete']">
+              (click)="deleteDialog(coffee.id)">
               <mat-icon>delete</mat-icon>
               Delete
             </button>

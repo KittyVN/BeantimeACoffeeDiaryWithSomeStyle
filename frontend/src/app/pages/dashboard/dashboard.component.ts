@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { debounce, interval, scan, Subject } from 'rxjs';
 import { CoffeeBeanService } from 'src/services/coffee-bean.service';
@@ -8,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { coffeeBeanSearchDto } from 'src/dtos/req/coffee-bean-search.dto';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DeleteDialogCoffeeComponent } from 'src/app/components/dialog/delete-dialog-coffee/delete-dialog-coffee.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +27,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private route: RouterModule,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     public keyUp: Subject<KeyboardEvent | Event>,
     private coffeeBeanService: CoffeeBeanService
   ) {}
@@ -97,6 +100,24 @@ export class DashboardComponent implements OnInit {
           },
         });
       });
+  }
+
+  deleteDialog(id: number): void {
+    const dialogRef = this.dialog.open(DeleteDialogCoffeeComponent, {
+      width: '300px',
+      hasBackdrop: true,
+      data: {
+        dataKey: id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'closed') {
+        this.coffees = this.coffees.filter(obj => {
+          return obj.id !== id;
+        });
+      }
+    });
   }
 
   formatRoast(coffee: CoffeeBeanDashboardDto): String {
