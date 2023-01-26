@@ -31,7 +31,8 @@ export class DeleteDialogCoffeeComponent {
             'Dismiss',
             {
               duration: 5000,
-          });
+            }
+          );
         },
         error: error => {
           console.log(error);
@@ -46,5 +47,4 @@ export class DeleteDialogCoffeeComponent {
       });
     }
   }
-
 }
