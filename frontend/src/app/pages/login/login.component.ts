@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
@@ -33,9 +33,9 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
 
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      if (email && password) {
-        this.userService.login({ email, password }).subscribe({
+      const { username, password } = this.loginForm.value;
+      if (username && password) {
+        this.userService.login({ username, password }).subscribe({
           next: res => {
             localStorage.setItem('token', res);
             this.router.navigate(['/home']);
@@ -55,12 +55,6 @@ export class LoginComponent implements OnInit {
   }
 
   getErrorMessage() {
-    if (this.loginForm.hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return this.loginForm.controls.email.hasError('email')
-      ? 'Not a valid email'
-      : '';
+    return this.loginForm.hasError('required') ? 'You must enter a value' : '';
   }
 }
