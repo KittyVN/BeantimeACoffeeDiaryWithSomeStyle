@@ -1,12 +1,14 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class UserLoginDto {
 
-    @NotNull(message = "Username must not be null")
-    private String username;
+    @NotNull(message = "Email must not be null")
+    @Email
+    private String email;
 
     @NotNull(message = "Password must not be null")
     private String password;
@@ -14,13 +16,13 @@ public class UserLoginDto {
     public UserLoginDto() {
     }
 
-    public UserLoginDto(String username, String password) {
-        this.username = username;
+    public UserLoginDto(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
@@ -35,19 +37,19 @@ public class UserLoginDto {
         if (!(o instanceof UserLoginDto userLoginDto)) {
             return false;
         }
-        return Objects.equals(userLoginDto, userLoginDto.username)
+        return Objects.equals(userLoginDto, userLoginDto.email)
             && Objects.equals(password, userLoginDto.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password);
+        return Objects.hash(email, password);
     }
 
     @Override
     public String toString() {
         return "UserLoginDto{"
-            + "username='" + username + '\''
+            + "email='" + email + '\''
             + ", password='" + password + '\''
             + '}';
     }

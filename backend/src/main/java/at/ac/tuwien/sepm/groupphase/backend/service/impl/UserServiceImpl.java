@@ -70,10 +70,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserCredentialsDto loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserCredentialsDto loadUserByUsername(String email) throws UsernameNotFoundException {
         LOGGER.debug("Load all user by email");
         try {
-            User user = findApplicationUserByUsername(username);
+            User user = findApplicationUserByEmail(email);
 
             List<GrantedAuthority> grantedAuthorities;
             if (user.getRole().equals(UserRole.ADMIN)) {
@@ -98,19 +98,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findApplicationUserByUsername(String username) throws NotFoundException {
-        LOGGER.debug("Find application user by username");
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return user;
-        }
-        throw new NotFoundException(String.format("Could not find the user with the username %s", username));
-    }
-
-    @Override
     public String login(UserLoginDto userLoginDto) throws BadCredentialsException {
         LOGGER.debug("Login user {}", userLoginDto);
-        UserCredentialsDto userDetails = loadUserByUsername(userLoginDto.getUsername());
+        UserCredentialsDto userDetails = loadUserByUsername(userLoginDto.getEmail());
         if (userDetails != null
             && userDetails.isAccountNonExpired()
             && userDetails.isAccountNonLocked()

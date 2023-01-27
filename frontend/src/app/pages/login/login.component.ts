@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
@@ -33,9 +33,9 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
 
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      if (username && password) {
-        this.userService.login({ username, password }).subscribe({
+      const { email, password } = this.loginForm.value;
+      if (email && password) {
+        this.userService.login({ email, password }).subscribe({
           next: res => {
             localStorage.setItem('token', res);
             this.router.navigate(['/home']);

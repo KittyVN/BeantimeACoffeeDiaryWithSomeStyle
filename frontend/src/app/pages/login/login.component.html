@@ -4,12 +4,12 @@
       <h1>Login</h1>
       <form class="loginForm" [formGroup]="loginForm" (submit)="onSubmit()">
         <mat-form-field>
-          <mat-label>Username</mat-label>
+          <mat-label>Email</mat-label>
           <input
-            formControlName="username"
-            placeholder="Username"
+            formControlName="email"
+            placeholder="m.musermann@email.at"
             required
-            name="username"
+            name="email"
             matInput />
         </mat-form-field>
         <mat-form-field>
