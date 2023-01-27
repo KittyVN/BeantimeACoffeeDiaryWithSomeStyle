@@ -320,7 +320,7 @@ public class UserEndpointTest {
         LocalDate start = today.minusDays(days);
 
         assertThat(profile).isNotNull();
-        assertThat(profile.getEmail()).isEqualTo("admin@email.com");
+        assertThat(profile.getUsername()).isEqualTo("Admin");
 
         assertThat(profile.getExtractionMatrix()).isNotNull();
         assertThat(profile.getExtractionMatrix().getSumExtractions()).isEqualTo(15);

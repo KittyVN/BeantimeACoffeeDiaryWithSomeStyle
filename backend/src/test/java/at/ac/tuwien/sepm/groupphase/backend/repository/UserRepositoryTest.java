@@ -24,7 +24,7 @@ public class UserRepositoryTest {
     @Test
     @Transactional
     public void searchWithoutParametersReturnsAllUsers() {
-        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, null, null));
+        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, null, null, null));
 
         assertThat(users.size()).isGreaterThanOrEqualTo(10);
         assertThat(users)
@@ -44,7 +44,7 @@ public class UserRepositoryTest {
     @Test
     @Transactional
     public void searchForEmailLikeDoeReturnsMin2Users() {
-        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, "doe", null));
+        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, null, "doe", null));
 
         assertThat(users.size()).isGreaterThanOrEqualTo(2);
         assertThat(users)
@@ -56,7 +56,7 @@ public class UserRepositoryTest {
     @Test
     @Transactional
     public void searchForEmailLikeDoeAndRoleAdminReturnsMin1User() {
-        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, "doe", UserRole.ADMIN));
+        List<User> users = (List<User>) userRepository.search(new UserSearchDto(null, null, "doe", UserRole.ADMIN));
 
         assertThat(users.size()).isGreaterThanOrEqualTo(1);
         assertThat(users)

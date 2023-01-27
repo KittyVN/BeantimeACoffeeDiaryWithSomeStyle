@@ -31,7 +31,7 @@ public class UserServiceTest {
     @Test
     @Transactional
     public void searchWithoutParametersReturnsAllUsers() {
-        List<UserDetailDto> users = userService.search(new UserSearchDto(null, null, null)).toList();
+        List<UserDetailDto> users = userService.search(new UserSearchDto(null, null, null, null)).toList();
 
         assertThat(users.size()).isGreaterThanOrEqualTo(8);
         assertThat(users)
@@ -51,7 +51,7 @@ public class UserServiceTest {
     @Test
     @Transactional
     public void searchForEmailLikeDoeReturnsMin2Users() {
-        List<UserDetailDto> users = userService.search(new UserSearchDto(null, "doe", null)).toList();
+        List<UserDetailDto> users = userService.search(new UserSearchDto(null, null, "doe", null)).toList();
 
         assertThat(users.size()).isGreaterThanOrEqualTo(2);
         assertThat(users)
@@ -63,7 +63,7 @@ public class UserServiceTest {
     @Test
     @Transactional
     public void searchForEmailLikeDoeAndRoleAdminReturnsMin1User() {
-        List<UserDetailDto> users = userService.search(new UserSearchDto(null, "doe", UserRole.ADMIN)).toList();
+        List<UserDetailDto> users = userService.search(new UserSearchDto(null, null, "doe", UserRole.ADMIN)).toList();
 
         assertThat(users.size()).isGreaterThanOrEqualTo(1);
         assertThat(users)
@@ -151,7 +151,7 @@ public class UserServiceTest {
         LocalDate start = today.minusDays(days);
 
         assertThat(profile).isNotNull();
-        assertThat(profile.getEmail()).isEqualTo("admin@email.com");
+        assertThat(profile.getUsername()).isEqualTo("Admin");
 
         assertThat(profile.getExtractionMatrix()).isNotNull();
         assertThat(profile.getExtractionMatrix().getSumExtractions()).isEqualTo(15);
