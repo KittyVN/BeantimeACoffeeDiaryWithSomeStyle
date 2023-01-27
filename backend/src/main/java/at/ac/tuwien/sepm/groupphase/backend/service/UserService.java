@@ -21,24 +21,33 @@ import java.util.stream.Stream;
 public interface UserService extends UserDetailsService {
 
     /**
-     * Find a user in the context of Spring Security based on the email address
+     * Find a user in the context of Spring Security based on the username
      * <br>
      * For more information have a look at this tutorial:
      * https://www.baeldung.com/spring-security-authentication-with-a-database
      *
-     * @param email the email address
+     * @param username the username
      * @return a Spring Security user
-     * @throws UsernameNotFoundException is thrown if the specified user does not exists
+     * @throws UsernameNotFoundException is thrown if the specified user does not exist
      */
     @Override
-    UserCredentialsDto loadUserByUsername(String email) throws UsernameNotFoundException;
+    UserCredentialsDto loadUserByUsername(String username) throws UsernameNotFoundException;
+
+    /**
+     * Find an application user based on the username.
+     *
+     * @param username the username
+     * @return an application user
+     * @throws NotFoundException if user by username does not exist
+     */
+    User findApplicationUserByUsername(String username) throws NotFoundException;
 
     /**
      * Find an application user based on the email address.
      *
      * @param email the email address
-     * @return a application user
-     * @throws NotFoundException if user by email doesnt exist
+     * @return an application user
+     * @throws NotFoundException if user by email does not exist
      */
     User findApplicationUserByEmail(String email) throws NotFoundException;
 

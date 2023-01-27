@@ -11,6 +11,8 @@ public class UserDetailDto {
     @NotNull
     private String email;
     @NotNull
+    private String username;
+    @NotNull
     private UserRole role;
     @NotNull
     private Boolean active;
@@ -18,11 +20,12 @@ public class UserDetailDto {
     public UserDetailDto() {
     }
 
-    public UserDetailDto(Long id, String email, UserRole role, Boolean active) {
+    public UserDetailDto(Long id, String email, String username, UserRole role, Boolean active) {
         this.id = id;
         this.email = email;
         this.role = role;
         this.active = active;
+        this.username = username;
     }
 
     public Long getId() {
@@ -41,8 +44,11 @@ public class UserDetailDto {
         return this.active;
     }
 
+    public String getUsername() { return username; }
+
     @Override
     public String toString() {
-        return String.format("UserDetailDto{id=%d,email='%s',role='%s',active=%s}", id, email, role, active);
+        return String.format("UserDetailDto{id=%d,username='%s',email='%s',role='%s',active=%s}",
+            id, username, email, role, active);
     }
 }

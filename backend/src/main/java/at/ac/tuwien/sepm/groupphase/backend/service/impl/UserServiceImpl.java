@@ -70,10 +70,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserCredentialsDto loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserCredentialsDto loadUserByUsername(String username) throws UsernameNotFoundException {
         LOGGER.debug("Load all user by email");
         try {
-            User user = findApplicationUserByEmail(email);
+            User user = findApplicationUserByUsername(username);
 
             List<GrantedAuthority> grantedAuthorities;
             if (user.getRole().equals(UserRole.ADMIN)) {
@@ -98,9 +98,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findApplicationUserByUsername(String username) throws NotFoundException {
+        LOGGER.debug("Find application user by username");
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user;
+        }
+        throw new NotFoundException(String.format("Could not find the user with the username %s", username));
+    }
+
+    @Override
     public String login(UserLoginDto userLoginDto) throws BadCredentialsException {
         LOGGER.debug("Login user {}", userLoginDto);
-        UserCredentialsDto userDetails = loadUserByUsername(userLoginDto.getEmail());
+        UserCredentialsDto userDetails = loadUserByUsername(userLoginDto.getUsername());
         if (userDetails != null
             && userDetails.isAccountNonExpired()
             && userDetails.isAccountNonLocked()
@@ -119,10 +129,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public String register(UserRegisterDto userRegisterDto) {
         LOGGER.debug("Register user {}", userRegisterDto);
-        User user = new User(userRegisterDto.getEmail(), passwordEncoder.encode(userRegisterDto.getPassword()), UserRole.USER);
+        User user = new User(userRegisterDto.getEmail(), userRegisterDto.getUsername(),
+            passwordEncoder.encode(userRegisterDto.getPassword()), UserRole.USER);
         userRepository.save(user);
 
-        UserCredentialsDto userDetails = loadUserByUsername(userRegisterDto.getEmail());
+        UserCredentialsDto userDetails = loadUserByUsername(userRegisterDto.getUsername());
         List<String> roles = userDetails.getAuthorities()
             .stream()
             .map(GrantedAuthority::getAuthority)
@@ -136,6 +147,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findFirstById(userUpdateRequestDto.getId());
         if (passwordEncoder.matches(userUpdateRequestDto.getPassword(), user.getPassword())) {
             user.setEmail(userUpdateRequestDto.getEmail());
+            user.setUsername(userUpdateRequestDto.getUsername());
             if (userUpdateRequestDto.getNewPassword() != null) {
                 user.setPassword(passwordEncoder.encode(userUpdateRequestDto.getNewPassword()));
             }
@@ -211,7 +223,7 @@ public class UserServiceImpl implements UserService {
             List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop5RatedByUserId(id);
 
             return new UserProfileDto(
-                user.getEmail(),
+                user.getUsername(),
                 extractionService.getExtractionMatrixByUserId(id),
                 topRatedList.toArray(new ExtractionListDto[topRatedList.size()]),
                 topExtractionsList.toArray(new CoffeeBeanExtractionsListDto[topExtractionsList.size()]),

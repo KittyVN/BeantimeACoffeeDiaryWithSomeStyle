@@ -13,6 +13,11 @@ public class UserUpdateRequestDto {
     @Email
     private String email;
 
+    @NotNull(message = "Username must not be null")
+    @NotBlank(message = "Username must not be blank")
+    @Email
+    private String username;
+
     @NotNull(message = "Password must not be null")
     @NotBlank(message = "Password must not be blank")
     private String password;
@@ -22,17 +27,19 @@ public class UserUpdateRequestDto {
     public UserUpdateRequestDto() {
     }
 
-    public UserUpdateRequestDto(Long id, String email, String password) {
+    public UserUpdateRequestDto(Long id, String username, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.username = username;
     }
 
-    public UserUpdateRequestDto(Long id, String email, String password, String newPassword) {
+    public UserUpdateRequestDto(Long id, String username, String email, String password, String newPassword) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.newPassword = newPassword;
+        this.username = username;
     }
 
     public String getEmail() {
@@ -50,6 +57,8 @@ public class UserUpdateRequestDto {
     public String getNewPassword() {
         return newPassword;
     }
+
+    public String getUsername() { return username; }
 
     @Override
     public String toString() {

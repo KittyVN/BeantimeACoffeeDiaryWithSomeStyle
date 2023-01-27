@@ -1,7 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 public class UserProfileDto {
-    String email;
+    String username;
     ExtractionMatrixDto extractionMatrix;
     ExtractionListDto[] topRatedExtractions;
     CoffeeBeanExtractionsListDto[] topMostExtractedCoffees;
@@ -17,19 +17,19 @@ public class UserProfileDto {
         CoffeeBeanExtractionsListDto[] topMostExtractedCoffees,
         CoffeeBeanRatingListDto[] topRatedCoffees
     ) {
-        this.email = email;
+        this.username = email;
         this.extractionMatrix = extractionMatrix;
         this.topRatedExtractions = topRatedExtractions;
         this.topMostExtractedCoffees = topMostExtractedCoffees;
         this.topRatedCoffees = topRatedCoffees;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public ExtractionMatrixDto getExtractionMatrix() {

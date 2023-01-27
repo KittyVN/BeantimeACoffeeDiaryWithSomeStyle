@@ -5,14 +5,16 @@ import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
 public class UserSearchDto {
     private Long id;
     private String email;
+    private String username;
     private UserRole role;
     private Boolean active;
 
     public UserSearchDto() {
     }
 
-    public UserSearchDto(Long id, String email, UserRole role) {
+    public UserSearchDto(Long id, String username, String email, UserRole role) {
         this.id = id;
+        this.username = username;
         this.email = email;
         this.role = role;
     }
@@ -48,6 +50,10 @@ public class UserSearchDto {
     public void setActive(Boolean active) {
         this.active = active;
     }
+
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
 
     @Override
     public String toString() {
