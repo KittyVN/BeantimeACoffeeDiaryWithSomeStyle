@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
-import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class RecipeRatingServiceImpl implements RecipeRatingService {
@@ -46,8 +46,9 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
     }
 
     @Override
-    public List<RecipeRatingListDto> getByRecipeId(long recipeId) {
+    public Stream<RecipeRatingListDto> getByRecipeId(long recipeId) {
         LOGGER.trace("getByRecipeId {}", recipeId);
+
         return null;
     }
 

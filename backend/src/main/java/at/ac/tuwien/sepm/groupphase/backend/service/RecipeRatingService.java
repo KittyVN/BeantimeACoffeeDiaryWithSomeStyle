@@ -5,7 +5,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingUpdateDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public interface RecipeRatingService {
     /**
@@ -22,7 +22,7 @@ public interface RecipeRatingService {
      * @param recipeId of the recipe
      * @return a List of RecipeRatingListDtos
      */
-    List<RecipeRatingListDto> getByRecipeId(long recipeId);
+    Stream<RecipeRatingListDto> getByRecipeId(long recipeId);
 
     /**
      * Update a rating with the specified dto.
