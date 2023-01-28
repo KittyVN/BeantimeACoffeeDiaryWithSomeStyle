@@ -27,6 +27,12 @@ public class RecipeRating {
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
+    @Column(name = "rating")
+    private int rating;
+
+    @Column(name = "text", length = 5000)
+    private String text;
+
     public RecipeRating() {
     }
 
