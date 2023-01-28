@@ -48,8 +48,8 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
     @Override
     public Stream<RecipeRatingListDto> getByRecipeId(long recipeId) {
         LOGGER.trace("getByRecipeId {}", recipeId);
-
-        return null;
+        return recipeRatingRepository.findRecipeRatingByRecipe_Id(recipeId)
+            .stream().map(recipeRatingMapper::entityToDto);
     }
 
     @Override
