@@ -78,10 +78,10 @@ public class ExtractionEndpoint {
         try {
             return service.update(extractionCreateDto);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,  e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (ConflictException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
-        } catch (AuthorizationException e){
+        } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }

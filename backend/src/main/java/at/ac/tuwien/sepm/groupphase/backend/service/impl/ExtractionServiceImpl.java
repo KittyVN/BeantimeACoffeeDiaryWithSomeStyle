@@ -103,7 +103,8 @@ public class ExtractionServiceImpl implements ExtractionService {
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(extractionCreateDto.getBeanId());
         if (coffeeBean.isPresent()) {
             Extraction extraction = new Extraction(LocalDateTime.now(), extractionCreateDto.getBrewMethod(), extractionCreateDto.getGrindSetting(),
-                extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(), extractionCreateDto.getBrewTime(),
+                extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(),
+                extractionCreateDto.getBrewTime(),
                 extractionCreateDto.getBody(), extractionCreateDto.getAcidity(), extractionCreateDto.getSweetness(), extractionCreateDto.getAromatics(),
                 extractionCreateDto.getAftertaste(), extractionCreateDto.getRatingNotes(), extractionCreateDto.getRecipeSteps(), coffeeBean.get());
             return mapper.entityToCreateDto(extractionRepository.save(extraction));
@@ -120,7 +121,7 @@ public class ExtractionServiceImpl implements ExtractionService {
             Extraction ex = extraction.get();
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Object principal = auth.getPrincipal();
-            if(!ex.getCoffeeBean().getUser().getId().equals(principal)){
+            if (!ex.getCoffeeBean().getUser().getId().equals(principal)) {
                 throw new AuthorizationException("You cannot change an extraction that wasn't made by you!");
             }
             if (!Objects.equals(ex.getCoffeeBean().getId(), extractionCreateDto.getBeanId())) {

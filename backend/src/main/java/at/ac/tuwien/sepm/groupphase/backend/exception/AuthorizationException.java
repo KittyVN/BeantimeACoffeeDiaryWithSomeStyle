@@ -1,6 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.exception;
 
-public class AuthorizationException extends RuntimeException{
+public class AuthorizationException extends RuntimeException {
     public AuthorizationException() {
     }
 
