@@ -53,8 +53,11 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
     }
 
     @Override
-    public RecipeRatingListDto update(RecipeRatingUpdateDto recipeRatingListDto) {
-        LOGGER.trace("update {}", recipeRatingListDto);
+    public RecipeRatingListDto update(RecipeRatingUpdateDto recipeRatingUpdateDto) {
+        LOGGER.trace("update {}", recipeRatingUpdateDto);
+        RecipeRating rating = recipeRatingRepository.findRecipeRatingById(recipeRatingUpdateDto.getId());
+        rating.setRating(recipeRatingUpdateDto.getRating());
+        rating.setText(recipeRatingUpdateDto.getText());
         return null;
     }
 
