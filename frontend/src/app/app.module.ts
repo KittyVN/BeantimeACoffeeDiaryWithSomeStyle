@@ -29,6 +29,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -119,6 +120,7 @@ import { DeleteDialogCoffeeComponent } from './components/dialog/delete-dialog-c
     MatTooltipModule,
     MatListModule,
     MatProgressSpinnerModule,
+    EditorModule,
   ],
   providers: [
     Subject,
@@ -131,6 +133,7 @@ import { DeleteDialogCoffeeComponent } from './components/dialog/delete-dialog-c
       useClass: APIInterceptor,
       multi: true,
     },
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
   ],
   bootstrap: [AppComponent],
 })
