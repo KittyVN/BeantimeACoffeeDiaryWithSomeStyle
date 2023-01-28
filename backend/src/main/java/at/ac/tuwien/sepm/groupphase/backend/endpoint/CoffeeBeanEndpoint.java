@@ -104,7 +104,7 @@ public class CoffeeBeanEndpoint {
                 extractionService.getAvgExtractionEvaluationParamsByCoffeeBeanId(id));
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (AuthorizationException e){
+        } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }

@@ -163,7 +163,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             } else {
                 coffeeBeanRepository.deleteById(id);
             }
-        }else{
+        } else {
             throw new NotFoundException(String.format("No coffee bean with ID %d found", id));
         }
     }
@@ -176,7 +176,7 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object principal = auth.getPrincipal();
-        if(!principal.equals(coffeeBean.get().getUser().getId().toString()) ){
+        if (!principal.equals(coffeeBean.get().getUser().getId().toString())) {
             throw new AuthorizationException("You are not allowed to see other people's coffee beans!");
         }
         return mapper.entityToDto(coffeeBean.get());
