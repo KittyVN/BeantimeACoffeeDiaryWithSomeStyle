@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
             passwordEncoder.encode(userRegisterDto.getPassword()), UserRole.USER);
         userRepository.save(user);
 
-        UserCredentialsDto userDetails = loadUserByUsername(userRegisterDto.getUsername());
+        UserCredentialsDto userDetails = loadUserByUsername(userRegisterDto.getEmail());
         List<String> roles = userDetails.getAuthorities()
             .stream()
             .map(GrantedAuthority::getAuthority)
