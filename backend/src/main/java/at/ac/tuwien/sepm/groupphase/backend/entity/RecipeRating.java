@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.groupphase.backend.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -25,6 +26,7 @@ public class RecipeRating {
     private User author;
 
     @Column(name = "timestamp")
+    @CreationTimestamp
     private LocalDateTime timestamp;
 
     @Column(name = "rating")
@@ -36,10 +38,19 @@ public class RecipeRating {
     public RecipeRating() {
     }
 
-    public RecipeRating(Long id, Recipe recipe, User author) {
+    public RecipeRating(Recipe recipe, User author, int rating, String text) {
+        this.recipe = recipe;
+        this.author = author;
+        this.rating = rating;
+        this.text = text;
+    }
+
+    public RecipeRating(Long id, Recipe recipe, User author, int rating, String text) {
         this.id = id;
         this.recipe = recipe;
         this.author = author;
+        this.rating = rating;
+        this.text = text;
     }
 
     public Long getId() {
