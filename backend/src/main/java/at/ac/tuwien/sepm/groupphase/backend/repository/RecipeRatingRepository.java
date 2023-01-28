@@ -7,4 +7,6 @@ import java.util.Collection;
 
 public interface RecipeRatingRepository extends JpaRepository<RecipeRating, Long> {
     Collection<RecipeRating> findRecipeRatingByRecipe_Id(long recipeId);
+
+    RecipeRating findRecipeRatingById(long id);
 }
