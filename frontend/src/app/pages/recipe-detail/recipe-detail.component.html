@@ -48,12 +48,6 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="button-row">
-        <button
-          mat-stroked-button
-          [routerLink]="['/community/' + recipe.recipeId]">
-          <mat-icon>list</mat-icon>
-          Details
-        </button>
         <a
           [disabled]="!recipe.coffeeBeanUrl"
           mat-stroked-button
@@ -66,14 +60,14 @@
           *ngIf="recipe.extractionId && recipe.recipeShared"
           mat-stroked-button
           (click)="editRecipe()">
-          <mat-icon>edit</mat-icon>
+          <mat-icon>share</mat-icon>
           Unshare
         </button>
         <button
           *ngIf="recipe.extractionId && !recipe.recipeShared"
           mat-stroked-button
           (click)="editRecipe()">
-          <mat-icon>edit</mat-icon>
+          <mat-icon>share</mat-icon>
           Share
         </button>
         <button
