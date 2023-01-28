@@ -33,7 +33,7 @@ mat-card-content.attributes div.description {
   padding: 8px;
 }
 
-mat-card-content.attributes div.description div {
+mat-card-content.attributes div.description div:first-child {
   display: flex;
   height: 24px;
   margin-bottom: 8px;
