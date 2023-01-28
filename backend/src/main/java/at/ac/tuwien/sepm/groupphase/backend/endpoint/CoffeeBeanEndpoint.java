@@ -9,6 +9,7 @@ import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
+import org.aspectj.weaver.ast.Not;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -74,7 +75,7 @@ public class CoffeeBeanEndpoint {
         try {
             return coffeeBeanService.update(coffeeBeanDto);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (ConflictException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
         }
@@ -86,7 +87,7 @@ public class CoffeeBeanEndpoint {
         LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         try {
             coffeeBeanService.delete(id);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
@@ -102,7 +103,9 @@ public class CoffeeBeanEndpoint {
                 coffeeBeanService.getById(id),
                 extractionService.getAvgExtractionEvaluationParamsByCoffeeBeanId(id));
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (AuthorizationException e){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 }

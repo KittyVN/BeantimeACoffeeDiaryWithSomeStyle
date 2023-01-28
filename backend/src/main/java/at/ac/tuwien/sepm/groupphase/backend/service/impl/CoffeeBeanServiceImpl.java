@@ -158,11 +158,13 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
 
         Optional<CoffeeBean> check = coffeeBeanRepository.findById(id);
         if (check.isPresent()) {
-            if (!check.get().getUser().getId().equals(principal)) {
+            if (!check.get().getUser().getId().toString().equals(principal)) {
                 throw new AuthorizationException("You cannot delete a coffee bean that is not yours!");
             } else {
                 coffeeBeanRepository.deleteById(id);
             }
+        }else{
+            throw new NotFoundException(String.format("No coffee bean with ID %d found", id));
         }
     }
 
@@ -170,7 +172,12 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
     public CoffeeBeanDto getById(Long id) throws NotFoundException {
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(id);
         if (!coffeeBean.isPresent()) {
-            throw new NotFoundException();
+            throw new NotFoundException(String.format("No coffee bean with ID %d found", id));
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        if(!principal.equals(coffeeBean.get().getUser().getId().toString()) ){
+            throw new AuthorizationException("You are not allowed to see other people's coffee beans!");
         }
         return mapper.entityToDto(coffeeBean.get());
     }

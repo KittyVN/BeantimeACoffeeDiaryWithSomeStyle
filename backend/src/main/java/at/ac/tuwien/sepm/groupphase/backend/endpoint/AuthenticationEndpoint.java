@@ -39,13 +39,4 @@ public class AuthenticationEndpoint {
         return userService.register(userRegisterDto);
     }
 
-
-    //TODO: remove me when authentication is fully tested and integrated
-    @Secured("ROLE_ADMIN")
-    @GetMapping("test")
-    public String testAuth() {
-        return "it works";
-    }
-
-
 }
