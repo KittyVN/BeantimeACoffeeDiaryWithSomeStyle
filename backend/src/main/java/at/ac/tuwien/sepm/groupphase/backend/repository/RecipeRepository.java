@@ -61,5 +61,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
         nativeQuery = true)
     List<Object> findAllRecipesByUserId(@Param("id") Long id);
 
-
+    Recipe findRecipeById(long id);
 }
