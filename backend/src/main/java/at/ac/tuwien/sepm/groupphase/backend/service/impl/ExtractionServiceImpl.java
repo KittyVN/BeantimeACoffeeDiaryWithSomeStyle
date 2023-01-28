@@ -9,6 +9,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
@@ -19,6 +20,8 @@ import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
@@ -115,6 +118,11 @@ public class ExtractionServiceImpl implements ExtractionService {
         Optional<Extraction> extraction = extractionRepository.findById(extractionCreateDto.getId());
         if (extraction.isPresent()) {
             Extraction ex = extraction.get();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = auth.getPrincipal();
+            if(!ex.getCoffeeBean().getUser().getId().equals(principal)){
+                throw new AuthorizationException("You cannot change an extraction that wasn't made by you!");
+            }
             if (!Objects.equals(ex.getCoffeeBean().getId(), extractionCreateDto.getBeanId())) {
                 throw new ConflictException("Coffee Bean of Extraction cannot be changed");
             }
