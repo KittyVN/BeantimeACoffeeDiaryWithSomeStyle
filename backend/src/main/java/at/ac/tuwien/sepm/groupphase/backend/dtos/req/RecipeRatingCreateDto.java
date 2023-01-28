@@ -1,5 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class RecipeRatingCreateDto {
@@ -10,6 +12,8 @@ public class RecipeRatingCreateDto {
     private long userId;
 
     @NotNull
+    @Min(1)
+    @Max(5)
     private int rating;
 
     private String text;
