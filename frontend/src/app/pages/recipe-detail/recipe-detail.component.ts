@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { BrewMethod } from '../../../dtos/req/brew-method.enum';
 import { RecipeDto } from '../../../dtos/req/recipe.dto';
 import { RedditService } from '../../../services/reddit.service';
+import { CoffeeRoast } from '../../../dtos';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -125,6 +126,32 @@ export class RecipeDetailComponent implements OnInit {
       }
       default: {
         return 'Unknown brewing method';
+      }
+    }
+  }
+
+  formatRoast(): String {
+    switch (this.recipe.coffeeBeanRoast) {
+      case CoffeeRoast.light: {
+        return 'Light Roast';
+      }
+      case CoffeeRoast.medium: {
+        return 'Medium Roast';
+      }
+      case CoffeeRoast.dark: {
+        return 'Dark Roast';
+      }
+      case CoffeeRoast.double: {
+        return 'Double Roast';
+      }
+      case CoffeeRoast.espresso: {
+        return 'Espresso Roast';
+      }
+      case CoffeeRoast.spanish: {
+        return 'Spanish Roast';
+      }
+      default: {
+        return 'Unknown Roast';
       }
     }
   }
