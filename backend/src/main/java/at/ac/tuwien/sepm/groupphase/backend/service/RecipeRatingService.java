@@ -27,10 +27,10 @@ public interface RecipeRatingService {
     /**
      * Update a rating with the specified dto.
      *
-     * @param recipeRatingListDto to update
+     * @param recipeRatingUpdateDto to update
      * @return the updated RecipeRatingListDto
      */
-    RecipeRatingListDto update(RecipeRatingUpdateDto recipeRatingListDto);
+    RecipeRatingListDto update(RecipeRatingUpdateDto recipeRatingUpdateDto);
 
     /**
      * Delete rating by id.
