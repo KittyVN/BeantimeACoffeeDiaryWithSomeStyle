@@ -9,6 +9,8 @@ import { BrewMethod } from '../../../dtos/req/brew-method.enum';
 import { RecipeDto } from '../../../dtos/req/recipe.dto';
 import { RedditService } from '../../../services/reddit.service';
 import { CoffeeRoast } from '../../../dtos';
+import { RecipeRatingListDto } from '../../../dtos/req/recipeRatingList.dto';
+import { RecipeRatingService } from '../../../services/recipeRating.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -45,13 +47,15 @@ export class RecipeDetailComponent implements OnInit {
     coffeeBeanStrength: '',
     coffeeBeanUrl: '',
   };
+  ratings: RecipeRatingListDto[] = [];
 
   constructor(
     private recipeService: RecipeService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private redditService: RedditService
+    private redditService: RedditService,
+    private recipeRatingService: RecipeRatingService
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +65,6 @@ export class RecipeDetailComponent implements OnInit {
         this.recipeService.getById(String(this.recipe.recipeId)).subscribe({
           next: data => {
             this.recipe = data;
-            console.log(this.recipe);
           },
           error: error => {
             if (error.status == 404) {
@@ -71,6 +74,12 @@ export class RecipeDetailComponent implements OnInit {
                 'OK'
               );
             }
+          },
+        });
+
+        this.recipeRatingService.getByRecipeId(this.recipe.recipeId).subscribe({
+          next: data => {
+            this.ratings = data;
           },
         });
       }

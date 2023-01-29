@@ -96,4 +96,43 @@
       </div>
     </mat-card-actions>
   </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title> Ratings from other users </mat-card-title>
+      <mat-card-subtitle>
+        Other users can rate your recipe and also leave a remark if they like
+        to.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card *ngFor="let rating of ratings">
+        <mat-card-header>
+          <mat-card-title>
+            {{ rating.authorUsername }},
+            {{ rating.timestamp | date: 'yyyy-MM-dd HH:mm' }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="rating">
+            <mat-icon
+              class="rate-star"
+              *ngFor="let i of [1, 2, 3, 4, 5]; let x = index">
+              {{ i <= rating.rating ? 'star' : 'star_border' }}
+            </mat-icon>
+          </div>
+          {{ rating.text }}
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="button-row">
+            <button mat-stroked-button>
+              <mat-icon>edit</mat-icon> Edit Rating
+            </button>
+            <button mat-stroked-button color="warn">
+              <mat-icon>delete</mat-icon> Delete Rating
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
 </app-container>
