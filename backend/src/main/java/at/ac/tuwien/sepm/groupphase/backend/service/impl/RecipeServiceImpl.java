@@ -87,7 +87,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Stream<RecipeDetailDto> getAllWithExtractions() {
         LOGGER.trace("getAllWithExtractions()");
-        return recipeRepository.findRecipesBySharedIsTrue().stream().map(mapper::recipeToDetailDto);
+        return recipeRepository.findRecipesBySharedIsTrue().stream().map(mapper::entityToDetailDto);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class RecipeServiceImpl implements RecipeService {
         if (recipe == null) {
             throw new NotFoundException(String.format("No recipe with the ID %d found", id));
         }
-        return mapper.recipeToDetailDto(recipe);
+        return mapper.entityToDetailDto(recipe);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Stream<RecipeDetailDto> getAllByUserId(Long id) throws NotFoundException {
         LOGGER.trace("getAllByUserId({})", id);
         if (userRepository.existsById(id)) {
-            return recipeRepository.findRecipesByExtraction_CoffeeBean_User_Id(id).stream().map(mapper::recipeToDetailDto);
+            return recipeRepository.findRecipesByExtraction_CoffeeBean_User_Id(id).stream().map(mapper::entityToDetailDto);
         } else {
             throw new NotFoundException(String.format("No user with ID %d found", id));
         }
