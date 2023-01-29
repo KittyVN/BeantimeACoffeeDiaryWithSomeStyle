@@ -45,7 +45,7 @@ public class RecipeRatingEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN'))")
     @GetMapping("{recipe_id}/ratings")
     public Stream<RecipeRatingListDto> getByRatingId(@PathVariable("recipe_id") long id) {
-        return null;
+        return service.getByRecipeId(id);
     }
 
     @PreAuthorize("(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) "
