@@ -9,6 +9,9 @@ public class RecipeRatingUpdateDto {
     private long id;
 
     @NotNull
+    private long recipeId;
+
+    @NotNull
     private long authorId;
 
     @NotNull
@@ -21,8 +24,9 @@ public class RecipeRatingUpdateDto {
     public RecipeRatingUpdateDto() {
     }
 
-    public RecipeRatingUpdateDto(long id, long authorId, int rating, String text) {
+    public RecipeRatingUpdateDto(long id, long recipeId, long authorId, int rating, String text) {
         this.id = id;
+        this.recipeId = recipeId;
         this.authorId = authorId;
         this.rating = rating;
         this.text = text;
@@ -58,5 +62,13 @@ public class RecipeRatingUpdateDto {
 
     public void setAuthorId(long authorId) {
         this.authorId = authorId;
+    }
+
+    public long getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
     }
 }
