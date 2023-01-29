@@ -30,13 +30,6 @@ export class RecipeRatingService {
   }
 
   /**
-   * Update a rating with the given dto
-   *
-   * @param rating the rating to update
-   */
-  public update(rating: RecipeRatingUpdateDto) {}
-
-  /**
    * Delete a rating by its id
    *
    * @param id of the rating to delete

@@ -99,12 +99,28 @@
       </div>
     </mat-card-actions>
   </mat-card>
+  <mat-card *ngIf="isAdmin || recipe.coffeeBeanUserId !== userId">
+    <mat-card-header>
+      <mat-card-title>
+        <span>Create a new</span>
+        <span>Edit a</span>
+        rating
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <mat-form-field>
+          <mat-label>Remarks (optional)</mat-label>
+          <textarea matInput></textarea>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  </mat-card>
   <mat-card>
     <mat-card-header>
-      <mat-card-title> Ratings from other users </mat-card-title>
+      <mat-card-title> Ratings from the community </mat-card-title>
       <mat-card-subtitle>
-        Other users can rate your recipe and also leave a remark if they like
-        to.
+        Users can rate your recipe and also leave a remark if they like to.
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
@@ -130,11 +146,6 @@
         </mat-card-content>
         <mat-card-actions>
           <div class="button-row">
-            <button
-              *ngIf="userId === rating.authorId || isAdmin"
-              mat-stroked-button>
-              <mat-icon>edit</mat-icon> Edit Rating
-            </button>
             <button
               *ngIf="userId === rating.authorId || isAdmin"
               mat-stroked-button
