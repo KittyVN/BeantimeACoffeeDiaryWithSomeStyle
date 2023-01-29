@@ -160,7 +160,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     if (token != null) {
       const payload = this.jwtHelper.decodeToken(token);
-      return payload.jti;
+      return parseInt(payload.jti);
     } else {
       return 0;
     }

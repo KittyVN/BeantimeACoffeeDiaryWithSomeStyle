@@ -11,6 +11,8 @@ import { RedditService } from '../../../services/reddit.service';
 import { CoffeeRoast } from '../../../dtos';
 import { RecipeRatingListDto } from '../../../dtos/req/recipeRatingList.dto';
 import { RecipeRatingService } from '../../../services/recipeRating.service';
+import { AuthService } from '../../../services/auth/auth.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -48,6 +50,8 @@ export class RecipeDetailComponent implements OnInit {
     coffeeBeanUserUsername: '',
   };
   ratings: RecipeRatingListDto[] = [];
+  isAdmin: boolean = this.authService.isAdmin();
+  userId: number = this.userService.thisUserId();
 
   constructor(
     private recipeService: RecipeService,
@@ -55,7 +59,9 @@ export class RecipeDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private redditService: RedditService,
-    private recipeRatingService: RecipeRatingService
+    private recipeRatingService: RecipeRatingService,
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
