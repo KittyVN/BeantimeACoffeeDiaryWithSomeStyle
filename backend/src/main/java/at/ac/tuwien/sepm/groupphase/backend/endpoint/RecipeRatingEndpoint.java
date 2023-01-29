@@ -7,6 +7,7 @@ import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeRatingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -68,5 +69,11 @@ public class RecipeRatingEndpoint {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("recipe_id") long recipeId,
                        @PathVariable("id") long id) {
+        LOGGER.info("DELETE {}/{}/ratings/{}", BASE_PATH, recipeId, id);
+        try {
+            service.delete(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 }
