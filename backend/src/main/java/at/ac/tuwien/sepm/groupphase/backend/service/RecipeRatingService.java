@@ -2,7 +2,6 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingUpdateDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 
 import java.util.stream.Stream;

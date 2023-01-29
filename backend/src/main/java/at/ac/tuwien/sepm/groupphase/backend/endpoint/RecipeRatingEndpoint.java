@@ -2,7 +2,6 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingUpdateDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeRatingService;
 import org.slf4j.Logger;
