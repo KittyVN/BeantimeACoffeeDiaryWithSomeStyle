@@ -1,7 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeListDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,14 +35,14 @@ public class RecipeEndpointTest {
     @Autowired
     private WebApplicationContext webAppContext;
     private MockMvc mockMvc;
-    private RecipeDto requestJson;
+    private RecipeListDto requestJson;
     @Autowired
     ObjectMapper objectMapper;
 
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
-        this.requestJson = new RecipeDto(null, false, null);
+        this.requestJson = new RecipeListDto(null, false, null);
     }
 
     @Autowired
@@ -86,12 +86,12 @@ public class RecipeEndpointTest {
                 .characterEncoding("utf-8")
             ).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
 
-        List<RecipeDto> result = objectMapper.readerFor(RecipeDto.class).<RecipeDto>readValues(body).readAll();
+        List<RecipeListDto> result = objectMapper.readerFor(RecipeListDto.class).<RecipeListDto>readValues(body).readAll();
 
         assertThat(result).isNotNull();
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
-            .map(RecipeDto::isShared)
+            .map(RecipeListDto::isShared)
             .contains(false);
 
     }
@@ -106,12 +106,12 @@ public class RecipeEndpointTest {
                 .characterEncoding("utf-8")
             ).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
 
-        List<CommunityRecipeDto> result = objectMapper.readerFor(CommunityRecipeDto.class).<CommunityRecipeDto>readValues(body).readAll();
+        List<RecipeDetailDto> result = objectMapper.readerFor(RecipeDetailDto.class).<RecipeDetailDto>readValues(body).readAll();
 
         assertThat(result).isNotNull();
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
-            .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
+            .map(RecipeDetailDto::getCoffeeBeanDescription, RecipeDetailDto::getExtractionAcidity, RecipeDetailDto::getExtractionRatingNotes)
             .contains(tuple("Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.", 4, "Wild"));
     }
 
@@ -125,12 +125,12 @@ public class RecipeEndpointTest {
                 .characterEncoding("utf-8")
             ).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
 
-        List<CommunityRecipeDto> result = objectMapper.readerFor(CommunityRecipeDto.class).<CommunityRecipeDto>readValues(body).readAll();
+        List<RecipeDetailDto> result = objectMapper.readerFor(RecipeDetailDto.class).<RecipeDetailDto>readValues(body).readAll();
 
         assertThat(result).isNotNull();
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
-            .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
+            .map(RecipeDetailDto::getCoffeeBeanDescription, RecipeDetailDto::getExtractionAcidity, RecipeDetailDto::getExtractionRatingNotes)
             .contains(tuple("Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.", 4, "Wild"));
     }
 }

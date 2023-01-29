@@ -10,5 +10,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Collection<Recipe> findRecipesByExtraction_CoffeeBean_User_Id(long id);
 
+    Collection<Recipe> findRecipesBySharedIsTrue();
+
     Recipe findRecipeById(long id);
 }

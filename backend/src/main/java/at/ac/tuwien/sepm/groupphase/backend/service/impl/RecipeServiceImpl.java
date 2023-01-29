@@ -63,15 +63,14 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Stream<RecipeListDto> getAll() {
         LOGGER.trace("getAll()");
-        return recipeRepository.findAll().stream().map(mapper::entityToListDto);
+        return recipeRepository.findRecipesBySharedIsTrue()
+            .stream().map(mapper::entityToListDto);
     }
 
     @Override
     public Stream<RecipeDetailDto> getAllWithExtractions() {
         LOGGER.trace("getAllWithExtractions()");
-        Stream<Recipe> recipes = recipeRepository.findAll().stream();
-        Stream<RecipeDetailDto> recipesDto = recipes.map(mapper::recipeToDetailDto);
-        return recipesDto;
+        return recipeRepository.findRecipesBySharedIsTrue().stream().map(mapper::recipeToDetailDto);
     }
 
     @Override
