@@ -6,15 +6,9 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingUpdateDto;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeRatingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.invoke.MethodHandles;
 import java.util.stream.Stream;
@@ -44,7 +38,7 @@ public class RecipeRatingEndpoint {
     }
 
     @PreAuthorize("(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) "
-        + "and authentication.principal.equals(recipeRatingUpdateDto.authorId)")
+        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString())")
     @PutMapping("{recipe_id}/ratings/{id}")
     public RecipeRatingListDto update(@PathVariable("recipe_id") long recipeId,
                                       @PathVariable("id") long id,
@@ -53,8 +47,9 @@ public class RecipeRatingEndpoint {
     }
 
     @PreAuthorize("(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) "
-        + "and authentication.principal.equals(recipeRatingUpdateDto.authorId)")
+        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString())")
     @DeleteMapping("{recipe_id}/ratings/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("recipe_id") long recipeId,
                        @PathVariable("id") long id) {
     }
