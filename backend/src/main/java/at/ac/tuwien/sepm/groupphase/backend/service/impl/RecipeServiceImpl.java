@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeSearchCommunityDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
@@ -72,6 +73,20 @@ public class RecipeServiceImpl implements RecipeService {
         Stream<Object> recipes = recipeRepository.findAllRecipesJoinedWithExtraction().stream();
         Stream<CommunityRecipeDto> recipesDto = recipes.map(recipe -> mapper.objectToDto(recipe));
         return recipesDto;
+    }
+
+    @Override
+    public Stream<CommunityRecipeDto> searchCommunityRecipes(RecipeSearchCommunityDto searchParams) {
+        LOGGER.trace("searchCommunityRecipes()");
+        Stream<Object> recipes = recipeRepository.searchAllRecipesJoinedWithExtraction(
+            searchParams.getName(),
+            searchParams.getBrewMethod(),
+            searchParams.getRoast(),
+            searchParams.getBlend(),
+            searchParams.getRoast() == null ? "" : searchParams.getRoast().toString(),
+            searchParams.getBrewMethod() == null ? "" : searchParams.getBrewMethod().toString())
+            .stream();
+        return recipes.map(recipe -> mapper.objectToDto(recipe));
     }
 
     @Override
