@@ -25,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 @RestController
@@ -60,7 +61,7 @@ public class ExtractionEndpoint {
             return service.searchByBeanId(searchParams, id);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (AuthorizationException e){
+        } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
@@ -73,7 +74,7 @@ public class ExtractionEndpoint {
             return service.getById(id);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (AuthorizationException e ){
+        } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
@@ -94,6 +95,7 @@ public class ExtractionEndpoint {
     }
 
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @PostMapping
     public ExtractionCreateDto create(@RequestBody ExtractionCreateDto extractionCreateDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", extractionCreateDto.toString());
@@ -101,6 +103,8 @@ public class ExtractionEndpoint {
             return service.create(extractionCreateDto);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 
@@ -109,8 +113,10 @@ public class ExtractionEndpoint {
         LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         try {
             service.delete(id);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException | NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 }

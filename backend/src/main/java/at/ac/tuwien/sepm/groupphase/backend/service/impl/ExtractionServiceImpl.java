@@ -119,6 +119,11 @@ public class ExtractionServiceImpl implements ExtractionService {
         LOGGER.trace("create {}", extractionCreateDto);
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(extractionCreateDto.getBeanId());
         if (coffeeBean.isPresent()) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = auth.getPrincipal();
+            if (!principal.equals(coffeeBean.get().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             Extraction extraction = new Extraction(LocalDateTime.now(), extractionCreateDto.getBrewMethod(), extractionCreateDto.getGrindSetting(),
                 extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(),
                 extractionCreateDto.getBrewTime(),
@@ -138,7 +143,7 @@ public class ExtractionServiceImpl implements ExtractionService {
             Extraction ex = extraction.get();
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Object principal = auth.getPrincipal();
-            if (!ex.getCoffeeBean().getUser().getId().equals(principal)) {
+            if (!ex.getCoffeeBean().getUser().getId().toString().equals(principal)) {
                 throw new AuthorizationException("You cannot change an extraction that wasn't made by you!");
             }
             if (!Objects.equals(ex.getCoffeeBean().getId(), extractionCreateDto.getBeanId())) {
@@ -218,6 +223,15 @@ public class ExtractionServiceImpl implements ExtractionService {
 
     @Override
     public void delete(Long id) {
+        Optional<Extraction> extraction = extractionRepository.findById(id);
+        if (extraction.isPresent()) {
+            Extraction ex = extraction.get();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = auth.getPrincipal();
+            if (!ex.getCoffeeBean().getUser().getId().toString().equals(principal)) {
+                throw new AuthorizationException("You cannot delete an extraction that wasn't made by you!");
+            }
+        }
         extractionRepository.deleteById(id);
     }
 }
