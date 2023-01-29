@@ -2,7 +2,6 @@ package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingUpdateDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
 import at.ac.tuwien.sepm.groupphase.backend.entity.RecipeRating;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
@@ -55,7 +54,7 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
     @Override
     public Stream<RecipeRatingListDto> getByRecipeId(long recipeId) {
         LOGGER.trace("getByRecipeId {}", recipeId);
-        return recipeRatingRepository.findRecipeRatingByRecipe_Id(recipeId)
+        return recipeRatingRepository.findRecipeRatingByRecipe_IdOrderByTimestampDesc(recipeId)
             .stream().map(recipeRatingMapper::entityToDto);
     }
 

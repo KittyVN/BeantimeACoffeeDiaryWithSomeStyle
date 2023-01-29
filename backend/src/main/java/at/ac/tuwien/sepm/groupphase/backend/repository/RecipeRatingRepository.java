@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 
 public interface RecipeRatingRepository extends JpaRepository<RecipeRating, Long> {
-    Collection<RecipeRating> findRecipeRatingByRecipe_Id(long recipeId);
+    Collection<RecipeRating> findRecipeRatingByRecipe_IdOrderByTimestampDesc(long recipeId);
 
     RecipeRating findRecipeRatingById(long id);
 }
