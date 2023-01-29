@@ -2,22 +2,27 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 import java.util.List;
 
@@ -41,7 +46,7 @@ public class RecipeEndpointTest {
 
     @BeforeEach
     public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).apply(springSecurity()).build();
         this.requestJson = new RecipeDto(null, false, null);
     }
 
@@ -53,6 +58,7 @@ public class RecipeEndpointTest {
     @Rollback
     @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void createRecipeForExistingExtractionReturnsConflict() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         requestJson.setShared(false);
         requestJson.setExtractionId(5L);
         ObjectMapper mapper = new ObjectMapper();
@@ -60,6 +66,7 @@ public class RecipeEndpointTest {
         String body = mockMvc
             .perform(MockMvcRequestBuilders
                 .post("/api/v1/recipes")
+                .header(HttpHeaders.AUTHORIZATION, auth)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(jsonString))
                 .characterEncoding("utf-8")
@@ -72,8 +79,8 @@ public class RecipeEndpointTest {
     @Test
     @Transactional
     @Rollback
-    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
     public void createValidRecipeReturnsRecipe() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         requestJson.setShared(false);
         requestJson.setExtractionId(2L);
         ObjectMapper mapper = new ObjectMapper();
@@ -81,6 +88,7 @@ public class RecipeEndpointTest {
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
                 .post("/api/v1/recipes")
+                .header(HttpHeaders.AUTHORIZATION, auth)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(jsonString))
                 .characterEncoding("utf-8")
@@ -136,5 +144,19 @@ public class RecipeEndpointTest {
             .contains(tuple(
                 "Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.",
                 4, "Wild"));
+    }
+
+    private String performLogin(String username, String password) throws Exception {
+        UserLoginDto loginRequestDto = new UserLoginDto(username, password);
+        String loginJson = objectMapper.writeValueAsString(loginRequestDto);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginJson))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        return "Bearer " + result.getResponse().getContentAsString();
     }
 }

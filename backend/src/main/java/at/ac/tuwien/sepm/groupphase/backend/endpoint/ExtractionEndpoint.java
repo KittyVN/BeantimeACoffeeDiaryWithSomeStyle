@@ -108,6 +108,7 @@ public class ExtractionEndpoint {
         }
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);

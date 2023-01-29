@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeService;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ public class RecipeEndpoint {
         this.service = service;
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @PostMapping
     public RecipeDto create(@RequestBody RecipeDto recipeDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", recipeDto.toString());
@@ -45,9 +47,12 @@ public class RecipeEndpoint {
         } catch (FileAlreadyExistsException e) {
             LOGGER.warn(e.toString());
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) ")
     @PutMapping("extraction/{id}")
     public RecipeDto update(@Valid @PathVariable("id") long id, @RequestBody RecipeDto recipeDto) throws ResponseStatusException {
         LOGGER.info("PUT " + BASE_PATH + " with RequestBody: {}", recipeDto);
@@ -55,6 +60,8 @@ public class RecipeEndpoint {
             return service.update(recipeDto);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 
