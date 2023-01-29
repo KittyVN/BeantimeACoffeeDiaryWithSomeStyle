@@ -2,7 +2,11 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeListDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeSearchCommunityDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.stream.Stream;
@@ -33,6 +37,15 @@ public interface RecipeService {
      * @return a stream of the found recipes
      */
     Stream<RecipeListDto> getAll();
+
+    /**
+     * Fetches all saved recipes joined with extractions that have been shared to the community page
+     * and are matching the given search parameters from the persistent data storage.
+     *
+     * @param searchParams the parameters to search recipes by
+     * @return a stream of the found recipes
+     */
+    Stream<RecipeDetailDto> searchCommunityRecipes(RecipeSearchCommunityDto searchParams);
 
     /**
      * Fetches all saved recipes from the persistent data storage joined with extraction.

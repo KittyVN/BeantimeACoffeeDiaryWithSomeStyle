@@ -6,6 +6,71 @@
     recipe, then please head on to your own dashboard and share one of your
     extractions, preferably one of the best ones :)
   </div>
+  <form class="form" [formGroup]="searchRecipeForm">
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Name</mat-label>
+      <input
+        type="text"
+        matInput
+        name="searchParamsName"
+        formControlName="name"
+        [(ngModel)]="this.searchParams.name"
+        (keyup)="keyUp.next($event)" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Blend</mat-label>
+      <input
+        type="text"
+        matInput
+        name="searchParamsBlend"
+        formControlName="blend"
+        [(ngModel)]="this.searchParams.blend"
+        (keyup)="keyUp.next($event)" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Brew Method</mat-label>
+      <select
+        matNativeControl
+        name="searchParamsBrewMethod"
+        formControlName="brewMethod"
+        [(ngModel)]="this.searchParams.brewMethod"
+        (change)="keyUp.next($event)">
+        <option value="" selected>Any</option>
+        <option value="DRIP">Drip</option>
+        <option value="BOILING">Boiling</option>
+        <option value="STEEPING">Steeping</option>
+        <option value="PRESSURE">Pressure</option>
+        <option value="TURKISH">Turkish</option>
+        <option value="FRENCH_PRESS">French Press</option>
+        <option value="COLD_BREW">Cold Brew</option>
+        <option value="INSTANT">Instant</option>
+        <option value="POUR_OVER">Pour Over</option>
+        <option value="V60">V60</option>
+        <option value="ESPRESSO_MACHINE">Espresso Machine</option>
+        <option value="MOKA">Moka</option>
+        <option value="AEROPRESS">Aeropress</option>
+        <option value="POD_MACHINE">Pod Machine</option>
+        <option value="OTHER">Other</option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Roast</mat-label>
+      <select
+        matNativeControl
+        name="searchParamsRoast"
+        formControlName="roast"
+        [(ngModel)]="this.searchParams.roast"
+        (change)="keyUp.next($event)">
+        <option value="" selected>Any</option>
+        <option value="LIGHT">Light</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="DARK">Dark</option>
+        <option value="DOUBLE">Double</option>
+        <option value="ESPRESSO">Espresso</option>
+        <option value="SPANISH">Spanish</option>
+      </select>
+    </mat-form-field>
+  </form>
   <mat-grid-list cols="4" rowHeight="35em">
     <mat-grid-tile *ngFor="let recipe of recipes">
       <mat-card class="recipe-card">

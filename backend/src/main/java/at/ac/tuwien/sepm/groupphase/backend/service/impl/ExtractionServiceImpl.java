@@ -9,6 +9,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionMatrixDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
@@ -19,6 +20,8 @@ import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
@@ -66,6 +69,11 @@ public class ExtractionServiceImpl implements ExtractionService {
     public Stream<ExtractionDetailDto> searchByBeanId(ExtractionSearchDto searchParams, Long id) {
         LOGGER.trace("SearchByBeanId({}) with params: {}", id, searchParams);
         if (coffeeBeanRepository.existsById(id)) {
+            Optional<CoffeeBean> bean = coffeeBeanRepository.findById(id);
+            Object currentUserId = getCurrentAuthenticatedUserId();
+            if (!currentUserId.equals(bean.get().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             return extractionRepository.search(searchParams, id).stream().map(mapper::entityToDto);
         } else {
             throw new NotFoundException(String.format("No bean with ID %d found", id));
@@ -76,6 +84,11 @@ public class ExtractionServiceImpl implements ExtractionService {
     public Stream<ExtractionDetailDto> getAllByBeanId(Long id) {
         LOGGER.trace("getAllByBeanId({})", id);
         if (coffeeBeanRepository.existsById(id)) {
+            Optional<CoffeeBean> bean = coffeeBeanRepository.findById(id);
+            Object currentUserId = getCurrentAuthenticatedUserId();
+            if (!currentUserId.equals(bean.get().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             return extractionRepository.findAllByBeanId(id).stream().map(extraction -> mapper.entityToDto(extraction));
         } else {
             throw new NotFoundException(String.format("No bean with ID %d found", id));
@@ -88,6 +101,10 @@ public class ExtractionServiceImpl implements ExtractionService {
         Optional<Extraction> ex = extractionRepository.findById(id);
         if (ex.isPresent()) {
             Extraction extraction = ex.get();
+            Object currentUserId = getCurrentAuthenticatedUserId();
+            if (!currentUserId.equals(extraction.getCoffeeBean().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             return mapper.entityToDto(extraction);
         } else {
             throw new NotFoundException(String.format("No extraction with ID %d found", id));
@@ -99,8 +116,13 @@ public class ExtractionServiceImpl implements ExtractionService {
         LOGGER.trace("create {}", extractionCreateDto);
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(extractionCreateDto.getBeanId());
         if (coffeeBean.isPresent()) {
+            Object currentUserId = getCurrentAuthenticatedUserId();
+            if (!currentUserId.equals(coffeeBean.get().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             Extraction extraction = new Extraction(LocalDateTime.now(), extractionCreateDto.getBrewMethod(), extractionCreateDto.getGrindSetting(),
-                extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(), extractionCreateDto.getBrewTime(),
+                extractionCreateDto.getWaterTemperature(), extractionCreateDto.getDose(), extractionCreateDto.getWaterAmount(),
+                extractionCreateDto.getBrewTime(),
                 extractionCreateDto.getBody(), extractionCreateDto.getAcidity(), extractionCreateDto.getSweetness(), extractionCreateDto.getAromatics(),
                 extractionCreateDto.getAftertaste(), extractionCreateDto.getRatingNotes(), extractionCreateDto.getRecipeSteps(), coffeeBean.get());
             return mapper.entityToCreateDto(extractionRepository.save(extraction));
@@ -115,6 +137,10 @@ public class ExtractionServiceImpl implements ExtractionService {
         Optional<Extraction> extraction = extractionRepository.findById(extractionCreateDto.getId());
         if (extraction.isPresent()) {
             Extraction ex = extraction.get();
+            Object currentUserId = getCurrentAuthenticatedUserId();
+            if (!ex.getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
+                throw new AuthorizationException("You cannot change an extraction that wasn't made by you!");
+            }
             if (!Objects.equals(ex.getCoffeeBean().getId(), extractionCreateDto.getBeanId())) {
                 throw new ConflictException("Coffee Bean of Extraction cannot be changed");
             }
@@ -192,6 +218,20 @@ public class ExtractionServiceImpl implements ExtractionService {
 
     @Override
     public void delete(Long id) {
+        Optional<Extraction> extraction = extractionRepository.findById(id);
+        if (extraction.isPresent()) {
+            Extraction ex = extraction.get();
+            Object currentUserId = getCurrentAuthenticatedUserId();
+            if (!ex.getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
+                throw new AuthorizationException("You cannot delete an extraction that wasn't made by you!");
+            }
+        }
         extractionRepository.deleteById(id);
+    }
+
+    private Object getCurrentAuthenticatedUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        return principal;
     }
 }

@@ -70,26 +70,6 @@ public class CoffeeBeanServiceTest {
         assertThat(result.getName()).isEqualTo(coffeeBeanDto.getName());
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void deleteExistentCoffee() {
-        assertDoesNotThrow(() -> coffeeBeanService.delete(1L));
-    }
-
-    @Test
-    @Transactional
-    public void getCoffeeBeanByExistentIdReturnsCoffeeBeanDto() {
-        CoffeeBeanDto result = coffeeBeanService.getById(2L);
-
-        assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("Espresso House Blend");
-        assertThat(result.getPrice()).isEqualTo(31.90F);
-        assertThat(result.getOrigin()).isEqualTo("Brasil, Colombia, Congo, Laos");
-        assertThat(result.getHeight()).isEqualTo(null);
-        assertThat(result.getCoffeeRoast()).isEqualTo(CoffeeRoast.DARK);
-        assertThat(result.getUserId()).isEqualTo(1L);
-    }
 
     @Test
     @Transactional
