@@ -45,20 +45,25 @@ public class RecipeRatingEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN'))")
     @GetMapping("{recipe_id}/ratings")
     public Stream<RecipeRatingListDto> getByRatingId(@PathVariable("recipe_id") long id) {
+        LOGGER.info("GET {}/{}/ratings with Recipe ID: {}", BASE_PATH, id);
         return service.getByRecipeId(id);
     }
 
-    @PreAuthorize("(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) "
-        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString())")
-    @PutMapping("{recipe_id}/ratings/{id}")
+    @PreAuthorize("(hasRole('ROLE_ADMIN') or ((hasRole('ROLE_USER')) "
+        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString())))")
+    @PatchMapping("{recipe_id}/ratings/{id}")
     public RecipeRatingListDto update(@PathVariable("recipe_id") long recipeId,
                                       @PathVariable("id") long id,
                                       @RequestBody RecipeRatingUpdateDto recipeRatingUpdateDto) {
-        return null;
+        LOGGER.info("PATCH {}/{}/ratings/{} with RequestBody: {}", BASE_PATH, recipeId, id, recipeRatingUpdateDto);
+        if (recipeRatingUpdateDto.getRecipeId() != recipeId || recipeRatingUpdateDto.getId() != id) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        return service.update(recipeRatingUpdateDto);
     }
 
-    @PreAuthorize("(hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')) "
-        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString())")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_USER') "
+        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString()))")
     @DeleteMapping("{recipe_id}/ratings/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("recipe_id") long recipeId,
