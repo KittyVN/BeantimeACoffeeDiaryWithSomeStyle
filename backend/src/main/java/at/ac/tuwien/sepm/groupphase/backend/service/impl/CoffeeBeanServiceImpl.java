@@ -153,12 +153,10 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
 
     @Override
     public void delete(Long id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
-
+        Object currentUserId = getCurrentAuthenticatedUserId();
         Optional<CoffeeBean> check = coffeeBeanRepository.findById(id);
         if (check.isPresent()) {
-            if (!check.get().getUser().getId().toString().equals(principal)) {
+            if (!check.get().getUser().getId().toString().equals(currentUserId)) {
                 throw new AuthorizationException("You cannot delete a coffee bean that is not yours!");
             } else {
                 coffeeBeanRepository.deleteById(id);
@@ -174,9 +172,8 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
         if (!coffeeBean.isPresent()) {
             throw new NotFoundException(String.format("No coffee bean with ID %d found", id));
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
-        if (!principal.equals(coffeeBean.get().getUser().getId().toString())) {
+        Object currentUserId = getCurrentAuthenticatedUserId();
+        if (!currentUserId.equals(coffeeBean.get().getUser().getId().toString())) {
             throw new AuthorizationException("You are not allowed to see other people's coffee beans!");
         }
         return mapper.entityToDto(coffeeBean.get());
@@ -202,6 +199,12 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             .toList());
 
         return top5coffees;
+    }
+
+    private Object getCurrentAuthenticatedUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        return principal;
     }
 
 

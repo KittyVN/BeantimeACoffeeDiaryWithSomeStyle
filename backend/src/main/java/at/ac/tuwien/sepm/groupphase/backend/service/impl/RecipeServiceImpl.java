@@ -42,10 +42,9 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDto create(RecipeDto recipeDto) throws FileAlreadyExistsException {
         LOGGER.trace("create {}", recipeDto);
         Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
+        Object currentUserId = getCurrentAuthenticatedUserId();
         if (extraction.isPresent()) {
-            if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(principal)) {
+            if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
                 throw new AuthorizationException("You cannot make a recipe with a extraction that you didn't make!");
             }
         }
@@ -62,10 +61,9 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDto update(RecipeDto recipeDto) throws NotFoundException {
         LOGGER.trace("update {}", recipeDto);
         Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
+        Object currentUserId = getCurrentAuthenticatedUserId();
         if (extraction.isPresent()) {
-            if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(principal)) {
+            if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
                 throw new AuthorizationException("You cannot share something that's not yours!");
             }
         }
@@ -123,5 +121,11 @@ public class RecipeServiceImpl implements RecipeService {
         } else {
             throw new NotFoundException(String.format("No user with ID %d found", id));
         }
+    }
+
+    private Object getCurrentAuthenticatedUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        return principal;
     }
 }
