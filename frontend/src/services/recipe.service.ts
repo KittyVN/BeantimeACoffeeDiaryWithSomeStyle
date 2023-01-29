@@ -61,7 +61,7 @@ export class RecipeService {
    */
   public search(
     searchParams: RecipeCommunitySearchDto
-  ): Observable<CommunityRecipeDto[]> {
+  ): Observable<RecipeDetailDto[]> {
     let params = new HttpParams();
 
     if (searchParams.name != null && searchParams.name) {
@@ -79,7 +79,7 @@ export class RecipeService {
     if (searchParams.roast != null) {
       params = params.set('roast', searchParams.roast);
     }
-    return this.http.get<CommunityRecipeDto[]>('recipes/search', { params });
+    return this.http.get<RecipeDetailDto[]>('recipes/search', { params });
   }
 
   /**
