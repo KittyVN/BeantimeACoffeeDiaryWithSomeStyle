@@ -218,4 +218,15 @@ export class RecipeDetailComponent implements OnInit {
       },
     });
   }
+
+  deleteRating(rating: RecipeRatingListDto) {
+    this.recipeRatingService.delete(rating.id, rating.recipeId).subscribe({
+      next: data => {
+        this.ratings.splice(this.ratings.indexOf(rating), 1);
+        this.snackBar.open('Deleted rating successfully', 'Close', {
+          duration: 5000,
+        });
+      },
+    });
+  }
 }

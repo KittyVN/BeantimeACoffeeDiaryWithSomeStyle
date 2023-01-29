@@ -63,8 +63,7 @@ public class RecipeRatingEndpoint {
         return service.update(recipeRatingUpdateDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_USER') "
-        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString()))")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @DeleteMapping("{recipe_id}/ratings/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("recipe_id") long recipeId,

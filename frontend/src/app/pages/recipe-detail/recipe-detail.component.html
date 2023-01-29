@@ -111,7 +111,7 @@
       <p *ngIf="ratings.length === 0">
         There are no ratings yet for this recipe.
       </p>
-      <mat-card *ngFor="let rating of ratings">
+      <mat-card *ngFor="let rating of ratings" [id]="'rating-' + rating.id">
         <mat-card-header>
           <mat-card-title>
             {{ rating.authorUsername }},
@@ -138,6 +138,7 @@
             <button
               *ngIf="userId === rating.authorId || isAdmin"
               mat-stroked-button
+              (click)="deleteRating(rating)"
               color="warn">
               <mat-icon>delete</mat-icon> Delete Rating
             </button>

@@ -40,6 +40,9 @@ export class RecipeRatingService {
    * Delete a rating by its id
    *
    * @param id of the rating to delete
+   * @param recipeId of the recipe
    */
-  public delete(id: number) {}
+  public delete(id: number, recipeId: number) {
+    return this.http.delete(`recipes/${recipeId}/ratings/${id}`).pipe();
+  }
 }
