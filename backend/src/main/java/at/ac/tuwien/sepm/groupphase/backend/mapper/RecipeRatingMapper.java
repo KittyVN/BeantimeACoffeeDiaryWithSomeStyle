@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class RecipeRatingMapper {
     public RecipeRatingListDto entityToDto(RecipeRating rating) {
         return new RecipeRatingListDto(rating.getId(), rating.getRecipe().getId(), rating.getAuthor().getId(),
-            rating.getTimestamp(), rating.getRating(), rating.getText());
+            rating.getAuthor().getUsername(), rating.getTimestamp(), rating.getRating(), rating.getText());
     }
 }

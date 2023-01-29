@@ -13,7 +13,10 @@ public class RecipeRatingListDto {
     private long recipeId;
 
     @NotNull
-    private long userId;
+    private long authorId;
+
+    @NotNull
+    private String authorUsername;
 
     @NotNull
     private LocalDateTime timestamp;
@@ -28,10 +31,12 @@ public class RecipeRatingListDto {
     public RecipeRatingListDto() {
     }
 
-    public RecipeRatingListDto(long id, long recipeId, long userId, LocalDateTime timestamp, int rating, String text) {
+    public RecipeRatingListDto(long id, long recipeId, long authorId, String authorUsername, LocalDateTime timestamp,
+                               int rating, String text) {
         this.id = id;
         this.recipeId = recipeId;
-        this.userId = userId;
+        this.authorId = authorId;
+        this.authorUsername = authorUsername;
         this.timestamp = timestamp;
         this.rating = rating;
         this.text = text;
@@ -53,12 +58,20 @@ public class RecipeRatingListDto {
         this.recipeId = recipeId;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getAuthorId() {
+        return authorId;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getAuthorUsername() {
+        return authorUsername;
+    }
+
+    public void setAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
     }
 
     public int getRating() {
