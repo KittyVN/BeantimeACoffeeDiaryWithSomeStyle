@@ -33,6 +33,10 @@ public class Recipe {
     public Recipe() {
     }
 
+    public Recipe(long id) {
+        this.id = id;
+    }
+
     public Recipe(boolean shared, Extraction extraction) {
         this.shared = shared;
         this.extraction = extraction;

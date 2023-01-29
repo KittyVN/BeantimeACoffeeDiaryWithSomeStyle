@@ -38,6 +38,12 @@ public class RecipeRating {
     public RecipeRating() {
     }
 
+    public RecipeRating(Recipe recipe, User author, int rating) {
+        this.recipe = recipe;
+        this.author = author;
+        this.rating = rating;
+    }
+
     public RecipeRating(Recipe recipe, User author, int rating, String text) {
         this.recipe = recipe;
         this.author = author;
