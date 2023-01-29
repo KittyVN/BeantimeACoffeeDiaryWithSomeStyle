@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
+import { RecipeCommunitySearchDto } from 'src/dtos/req/recipe-community-search.dto';
 import { RecipeDto } from 'src/dtos/req/recipe.dto';
 
 @Injectable({
@@ -42,12 +43,43 @@ export class RecipeService {
   }
 
   /**
-   * Get all recipe out of the data storage
+   * Get all recipes out of the data storage
    *
    * @returns the recipes as an Observable List
    */
   public getAll(): Observable<CommunityRecipeDto[]> {
     return this.http.get<CommunityRecipeDto[]>('recipes');
+  }
+
+  /**
+   * Get all recipes out of the data storage that match
+   * the given search params. If no params match, an empty
+   * list is returned. If no params are given, fetches all recipes
+   * instead
+   *
+   * @returns the recipes as an Observable List
+   */
+  public search(
+    searchParams: RecipeCommunitySearchDto
+  ): Observable<CommunityRecipeDto[]> {
+    let params = new HttpParams();
+
+    if (searchParams.name != null && searchParams.name) {
+      params = params.set('name', searchParams.name.toString());
+    }
+
+    if (searchParams.blend != null && searchParams.blend) {
+      params = params.set('blend', searchParams.blend.toString());
+    }
+
+    if (searchParams.brewMethod != null) {
+      params = params.set('brewMethod', searchParams.brewMethod);
+    }
+
+    if (searchParams.roast != null) {
+      params = params.set('roast', searchParams.roast);
+    }
+    return this.http.get<CommunityRecipeDto[]>('recipes/search', { params });
   }
 
   /**

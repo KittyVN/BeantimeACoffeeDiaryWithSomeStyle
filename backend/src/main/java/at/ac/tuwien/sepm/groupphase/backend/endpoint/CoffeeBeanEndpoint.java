@@ -4,9 +4,12 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDashboardDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.CoffeeBeanService;
 import at.ac.tuwien.sepm.groupphase.backend.service.ExtractionService;
+import org.aspectj.weaver.ast.Not;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 
@@ -55,32 +59,42 @@ public class CoffeeBeanEndpoint {
         }
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
+        + "and authentication.principal.equals(#coffeeBeanDto.userId.toString())")
     @PostMapping
     public CoffeeBeanDto create(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         return coffeeBeanService.create(coffeeBeanDto);
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
+        + "and authentication.principal.equals(#coffeeBeanDto.userId.toString())")
     @PutMapping("{id}")
     public CoffeeBeanDto update(@Valid @RequestBody CoffeeBeanDto coffeeBeanDto) throws ResponseStatusException {
         LOGGER.info("PUT " + BASE_PATH + " with RequestBody: {}", coffeeBeanDto);
         try {
             return coffeeBeanService.update(coffeeBeanDto);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (ConflictException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
         }
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN'))")
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("DELETE " + BASE_PATH + " with id: {}", id);
         try {
             coffeeBeanService.delete(id);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (NoSuchElementException | NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 
+    @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN'))")
     @GetMapping("{id}")
     public CoffeeBeanDetailDto getById(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
@@ -89,7 +103,9 @@ public class CoffeeBeanEndpoint {
                 coffeeBeanService.getById(id),
                 extractionService.getAvgExtractionEvaluationParamsByCoffeeBeanId(id));
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 }
