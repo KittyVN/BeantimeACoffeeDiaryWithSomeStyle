@@ -4,6 +4,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.RecipeMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.ExtractionRepository;
@@ -12,6 +13,8 @@ import at.ac.tuwien.sepm.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -39,6 +42,12 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDto create(RecipeDto recipeDto) throws FileAlreadyExistsException {
         LOGGER.trace("create {}", recipeDto);
         Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
+        Object currentUserId = getCurrentAuthenticatedUserId();
+        if (extraction.isPresent()) {
+            if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
+                throw new AuthorizationException("You cannot make a recipe with a extraction that you didn't make!");
+            }
+        }
         Recipe recipeExist = recipeRepository.findRecipeByExtractionId(recipeDto.getExtractionId());
         Recipe recipe = new Recipe(false, extraction.get());
         if (recipeExist == null) {
@@ -51,6 +60,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipeDto update(RecipeDto recipeDto) throws NotFoundException {
         LOGGER.trace("update {}", recipeDto);
+        Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
+        Object currentUserId = getCurrentAuthenticatedUserId();
+        if (extraction.isPresent()) {
+            if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
+                throw new AuthorizationException("You cannot share something that's not yours!");
+            }
+        }
         Recipe recipe = recipeRepository.findRecipeByExtractionId(recipeDto.getExtractionId());
         if (recipe == null) {
             throw new NotFoundException(String.format("No recipe with extraction ID %d found", recipeDto.getExtractionId()));
@@ -105,5 +121,11 @@ public class RecipeServiceImpl implements RecipeService {
         } else {
             throw new NotFoundException(String.format("No user with ID %d found", id));
         }
+    }
+
+    private Object getCurrentAuthenticatedUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        return principal;
     }
 }

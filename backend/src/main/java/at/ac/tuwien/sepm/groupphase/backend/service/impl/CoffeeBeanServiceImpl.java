@@ -8,6 +8,8 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanSearchDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.CoffeeBean;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.ExtractionMapper;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.UserProfileMapper;
@@ -20,6 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jca.cci.CciOperationNotSupportedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -76,7 +81,9 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             }
             for (int coffeeSize = 0; coffeeSize < coffees.size(); coffeeSize++) {
                 List<ExtractionDetailDto> extractions;
-                extractions = extractionRepository.findAllByBeanId(coffees.get(coffeeSize).getId()).stream().map(extraction -> extractionMapper.entityToDto(extraction)).toList();
+                extractions =
+                    extractionRepository.findAllByBeanId(coffees.get(coffeeSize).getId()).stream().map(extraction -> extractionMapper.entityToDto(extraction))
+                        .toList();
                 ExtractionDetailDto bestExtraction;
                 ExtractionDetailDto lastExtraction;
                 double averageRating = 0;
@@ -124,12 +131,12 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             CoffeeBean newBean = coffeeBean.get();
             if (coffeeBeanDto.getUserId() != null) {
                 if (newBean.getUser() == null) {
-                    throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This coffee bean has no creator");
+                    throw new ConflictException("This coffee bean has no creator");
                 } else if (newBean.getUser().getId() != coffeeBeanDto.getUserId()) {
-                    throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User who created the bean cannot be changed");
+                    throw new ConflictException("User who created the bean cannot be changed");
                 }
             } else {
-                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User who created the bean cannot be changed");
+                throw new ConflictException("User who created the bean cannot be changed");
             }
             newBean.setName(coffeeBeanDto.getName());
             newBean.setPrice(coffeeBeanDto.getPrice());
@@ -146,14 +153,28 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
 
     @Override
     public void delete(Long id) {
-        coffeeBeanRepository.deleteById(id);
+        Object currentUserId = getCurrentAuthenticatedUserId();
+        Optional<CoffeeBean> check = coffeeBeanRepository.findById(id);
+        if (check.isPresent()) {
+            if (!check.get().getUser().getId().toString().equals(currentUserId)) {
+                throw new AuthorizationException("You cannot delete a coffee bean that is not yours!");
+            } else {
+                coffeeBeanRepository.deleteById(id);
+            }
+        } else {
+            throw new NotFoundException(String.format("No coffee bean with ID %d found", id));
+        }
     }
 
     @Override
     public CoffeeBeanDto getById(Long id) throws NotFoundException {
         Optional<CoffeeBean> coffeeBean = coffeeBeanRepository.findById(id);
         if (!coffeeBean.isPresent()) {
-            throw new NotFoundException();
+            throw new NotFoundException(String.format("No coffee bean with ID %d found", id));
+        }
+        Object currentUserId = getCurrentAuthenticatedUserId();
+        if (!currentUserId.equals(coffeeBean.get().getUser().getId().toString())) {
+            throw new AuthorizationException("You are not allowed to see other people's coffee beans!");
         }
         return mapper.entityToDto(coffeeBean.get());
     }
@@ -178,6 +199,12 @@ public class CoffeeBeanServiceImpl implements CoffeeBeanService {
             .toList());
 
         return top5coffees;
+    }
+
+    private Object getCurrentAuthenticatedUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        return principal;
     }
 
 

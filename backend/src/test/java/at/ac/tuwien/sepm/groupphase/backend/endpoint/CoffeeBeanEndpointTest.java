@@ -2,24 +2,35 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeRoast;
+import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,9 +48,12 @@ public class CoffeeBeanEndpointTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    JwtTokenizer jwtTokenizer;
+
     @BeforeEach
     public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).apply(springSecurity()).build();
         this.requestJson = new CoffeeBeanDto(null, null, null, null, null, null, null, null, null, null, null);
     }
 
@@ -48,6 +62,7 @@ public class CoffeeBeanEndpointTest {
     @Transactional
     @Rollback
     public void createValidCoffee() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         requestJson.setName("TestBean");
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
         requestJson.setUserId(1L);
@@ -55,6 +70,7 @@ public class CoffeeBeanEndpointTest {
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
             .post("/api/v1/coffee-beans")
+            .header(HttpHeaders.AUTHORIZATION, auth)
             .contentType(MediaType.APPLICATION_JSON)
             .content(String.valueOf(jsonString))
             .characterEncoding("utf-8")
@@ -64,23 +80,25 @@ public class CoffeeBeanEndpointTest {
 
     @Test
     public void createInValidCoffee() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         requestJson.setName("");
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
         requestJson.setUserId(1L);
         //send request with valid parameters but invalid name
-        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        sendInvalidCoffeeBeanCreateRequest(requestJson, auth);
         requestJson.setName(null);
         //send request with valid parameters but invalid CoffeeRoast
         requestJson.setName("Test");
         requestJson.setCoffeeRoast(null);
-        sendInvalidCoffeeBeanCreateRequest(requestJson);
+        sendInvalidCoffeeBeanCreateRequest(requestJson, auth);
     }
 
-    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBeanDto requestBean) throws Exception {
+    private void sendInvalidCoffeeBeanCreateRequest(CoffeeBeanDto requestBean, String token) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
             .post("/api/v1/coffee-beans")
+            .header(HttpHeaders.AUTHORIZATION, token)
             .contentType(MediaType.APPLICATION_JSON)
             .content(String.valueOf(jsonString))
             .characterEncoding("utf-8")
@@ -91,6 +109,7 @@ public class CoffeeBeanEndpointTest {
     @Transactional
     @Rollback
     public void editCoffeeToValid() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         requestJson.setName("Test");
         requestJson.setId(1L);
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
@@ -99,6 +118,7 @@ public class CoffeeBeanEndpointTest {
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
             .put("/api/v1/coffee-beans/1")
+            .header(HttpHeaders.AUTHORIZATION, auth)
             .contentType(MediaType.APPLICATION_JSON)
             .content(String.valueOf(jsonString))
             .characterEncoding("utf-8")
@@ -109,27 +129,38 @@ public class CoffeeBeanEndpointTest {
 
     @Test
     public void editCoffeeToInvalid() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         requestJson.setId(1L);
         requestJson.setUserId(1L);
         requestJson.setName("");
         requestJson.setCoffeeRoast(CoffeeRoast.LIGHT);
         //Send coffee bean with invalid name
-        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson, auth);
         //Send coffee bean with invalid roast
         requestJson.setName("ValidName");
         requestJson.setCoffeeRoast(null);
-        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+        sendInvalidCoffeeBeanUpdateRequest(requestJson, auth);
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
         //Send coffee bean with invalid user
         requestJson.setUserId(-99L);
-        sendInvalidCoffeeBeanUpdateRequest(requestJson);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(requestJson);
+        mockMvc.perform(MockMvcRequestBuilders
+            .put("/api/v1/coffee-beans/1")
+            .header(HttpHeaders.AUTHORIZATION, auth)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(String.valueOf(jsonString))
+            .characterEncoding("utf-8")
+        ).andDo(print()).andExpect(status().isForbidden());
+
     }
 
-    private void sendInvalidCoffeeBeanUpdateRequest(CoffeeBeanDto requestBean) throws Exception {
+    private void sendInvalidCoffeeBeanUpdateRequest(CoffeeBeanDto requestBean, String token) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestBean);
         mockMvc.perform(MockMvcRequestBuilders
             .put("/api/v1/coffee-beans/1")
+            .header(HttpHeaders.AUTHORIZATION, token)
             .contentType(MediaType.APPLICATION_JSON)
             .content(String.valueOf(jsonString))
             .characterEncoding("utf-8")
@@ -140,25 +171,31 @@ public class CoffeeBeanEndpointTest {
     @Transactional
     @Rollback
     public void deleteExistingCoffee() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         mockMvc.perform(MockMvcRequestBuilders
             .delete("/api/v1/coffee-beans/1")
+            .header(HttpHeaders.AUTHORIZATION, auth)
         ).andExpect(status().isOk());
     }
 
     @Test
     @Transactional
     public void deleteNonExistingCoffee() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         mockMvc.perform(MockMvcRequestBuilders
             .delete("/api/v1/coffee-beans/-9999")
+            .header(HttpHeaders.AUTHORIZATION, auth)
         ).andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
     public void getCoffeeBeanByExistentIdReturnsCoffeeBeanDetail() throws Exception {
+        String auth = performLogin("admin@email.com", "password");
         byte[] body = mockMvc.perform(MockMvcRequestBuilders
-            .get("/api/v1/coffee-beans/2")
-            .accept(MediaType.APPLICATION_JSON))
+                .get("/api/v1/coffee-beans/2")
+                .header(HttpHeaders.AUTHORIZATION, auth)
+                .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andReturn().getResponse().getContentAsByteArray();
 
@@ -186,6 +223,24 @@ public class CoffeeBeanEndpointTest {
     @Test
     @Transactional
     public void getCoffeeBeanByNonExistentIdReturns404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/coffee-beans/0")).andExpect(status().isNotFound());
+        String auth = performLogin("admin@email.com", "password");
+        mockMvc.perform(MockMvcRequestBuilders
+            .get("/api/v1/coffee-beans/0")
+            .header(HttpHeaders.AUTHORIZATION, auth)
+        ).andExpect(status().isNotFound());
+    }
+
+    private String performLogin(String username, String password) throws Exception {
+        UserLoginDto loginRequestDto = new UserLoginDto(username, password);
+        String loginJson = objectMapper.writeValueAsString(loginRequestDto);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginJson))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        return "Bearer " + result.getResponse().getContentAsString();
     }
 }
