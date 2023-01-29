@@ -68,6 +68,12 @@ public class ExtractionServiceImpl implements ExtractionService {
     @Override
     public Stream<ExtractionDetailDto> searchByBeanId(ExtractionSearchDto searchParams, Long id) {
         LOGGER.trace("SearchByBeanId({}) with params: {}", id, searchParams);
+        Optional<CoffeeBean> bean = coffeeBeanRepository.findById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        if (!principal.equals(bean.get().getUser().getId().toString())) {
+            throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+        }
         if (coffeeBeanRepository.existsById(id)) {
             return extractionRepository.search(searchParams, id).stream().map(mapper::entityToDto);
         } else {
