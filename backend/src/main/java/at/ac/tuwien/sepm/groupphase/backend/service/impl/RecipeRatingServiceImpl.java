@@ -42,6 +42,7 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
         Recipe recipe = recipeRepository.findRecipeById(recipeRatingCreateDto.getRecipeId());
         RecipeRating rating = new RecipeRating(recipe, author,
             recipeRatingCreateDto.getRating(), recipeRatingCreateDto.getText());
+        recipeRatingRepository.save(rating);
         return recipeRatingMapper.entityToDto(rating);
     }
 
@@ -58,11 +59,13 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
         RecipeRating rating = recipeRatingRepository.findRecipeRatingById(recipeRatingUpdateDto.getId());
         rating.setRating(recipeRatingUpdateDto.getRating());
         rating.setText(recipeRatingUpdateDto.getText());
-        return null;
+        recipeRatingRepository.save(rating);
+        return recipeRatingMapper.entityToDto(rating);
     }
 
     @Override
     public void delete(long id) throws NotFoundException {
         LOGGER.trace("delete {}", id);
+        recipeRatingRepository.deleteById(id);
     }
 }
