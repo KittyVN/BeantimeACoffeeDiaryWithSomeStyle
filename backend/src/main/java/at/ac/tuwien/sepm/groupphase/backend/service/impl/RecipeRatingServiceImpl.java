@@ -6,6 +6,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingUpdateDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
 import at.ac.tuwien.sepm.groupphase.backend.entity.RecipeRating;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.RecipeRatingMapper;
 import at.ac.tuwien.sepm.groupphase.backend.repository.RecipeRatingRepository;
@@ -40,6 +41,11 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
         LOGGER.trace("create {}", recipeRatingCreateDto);
         User author = userRepository.findFirstById(recipeRatingCreateDto.getUserId());
         Recipe recipe = recipeRepository.findRecipeById(recipeRatingCreateDto.getRecipeId());
+
+        if (author.getId() == recipe.getExtraction().getCoffeeBean().getUser().getId()) {
+            throw new ConflictException("Recipe owners cannot create ratings for their own recipe");
+        }
+
         RecipeRating rating = new RecipeRating(recipe, author,
             recipeRatingCreateDto.getRating(), recipeRatingCreateDto.getText());
         recipeRatingRepository.save(rating);
