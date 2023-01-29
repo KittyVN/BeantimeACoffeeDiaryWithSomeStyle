@@ -4,6 +4,7 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeSearchCommunityDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeService;
 import org.slf4j.Logger;
@@ -69,6 +70,13 @@ public class RecipeEndpoint {
     public Stream<CommunityRecipeDto> getAll() {
         LOGGER.info("GET " + BASE_PATH);
         return service.getAllWithExtractions();
+    }
+
+    @GetMapping("search")
+    public Stream<CommunityRecipeDto> searchCommunityPage(RecipeSearchCommunityDto searchParams) {
+        LOGGER.info("GET " + BASE_PATH);
+        LOGGER.info("Request parameters: {}", searchParams);
+        return service.searchCommunityRecipes(searchParams);
     }
 
     @GetMapping("extraction/{id}")

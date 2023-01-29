@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { debounce, interval, scan, Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
@@ -8,6 +9,8 @@ import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
 import { RecipeService } from 'src/services/recipe.service';
 import { RedditService } from 'src/services/reddit.service';
 import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
+import { RecipeCommunitySearchDto } from 'src/dtos/req/recipe-community-search.dto';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-community-dashboard',
@@ -15,6 +18,7 @@ import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
   styleUrls: ['./community-dashboard.component.css'],
 })
 export class CommunityDashboardComponent implements OnInit {
+  searchParams: RecipeCommunitySearchDto = {};
   recipes: CommunityRecipeDto[] = [];
 
   constructor(
@@ -22,15 +26,22 @@ export class CommunityDashboardComponent implements OnInit {
     private route: RouterModule,
     private snackBar: MatSnackBar,
     private recipeService: RecipeService,
-    private redditService: RedditService,
+    public keyUp: Subject<KeyboardEvent | Event>,
     private redditAuthService: RedditAuthService
   ) {}
+
+  searchRecipeForm = new FormGroup({
+    name: new FormControl('', Validators.maxLength(50)),
+    blend: new FormControl('', Validators.maxLength(50)),
+    brewMethod: new FormControl(''),
+    roast: new FormControl(''),
+  });
 
   redditLoggedIn: boolean = false;
 
   ngOnInit(): void {
     this.redditLoggedIn = this.redditAuthService.isAuthenticated();
-    this.recipeService.getAll().subscribe({
+    this.recipeService.search(this.searchParams).subscribe({
       next: data => {
         this.recipes = data;
         console.log(this.recipes);
@@ -46,6 +57,28 @@ export class CommunityDashboardComponent implements OnInit {
         );
       },
     });
+    this.keyUp
+      .pipe(
+        scan(i => ++i, 1),
+        debounce(i => interval(60 * i))
+      )
+      .subscribe(() => {
+        this.recipeService.search(this.searchParams).subscribe({
+          next: data => {
+            this.recipes = data;
+          },
+          error: error => {
+            console.error('Error fetching recipe data', error);
+            this.snackBar.open(
+              'Unable to fetch recipe data, try again later',
+              'Close',
+              {
+                duration: 5000,
+              }
+            );
+          },
+        });
+      });
   }
 
   formatRoast(recipe: CommunityRecipeDto): String {
