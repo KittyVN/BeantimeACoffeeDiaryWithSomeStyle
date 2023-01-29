@@ -1,27 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 
 import { RecipeRatingCreateDto } from '../dtos/req/recipeRatingCreate.dto';
-import { RecipeRatingUpdateDto } from '../dtos/req/recipeRatingUpdate.dto';
 import { RecipeRatingListDto } from '../dtos/req/recipeRatingList.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeRatingService {
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Add a new rating
    *
    * @param rating create dto to be added to the system
+   * @return Observable of the created rating
    */
-  public create(rating: RecipeRatingCreateDto) {}
+  public create(
+    rating: RecipeRatingCreateDto
+  ): Observable<RecipeRatingListDto> {
+    return this.http
+      .post<RecipeRatingListDto>(`recipes/${rating.recipeId}/ratings`, rating)
+      .pipe();
+  }
 
   /**
    * Get ratings by recipe id
    *
    * @param recipeId of the recipe
+   * @return an array of Observables containing the found recipes
    */
   public getByRecipeId(recipeId: number): Observable<RecipeRatingListDto[]> {
     return this.http

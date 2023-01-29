@@ -13,6 +13,7 @@ import { RecipeRatingListDto } from '../../../dtos/req/recipeRatingList.dto';
 import { RecipeRatingService } from '../../../services/recipeRating.service';
 import { AuthService } from '../../../services/auth/auth.service';
 import { UserService } from '../../../services/user.service';
+import { RecipeRatingCreateDto } from '../../../dtos/req/recipeRatingCreate.dto';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -52,6 +53,12 @@ export class RecipeDetailComponent implements OnInit {
   ratings: RecipeRatingListDto[] = [];
   isAdmin: boolean = this.authService.isAdmin();
   userId: number = this.userService.thisUserId();
+  newRating: RecipeRatingCreateDto = {
+    recipeId: 0,
+    authorId: this.userId,
+    rating: 1,
+    text: undefined,
+  };
 
   constructor(
     private recipeService: RecipeService,
@@ -71,6 +78,7 @@ export class RecipeDetailComponent implements OnInit {
         this.recipeService.getById(String(this.recipe.id)).subscribe({
           next: data => {
             this.recipe = data;
+            this.newRating.recipeId = this.recipe.id;
           },
           error: error => {
             if (error.status == 404) {
@@ -226,6 +234,17 @@ export class RecipeDetailComponent implements OnInit {
         this.snackBar.open('Deleted rating successfully', 'Close', {
           duration: 5000,
         });
+      },
+    });
+  }
+
+  createRating() {
+    this.recipeRatingService.create(this.newRating).subscribe({
+      next: data => {
+        this.ratings.unshift(data);
+        this.snackBar.open(`Rating created successfully.`, 'OK');
+        this.newRating.rating = 1;
+        this.newRating.text = undefined;
       },
     });
   }

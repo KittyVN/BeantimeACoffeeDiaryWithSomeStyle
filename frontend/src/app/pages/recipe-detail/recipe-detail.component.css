@@ -60,3 +60,12 @@ mat-card-content.attributes span {
 mat-card:not(:first-child) {
   margin-top: 32px;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form :nth-child(2) {
+  margin-top: 8px;
+}

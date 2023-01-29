@@ -99,20 +99,22 @@
       </div>
     </mat-card-actions>
   </mat-card>
-  <mat-card *ngIf="isAdmin || recipe.coffeeBeanUserId !== userId">
+  <mat-card *ngIf="recipe.coffeeBeanUserId !== userId">
     <mat-card-header>
-      <mat-card-title>
-        <span>Create a new</span>
-        <span>Edit a</span>
-        rating
-      </mat-card-title>
+      <mat-card-title> Create a new rating </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form>
+      <form (submit)="createRating()">
+        <app-star-rating [rating]="newRating.rating"></app-star-rating>
         <mat-form-field>
           <mat-label>Remarks (optional)</mat-label>
-          <textarea matInput></textarea>
+          <textarea
+            name="text"
+            [(ngModel)]="newRating.text"
+            matInput
+            rows="3"></textarea>
         </mat-form-field>
+        <button type="submit" mat-stroked-button>Send</button>
       </form>
     </mat-card-content>
   </mat-card>
