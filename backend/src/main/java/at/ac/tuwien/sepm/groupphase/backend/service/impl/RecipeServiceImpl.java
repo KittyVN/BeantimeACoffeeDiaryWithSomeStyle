@@ -61,7 +61,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipeListDto update(RecipeListDto recipeListDto) throws NotFoundException {
         LOGGER.trace("update {}", recipeListDto);
-        Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
+        Optional<Extraction> extraction = extractionRepository.findById(recipeListDto.getExtractionId());
         Object currentUserId = getCurrentAuthenticatedUserId();
         if (extraction.isPresent()) {
             if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {

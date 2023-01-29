@@ -72,8 +72,7 @@ public class RecipeEndpoint {
     }
 
     @GetMapping("search")
-    public Stream<CommunityRecipeDto> searchCommunityPage(RecipeSearchCommunityDto searchParams) {
-        LOGGER.info("GET " + BASE_PATH);
+    public Stream<RecipeDetailDto> searchCommunityPage(RecipeSearchCommunityDto searchParams) {
         LOGGER.info("Request parameters: {}", searchParams);
         return service.searchCommunityRecipes(searchParams);
     }

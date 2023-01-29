@@ -44,7 +44,9 @@ public class UserDetailDto {
         return this.active;
     }
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     @Override
     public String toString() {

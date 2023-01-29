@@ -2,11 +2,8 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDetailDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeListDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeSearchCommunityDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.stream.Stream;
