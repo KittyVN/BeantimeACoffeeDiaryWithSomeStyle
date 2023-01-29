@@ -68,13 +68,13 @@ public class ExtractionServiceImpl implements ExtractionService {
     @Override
     public Stream<ExtractionDetailDto> searchByBeanId(ExtractionSearchDto searchParams, Long id) {
         LOGGER.trace("SearchByBeanId({}) with params: {}", id, searchParams);
-        Optional<CoffeeBean> bean = coffeeBeanRepository.findById(id);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
-        if (!principal.equals(bean.get().getUser().getId().toString())) {
-            throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
-        }
         if (coffeeBeanRepository.existsById(id)) {
+            Optional<CoffeeBean> bean = coffeeBeanRepository.findById(id);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = auth.getPrincipal();
+            if (!principal.equals(bean.get().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             return extractionRepository.search(searchParams, id).stream().map(mapper::entityToDto);
         } else {
             throw new NotFoundException(String.format("No bean with ID %d found", id));
@@ -84,13 +84,13 @@ public class ExtractionServiceImpl implements ExtractionService {
     @Override
     public Stream<ExtractionDetailDto> getAllByBeanId(Long id) {
         LOGGER.trace("getAllByBeanId({})", id);
-        Optional<CoffeeBean> bean = coffeeBeanRepository.findById(id);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
-        if (!principal.equals(bean.get().getUser().getId().toString())) {
-            throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
-        }
         if (coffeeBeanRepository.existsById(id)) {
+            Optional<CoffeeBean> bean = coffeeBeanRepository.findById(id);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = auth.getPrincipal();
+            if (!principal.equals(bean.get().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             return extractionRepository.findAllByBeanId(id).stream().map(extraction -> mapper.entityToDto(extraction));
         } else {
             throw new NotFoundException(String.format("No bean with ID %d found", id));
@@ -103,6 +103,11 @@ public class ExtractionServiceImpl implements ExtractionService {
         Optional<Extraction> ex = extractionRepository.findById(id);
         if (ex.isPresent()) {
             Extraction extraction = ex.get();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = auth.getPrincipal();
+            if (!principal.equals(extraction.getCoffeeBean().getUser().getId().toString())) {
+                throw new AuthorizationException("Cannot get extractions to a bean that's not yours!");
+            }
             return mapper.entityToDto(extraction);
         } else {
             throw new NotFoundException(String.format("No extraction with ID %d found", id));
