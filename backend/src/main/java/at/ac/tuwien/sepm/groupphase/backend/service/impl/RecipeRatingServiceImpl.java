@@ -60,16 +60,6 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
     }
 
     @Override
-    public RecipeRatingListDto update(RecipeRatingUpdateDto recipeRatingUpdateDto) {
-        LOGGER.trace("update {}", recipeRatingUpdateDto);
-        RecipeRating rating = recipeRatingRepository.findRecipeRatingById(recipeRatingUpdateDto.getId());
-        rating.setRating(recipeRatingUpdateDto.getRating());
-        rating.setText(recipeRatingUpdateDto.getText());
-        recipeRatingRepository.save(rating);
-        return recipeRatingMapper.entityToDto(rating);
-    }
-
-    @Override
     public void delete(long id) throws NotFoundException {
         LOGGER.trace("delete {}", id);
         recipeRatingRepository.deleteById(id);

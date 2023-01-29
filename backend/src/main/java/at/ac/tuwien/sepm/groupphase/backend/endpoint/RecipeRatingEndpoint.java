@@ -50,19 +50,6 @@ public class RecipeRatingEndpoint {
         return service.getByRecipeId(id);
     }
 
-    @PreAuthorize("(hasRole('ROLE_ADMIN') or ((hasRole('ROLE_USER')) "
-        + "and authentication.principal.equals(#recipeRatingUpdateDto.getAuthorId().toString())))")
-    @PatchMapping("{recipe_id}/ratings/{id}")
-    public RecipeRatingListDto update(@PathVariable("recipe_id") long recipeId,
-                                      @PathVariable("id") long id,
-                                      @RequestBody RecipeRatingUpdateDto recipeRatingUpdateDto) {
-        LOGGER.info("PATCH {}/{}/ratings/{} with RequestBody: {}", BASE_PATH, recipeId, id, recipeRatingUpdateDto);
-        if (recipeRatingUpdateDto.getRecipeId() != recipeId || recipeRatingUpdateDto.getId() != id) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-        return service.update(recipeRatingUpdateDto);
-    }
-
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @DeleteMapping("{recipe_id}/ratings/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

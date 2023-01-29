@@ -25,14 +25,6 @@ public interface RecipeRatingService {
     Stream<RecipeRatingListDto> getByRecipeId(long recipeId);
 
     /**
-     * Update a rating with the specified dto.
-     *
-     * @param recipeRatingUpdateDto to update
-     * @return the updated RecipeRatingListDto
-     */
-    RecipeRatingListDto update(RecipeRatingUpdateDto recipeRatingUpdateDto);
-
-    /**
      * Delete rating by id.
      *
      * @param id of the rating to delete
