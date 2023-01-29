@@ -59,11 +59,11 @@ public class RecipeEndpointTest {
         String jsonString = mapper.writeValueAsString(requestJson);
         String body = mockMvc
             .perform(MockMvcRequestBuilders
-            .post("/api/v1/recipes")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(String.valueOf(jsonString))
-            .characterEncoding("utf-8")
-        ).andDo(print()).andExpect(status().isConflict()).andReturn().getResponse().getErrorMessage();
+                .post("/api/v1/recipes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.valueOf(jsonString))
+                .characterEncoding("utf-8")
+            ).andDo(print()).andExpect(status().isConflict()).andReturn().getResponse().getErrorMessage();
 
         assertThat(body).isEqualTo("recipe for this extraction with ID 5 already exists");
 
@@ -112,7 +112,9 @@ public class RecipeEndpointTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
             .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
-            .contains(tuple("Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.", 4, "Wild"));
+            .contains(tuple(
+                "Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.",
+                4, "Wild"));
     }
 
     @Test
@@ -131,6 +133,8 @@ public class RecipeEndpointTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result)
             .map(CommunityRecipeDto::getCoffeeBeanDescription, CommunityRecipeDto::getExtractionAcidity, CommunityRecipeDto::getExtractionRatingNotes)
-            .contains(tuple("Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.", 4, "Wild"));
+            .contains(tuple(
+                "Our House Blend Espresso consists of 100% Arabica beans and combines varietals from Ethiopia and Colombia to create a well balanced and medium-strong espresso.",
+                4, "Wild"));
     }
 }

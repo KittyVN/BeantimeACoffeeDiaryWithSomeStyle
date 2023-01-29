@@ -5,6 +5,7 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CoffeeBeanRatingListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionDayStatsDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.ExtractionListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserLoginDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserProfileDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.UserResetPasswordDto;
 import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
@@ -22,6 +23,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -201,10 +203,10 @@ public class UserEndpointTest {
             .contains(tuple(4L, "ola.nordmann@example.com", UserRole.ADMIN, true));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .patch("/api/v1/users/4")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"role\":\"ADMIN\",\"active\":false}")
-                .accept(MediaType.APPLICATION_JSON));
+            .patch("/api/v1/users/4")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"role\":\"ADMIN\",\"active\":false}")
+            .accept(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -288,10 +290,12 @@ public class UserEndpointTest {
 
     @Test
     @Transactional
-    @WithMockUser(username = "martina.musterfrau@example.com", password = "password", roles = "USER")
     public void getProfileByOtherUserIdReturns403() throws Exception {
+        String auth = performLogin("olaf.olaf@example.com", "password");
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/profile/1")).andExpect(status().isForbidden());
+            mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/users/profile/1")
+                .header(HttpHeaders.AUTHORIZATION, auth)).andExpect(status().isForbidden());
         } catch (Exception e) {
             assertThat(e.getCause() instanceof AccessDeniedException);
         }
@@ -340,7 +344,8 @@ public class UserEndpointTest {
         assertThat(profile.getTopRatedExtractions()).isNotNull();
         assertThat(profile.getTopRatedExtractions().length).isLessThanOrEqualTo(5);
         assertThat(profile.getTopRatedExtractions())
-            .extracting(ExtractionListDto::getId, ExtractionListDto::getDateTime, ExtractionListDto::getBeanName, ExtractionListDto::getBeanId, ExtractionListDto::getRating)
+            .extracting(ExtractionListDto::getId, ExtractionListDto::getDateTime, ExtractionListDto::getBeanName, ExtractionListDto::getBeanId,
+                ExtractionListDto::getRating)
             .contains(tuple(8L, LocalDateTime.parse("2022-12-16T14:50:00"), "El Vergel Coffee", 4L, 25))
             .contains(tuple(1L, LocalDateTime.parse("2022-12-11T14:50:00"), "Espresso House Blend", 2L, 25))
             .contains(tuple(5L, LocalDateTime.parse("2022-12-15T14:50:00"), "Espresso House Blend", 2L, 23))
@@ -364,5 +369,19 @@ public class UserEndpointTest {
             .contains(tuple(5L, "Cerrado Coffee & Espresso", 3))
             .contains(tuple(4L, "El Vergel Coffee", 3))
             .contains(tuple(6L, "Limu Coffee", 3));
+    }
+
+    private String performLogin(String username, String password) throws Exception {
+        UserLoginDto loginRequestDto = new UserLoginDto(username, password);
+        String loginJson = objectMapper.writeValueAsString(loginRequestDto);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginJson))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        return "Bearer " + result.getResponse().getContentAsString();
     }
 }
