@@ -39,7 +39,7 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
     @Override
     public RecipeRatingListDto create(RecipeRatingCreateDto recipeRatingCreateDto) {
         LOGGER.trace("create {}", recipeRatingCreateDto);
-        User author = userRepository.findFirstById(recipeRatingCreateDto.getUserId());
+        User author = userRepository.findFirstById(recipeRatingCreateDto.getAuthorId());
         Recipe recipe = recipeRepository.findRecipeById(recipeRatingCreateDto.getRecipeId());
 
         if (author.getId() == recipe.getExtraction().getCoffeeBean().getUser().getId()) {

@@ -9,7 +9,7 @@ public class RecipeRatingCreateDto {
     private long recipeId;
 
     @NotNull
-    private long userId;
+    private long authorId;
 
     @NotNull
     @Min(value = 1, message = "Rating must be in the range between 1 and 5")
@@ -21,9 +21,9 @@ public class RecipeRatingCreateDto {
     public RecipeRatingCreateDto() {
     }
 
-    public RecipeRatingCreateDto(long recipeId, long userId, int rating, String text) {
+    public RecipeRatingCreateDto(long recipeId, long authorId, int rating, String text) {
         this.recipeId = recipeId;
-        this.userId = userId;
+        this.authorId = authorId;
         this.rating = rating;
         this.text = text;
     }
@@ -36,12 +36,12 @@ public class RecipeRatingCreateDto {
         this.recipeId = recipeId;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getAuthorId() {
+        return authorId;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
     }
 
     public int getRating() {
