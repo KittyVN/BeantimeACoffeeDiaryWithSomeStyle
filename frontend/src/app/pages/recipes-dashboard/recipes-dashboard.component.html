@@ -46,7 +46,7 @@
           <div class="button-row">
             <button
               mat-stroked-button
-              [routerLink]="['/community/' + recipe.recipeId]">
+              [routerLink]="['/community/' + recipe.id]">
               <mat-icon>list</mat-icon>
               Details
             </button>
@@ -59,18 +59,14 @@
               Buy Coffee
             </a>
             <button
-              *ngIf="
-                this.recipe.extractionId && this.recipe.recipeShared === true
-              "
+              *ngIf="this.recipe.extractionId && this.recipe.shared === true"
               mat-stroked-button
               (click)="editRecipe(this.recipe)">
               <mat-icon>edit</mat-icon>
               Unshare
             </button>
             <button
-              *ngIf="
-                this.recipe.extractionId && this.recipe.recipeShared === false
-              "
+              *ngIf="this.recipe.extractionId && this.recipe.shared === false"
               mat-stroked-button
               (click)="editRecipe(this.recipe)">
               <mat-icon>edit</mat-icon>
@@ -91,7 +87,7 @@
             <button
               mat-stroked-button
               color="warn"
-              (click)="deleteRecipe(this.recipe.recipeId)">
+              (click)="deleteRecipe(this.recipe.id)">
               <mat-icon>delete</mat-icon>
               Delete Recipe
             </button>

@@ -1,8 +1,8 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeListDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeService;
 import org.slf4j.Logger;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -38,10 +37,10 @@ public class RecipeEndpoint {
     }
 
     @PostMapping
-    public RecipeDto create(@RequestBody RecipeDto recipeDto) throws ResponseStatusException {
-        LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", recipeDto.toString());
+    public RecipeListDto create(@RequestBody RecipeListDto recipeListDto) throws ResponseStatusException {
+        LOGGER.info("POST " + BASE_PATH + " with RequestBody: {}", recipeListDto.toString());
         try {
-            return service.create(recipeDto);
+            return service.create(recipeListDto);
         } catch (FileAlreadyExistsException e) {
             LOGGER.warn(e.toString());
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
@@ -49,23 +48,23 @@ public class RecipeEndpoint {
     }
 
     @PutMapping("extraction/{id}")
-    public RecipeDto update(@Valid @PathVariable("id") long id, @RequestBody RecipeDto recipeDto) throws ResponseStatusException {
-        LOGGER.info("PUT " + BASE_PATH + " with RequestBody: {}", recipeDto);
+    public RecipeListDto update(@Valid @PathVariable("id") long id, @RequestBody RecipeListDto recipeListDto) throws ResponseStatusException {
+        LOGGER.info("PUT " + BASE_PATH + " with RequestBody: {}", recipeListDto);
         try {
-            return service.update(recipeDto);
+            return service.update(recipeListDto);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @GetMapping
-    public Stream<CommunityRecipeDto> getAll() {
+    public Stream<RecipeDetailDto> getAll() {
         LOGGER.info("GET " + BASE_PATH);
         return service.getAllWithExtractions();
     }
 
     @GetMapping("extraction/{id}")
-    public RecipeDto getByExtractionId(@PathVariable("id") long id) throws ResponseStatusException {
+    public RecipeListDto getByExtractionId(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with extraction id: {}", id);
         try {
             return service.getByExtractionId(id);
@@ -75,7 +74,7 @@ public class RecipeEndpoint {
     }
 
     @GetMapping("{id}")
-    public CommunityRecipeDto getById(@PathVariable("id") long id) throws ResponseStatusException {
+    public RecipeDetailDto getById(@PathVariable("id") long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with id: {}", id);
         try {
             return service.getById(id);
@@ -97,7 +96,7 @@ public class RecipeEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
         + "and authentication.principal.equals(#id.toString())")
     @GetMapping("user/{id}")
-    public Stream<CommunityRecipeDto> getAllByUserId(@PathVariable Long id) throws ResponseStatusException {
+    public Stream<RecipeDetailDto> getAllByUserId(@PathVariable Long id) throws ResponseStatusException {
         LOGGER.info("GET " + BASE_PATH + " with user id: {}", id);
         try {
             return service.getAllByUserId(id);

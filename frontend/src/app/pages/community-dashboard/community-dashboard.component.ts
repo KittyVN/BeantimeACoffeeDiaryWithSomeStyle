@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting';
 import { CoffeeRoast } from 'src/dtos/req/coffee-roast';
-import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
+import { RecipeDetailDto } from 'src/dtos/req/recipeDetail.dto';
 import { RecipeService } from 'src/services/recipe.service';
 import { RedditService } from 'src/services/reddit.service';
 import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
@@ -15,7 +15,7 @@ import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
   styleUrls: ['./community-dashboard.component.css'],
 })
 export class CommunityDashboardComponent implements OnInit {
-  recipes: CommunityRecipeDto[] = [];
+  recipes: RecipeDetailDto[] = [];
 
   constructor(
     private router: Router,
@@ -48,7 +48,7 @@ export class CommunityDashboardComponent implements OnInit {
     });
   }
 
-  formatRoast(recipe: CommunityRecipeDto): String {
+  formatRoast(recipe: RecipeDetailDto): String {
     switch (recipe.coffeeBeanRoast) {
       case CoffeeRoast.light: {
         return 'Light Roast';
@@ -74,8 +74,8 @@ export class CommunityDashboardComponent implements OnInit {
     }
   }
 
-  formatGrindSetting(recipe: CommunityRecipeDto): string {
-    switch (recipe.extractionGrindSetting) {
+  formatGrindSetting(recipe: RecipeDetailDto): string {
+    switch (recipe.extractionGrindSettings) {
       case CoffeeGrindSetting.COARSE: {
         return 'Coarse';
       }
@@ -100,7 +100,7 @@ export class CommunityDashboardComponent implements OnInit {
     }
   }
 
-  formatBrewMethod(recipe: CommunityRecipeDto): string {
+  formatBrewMethod(recipe: RecipeDetailDto): string {
     switch (recipe.extractionBrewMethod) {
       case BrewMethod.DRIP: {
         return 'Drip';

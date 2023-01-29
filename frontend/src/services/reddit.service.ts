@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoffeeRoast } from 'src/dtos';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
-import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
+import { RecipeDetailDto } from 'src/dtos/req/recipeDetail.dto';
 
 import { RedditAuthService } from './auth/reddit-auth.service';
 
@@ -18,7 +18,7 @@ export class RedditService {
     private redditAuthService: RedditAuthService
   ) {}
 
-  buildPostingString(recipe: CommunityRecipeDto) {
+  buildPostingString(recipe: RecipeDetailDto) {
     let posting = '';
     posting += 'I used ' + recipe.coffeeBeanName + ' for this extraction.\n\n';
     if (recipe.coffeeBeanBlend) {
@@ -50,7 +50,7 @@ export class RedditService {
       posting +=
         'Extraction method used: ' + this.formatBrewMethod(recipe) + '\n\n';
     }
-    if (recipe.extractionGrindSetting) {
+    if (recipe.extractionGrindSettings) {
       posting +=
         'Grind setting used: ' + this.formatGrindSetting(recipe) + '\n\n';
     }
@@ -80,7 +80,7 @@ export class RedditService {
     return posting;
   }
 
-  formatRoast(recipe: CommunityRecipeDto): String {
+  formatRoast(recipe: RecipeDetailDto): String {
     switch (recipe.coffeeBeanRoast) {
       case CoffeeRoast.light: {
         return 'Light Roast';
@@ -110,8 +110,8 @@ export class RedditService {
     return milliseconds / 1000;
   }
 
-  formatGrindSetting(recipe: CommunityRecipeDto): string {
-    switch (recipe.extractionGrindSetting) {
+  formatGrindSetting(recipe: RecipeDetailDto): string {
+    switch (recipe.extractionGrindSettings) {
       case CoffeeGrindSetting.COARSE: {
         return 'Coarse';
       }
@@ -136,7 +136,7 @@ export class RedditService {
     }
   }
 
-  formatBrewMethod(recipe: CommunityRecipeDto): string {
+  formatBrewMethod(recipe: RecipeDetailDto): string {
     switch (recipe.extractionBrewMethod) {
       case BrewMethod.DRIP: {
         return 'Drip';
@@ -189,7 +189,7 @@ export class RedditService {
     }
   }
 
-  postToReddit(recipe: CommunityRecipeDto) {
+  postToReddit(recipe: RecipeDetailDto) {
     let access_token = this.redditAuthService.getStoredAccessToken();
     if (access_token) {
       let httpOptions = {

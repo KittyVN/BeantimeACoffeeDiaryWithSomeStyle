@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
+import { RecipeDetailDto } from 'src/dtos/req/recipeDetail.dto';
 import { RecipeService } from 'src/services/recipe.service';
 import { Observable } from 'rxjs';
 
 import { BrewMethod } from '../../../dtos/req/brew-method.enum';
-import { RecipeDto } from '../../../dtos/req/recipe.dto';
+import { RecipeListDto } from '../../../dtos/req/recipeList.dto';
 import { RedditService } from '../../../services/reddit.service';
 import { CoffeeRoast } from '../../../dtos';
 import { RecipeRatingListDto } from '../../../dtos/req/recipeRatingList.dto';
@@ -18,34 +18,34 @@ import { RecipeRatingService } from '../../../services/recipeRating.service';
   styleUrls: ['./recipe-detail.component.css'],
 })
 export class RecipeDetailComponent implements OnInit {
-  recipe: CommunityRecipeDto = {
-    recipeId: 0,
-    recipeShared: false,
+  recipe: RecipeDetailDto = {
+    id: 0,
+    shared: false,
     extractionId: 0,
-    extractionAcidity: 0,
-    extractionAftertaste: 0,
-    extractionAromatics: 0,
-    extractionBody: 0,
     extractionBrewMethod: '',
-    extractionBrewTime: 0,
-    extractionDate: new Date(),
-    extractionDose: 0,
-    extractionGrindSetting: '',
-    extractionRatingNotes: '',
-    extractionRecipeSteps: '',
+    extractionGrindSettings: '',
+    extractionBody: 0,
+    extractionAcidity: 0,
+    extractionAromatics: 0,
     extractionSweetness: 0,
+    extractionAftertaste: 0,
+    extractionRecipeSteps: '',
+    extractionRatingNotes: '',
     extractionWaterAmount: 0,
     extractionWaterTemperature: 0,
-    coffeeBeanBlend: '',
-    coffeeBeanDescription: '',
-    coffeeBeanHeight: 0,
+    extractionBrewTime: 0,
+    extractionDose: 0,
     coffeeBeanId: 0,
     coffeeBeanName: '',
-    coffeeBeanOrigin: '',
-    coffeeBeanPrice: 0,
+    coffeeBeanBlend: '',
     coffeeBeanRoast: '',
-    coffeeBeanStrength: '',
     coffeeBeanUrl: '',
+    coffeeBeanStrength: '',
+    coffeeBeanOrigin: '',
+    coffeeBeanHeight: '',
+    coffeeBeanDescription: '',
+    coffeeBeanUserId: 0,
+    coffeeBeanUserUsername: '',
   };
   ratings: RecipeRatingListDto[] = [];
 
@@ -60,9 +60,9 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(({ id }) => {
-      this.recipe.recipeId = id;
-      if (this.recipe.recipeId !== undefined) {
-        this.recipeService.getById(String(this.recipe.recipeId)).subscribe({
+      this.recipe.id = id;
+      if (this.recipe.id !== undefined) {
+        this.recipeService.getById(String(this.recipe.id)).subscribe({
           next: data => {
             this.recipe = data;
           },
@@ -70,14 +70,14 @@ export class RecipeDetailComponent implements OnInit {
             if (error.status == 404) {
               this.router.navigate(['/community']);
               this.snackBar.open(
-                `Recipe with ID ${this.recipe.recipeId} not found.`,
+                `Recipe with ID ${this.recipe.id} not found.`,
                 'OK'
               );
             }
           },
         });
 
-        this.recipeRatingService.getByRecipeId(this.recipe.recipeId).subscribe({
+        this.recipeRatingService.getByRecipeId(this.recipe.id).subscribe({
           next: data => {
             this.ratings = data;
           },
@@ -86,7 +86,7 @@ export class RecipeDetailComponent implements OnInit {
     });
   }
 
-  formatBrewMethod(recipe: CommunityRecipeDto): string {
+  formatBrewMethod(recipe: RecipeDetailDto): string {
     switch (recipe.extractionBrewMethod) {
       case BrewMethod.DRIP: {
         return 'Drip';
@@ -166,7 +166,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   deleteRecipe(): void {
-    this.recipeService.delete(this.recipe.recipeId.toString()).subscribe({
+    this.recipeService.delete(this.recipe.id.toString()).subscribe({
       next: res => {
         this.snackBar.open('Successfully deleted recipe', 'Close', {
           duration: 5000,
@@ -186,13 +186,13 @@ export class RecipeDetailComponent implements OnInit {
 
   editRecipe() {
     let observable: Observable<string>;
-    let recipeDto: RecipeDto = {
-      id: this.recipe.recipeId,
-      shared: this.recipe.recipeShared,
+    let recipeDto: RecipeListDto = {
+      id: this.recipe.id,
+      shared: this.recipe.shared,
       extractionId: this.recipe.extractionId,
     };
 
-    if (this.recipe.recipeShared) {
+    if (this.recipe.shared) {
       recipeDto.shared = false;
     } else {
       recipeDto.shared = true;
@@ -201,7 +201,7 @@ export class RecipeDetailComponent implements OnInit {
 
     observable.subscribe({
       next: data => {
-        this.recipe.recipeShared = recipeDto.shared;
+        this.recipe.shared = recipeDto.shared;
       },
       error: err => {
         if (err.status == 404) {

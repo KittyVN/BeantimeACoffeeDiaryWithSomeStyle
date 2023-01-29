@@ -57,14 +57,14 @@
           Buy Coffee
         </a>
         <button
-          *ngIf="recipe.extractionId && recipe.recipeShared"
+          *ngIf="recipe.extractionId && recipe.shared"
           mat-stroked-button
           (click)="editRecipe()">
           <mat-icon>share</mat-icon>
           Unshare
         </button>
         <button
-          *ngIf="recipe.extractionId && !recipe.recipeShared"
+          *ngIf="recipe.extractionId && !recipe.shared"
           mat-stroked-button
           (click)="editRecipe()">
           <mat-icon>share</mat-icon>
@@ -105,6 +105,9 @@
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+      <p *ngIf="ratings.length === 0">
+        There are no ratings yet for this recipe.
+      </p>
       <mat-card *ngFor="let rating of ratings">
         <mat-card-header>
           <mat-card-title>

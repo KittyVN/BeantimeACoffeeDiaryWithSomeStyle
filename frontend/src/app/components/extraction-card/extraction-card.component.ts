@@ -15,7 +15,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
 import { ExtractionDetailDto } from 'src/dtos/req/extraction-detail.dto';
-import { RecipeDto } from 'src/dtos/req/recipe.dto';
+import { RecipeListDto } from 'src/dtos/req/recipeList.dto';
 import { RecipeService } from 'src/services/recipe.service';
 
 import { DeleteDialogExtractionComponent } from '../dialog/delete-dialog-extraction/delete-dialog-extraction.component';
@@ -251,7 +251,7 @@ export class ExtractionCardComponent implements OnInit {
       this.extraction.waterAmount
     ) {
       let observable: Observable<string>;
-      let recipeDto: RecipeDto = {
+      let recipeDto: RecipeListDto = {
         id: 0,
         shared: false,
         extractionId: extractionId,
