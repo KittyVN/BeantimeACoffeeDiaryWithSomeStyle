@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Post to:</h1>
+<div mat-dialong-content>
+  <mat-form-field class="subredditSelect">
+    <select matNativeControl [(ngModel)]="selectedSubreddit">
+      <option *ngFor="let subreddit of subreddits | async" [value]="subreddit">
+        {{ subreddit }}
+      </option>
+    </select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button
+    [disabled]="!subredditIsSelected()"
+    mat-raised-button
+    color="primary"
+    (click)="postToReddit()">
+    Post
+  </button>
+</div>

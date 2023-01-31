@@ -10,6 +10,9 @@ import { UserService } from 'src/services/user.service';
 import { RedditService } from 'src/services/reddit.service';
 import { Observable } from 'rxjs';
 import { RecipeDto } from 'src/dtos/req/recipe.dto';
+import { SubredditsDialogComponent } from 'src/app/components/dialog/subreddits-dialog/subreddits-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
 
 @Component({
   selector: 'app-recipes-dashboard',
@@ -21,10 +24,12 @@ export class RecipesDashboardComponent implements OnInit {
   userId: number = this.userService.thisUserId();
 
   constructor(
+    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private recipeService: RecipeService,
     private userService: UserService,
-    private redditService: RedditService
+    private redditService: RedditService,
+    private redditAuthService: RedditAuthService
   ) {}
 
   ngOnInit(): void {
@@ -169,8 +174,25 @@ export class RecipesDashboardComponent implements OnInit {
     });
   }
 
-  shareOnReddit(recipe: CommunityRecipeDto) {
-    this.redditService.postToReddit(recipe);
+  shareRedditDialog(recipe: CommunityRecipeDto): void {
+    if (this.redditAuthService.isAuthenticated()) {
+      const dialogRef = this.dialog.open(SubredditsDialogComponent, {
+        height: '210px',
+        width: '400px',
+        hasBackdrop: true,
+        data: {
+          dataKey: recipe,
+        },
+      });
+    } else {
+      this.snackBar.open(
+        'You need to be connected to reddit in order to post. Please go to your Profile Page to connect to reddit.',
+        'Close',
+        {
+          duration: 5000,
+        }
+      );
+    }
   }
 
   editRecipe(recipe: CommunityRecipeDto) {

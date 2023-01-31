@@ -57,6 +57,7 @@ import { RedditAuthCallbackComponent } from './pages/reddit-auth-callback/reddit
 import { DeleteDialogExtractionComponent } from './components/dialog/delete-dialog-extraction/delete-dialog-extraction.component';
 import { DeleteDialogUserComponent } from './components/dialog/delete-dialog-user/delete-dialog-user.component';
 import { DeleteDialogCoffeeComponent } from './components/dialog/delete-dialog-coffee/delete-dialog-coffee.component';
+import { SubredditsDialogComponent } from './components/dialog/subreddits-dialog/subreddits-dialog.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { DeleteDialogCoffeeComponent } from './components/dialog/delete-dialog-c
     DeleteDialogExtractionComponent,
     DeleteDialogUserComponent,
     DeleteDialogCoffeeComponent,
+    SubredditsDialogComponent,
   ],
   imports: [
     BrowserModule,
