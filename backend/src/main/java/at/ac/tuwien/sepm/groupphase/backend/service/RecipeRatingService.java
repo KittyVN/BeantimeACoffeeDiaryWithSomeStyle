@@ -29,5 +29,5 @@ public interface RecipeRatingService {
      * @param id of the rating to delete
      * @throws NotFoundException if id does not exist
      */
-    void delete(long id) throws NotFoundException;
+    void delete(long id, long userId) throws NotFoundException;
 }
