@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -138,4 +139,27 @@ public class RecipeRatingEndpointTest {
             assertThat(e.getCause() instanceof ConflictException);
         }
     }
+
+    @Test
+    @Transactional
+    @WithMockUser(username = "john.doe@example.com", password = "password", roles = "ADMIN")
+    public void createRatingWithDifferentRecipeIdAsInURLAndUserThatIsNotAuthorReturns403() {
+        String auth = "Bearer " + jwtTokenizer.getAuthToken("2", "john.doe@example.com", new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
+        try {
+            byte[] body = mockMvc
+                .perform(MockMvcRequestBuilders
+                    .post("/api/v1/recipes/1/ratings")
+                    .header(HttpHeaders.AUTHORIZATION, auth)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"recipeId\": 1, \"authorId\": 1, \"rating\": 5}")
+                    .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isConflict())
+                .andReturn().getResponse().getContentAsByteArray();
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof AuthorizationException);
+        }
+    }
+
+    /* DELETE tests */
+
 }
