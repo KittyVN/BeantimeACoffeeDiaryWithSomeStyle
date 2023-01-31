@@ -1,11 +1,13 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +40,8 @@ public class RecipeRatingEndpointTest {
     ObjectMapper objectMapper;
     @Autowired
     RecipeRatingEndpoint endpoint;
+    @Autowired
+    JwtTokenizer jwtTokenizer;
 
     @BeforeEach
     public void setup() {
@@ -84,5 +90,31 @@ public class RecipeRatingEndpointTest {
 
         assertThat(ratingResult).isNotNull();
         assertThat(ratingResult.size()).isEqualTo(0);
+    }
+
+    /* POST tests */
+    @Test
+    @Transactional
+    @WithMockUser(username = "john.doe@example.com", password = "password", roles = "ADMIN")
+    public void createRatingWithSameRecipeIdAsInURLAndUserThatIsNotAuthor() throws Exception {
+        String auth = "Bearer " + jwtTokenizer.getAuthToken("2", "john.doe@example.com", new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .post("/api/v1/recipes/1/ratings")
+                .header(HttpHeaders.AUTHORIZATION, auth)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"recipeId\": 1, \"authorId\": 2, \"rating\": 5}")
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isCreated())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        List<RecipeRatingListDto> ratingResult = objectMapper.readerFor(RecipeRatingListDto.class).<RecipeRatingListDto>readValues(body).readAll();
+
+        assertThat(ratingResult).isNotNull();
+        assertThat(ratingResult.size()).isEqualTo(1);
+        assertThat(ratingResult)
+            .map(RecipeRatingListDto::getId, RecipeRatingListDto::getRecipeId, RecipeRatingListDto::getAuthorId,
+                RecipeRatingListDto::getAuthorUsername, RecipeRatingListDto::getRating, RecipeRatingListDto::getText)
+            .contains(tuple(7L, 1L, 2L, "JohnD", 5, null));
     }
 }
