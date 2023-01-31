@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -161,5 +162,15 @@ public class RecipeRatingEndpointTest {
     }
 
     /* DELETE tests */
-
+    @Test
+    @Transactional
+    @Rollback
+    public void deleteRatingByExistentIdByAuthorReturns204() throws Exception {
+        String auth = "Bearer " + jwtTokenizer.getAuthToken("1", "admin@email.com", new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
+        mockMvc
+            .perform(MockMvcRequestBuilders
+                .delete("/api/v1/recipes/1/ratings/1")
+                .header(HttpHeaders.AUTHORIZATION, auth)
+            ).andExpect(status().isNoContent());
+    }
 }
