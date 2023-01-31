@@ -8,9 +8,8 @@ describe('SubredditsDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SubredditsDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [SubredditsDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SubredditsDialogComponent);
     component = fixture.componentInstance;
