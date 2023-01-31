@@ -173,4 +173,28 @@ public class RecipeRatingEndpointTest {
                 .header(HttpHeaders.AUTHORIZATION, auth)
             ).andExpect(status().isNoContent());
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deleteRatingByNonExistentIdReturns404() throws Exception {
+        String auth = "Bearer " + jwtTokenizer.getAuthToken("1", "admin@email.com", new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
+        mockMvc
+            .perform(MockMvcRequestBuilders
+                .delete("/api/v1/recipes/1/ratings/0")
+                .header(HttpHeaders.AUTHORIZATION, auth)
+            ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deleteRatingByExistentIdByNotAuthorReturns403() throws Exception {
+        String auth = "Bearer " + jwtTokenizer.getAuthToken("3", "martina.musterfrau@example.com", new ArrayList<>(Arrays.asList("ROLE_USER")));
+        mockMvc
+            .perform(MockMvcRequestBuilders
+                .delete("/api/v1/recipes/1/ratings/1")
+                .header(HttpHeaders.AUTHORIZATION, auth)
+            ).andExpect(status().isForbidden());
+    }
 }
