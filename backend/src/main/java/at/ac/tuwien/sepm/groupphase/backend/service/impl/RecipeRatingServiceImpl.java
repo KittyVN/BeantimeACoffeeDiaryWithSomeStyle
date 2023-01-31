@@ -5,6 +5,8 @@ import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
 import at.ac.tuwien.sepm.groupphase.backend.entity.RecipeRating;
 import at.ac.tuwien.sepm.groupphase.backend.entity.User;
+import at.ac.tuwien.sepm.groupphase.backend.enums.UserRole;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepm.groupphase.backend.mapper.RecipeRatingMapper;
@@ -59,8 +61,15 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
     }
 
     @Override
-    public void delete(long id) throws NotFoundException {
+    public void delete(long id, long userId) throws NotFoundException {
         LOGGER.trace("delete {}", id);
-        recipeRatingRepository.deleteById(id);
+        User user = userRepository.findFirstById(userId);
+        RecipeRating recipeRating = recipeRatingRepository.findRecipeRatingById(id);
+
+        if (user.getRole().equals(UserRole.ADMIN) || user.equals(recipeRating.getAuthor())) {
+            recipeRatingRepository.deleteById(id);
+        } else {
+            throw new AuthorizationException();
+        }
     }
 }
