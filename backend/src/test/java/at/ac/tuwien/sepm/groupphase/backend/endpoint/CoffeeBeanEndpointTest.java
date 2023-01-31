@@ -62,10 +62,10 @@ public class CoffeeBeanEndpointTest {
     @Transactional
     @Rollback
     public void createValidCoffee() throws Exception {
-        String auth = performLogin("admin@email.com", "password");
         requestJson.setName("TestBean");
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
         requestJson.setUserId(1L);
+        String auth = performLogin("admin@email.com", "password");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
@@ -80,10 +80,10 @@ public class CoffeeBeanEndpointTest {
 
     @Test
     public void createInValidCoffee() throws Exception {
-        String auth = performLogin("admin@email.com", "password");
         requestJson.setName("");
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
         requestJson.setUserId(1L);
+        String auth = performLogin("admin@email.com", "password");
         //send request with valid parameters but invalid name
         sendInvalidCoffeeBeanCreateRequest(requestJson, auth);
         requestJson.setName(null);
@@ -109,11 +109,11 @@ public class CoffeeBeanEndpointTest {
     @Transactional
     @Rollback
     public void editCoffeeToValid() throws Exception {
-        String auth = performLogin("admin@email.com", "password");
         requestJson.setName("Test");
         requestJson.setId(1L);
         requestJson.setCoffeeRoast(CoffeeRoast.DARK);
         requestJson.setUserId(1L);
+        String auth = performLogin("admin@email.com", "password");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(requestJson);
         mockMvc.perform(MockMvcRequestBuilders
@@ -129,11 +129,11 @@ public class CoffeeBeanEndpointTest {
 
     @Test
     public void editCoffeeToInvalid() throws Exception {
-        String auth = performLogin("admin@email.com", "password");
         requestJson.setId(1L);
         requestJson.setUserId(1L);
         requestJson.setName("");
         requestJson.setCoffeeRoast(CoffeeRoast.LIGHT);
+        String auth = performLogin("admin@email.com", "password");
         //Send coffee bean with invalid name
         sendInvalidCoffeeBeanUpdateRequest(requestJson, auth);
         //Send coffee bean with invalid roast

@@ -109,16 +109,21 @@
     <form [formGroup]="recipeForm">
       <ng-template matStepLabel>Recipe step by step</ng-template>
       <div>
-        <mat-form-field>
-          <mat-label>Recipe</mat-label>
-          <textarea
-            matInput
-            formControlName="recipeSteps"
-            [(ngModel)]="extraction.recipeSteps"></textarea>
-          <mat-error *ngIf="recipeForm.controls.recipeSteps.invalid"
-            >Recipe is too long!</mat-error
-          >
-        </mat-form-field>
+        <editor
+          max="5000"
+          formControlName="recipeSteps"
+          [(ngModel)]="extraction.recipeSteps"
+          [init]="{
+            plugins: ['lists'],
+            base_url: '/tinymce',
+            suffix: '.min',
+            toolbar: 'undo redo | bold italic underline | numlist bullist',
+            branding: false,
+            menubar: false
+          }"></editor>
+        <mat-error *ngIf="recipeForm.controls.recipeSteps.invalid">
+          Recipe is too long!
+        </mat-error>
       </div>
       <div>
         <button mat-button matStepperPrevious>Back</button>

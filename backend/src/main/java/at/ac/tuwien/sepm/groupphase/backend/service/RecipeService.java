@@ -1,10 +1,9 @@
 package at.ac.tuwien.sepm.groupphase.backend.service;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeSearchCommunityDto;
 import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.stream.Stream;
@@ -14,27 +13,27 @@ public interface RecipeService {
     /**
      * Creates a new recipe in storage.
      *
-     * @param recipeDto the recipe to create
+     * @param recipeListDto the recipe to create
      * @return the created recipe
      * @throws FileAlreadyExistsException if a recipe already exists for the extraction
      */
-    RecipeDto create(RecipeDto recipeDto) throws FileAlreadyExistsException;
+    RecipeListDto create(RecipeListDto recipeListDto) throws FileAlreadyExistsException;
 
     /**
      * Updates a recipe in storage.
      *
-     * @param recipeDto the recipe to update
+     * @param recipeListDto the recipe to update
      * @return the updated recipe
      * @throws NotFoundException if an extraction to the recipe doesn't exist for the recipe
      */
-    RecipeDto update(RecipeDto recipeDto) throws NotFoundException;
+    RecipeListDto update(RecipeListDto recipeListDto) throws NotFoundException;
 
     /**
      * Fetches all saved recipes from the persistent data storage.
      *
      * @return a stream of the found recipes
      */
-    Stream<RecipeDto> getAll();
+    Stream<RecipeListDto> getAll();
 
     /**
      * Fetches all saved recipes joined with extractions that have been shared to the community page
@@ -43,14 +42,14 @@ public interface RecipeService {
      * @param searchParams the parameters to search recipes by
      * @return a stream of the found recipes
      */
-    Stream<CommunityRecipeDto> searchCommunityRecipes(RecipeSearchCommunityDto searchParams);
+    Stream<RecipeDetailDto> searchCommunityRecipes(RecipeSearchCommunityDto searchParams);
 
     /**
      * Fetches all saved recipes from the persistent data storage joined with extraction.
      *
      * @return a stream of the found recipes
      */
-    Stream<CommunityRecipeDto> getAllWithExtractions();
+    Stream<RecipeDetailDto> getAllWithExtractions();
 
     /**
      * Fetches a saved recipe with the specific extraction id from the persistent data storage.
@@ -59,7 +58,7 @@ public interface RecipeService {
      * @return the found recipe
      * @throws NotFoundException if extraction by id doesnt exist
      */
-    RecipeDto getByExtractionId(Long id) throws NotFoundException;
+    RecipeListDto getByExtractionId(Long id) throws NotFoundException;
 
     /**
      * Fetches a saved recipe with the specific id from the persistent data storage.
@@ -68,7 +67,7 @@ public interface RecipeService {
      * @return the found recipe
      * @throws NotFoundException if id doesnt exist
      */
-    CommunityRecipeDto getById(Long id) throws NotFoundException;
+    RecipeDetailDto getById(Long id) throws NotFoundException;
 
     /**
      * Deletes an already persisted recipe by its id.
@@ -84,5 +83,5 @@ public interface RecipeService {
      * @return a stream of the found recipes
      * @throws NotFoundException if id doesnt exist
      */
-    Stream<CommunityRecipeDto> getAllByUserId(Long id) throws NotFoundException;
+    Stream<RecipeDetailDto> getAllByUserId(Long id) throws NotFoundException;
 }

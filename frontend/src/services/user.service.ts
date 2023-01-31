@@ -107,6 +107,10 @@ export class UserService {
       params = params.set('id', searchParameters.id);
     }
 
+    if (searchParameters.username != null) {
+      params = params.set('username', searchParameters.username);
+    }
+
     if (searchParameters.email != null) {
       params = params.set('email', searchParameters.email);
     }
@@ -160,7 +164,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     if (token != null) {
       const payload = this.jwtHelper.decodeToken(token);
-      return payload.jti;
+      return parseInt(payload.jti);
     } else {
       return 0;
     }

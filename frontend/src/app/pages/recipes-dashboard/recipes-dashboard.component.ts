@@ -4,12 +4,12 @@ import { Router, RouterModule, RoutesRecognized } from '@angular/router';
 import { CoffeeRoast } from 'src/dtos';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
-import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
+import { RecipeDetailDto } from 'src/dtos/req/recipeDetail.dto';
 import { RecipeService } from 'src/services/recipe.service';
 import { UserService } from 'src/services/user.service';
 import { RedditService } from 'src/services/reddit.service';
 import { Observable } from 'rxjs';
-import { RecipeDto } from 'src/dtos/req/recipe.dto';
+import { RecipeListDto } from 'src/dtos/req/recipeList.dto';
 import { SubredditsDialogComponent } from 'src/app/components/dialog/subreddits-dialog/subreddits-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
@@ -20,7 +20,7 @@ import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
   styleUrls: ['./recipes-dashboard.component.css'],
 })
 export class RecipesDashboardComponent implements OnInit {
-  recipes: CommunityRecipeDto[] = [];
+  recipes: RecipeDetailDto[] = [];
   userId: number = this.userService.thisUserId();
 
   constructor(
@@ -51,7 +51,7 @@ export class RecipesDashboardComponent implements OnInit {
     });
   }
 
-  formatRoast(recipe: CommunityRecipeDto): String {
+  formatRoast(recipe: RecipeDetailDto): String {
     switch (recipe.coffeeBeanRoast) {
       case CoffeeRoast.light: {
         return 'Light Roast';
@@ -77,8 +77,8 @@ export class RecipesDashboardComponent implements OnInit {
     }
   }
 
-  formatGrindSetting(recipe: CommunityRecipeDto): string {
-    switch (recipe.extractionGrindSetting) {
+  formatGrindSetting(recipe: RecipeDetailDto): string {
+    switch (recipe.extractionGrindSettings) {
       case CoffeeGrindSetting.COARSE: {
         return 'Coarse';
       }
@@ -103,7 +103,7 @@ export class RecipesDashboardComponent implements OnInit {
     }
   }
 
-  formatBrewMethod(recipe: CommunityRecipeDto): string {
+  formatBrewMethod(recipe: RecipeDetailDto): string {
     switch (recipe.extractionBrewMethod) {
       case BrewMethod.DRIP: {
         return 'Drip';
@@ -163,7 +163,7 @@ export class RecipesDashboardComponent implements OnInit {
           duration: 5000,
         });
         this.recipes = this.recipes.filter(obj => {
-          return obj.recipeId !== id;
+          return obj.id !== id;
         });
       },
       error: err => {
@@ -174,7 +174,7 @@ export class RecipesDashboardComponent implements OnInit {
     });
   }
 
-  shareRedditDialog(recipe: CommunityRecipeDto): void {
+  shareRedditDialog(recipe: RecipeDetailDto): void {
     if (this.redditAuthService.isAuthenticated()) {
       const dialogRef = this.dialog.open(SubredditsDialogComponent, {
         height: '210px',
@@ -195,26 +195,19 @@ export class RecipesDashboardComponent implements OnInit {
     }
   }
 
-  editRecipe(recipe: CommunityRecipeDto) {
-    let observable: Observable<string>;
-    let recipeDto: RecipeDto = {
-      id: recipe.recipeId,
-      shared: recipe.recipeShared,
+  editRecipe(recipe: RecipeDetailDto) {
+    let recipeDto: RecipeListDto = {
+      id: recipe.id,
+      shared: !recipe.shared,
       extractionId: recipe.extractionId,
     };
 
     for (let i = 0; i < this.recipes.length; i++) {
-      if (this.recipes[i].recipeId === recipe.recipeId) {
-        if (recipe.recipeShared) {
-          recipeDto.shared = false;
-        } else {
-          recipeDto.shared = true;
-        }
-        observable = this.recipeService.edit(recipeDto);
-
-        observable.subscribe({
+      if (this.recipes[i].id === recipe.id) {
+        this.recipeService.edit(recipeDto).subscribe({
           next: data => {
-            this.recipes[i].recipeShared = recipeDto.shared;
+            console.log(this.recipes[i].shared, recipeDto.shared, data.shared);
+            this.recipes[i].shared = data.shared;
           },
           error: err => {
             if (err.status == 404) {

@@ -1,0 +1,29 @@
+export interface RecipeDetailDto {
+  id: number;
+  shared: boolean;
+  extractionId: number;
+  extractionBrewMethod: string;
+  extractionGrindSettings: string;
+  extractionBody: number;
+  extractionAcidity: number;
+  extractionAromatics: number;
+  extractionSweetness: number;
+  extractionAftertaste: number;
+  extractionRecipeSteps: string;
+  extractionRatingNotes: string;
+  extractionWaterAmount: number;
+  extractionWaterTemperature: number;
+  extractionBrewTime: number;
+  extractionDose: number;
+  coffeeBeanId: number;
+  coffeeBeanName: string;
+  coffeeBeanBlend: string;
+  coffeeBeanRoast: string;
+  coffeeBeanUrl: string;
+  coffeeBeanStrength: string;
+  coffeeBeanOrigin: string;
+  coffeeBeanHeight: string;
+  coffeeBeanDescription: string;
+  coffeeBeanUserId: number;
+  coffeeBeanUserUsername: string;
+}

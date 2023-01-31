@@ -2,7 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
 import javax.validation.constraints.NotNull;
 
-public class RecipeDto {
+public class RecipeListDto {
     private Long id;
 
     private boolean shared;
@@ -26,7 +26,7 @@ public class RecipeDto {
         this.extractionId = extractionId;
     }
 
-    public RecipeDto(Long id, boolean shared, Long extractionId) {
+    public RecipeListDto(Long id, boolean shared, Long extractionId) {
         this.id = id;
         this.shared = shared;
         this.extractionId = extractionId;
@@ -40,7 +40,7 @@ public class RecipeDto {
         this.shared = shared;
     }
 
-    public RecipeDto() {
+    public RecipeListDto() {
     }
 
     @Override

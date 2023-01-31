@@ -46,7 +46,7 @@
           <div class="button-row">
             <button
               mat-stroked-button
-              [routerLink]="['/community/' + recipe.recipeId]">
+              [routerLink]="['/community/' + recipe.id]">
               <mat-icon>list</mat-icon>
               Details
             </button>
@@ -59,30 +59,26 @@
               Buy Coffee
             </a>
             <button
-              *ngIf="
-                this.recipe.extractionId && this.recipe.recipeShared === true
-              "
+              *ngIf="recipe.extractionId && recipe.shared"
               mat-stroked-button
-              (click)="editRecipe(this.recipe)">
-              <mat-icon>edit</mat-icon>
+              (click)="editRecipe(recipe)">
+              <mat-icon>share</mat-icon>
               Unshare
             </button>
             <button
-              *ngIf="
-                this.recipe.extractionId && this.recipe.recipeShared === false
-              "
+              *ngIf="recipe.extractionId && !recipe.shared"
               mat-stroked-button
-              (click)="editRecipe(this.recipe)">
-              <mat-icon>edit</mat-icon>
+              (click)="editRecipe(recipe)">
+              <mat-icon>share</mat-icon>
               Share
             </button>
             <button
               mat-stroked-button
               [routerLink]="[
                 '/coffee/' +
-                  this.recipe.coffeeBeanId +
+                  recipe.coffeeBeanId +
                   '/extraction/' +
-                  this.recipe.extractionId +
+                  recipe.extractionId +
                   '/edit'
               ]">
               <mat-icon>edit</mat-icon>
@@ -91,15 +87,15 @@
             <button
               mat-stroked-button
               color="warn"
-              (click)="deleteRecipe(this.recipe.recipeId)">
+              (click)="deleteRecipe(recipe.id)">
               <mat-icon>delete</mat-icon>
               Delete Recipe
             </button>
             <button
-              mat-raised-button
+              mat-flat-button
               class="shareButton"
               type="button"
-              (click)="shareRedditDialog(this.recipe)">
+              (click)="shareRedditDialog(recipe)">
               Share<mat-icon svgIcon="reddit_logo"></mat-icon>
             </button>
           </div>

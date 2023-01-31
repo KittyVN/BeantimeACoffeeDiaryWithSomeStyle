@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
-import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
+import { RecipeDetailDto } from 'src/dtos/req/recipeDetail.dto';
+import { RecipeListDto } from 'src/dtos/req/recipeList.dto';
 import { RecipeCommunitySearchDto } from 'src/dtos/req/recipe-community-search.dto';
-import { RecipeDto } from 'src/dtos/req/recipe.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class RecipeService {
    * Add a new recipe
    * @param recipe The recipe to add
    */
-  public create(recipe: RecipeDto) {
+  public create(recipe: RecipeListDto) {
     return this.http.post('recipes', recipe, {
       responseType: 'text',
     });
@@ -26,10 +26,11 @@ export class RecipeService {
    * Edit an existing recipe
    * @param recipe The edited recipe
    */
-  public edit(recipe: RecipeDto) {
-    return this.http.put('recipes/extraction/' + recipe.extractionId, recipe, {
-      responseType: 'text',
-    });
+  public edit(recipe: RecipeListDto): Observable<RecipeListDto> {
+    return this.http.put<RecipeListDto>(
+      'recipes/extraction/' + recipe.extractionId,
+      recipe
+    );
   }
 
   /**
@@ -38,8 +39,8 @@ export class RecipeService {
    * @param id the id of the extraction to fetch the recipe by
    * @returns the recipe as an Observable
    */
-  public getByExtractionId(id: string): Observable<RecipeDto> {
-    return this.http.get<RecipeDto>('recipes/extraction/' + id);
+  public getByExtractionId(id: string): Observable<RecipeListDto> {
+    return this.http.get<RecipeListDto>('recipes/extraction/' + id);
   }
 
   /**
@@ -47,8 +48,8 @@ export class RecipeService {
    *
    * @returns the recipes as an Observable List
    */
-  public getAll(): Observable<CommunityRecipeDto[]> {
-    return this.http.get<CommunityRecipeDto[]>('recipes');
+  public getAll(): Observable<RecipeDetailDto[]> {
+    return this.http.get<RecipeDetailDto[]>('recipes');
   }
 
   /**
@@ -61,7 +62,7 @@ export class RecipeService {
    */
   public search(
     searchParams: RecipeCommunitySearchDto
-  ): Observable<CommunityRecipeDto[]> {
+  ): Observable<RecipeDetailDto[]> {
     let params = new HttpParams();
 
     if (searchParams.name != null && searchParams.name) {
@@ -79,7 +80,7 @@ export class RecipeService {
     if (searchParams.roast != null) {
       params = params.set('roast', searchParams.roast);
     }
-    return this.http.get<CommunityRecipeDto[]>('recipes/search', { params });
+    return this.http.get<RecipeDetailDto[]>('recipes/search', { params });
   }
 
   /**
@@ -88,8 +89,8 @@ export class RecipeService {
    * @param id the id of the recipe to fetch
    * @returns the recipe as an Observable
    */
-  public getById(id: string): Observable<CommunityRecipeDto> {
-    return this.http.get<CommunityRecipeDto>('recipes/' + id);
+  public getById(id: string): Observable<RecipeDetailDto> {
+    return this.http.get<RecipeDetailDto>('recipes/' + id);
   }
 
   /**
@@ -97,9 +98,9 @@ export class RecipeService {
    *
    * @returns the recipes as an Observable List
    */
-  public getAllByUser(id: number): Observable<CommunityRecipeDto[]> {
+  public getAllByUser(id: number): Observable<RecipeDetailDto[]> {
     const idAsString = String(id);
-    return this.http.get<CommunityRecipeDto[]>('recipes/user/' + idAsString);
+    return this.http.get<RecipeDetailDto[]>('recipes/user/' + idAsString);
   }
 
   /**

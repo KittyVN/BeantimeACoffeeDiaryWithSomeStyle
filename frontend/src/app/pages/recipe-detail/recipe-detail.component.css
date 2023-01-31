@@ -1,0 +1,71 @@
+.button-row{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.shareButton{
+  background-color: rgb(255, 69, 0, 1) !important;
+  color: white !important;
+}
+
+mat-card-content.attributes {
+  display: grid;
+  grid-template-rows: repeat(8, 40px) auto;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas:
+    "description roast"
+    "description strength"
+    "description blend"
+    "description body"
+    "description acidity"
+    "description aromatics"
+    "description sweetness"
+    "description aftertaste"
+    "description ."
+}
+
+mat-card-content.attributes div.description {
+  grid-area: description;
+  border-right: 1px solid #0000001f;
+  padding: 8px;
+}
+
+mat-card-content.attributes div.description div:first-child {
+  display: flex;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
+mat-card-content.attributes div.attribute {
+  display: flex;
+  padding: 8px;
+}
+
+mat-card-content.attributes div.attribute.vertical-separator {
+  border-top: 1px solid #0000001f;
+}
+
+mat-card-content.attributes div.attribute strong {
+  width: 80px;
+}
+
+mat-card-content.attributes strong,
+mat-card-content.attributes span {
+  line-height: 24px;
+}
+
+mat-card:not(:first-child) {
+  margin-top: 32px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form :nth-child(2) {
+  margin-top: 8px;
+}

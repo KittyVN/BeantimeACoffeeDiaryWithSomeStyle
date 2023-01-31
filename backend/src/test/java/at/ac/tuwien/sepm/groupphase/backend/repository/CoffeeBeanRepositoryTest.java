@@ -75,6 +75,7 @@ public class CoffeeBeanRepositoryTest {
     public void getCoffeeBeanByNonExistentIdReturnsEmptyOptional() {
         assertThat(coffeeBeanRepository.findById(0L).isPresent()).isFalse();
     }
+
     @Test
     @Transactional
     public void findTop5RatedByExistentUserIdReturnsList() {

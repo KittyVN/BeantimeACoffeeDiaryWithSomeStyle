@@ -1,8 +1,10 @@
 package at.ac.tuwien.sepm.groupphase.backend.mapper;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeListDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
+import at.ac.tuwien.sepm.groupphase.backend.enums.CoffeeGrindSetting;
+import at.ac.tuwien.sepm.groupphase.backend.enums.ExtractionBrewMethod;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -12,19 +14,19 @@ import java.sql.Timestamp;
 public class RecipeMapper {
 
     /**
-     * Converts a Recipe Entity object to a {@link at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto}.
+     * Converts a Recipe Entity object to a {@link RecipeListDto}.
      *
-     * @param recipe the object to convert
-     * @return the converted Recipe {@link RecipeDto}
+     * @param recipe the entity to convert
+     * @return the converted Recipe {@link RecipeListDto}
      */
-    public RecipeDto entityToDto(Recipe recipe) {
+    public RecipeListDto entityToListDto(Recipe recipe) {
         Long id;
         if (recipe.getExtraction() == null) {
             id = null;
         } else {
             id = recipe.getExtraction().getId();
         }
-        return new RecipeDto(
+        return new RecipeListDto(
             recipe.getId(),
             recipe.isShared(),
             id
@@ -32,19 +34,46 @@ public class RecipeMapper {
     }
 
     /**
-     * Converts an Object Entity object to a {@link at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto}.
+     * Converts an Object Entity object to a {@link RecipeDetailDto}.
+     *
+     * @param recipe the entity to convert
+     * @return the converted Recipe {@link RecipeDetailDto}
+     */
+    public RecipeDetailDto entityToDetailDto(Recipe recipe) {
+        return new RecipeDetailDto(recipe.getId(), recipe.isShared(), recipe.getExtraction().getId(),
+            recipe.getExtraction().getBrewMethod(), recipe.getExtraction().getGrindSetting(),
+            recipe.getExtraction().getBody(), recipe.getExtraction().getAcidity(),
+            recipe.getExtraction().getAromatics(), recipe.getExtraction().getSweetness(),
+            recipe.getExtraction().getAftertaste(), recipe.getExtraction().getRecipeSteps(),
+            recipe.getExtraction().getRatingNotes(), recipe.getExtraction().getWaterAmount(),
+            recipe.getExtraction().getWaterTemperature(), recipe.getExtraction().getDose(),
+            recipe.getExtraction().getBrewTime(),
+            recipe.getExtraction().getCoffeeBean().getId(), recipe.getExtraction().getCoffeeBean().getName(),
+            recipe.getExtraction().getCoffeeBean().getBeanBlend(),
+            recipe.getExtraction().getCoffeeBean().getCoffeeRoast().name(),
+            recipe.getExtraction().getCoffeeBean().getUrlToCoffee(),
+            recipe.getExtraction().getCoffeeBean().getCoffeeStrength(),
+            recipe.getExtraction().getCoffeeBean().getOrigin(),
+            recipe.getExtraction().getCoffeeBean().getHeight(),
+            recipe.getExtraction().getCoffeeBean().getDescription(),
+            recipe.getExtraction().getCoffeeBean().getUser().getId(),
+            recipe.getExtraction().getCoffeeBean().getUser().getUsername());
+    }
+
+    /**
+     * Converts an Object Entity object to a {@link RecipeDetailDto}.
      *
      * @param obj the object to convert
-     * @return the converted Recipe {@link CommunityRecipeDto}
+     * @return the converted Recipe {@link RecipeDetailDto}
      */
-    public CommunityRecipeDto objectToDto(Object obj) {
+    public RecipeDetailDto objectToDto(Object obj) {
         Object[] objects = (Object[]) obj;
         BigInteger recipeId = (BigInteger) objects[0];
         Boolean recipeShared = (Boolean) objects[1];
         BigInteger extractionId = (BigInteger) objects[2];
         Timestamp extractionDate = (Timestamp) objects[3];
-        String extractionBrewMethod = (String) objects[4];
-        String extractionGrindSetting = (String) objects[5];
+        ExtractionBrewMethod extractionBrewMethod = ExtractionBrewMethod.valueOf((String) objects[4]);
+        CoffeeGrindSetting extractionGrindSetting = CoffeeGrindSetting.valueOf((String) objects[5]);
         Double extractionWaterTemperature = (Double) objects[6];
         Double extractionDose = (Double) objects[7];
         Double extractionWaterAmount = (Double) objects[8];
@@ -66,9 +95,12 @@ public class RecipeMapper {
         String coffeeBeanUrl = (String) objects[24];
         String coffeeBeanDescription = (String) objects[25];
         String coffeeBeanStrength = (String) objects[26];
-        return new CommunityRecipeDto(recipeId.longValue(), recipeShared, extractionId.longValue(), extractionDate.toLocalDateTime(), extractionBrewMethod, extractionGrindSetting,
-                extractionWaterTemperature, extractionDose, extractionWaterAmount, extractionBrewTime.longValue(), extractionBody, extractionAcidity,
-                extractionAromatics, extractionSweetness, extractionAftertaste, extractionRatingNotes, extractionRecipeSteps, coffeeBeanId.longValue(), coffeeBeanName,
-                coffeeBeanPrice, coffeeBeanBlend, coffeeBeanOrigin, coffeeBeanHeight, coffeeBeanRoast, coffeeBeanUrl, coffeeBeanDescription, coffeeBeanStrength);
+        return new RecipeDetailDto(recipeId.longValue(), recipeShared, extractionId.longValue(), extractionBrewMethod,
+            extractionGrindSetting, extractionBody, extractionAcidity, extractionAromatics, extractionSweetness,
+            extractionAftertaste, extractionRecipeSteps,  extractionRatingNotes, extractionWaterAmount,
+            extractionWaterTemperature, extractionDose, extractionBrewTime.longValue(), coffeeBeanId.longValue(),
+            coffeeBeanName, coffeeBeanBlend, coffeeBeanRoast, coffeeBeanUrl, coffeeBeanStrength, coffeeBeanOrigin,
+            coffeeBeanHeight, coffeeBeanDescription, 0L, "");
     }
+
 }

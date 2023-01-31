@@ -1,7 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.CommunityRecipeDto;
-import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeDetailDto;
+import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeListDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeSearchCommunityDto;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Extraction;
 import at.ac.tuwien.sepm.groupphase.backend.entity.Recipe;
@@ -40,59 +40,58 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeDto create(RecipeDto recipeDto) throws FileAlreadyExistsException {
-        LOGGER.trace("create {}", recipeDto);
-        Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
+    public RecipeListDto create(RecipeListDto recipeListDto) throws FileAlreadyExistsException {
+        LOGGER.trace("create {}", recipeListDto);
+        Optional<Extraction> extraction = extractionRepository.findById(recipeListDto.getExtractionId());
         Object currentUserId = getCurrentAuthenticatedUserId();
         if (extraction.isPresent()) {
             if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
                 throw new AuthorizationException("You cannot make a recipe with a extraction that you didn't make!");
             }
         }
-        Recipe recipeExist = recipeRepository.findRecipeByExtractionId(recipeDto.getExtractionId());
+        Recipe recipeExist = recipeRepository.findRecipeByExtraction_Id(recipeListDto.getExtractionId());
         Recipe recipe = new Recipe(false, extraction.get());
         if (recipeExist == null) {
-            return mapper.entityToDto(recipeRepository.save(recipe));
+            return mapper.entityToListDto(recipeRepository.save(recipe));
         } else {
             throw new FileAlreadyExistsException(String.format("recipe for this extraction with ID %d already exists", recipeExist.getExtraction().getId()));
         }
     }
 
     @Override
-    public RecipeDto update(RecipeDto recipeDto) throws NotFoundException {
-        LOGGER.trace("update {}", recipeDto);
-        Optional<Extraction> extraction = extractionRepository.findById(recipeDto.getExtractionId());
+    public RecipeListDto update(RecipeListDto recipeListDto) throws NotFoundException {
+        LOGGER.trace("update {}", recipeListDto);
+        Optional<Extraction> extraction = extractionRepository.findById(recipeListDto.getExtractionId());
         Object currentUserId = getCurrentAuthenticatedUserId();
         if (extraction.isPresent()) {
             if (!extraction.get().getCoffeeBean().getUser().getId().toString().equals(currentUserId)) {
                 throw new AuthorizationException("You cannot share something that's not yours!");
             }
         }
-        Recipe recipe = recipeRepository.findRecipeByExtractionId(recipeDto.getExtractionId());
+        Recipe recipe = recipeRepository.findRecipeByExtraction_Id(recipeListDto.getExtractionId());
         if (recipe == null) {
-            throw new NotFoundException(String.format("No recipe with extraction ID %d found", recipeDto.getExtractionId()));
+            throw new NotFoundException(String.format("No recipe with extraction ID %d found", recipeListDto.getExtractionId()));
         } else {
-            recipe.setShared(recipeDto.isShared());
-            return mapper.entityToDto(recipeRepository.save(recipe));
+            recipe.setShared(recipeListDto.isShared());
+            return mapper.entityToListDto(recipeRepository.save(recipe));
         }
     }
 
     @Override
-    public Stream<RecipeDto> getAll() {
+    public Stream<RecipeListDto> getAll() {
         LOGGER.trace("getAll()");
-        return recipeRepository.findAllRecipes().stream().map(recipe -> mapper.entityToDto(recipe));
+        return recipeRepository.findRecipesBySharedIsTrue()
+            .stream().map(mapper::entityToListDto);
     }
 
     @Override
-    public Stream<CommunityRecipeDto> getAllWithExtractions() {
+    public Stream<RecipeDetailDto> getAllWithExtractions() {
         LOGGER.trace("getAllWithExtractions()");
-        Stream<Object> recipes = recipeRepository.findAllRecipesJoinedWithExtraction().stream();
-        Stream<CommunityRecipeDto> recipesDto = recipes.map(recipe -> mapper.objectToDto(recipe));
-        return recipesDto;
+        return recipeRepository.findRecipesBySharedIsTrue().stream().map(mapper::entityToDetailDto);
     }
 
     @Override
-    public Stream<CommunityRecipeDto> searchCommunityRecipes(RecipeSearchCommunityDto searchParams) {
+    public Stream<RecipeDetailDto> searchCommunityRecipes(RecipeSearchCommunityDto searchParams) {
         LOGGER.trace("searchCommunityRecipes()");
         Stream<Object> recipes = recipeRepository.searchAllRecipesJoinedWithExtraction(
             searchParams.getName(),
@@ -106,21 +105,21 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeDto getByExtractionId(Long id) throws NotFoundException {
-        Recipe recipe = recipeRepository.findRecipeByExtractionId(id);
+    public RecipeListDto getByExtractionId(Long id) throws NotFoundException {
+        Recipe recipe = recipeRepository.findRecipeByExtraction_Id(id);
         if (recipe == null) {
             throw new NotFoundException(String.format("No recipe for the extraction with the ID %d found", id));
         }
-        return mapper.entityToDto(recipe);
+        return mapper.entityToListDto(recipe);
     }
 
     @Override
-    public CommunityRecipeDto getById(Long id) throws NotFoundException {
-        Object recipe = recipeRepository.findRecipeJoinedWithExtractionById(id);
+    public RecipeDetailDto getById(Long id) throws NotFoundException {
+        Recipe recipe = recipeRepository.findRecipeById(id);
         if (recipe == null) {
             throw new NotFoundException(String.format("No recipe with the ID %d found", id));
         }
-        return mapper.objectToDto(recipe);
+        return mapper.entityToDetailDto(recipe);
     }
 
     @Override
@@ -129,10 +128,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Stream<CommunityRecipeDto> getAllByUserId(Long id) throws NotFoundException {
+    public Stream<RecipeDetailDto> getAllByUserId(Long id) throws NotFoundException {
         LOGGER.trace("getAllByUserId({})", id);
         if (userRepository.existsById(id)) {
-            return recipeRepository.findAllRecipesByUserId(id).stream().map(recipe -> mapper.objectToDto(recipe));
+            return recipeRepository.findRecipesByExtraction_CoffeeBean_User_Id(id).stream().map(mapper::entityToDetailDto);
         } else {
             throw new NotFoundException(String.format("No user with ID %d found", id));
         }
