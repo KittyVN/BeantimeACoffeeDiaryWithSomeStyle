@@ -39,6 +39,7 @@ public class RecipeRatingEndpoint {
     @PreAuthorize("(hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')) "
         + "and #recipeId.toString().equals(#recipeRatingCreateDto.getRecipeId().toString())")
     @PostMapping("{recipe_id}/ratings")
+    @ResponseStatus(HttpStatus.CREATED)
     public RecipeRatingListDto create(@PathVariable("recipe_id") long recipeId,
                                       @Valid @RequestBody RecipeRatingCreateDto recipeRatingCreateDto) {
         LOGGER.info("POST {}/{}/ratings with RequestBody: {}", BASE_PATH, recipeId, recipeRatingCreateDto);
