@@ -158,6 +158,10 @@ export class RecipeDetailComponent implements OnInit {
     }
   }
 
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
   formatRoast(): String {
     switch (this.recipe.coffeeBeanRoast) {
       case CoffeeRoast.light: {

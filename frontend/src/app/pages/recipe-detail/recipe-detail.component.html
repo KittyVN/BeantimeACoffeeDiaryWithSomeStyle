@@ -99,7 +99,7 @@
       </div>
     </mat-card-actions>
   </mat-card>
-  <mat-card *ngIf="recipe.coffeeBeanUserId !== userId">
+  <mat-card *ngIf="recipe.coffeeBeanUserId !== userId && isAuthenticated()">
     <mat-card-header>
       <mat-card-title> Create a new rating </mat-card-title>
     </mat-card-header>
