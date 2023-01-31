@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.service.RecipeRatingService;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
+import java.security.Principal;
 import java.util.stream.Stream;
 
 @RestController
@@ -60,13 +62,16 @@ public class RecipeRatingEndpoint {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @DeleteMapping("{recipe_id}/ratings/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("recipe_id") long recipeId,
+    public void delete(Principal principal,
+                       @PathVariable("recipe_id") long recipeId,
                        @PathVariable("id") long id) {
         LOGGER.info("DELETE {}/{}/ratings/{}", BASE_PATH, recipeId, id);
         try {
-            service.delete(id);
+            service.delete(id, Long.parseLong(principal.getName()));
         } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         }
     }
 }
