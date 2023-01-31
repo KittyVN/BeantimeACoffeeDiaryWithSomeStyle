@@ -1,10 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, of } from 'rxjs';
 import { CoffeeRoast } from 'src/dtos';
 import { BrewMethod } from 'src/dtos/req/brew-method.enum';
 import { CoffeeGrindSetting } from 'src/dtos/req/coffee-grind-setting.enum';
 import { CommunityRecipeDto } from 'src/dtos/req/community-recipe.dto';
+import { SubredditsResponse } from 'src/dtos/req/subreddits-response.dto';
 
 import { RedditAuthService } from './auth/reddit-auth.service';
 
@@ -187,6 +189,38 @@ export class RedditService {
         return 'Unknown brewing method';
       }
     }
+  }
+
+  getSubscribedSubreddits(): Observable<string[]> {
+    let access_token = this.redditAuthService.getStoredAccessToken();
+    let subreddits: string[] = [];
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: 'Bearer ' + access_token,
+      }),
+    };
+
+    this.http
+      .get<SubredditsResponse>(
+        'https://oauth.reddit.com/subreddits/mine/subscriber',
+        httpOptions
+      )
+      .subscribe({
+        next: (data: SubredditsResponse) => {
+          data.data.children.forEach(element => {
+            subreddits.push(element.data.display_name_prefixed);
+            console.log(element.data.display_name_prefixed);
+            console.log(subreddits);
+          });
+          return of(subreddits);
+        },
+        error: err => {
+          console.log(err);
+          return [];
+        },
+      });
+    return of(subreddits);
   }
 
   postToReddit(recipe: CommunityRecipeDto) {

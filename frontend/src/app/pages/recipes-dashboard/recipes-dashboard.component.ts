@@ -10,6 +10,8 @@ import { UserService } from 'src/services/user.service';
 import { RedditService } from 'src/services/reddit.service';
 import { Observable } from 'rxjs';
 import { RecipeDto } from 'src/dtos/req/recipe.dto';
+import { SubredditsDialogComponent } from 'src/app/components/dialog/subreddits-dialog/subreddits-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-recipes-dashboard',
@@ -21,6 +23,7 @@ export class RecipesDashboardComponent implements OnInit {
   userId: number = this.userService.thisUserId();
 
   constructor(
+    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private recipeService: RecipeService,
     private userService: UserService,
@@ -171,6 +174,14 @@ export class RecipesDashboardComponent implements OnInit {
 
   shareOnReddit(recipe: CommunityRecipeDto) {
     this.redditService.postToReddit(recipe);
+  }
+
+  shareRedditDialog(): void {
+    const dialogRef = this.dialog.open(SubredditsDialogComponent, {
+      height: '210px',
+      width: '400px',
+      hasBackdrop: true,
+    });
   }
 
   editRecipe(recipe: CommunityRecipeDto) {

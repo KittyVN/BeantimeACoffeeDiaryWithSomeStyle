@@ -17,6 +17,7 @@ export class APIInterceptor implements HttpInterceptor {
     if (
       req.url !== 'https://www.reddit.com/api/v1/access_token' &&
       req.url !== 'https://oauth.reddit.com/api/submit' &&
+      req.url !== 'https://oauth.reddit.com/subreddits/mine/subscriber' &&
       req.url !== './assets/reddit_logo.svg'
     ) {
       const apiReq = req.clone({

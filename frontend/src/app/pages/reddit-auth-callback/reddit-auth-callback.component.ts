@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RedditAuthService } from 'src/services/auth/reddit-auth.service';
+import { RedditService } from 'src/services/reddit.service';
 
 @Component({
   selector: 'app-reddit-auth-callback',
@@ -11,7 +12,8 @@ export class RedditAuthCallbackComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private redditAuthService: RedditAuthService
+    private redditAuthService: RedditAuthService,
+    private redditService: RedditService
   ) {}
 
   ngOnInit() {
