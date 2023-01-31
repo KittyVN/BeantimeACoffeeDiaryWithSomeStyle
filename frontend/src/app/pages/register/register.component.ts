@@ -13,16 +13,15 @@ export class RegisterComponent {
 
   registerForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
   onSubmit() {
-    console.log(this.registerForm.value);
-
     if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
-      if (email && password) {
-        this.userService.register({ email, password }).subscribe({
+      const { email, username, password } = this.registerForm.value;
+      if (email && username && password) {
+        this.userService.register({ email, username, password }).subscribe({
           next: res => {
             localStorage.setItem('token', res);
             this.router.navigate(['/home']);

@@ -21,6 +21,15 @@
           }}</mat-error>
         </mat-form-field>
         <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            formControlName="username"
+            placeholder="Username"
+            required
+            matInput
+            [(ngModel)]="user.username" />
+        </mat-form-field>
+        <mat-form-field>
           <mat-label>Password</mat-label>
           <input
             formControlName="password"

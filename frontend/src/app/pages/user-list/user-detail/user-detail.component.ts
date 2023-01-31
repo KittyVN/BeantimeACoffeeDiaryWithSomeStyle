@@ -15,6 +15,7 @@ export class UserDetailComponent implements OnInit {
   user: UserDetailDto = {
     id: 0,
     email: '',
+    username: '',
     role: '',
     active: false,
   };

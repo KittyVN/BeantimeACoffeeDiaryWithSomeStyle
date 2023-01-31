@@ -4,7 +4,7 @@ import { CoffeeBeanExtractionsListDto } from './CoffeeBeanExtractionsList.dto';
 import { CoffeeBeanRatingsListDto } from './CoffeeBeanRatingsList.dto';
 
 export interface UserProfileDto {
-  email: string;
+  username: string;
   extractionMatrix?: ExtractionMatrixDto;
   topRatedExtractions?: ExtractionListDto[];
   topMostExtractedCoffees?: CoffeeBeanExtractionsListDto[];

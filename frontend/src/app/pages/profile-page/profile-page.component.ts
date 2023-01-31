@@ -21,7 +21,7 @@ export class ProfilePageComponent implements OnInit {
 
   userId: number = this.userService.thisUserId();
   profile: UserProfileDto = {
-    email: 'Loading ...',
+    username: 'Loading ...',
     extractionMatrix: undefined,
   };
   extractionMatrixMonthLabels: Map<number, string> = new Map<number, string>();

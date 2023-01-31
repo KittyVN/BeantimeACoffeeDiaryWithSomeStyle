@@ -37,7 +37,7 @@ public class UserLoginDto {
         if (!(o instanceof UserLoginDto userLoginDto)) {
             return false;
         }
-        return Objects.equals(email, userLoginDto.email)
+        return Objects.equals(userLoginDto, userLoginDto.email)
             && Objects.equals(password, userLoginDto.password);
     }
 

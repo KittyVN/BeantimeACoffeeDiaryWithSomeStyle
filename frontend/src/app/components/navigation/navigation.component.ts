@@ -13,6 +13,7 @@ export class NavigationComponent {
   appName = environment.appName;
   isAuthenticated = false;
   isAdmin = false;
+  username = 'User';
 
   constructor(
     private authService: AuthService,
@@ -24,6 +25,11 @@ export class NavigationComponent {
       if (event instanceof NavigationEnd) {
         this.isAdmin = this.authService.isAdmin();
         this.isAuthenticated = this.authService.isAuthenticated();
+        this.userService.getSelf(this.userService.thisUserId()).subscribe({
+          next: user => {
+            this.username = user.username;
+          },
+        });
       }
     });
   }

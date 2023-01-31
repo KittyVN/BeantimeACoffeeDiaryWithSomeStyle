@@ -4,6 +4,7 @@ describe("Authentication", () => {
 
     cy.visit("/register");
     cy.get("input[name=email]").type("admin@test.com");
+    cy.get("input[name=username]").type("adminuser");
     cy.get("input[name=password]").type("password");
     cy.get("button[type=submit]").click();
 

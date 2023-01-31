@@ -28,24 +28,38 @@ public class User {
     @Column(nullable = false)
     private boolean active;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
     public User() {}
 
     public User(Long id) {
         this.id = id;
     }
 
-    public User(String email, String password, UserRole role) {
+    public User(String email, String username, String password, UserRole role) {
         this.email = email;
+        this.username = username;
         this.password = password;
         this.role = role;
         this.active = true;
     }
 
-    public User(String email, String password, UserRole role, boolean active) {
+    public User(String email, String username, String password, UserRole role, boolean active) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
+
+    public User(Long id, String email, String username, String password, UserRole role, boolean active) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
         this.active = active;
+        this.username = username;
     }
 
     public Long getId() {
@@ -86,5 +100,13 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

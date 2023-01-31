@@ -27,7 +27,7 @@ export class EditAccountDataComponent implements OnInit {
     private router: Router
   ) {}
 
-  user: UpdateUserDto = { id: -999, email: '', password: '' };
+  user: UpdateUserDto = { id: -999, email: '', username: '', password: '' };
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -37,6 +37,7 @@ export class EditAccountDataComponent implements OnInit {
       this.userService.getSelf(this.user.id).subscribe({
         next: data => {
           this.user.email = data.email;
+          this.user.username = data.username;
         },
         error: err => {
           this.snackBar.open(err.error, 'Close', {
@@ -79,6 +80,7 @@ export class EditAccountDataComponent implements OnInit {
   form = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
+      username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       newPassword: new FormControl(''),
       newPasswordRepeat: new FormControl('', [this.newPasswordRepeatValidator]),

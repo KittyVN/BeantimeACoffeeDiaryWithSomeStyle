@@ -119,7 +119,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public String register(UserRegisterDto userRegisterDto) {
         LOGGER.debug("Register user {}", userRegisterDto);
-        User user = new User(userRegisterDto.getEmail(), passwordEncoder.encode(userRegisterDto.getPassword()), UserRole.USER);
+        User user = new User(userRegisterDto.getEmail(), userRegisterDto.getUsername(),
+            passwordEncoder.encode(userRegisterDto.getPassword()), UserRole.USER);
         userRepository.save(user);
 
         UserCredentialsDto userDetails = loadUserByUsername(userRegisterDto.getEmail());
@@ -136,6 +137,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findFirstById(userUpdateRequestDto.getId());
         if (passwordEncoder.matches(userUpdateRequestDto.getPassword(), user.getPassword())) {
             user.setEmail(userUpdateRequestDto.getEmail());
+            user.setUsername(userUpdateRequestDto.getUsername());
             if (userUpdateRequestDto.getNewPassword() != null) {
                 user.setPassword(passwordEncoder.encode(userUpdateRequestDto.getNewPassword()));
             }
@@ -211,7 +213,7 @@ public class UserServiceImpl implements UserService {
             List<CoffeeBeanRatingListDto> topRatingsList = beanService.getTop5RatedByUserId(id);
 
             return new UserProfileDto(
-                user.getEmail(),
+                user.getUsername(),
                 extractionService.getExtractionMatrixByUserId(id),
                 topRatedList.toArray(new ExtractionListDto[topRatedList.size()]),
                 topExtractionsList.toArray(new CoffeeBeanExtractionsListDto[topExtractionsList.size()]),

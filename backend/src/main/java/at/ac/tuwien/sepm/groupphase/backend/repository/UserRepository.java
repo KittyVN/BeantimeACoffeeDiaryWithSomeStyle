@@ -11,12 +11,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
     /**
-     * Find a user by email.
+     * Find a user by username.
      *
      * @param email the email of the user
      * @return the user with the given email
      */
     User findByEmail(String email);
+
+    /**
+     * Find a user by username.
+     *
+     * @param username the username of the user
+     * @return the user with the given username
+     */
+    User findByUsername(String username);
 
     @Modifying
     @Transactional

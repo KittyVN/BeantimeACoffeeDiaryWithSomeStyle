@@ -14,7 +14,7 @@
       <div class="profile-container" *ngSwitchCase="true">
         <button mat-flat-button [routerLink]="['/profile']">
           <mat-icon>account_circle</mat-icon>
-          My Profile
+          {{ username }}
         </button>
         <button mat-flat-button (click)="this.logout()">Logout</button>
       </div>
