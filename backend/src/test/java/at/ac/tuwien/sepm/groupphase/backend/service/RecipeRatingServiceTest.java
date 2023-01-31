@@ -2,13 +2,16 @@ package at.ac.tuwien.sepm.groupphase.backend.service;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingCreateDto;
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.AuthorizationException;
 import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
+import at.ac.tuwien.sepm.groupphase.backend.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +56,36 @@ public class RecipeRatingServiceTest {
     }
 
     /* DELETE tests */
+    @Test
+    @Transactional
+    @Rollback
+    public void deleteRatingByExistentIdByAuthor() {
+        assertThat(service.getByRecipeId(1L).toList().size()).isEqualTo(6);
+        service.delete(1L, 1L);
+        assertThat(service.getByRecipeId(1L).toList().size()).isEqualTo(5);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deleteRatingByNonExistentIdThrowsNotFoundException() {
+        try {
+            service.delete(0L, 1L);
+        } catch (Exception e) {
+            assertThat(e instanceof NotFoundException);
+        }
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deleteRatingByExistentIdByNotAuthorThrowsAuthorizationException() throws Exception {
+        try {
+            service.delete(1L, 3L);
+        } catch (Exception e) {
+            assertThat(e instanceof AuthorizationException);
+        }
+    }
 
     /* GET tests */
 }
