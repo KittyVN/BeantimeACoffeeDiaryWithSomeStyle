@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepm.groupphase.backend.dtos.req.RecipeRatingListDto;
+import at.ac.tuwien.sepm.groupphase.backend.exception.ConflictException;
 import at.ac.tuwien.sepm.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,7 +97,7 @@ public class RecipeRatingEndpointTest {
     @Test
     @Transactional
     @WithMockUser(username = "john.doe@example.com", password = "password", roles = "ADMIN")
-    public void createRatingWithSameRecipeIdAsInURLAndUserThatIsNotAuthor() throws Exception {
+    public void createRatingWithSameRecipeIdAsInURLAndUserThatIsNotAuthorReturnsDetailDto() throws Exception {
         String auth = "Bearer " + jwtTokenizer.getAuthToken("2", "john.doe@example.com", new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
         byte[] body = mockMvc
             .perform(MockMvcRequestBuilders
@@ -116,5 +117,25 @@ public class RecipeRatingEndpointTest {
             .map(RecipeRatingListDto::getId, RecipeRatingListDto::getRecipeId, RecipeRatingListDto::getAuthorId,
                 RecipeRatingListDto::getAuthorUsername, RecipeRatingListDto::getRating, RecipeRatingListDto::getText)
             .contains(tuple(7L, 1L, 2L, "JohnD", 5, null));
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(username = "admin@email.com", password = "password", roles = "ADMIN")
+    public void createRatingWithSameRecipeIdAsInURLAndUserThatIsAuthorReturns409() {
+        String auth = "Bearer " + jwtTokenizer.getAuthToken("1", "admin@email.com", new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
+        try {
+            byte[] body = mockMvc
+                .perform(MockMvcRequestBuilders
+                    .post("/api/v1/recipes/1/ratings")
+                    .header(HttpHeaders.AUTHORIZATION, auth)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"recipeId\": 1, \"authorId\": 1, \"rating\": 5}")
+                    .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isConflict())
+                .andReturn().getResponse().getContentAsByteArray();
+        } catch (Exception e) {
+            assertThat(e.getCause() instanceof ConflictException);
+        }
     }
 }
