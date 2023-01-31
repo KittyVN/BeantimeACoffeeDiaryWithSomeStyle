@@ -68,4 +68,21 @@ public class RecipeRatingEndpointTest {
             .contains(tuple(5L, 1L, 7L, "Jan", 1, "Seldom have I ever drank something so disgusting!"))
             .contains(tuple(6L, 1L, 3L, "Musterf", 5, null));
     }
+
+    @Test
+    @Transactional
+    @WithMockUser(username = "admin@example.com", password = "password", roles = "ADMIN")
+    public void getByNonExistentRatingIdReturnsEmptyStream() throws Exception {
+        byte[] body = mockMvc
+            .perform(MockMvcRequestBuilders
+                .get("/api/v1/recipes/0/ratings")
+                .accept(MediaType.APPLICATION_JSON)
+            ).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsByteArray();
+
+        List<RecipeRatingListDto> ratingResult = objectMapper.readerFor(RecipeRatingListDto.class).<RecipeRatingListDto>readValues(body).readAll();
+
+        assertThat(ratingResult).isNotNull();
+        assertThat(ratingResult.size()).isEqualTo(0);
+    }
 }
