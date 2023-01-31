@@ -26,10 +26,11 @@ export class RecipeService {
    * Edit an existing recipe
    * @param recipe The edited recipe
    */
-  public edit(recipe: RecipeListDto) {
-    return this.http.put('recipes/extraction/' + recipe.extractionId, recipe, {
-      responseType: 'text',
-    });
+  public edit(recipe: RecipeListDto): Observable<RecipeListDto> {
+    return this.http.put<RecipeListDto>(
+      'recipes/extraction/' + recipe.extractionId,
+      recipe
+    );
   }
 
   /**

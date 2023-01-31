@@ -174,21 +174,18 @@ export class RecipesDashboardComponent implements OnInit {
   }
 
   editRecipe(recipe: RecipeDetailDto) {
-    let observable: Observable<string>;
     let recipeDto: RecipeListDto = {
       id: recipe.id,
-      shared: recipe.shared,
+      shared: !recipe.shared,
       extractionId: recipe.extractionId,
     };
 
     for (let i = 0; i < this.recipes.length; i++) {
       if (this.recipes[i].id === recipe.id) {
-        recipeDto.shared = recipe.shared;
-        observable = this.recipeService.edit(recipeDto);
-
-        observable.subscribe({
+        this.recipeService.edit(recipeDto).subscribe({
           next: data => {
-            this.recipes[i].shared = recipeDto.shared;
+            console.log(this.recipes[i].shared, recipeDto.shared, data.shared);
+            this.recipes[i].shared = data.shared;
           },
           error: err => {
             if (err.status == 404) {

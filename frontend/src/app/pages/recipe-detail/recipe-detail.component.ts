@@ -199,23 +199,15 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   editRecipe() {
-    let observable: Observable<string>;
     let recipeDto: RecipeListDto = {
       id: this.recipe.id,
-      shared: this.recipe.shared,
+      shared: !this.recipe.shared,
       extractionId: this.recipe.extractionId,
     };
 
-    if (this.recipe.shared) {
-      recipeDto.shared = false;
-    } else {
-      recipeDto.shared = true;
-    }
-    observable = this.recipeService.edit(recipeDto);
-
-    observable.subscribe({
+    this.recipeService.edit(recipeDto).subscribe({
       next: data => {
-        this.recipe.shared = recipeDto.shared;
+        this.recipe.shared = data.shared;
       },
       error: err => {
         if (err.status == 404) {
