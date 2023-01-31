@@ -107,6 +107,10 @@ export class UserService {
       params = params.set('id', searchParameters.id);
     }
 
+    if (searchParameters.username != null) {
+      params = params.set('username', searchParameters.username);
+    }
+
     if (searchParameters.email != null) {
       params = params.set('email', searchParameters.email);
     }
