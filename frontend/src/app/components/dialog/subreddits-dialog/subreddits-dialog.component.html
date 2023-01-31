@@ -11,10 +11,10 @@
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>
   <button
+    [disabled]="!subredditIsSelected()"
     mat-raised-button
-    color="warn"
-    (click)="postToReddit()"
-    cdkFocusInitial>
+    color="primary"
+    (click)="postToReddit()">
     Post
   </button>
 </div>

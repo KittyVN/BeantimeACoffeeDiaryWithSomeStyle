@@ -209,21 +209,18 @@ export class RedditService {
       .subscribe({
         next: (data: SubredditsResponse) => {
           data.data.children.forEach(element => {
-            subreddits.push(element.data.display_name_prefixed);
-            console.log(element.data.display_name_prefixed);
-            console.log(subreddits);
+            subreddits.push(element.data.display_name);
           });
           return of(subreddits);
         },
         error: err => {
-          console.log(err);
           return [];
         },
       });
     return of(subreddits);
   }
 
-  postToReddit(recipe: CommunityRecipeDto) {
+  postToReddit(recipe: CommunityRecipeDto, selectedSubreddit: string) {
     let access_token = this.redditAuthService.getStoredAccessToken();
     if (access_token) {
       let httpOptions = {
@@ -237,13 +234,13 @@ export class RedditService {
         .set('text', text)
         .set('title', 'Made this coffee recently:')
         .set('kind', 'self')
-        .set('sr', 'privateApiTestingBean');
+        .set('sr', selectedSubreddit);
       this.http
         .post('https://oauth.reddit.com/api/submit', data, httpOptions)
         .subscribe({
           next: data => {
             this.snackBar.open(
-              'Successfully posted to test subreddit!',
+              'Successfully posted to ' + selectedSubreddit + '!',
               'Close',
               {
                 duration: 5000,
