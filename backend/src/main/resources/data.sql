@@ -107,3 +107,7 @@ VALUES
   (50, '2023-01-27T08:23:45', 'DRIP', 'MEDIUM_COARSE', 96.7, 16, 300, 70000, 4, 3, 4, 4, 4, 2),
   (51, '2023-01-27T10:11:12', 'DRIP', 'MEDIUM', 96.2, 15, 325, 67000, 3, 2, 3, 3, 3, 2),
   (52, '2023-01-27T15:30:50', 'DRIP', 'FINE', 95.6, 14, 275, 72000, 2, 2, 2, 2, 2, 2);
+
+INSERT INTO coffee_extraction (id, extraction_date, brew_method, grind_setting, water_temperature, dose, water_amount, brew_time, body, acidity, aromatics, sweetness, aftertaste, coffee_bean_id, rating_notes, recipe_steps)
+VALUES
+  (53, '2023-01-01T08:00:00', 'DRIP', 'MEDIUM', 96.7, 18.5, 340, 6000, 4,3, 5, 2, 4, 21, 'I like this particular extraction because it creates a flavorful and balanced cup of coffee with a rich body, bright acidity, and a sweet and aromatic finish.', '<ol><li><b>Choose coffee bean:</b> Brazilian Arabica</li><li><b>Grind coffee beans:</b> Grind coffee beans to desired grind setting. For this recipe, we will use "MEDIUM_FINE" grind setting</li><li><b>Heat water:</b> Heat water to desired temperature. For this recipe, we will use 90.5°C</li><li><b>Measure dose:</b> Measure out 18.0 grams of coffee for this recipe</li><li><b>Add coffee to brew method:</b> Add coffee to the brewing method of your choice. For this recipe, we will use the drip method</li><li><b>Pour water:</b> Slowly pour heated water over coffee, making sure to wet all the coffee evenly. Use 235 ml of water</li><li><b>Brew coffee:</b> Let coffee brew for about 3 minutes</li></ol><p>Feel free to adjust the recipe to your personal preferences.</p>');
