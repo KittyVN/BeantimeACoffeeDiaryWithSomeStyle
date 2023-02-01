@@ -37,8 +37,14 @@ public class RecipeDataGenerator {
                 new Extraction(4L)
             );
 
+            Recipe e3 = new Recipe(
+                true,
+                new Extraction(15L)
+            );
+
             this.recipeRepository.save(e1);
             this.recipeRepository.save(e2);
+            this.recipeRepository.save(e3);
         }
     }
 }

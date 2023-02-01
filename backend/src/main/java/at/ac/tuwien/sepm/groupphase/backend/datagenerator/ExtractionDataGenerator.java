@@ -218,7 +218,9 @@ public class ExtractionDataGenerator {
                 200D,
                 33000L,
                 2, 3, 2, 1, 1, "Instant coffee only gets that good....",
-                "Test Anleitung",
+                "1. Grab your favorite coffee cup \n" +
+                    "2. Put in 13 grams of the powder and 200 ml of hot water. \n" +
+                    "3. Gently stir until the powder is dissolved and enjoy... or don't. It's really just instant coffee.",
                 this.coffeeBeanRepository.findById(6L).get()
             );
 
