@@ -97,7 +97,7 @@ public class RecipeEndpointTest {
         List<RecipeListDto> result = objectMapper.readerFor(RecipeListDto.class).<RecipeListDto>readValues(body).readAll();
 
         assertThat(result).isNotNull();
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.size()).isEqualTo(2);
         assertThat(result)
             .map(RecipeListDto::isShared)
             .contains(false);
