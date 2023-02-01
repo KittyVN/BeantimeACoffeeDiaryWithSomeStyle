@@ -1,7 +1,5 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
-import java.util.HashMap;
-
 public class ExtractionMatrixDto {
     private int sumExtractions;
     private ExtractionDayStatsDto[] dailyStats;

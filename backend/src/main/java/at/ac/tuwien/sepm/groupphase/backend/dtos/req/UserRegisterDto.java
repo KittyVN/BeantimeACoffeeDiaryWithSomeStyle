@@ -1,6 +1,5 @@
 package at.ac.tuwien.sepm.groupphase.backend.dtos.req;
 
-import javax.persistence.NamedStoredProcedureQueries;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;

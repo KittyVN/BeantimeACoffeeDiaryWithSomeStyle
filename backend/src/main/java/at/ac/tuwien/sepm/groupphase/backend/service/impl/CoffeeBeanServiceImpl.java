@@ -21,8 +21,6 @@ import at.ac.tuwien.sepm.groupphase.backend.mapper.CoffeeBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.jca.cci.CciOperationNotSupportedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,7 +28,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.Tuple;
 import java.lang.invoke.MethodHandles;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
