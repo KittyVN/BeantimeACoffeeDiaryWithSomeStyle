@@ -111,3 +111,15 @@ VALUES
 INSERT INTO coffee_extraction (id, extraction_date, brew_method, grind_setting, water_temperature, dose, water_amount, brew_time, body, acidity, aromatics, sweetness, aftertaste, coffee_bean_id, rating_notes, recipe_steps)
 VALUES
   (53, '2023-01-01T08:00:00', 'DRIP', 'MEDIUM', 96.7, 18.5, 340, 6000, 4,3, 5, 2, 4, 21, 'I like this particular extraction because it creates a flavorful and balanced cup of coffee with a rich body, bright acidity, and a sweet and aromatic finish.', '<ol><li><b>Choose coffee bean:</b> Brazilian Arabica</li><li><b>Grind coffee beans:</b> Grind coffee beans to desired grind setting. For this recipe, we will use "MEDIUM_FINE" grind setting</li><li><b>Heat water:</b> Heat water to desired temperature. For this recipe, we will use 90.5°C</li><li><b>Measure dose:</b> Measure out 18.0 grams of coffee for this recipe</li><li><b>Add coffee to brew method:</b> Add coffee to the brewing method of your choice. For this recipe, we will use the drip method</li><li><b>Pour water:</b> Slowly pour heated water over coffee, making sure to wet all the coffee evenly. Use 235 ml of water</li><li><b>Brew coffee:</b> Let coffee brew for about 3 minutes</li></ol><p>Feel free to adjust the recipe to your personal preferences.</p>');
+
+INSERT INTO coffee_recipe (id, shared, extraction_id)
+VALUES
+  (1, true, 53);
+
+INSERT INTO recipe_rating (recipe_id, rating, text, timestamp, user_id)
+VALUES
+  (1, 5, 'This recipe is fantastic and so easy to follow, 5 stars!', '2023-02-01T12:00:00Z', 3),
+  (1, 5, 'The flavors were spot on and it was the perfect dish for a dinner party', '2023-02-01T14:00:00Z', 8),
+  (1, 3, 'This recipe is a great starting point but I added a few of my own twists to make it my own', '2023-02-01T16:00:00Z', 10),
+  (1, 2, 'I was disappointed with this recipe as it didn''t turn out as I expected, 2 stars', '2023-02-01T18:00:00Z', 15),
+  (1, 4, 'This recipe was quick, simple and delicious. Highly recommend, 4 stars', '2023-02-01T20:00:00Z', 1);
