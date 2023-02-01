@@ -117,7 +117,7 @@ public class RecipeEndpointTest {
         List<RecipeDetailDto> result = objectMapper.readerFor(RecipeDetailDto.class).<RecipeDetailDto>readValues(body).readAll();
 
         assertThat(result).isNotNull();
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.size()).isEqualTo(2);
         assertThat(result)
             .map(RecipeDetailDto::getCoffeeBeanDescription, RecipeDetailDto::getExtractionAcidity, RecipeDetailDto::getExtractionRatingNotes)
             .contains(tuple(
