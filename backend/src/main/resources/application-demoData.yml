@@ -15,6 +15,7 @@ spring:
   sql:
     init:
       mode: always
+      data-locations: classpath:demo.sql
   jpa:
     # Set this property to true if you want to see the executed queries
     show-sql: false
