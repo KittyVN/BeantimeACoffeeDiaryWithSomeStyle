@@ -1,0 +1,30 @@
+﻿id;name;price;beanBlend;origin;height;coffeeRoast;urlToCoffee;description;coffeeStrength;userId
+1;Elevation Blend;12.99;Blend of Arabica and Robusta beans;Ethiopia and Brazil;900;MEDIUM;https://www.elevationblend.com;A well-balanced medium roast coffee with bright acidity, sweet and fruit flavors;Balanced;1
+2;Night Owl;10.99;100% Arabica Beans;Colombia;1000;DARK;https://www.nightowlcoffee.com;A dark and bold coffee with hints of chocolate and a full body;Strong;1
+3;Early Bird Espresso;15.99;Blend of Arabica and Robusta Beans;Ethiopia and Indonesia;1100;ESPRESSO;https://www.earlybirdespresso.com;A smooth and rich espresso with a fruity aroma and a dark chocolate aftertaste;Intense;2
+4;Sumatra Tiger;13.99;100% Sumatra Beans;Sumatra, Indonesia;1200;DARK;https://www.sumatratiger.com;A full-bodied dark roast with notes of earthy and herbal flavors;Robust;3
+5;African Sunrise;12.99;100% African Beans;Kenya, Ethiopia;1000;LIGHT;https://www.africansunrise.com;A bright and light roast with hints of lemon and berry flavors;Mild;4
+6;Java Jolt;11.99;Blend of Indonesian and South American Beans;Java, Indonesia and Colombia;950;MEDIUM;https://www.javajolt.com;A medium roast coffee with a bold flavor and a smooth finish;Balanced;5
+7;Aloha Kona;16.99;100% Kona Beans;Kona, Hawaii;900;MEDIUM;https://www.alohakona.com;A medium roast coffee with a nutty and chocolate flavor;Balanced;6
+8;Columbian Peak;14.99;100% Colombian Beans;Colombia;1100;MEDIUM;https://www.columbianpeak.com;A medium roast coffee with a well-rounded flavor and a bright acidity;Balanced;7
+9;Mexican Mocha;12.99;Blend of Mexican and South American Beans;Mexico and Colombia;950;DARK;https://www.mexicanmocha.com;A dark roast coffee with hints of chocolate and caramel flavors;Strong;8
+10;Peruvian Puro;13.99;100% Peruvian Beans;Peru;1000;LIGHT;https://www.peruvianpuro.com;A light roast coffee with a sweet and fruity flavor;Mild;9
+11;Bali Blue Moon;15.99;100% Bali Beans;Bali, Indonesia;1100;MEDIUM;https://www.balibluedark.com;A medium roast coffee with a smooth and creamy flavor;Balanced;10
+12;Brazilian Bold;12.99;100% Brazilian Beans;Brazil;900;DARK;https://www.brazilianbold.com;A dark roast coffee with a strong and bold flavor;Robust;11
+13;Java Bean;12.99;Arabian, Robusta;Indonesia;45;DARK;https://coffeebean.com/14;Rich and full-bodied coffee with notes of dark chocolate and roasted nuts;STRONG;10
+14;Colombian Supreme;14.49;Colombian Arabica;Colombia;48;MEDIUM;https://coffeebean.com/15;Balanced and smooth with a mild acidity and sweet fruity notes;MEDIUM;1
+15;Kenyan AA;16.99;Kenyan Arabica;Kenya;50;LIGHT;https://coffeebean.com/16;Crisp and bright with a citrus acidity and wine-like flavors;LIGHT;11
+16;Ethiopian Yirgacheffe;15.99;Ethiopian Arabica;Ethiopia;52;LIGHT;https://coffeebean.com/17;Distinctive floral and fruity flavor profile with a light body and delicate acidity;LIGHT;6
+17;Sumatra Mandheling;14.49;Sumatra Arabica;Indonesia;55;DARK;https://coffeebean.com/18;Intense and earthy with a low acidity and notes of dark chocolate and spice;STRONG;17
+18;Guatemalan Antigua;13.99;Guatemalan Arabica;Guatemala;48;MEDIUM;https://coffeebean.com/19;Mild and sweet with a medium body and nutty flavors;MEDIUM;8
+19;Mexican Chiapas;12.99;Mexican Arabica;Mexico;45;MEDIUM;https://coffeebean.com/20;Mild and smooth with a chocolatey flavor and low acidity;MEDIUM;4
+20;Peruvian Pangoa;12.49;Peruvian Arabica;Peru;50;LIGHT;https://coffeebean.com/21;Bright and clean with a delicate acidity and citrusy notes;LIGHT;13
+21;Brazilian Santos;13.99;Brazilian Arabica;Brazil;52;MEDIUM;https://coffeebean.com/22;Mild and sweet with a medium body and nutty flavor;MEDIUM;19
+22;Nicaraguan Segovia;14.99;Nicaraguan Arabica;Nicaragua;55;MEDIUM;https://coffeebean.com/23;Balanced and smooth with a medium body and chocolatey flavors;MEDIUM;2
+23;Honduran Comayagua;12.99;Honduran Arabica;Honduras;45;LIGHT;https://coffeebean.com/24;Crisp and bright with a medium body and citrusy notes;LIGHT;12
+24;Papua New Guinean Kimel;15.49;Papua New Guinean Arabica;Papua New Guinea;48;MEDIUM;https://coffeebean.com/25;Balanced and smooth with a medium body and nutty flavors;MEDIUM;5
+25;Costa Rican Tarrazu;16.99;Costa Rican Arabica;Costa Rica;50;LIGHT;https://coffeebean.com/26;Bright and crisp with a medium body and citrusy notes;LIGHT;15
+26;Jamaican Blue Mountain;19.99;Jamaican Arabica;Jamaica;52;LIGHT;https://coffeebean.com/27;Mild and sweet with a medium body and bright, fruity flavors;LIGHT;7
+27;El Salvadorian Santa Ana;14.99;El Salvadorian Arabica;El Salvador;55;MEDIUM;https://coffeebean.com/28;Balanced and smooth with a medium body and nutty flavors;MEDIUM;9
+28;Vietnamese Weasel;18.99;Vietnamese Robusta;Vietnam;45;DARK;https://coffeebean.com/29;Intense and earthy with a full body and notes of dark chocolate and spices;STRONG;16
+29;Tanzanian Peaberry;17.49;Tanzanian Arabica;Tanzania;48;MEDIUM;https://coffeebean.com/30;Mild and sweet with a medium body and fruity flavors;MEDIUM;3
