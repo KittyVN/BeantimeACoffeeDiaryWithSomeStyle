@@ -8,7 +8,7 @@
   </div>
   <form class="form" [formGroup]="searchRecipeForm">
     <mat-form-field appearance="outline" class="search-input">
-      <mat-label>Name</mat-label>
+      <mat-label>Coffee Name</mat-label>
       <input
         type="text"
         matInput
@@ -71,7 +71,7 @@
       </select>
     </mat-form-field>
   </form>
-  <mat-grid-list cols="4" rowHeight="35em">
+  <mat-grid-list cols="3" rowHeight="35em">
     <mat-grid-tile *ngFor="let recipe of recipes">
       <mat-card class="recipe-card">
         <mat-card-header>

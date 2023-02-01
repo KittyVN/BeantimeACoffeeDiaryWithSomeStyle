@@ -3,7 +3,7 @@
     <div class="logo-wrapper">
       <a [routerLink]="['/home']">{{ appName }}</a>
       <a [routerLink]="['/community']"> Community</a>
-      <a [routerLink]="['/my-recipes']"> My Recipes</a>
+      <a *ngIf="isAuthenticated" [routerLink]="['/my-recipes']"> My Recipes</a>
       <a routerLink="/admin" *ngIf="isAdmin">Admin</a>&nbsp;
     </div>
     <div [ngSwitch]="isAuthenticated">
