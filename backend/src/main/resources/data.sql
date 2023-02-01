@@ -78,7 +78,6 @@ VALUES
   (21, '2023-01-27T05:30:00', 'DRIP', 'MEDIUM', 96.7, 20.0, 250.0, 30000, 4, 4, 4, 5, 2, 1),
   (22, '2023-01-27T07:45:00', 'DRIP', 'FINE', 96.7, 22.0, 300.0, 32000, 2, 2, 3, 4, 1, 1),
   (23, '2023-01-27T10:00:00', 'DRIP', 'EXTRA_FINE', 96.7, 25.0, 350.0, 35000, 3, 3, 4, 5, 2, 1),
-  (24, '2023-01-27T12:15:00', 'DRIP', 'COARSE', 96.7, 15.0, 200.0, 25000, 4, 4, 5, 5, 3, 1),
   (25, '2023-01-27T14:30:00', 'DRIP', 'MEDIUM_COARSE', 96.7, 18.0, 225.0, 28000, 2, 2, 3, 4, 1, 1),
   (26, '2023-01-27T16:45:00', 'DRIP', 'MEDIUM', 96.7, 20.0, 250.0, 30000, 3, 3, 4, 5, 2, 1),
   (27, '2023-01-27T19:00:00', 'DRIP', 'MEDIUM_FINE', 96.7, 22.0, 275.0, 32000, 4, 4, 5, 5, 3, 1),
@@ -102,7 +101,6 @@ VALUES
   (45, '2023-01-25T10:11:12', 'DRIP', 'MEDIUM', 96.2, 15, 325, 67000, 3, 2, 3, 3, 3, 2),
   (46, '2023-01-25T15:30:50', 'DRIP', 'FINE', 95.6, 15, 275, 72000, 2, 2, 2, 2, 2, 2),
   (47, '2023-01-26T07:35:12', 'DRIP', 'EXTRA_FINE', 96.9, 18.0, 250, 71000, 4, 4, 4, 4, 4, 2),
-  (48, '2023-01-26T09:52:30', 'DRIP', 'COARSE', 96.4, 14, 325, 69000, 5, 5, 5, 5, 5, 2),
   (49, '2023-01-26T14:01:01', 'DRIP', 'MEDIUM_FINE', 96.1, 14, 300, 73000, 3, 3, 3, 3, 3, 2),
   (50, '2023-01-27T08:23:45', 'DRIP', 'MEDIUM_COARSE', 96.7, 16, 300, 70000, 4, 3, 4, 4, 4, 2),
   (51, '2023-01-27T10:11:12', 'DRIP', 'MEDIUM', 96.2, 15, 325, 67000, 3, 2, 3, 3, 3, 2),
@@ -110,11 +108,15 @@ VALUES
 
 INSERT INTO coffee_extraction (id, extraction_date, brew_method, grind_setting, water_temperature, dose, water_amount, brew_time, body, acidity, aromatics, sweetness, aftertaste, coffee_bean_id, rating_notes, recipe_steps)
 VALUES
-  (53, '2023-01-01T08:00:00', 'DRIP', 'MEDIUM', 96.7, 18.5, 340, 6000, 4,3, 5, 2, 4, 21, 'I like this particular extraction because it creates a flavorful and balanced cup of coffee with a rich body, bright acidity, and a sweet and aromatic finish.', '<ol><li><b>Choose coffee bean:</b> Brazilian Arabica</li><li><b>Grind coffee beans:</b> Grind coffee beans to desired grind setting. For this recipe, we will use "MEDIUM_FINE" grind setting</li><li><b>Heat water:</b> Heat water to desired temperature. For this recipe, we will use 90.5°C</li><li><b>Measure dose:</b> Measure out 18.0 grams of coffee for this recipe</li><li><b>Add coffee to brew method:</b> Add coffee to the brewing method of your choice. For this recipe, we will use the drip method</li><li><b>Pour water:</b> Slowly pour heated water over coffee, making sure to wet all the coffee evenly. Use 235 ml of water</li><li><b>Brew coffee:</b> Let coffee brew for about 3 minutes</li></ol><p>Feel free to adjust the recipe to your personal preferences.</p>');
+  (53, '2023-01-28T08:00:00', 'DRIP', 'MEDIUM', 96.7, 18.5, 340, 6000, 4,3, 5, 2, 4, 21, 'I like this particular extraction because it creates a flavorful and balanced cup of coffee with a rich body, bright acidity, and a sweet and aromatic finish.', '<ol><li><b>Choose coffee bean:</b> Brazilian Arabica</li><li><b>Grind coffee beans:</b> Grind coffee beans to desired grind setting. For this recipe, we will use "MEDIUM_FINE" grind setting</li><li><b>Heat water:</b> Heat water to desired temperature. For this recipe, we will use 90.5°C</li><li><b>Measure dose:</b> Measure out 18.0 grams of coffee for this recipe</li><li><b>Add coffee to brew method:</b> Add coffee to the brewing method of your choice. For this recipe, we will use the drip method</li><li><b>Pour water:</b> Slowly pour heated water over coffee, making sure to wet all the coffee evenly. Use 235 ml of water</li><li><b>Brew coffee:</b> Let coffee brew for about 3 minutes</li></ol><p>Feel free to adjust the recipe to your personal preferences.</p>'),
+  (48, '2023-01-26T09:52:30', 'DRIP', 'COARSE', 96.4, 14, 325, 69000, 5, 5, 5, 5, 5, 2, 'I loved the Night Owl brew for its bold, smooth and rich flavor with a perfect balance of body, sweetness and a subtle aftertaste that lingered on my palate.', '<ol><li>Grind 14g of coffee beans to a coarse grind</li><li>Place a coffee filter into a drip coffee maker</li><li>Pour the ground coffee into the filter</li><li>Heat 325ml of water to 96.4°C</li><li>Slowly pour the water over the coffee grounds in the filter, ensuring an even distribution</li><li>Allow the coffee to brew for 6 minutes</li><li>Enjoy your delicious Night Owl brew!</li></ol>'),
+  (24, '2023-01-27T12:15:00', 'DRIP', 'COARSE', 96.7, 15.0, 200.0, 25000, 4, 4, 5, 5, 3, 1, 'The Elevation Blend recipe is known for its rich, full-bodied flavor with balanced acidity, hints of dark chocolate and a smooth finish, making it a well-rounded and enjoyable coffee experience for many', null);
 
 INSERT INTO coffee_recipe (id, shared, extraction_id)
 VALUES
-  (1, true, 53);
+  (1, true, 53),
+  (2, true, 48),
+  (3, false, 24);
 
 INSERT INTO recipe_rating (recipe_id, rating, text, timestamp, user_id)
 VALUES
@@ -123,3 +125,8 @@ VALUES
   (1, 3, 'This recipe is a great starting point but I added a few of my own twists to make it my own', '2023-02-01T16:00:00Z', 10),
   (1, 2, 'I was disappointed with this recipe as it didn''t turn out as I expected, 2 stars', '2023-02-01T18:00:00Z', 15),
   (1, 4, 'This recipe was quick, simple and delicious. Highly recommend, 4 stars', '2023-02-01T20:00:00Z', 1);
+
+INSERT INTO recipe_rating (recipe_id, rating, timestamp, user_id)
+VALUES
+  (2, 5, '2023-02-01T12:00:00Z', 4),
+  (2, 4, '2023-02-01T13:00:00Z', 7);
