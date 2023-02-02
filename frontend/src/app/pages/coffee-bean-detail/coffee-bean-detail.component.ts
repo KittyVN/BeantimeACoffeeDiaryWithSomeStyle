@@ -5,15 +5,17 @@ import { ExtractionService } from 'src/services/extraction.service';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { ExtractionSearchDto } from 'src/dtos/req/extraction-search-dto';
-import { debounce, interval, Observable, scan, Subject } from 'rxjs';
+import { debounce, interval, scan, Subject } from 'rxjs';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
 import { RecipeService } from 'src/services/recipe.service';
+import { MatDialog } from '@angular/material/dialog';
 
 import { CoffeeBeanDto, ExtractionDetailDto } from '../../../dtos';
 import { Roast } from '../../../dtos/req/roast-type.enum';
 import { CoffeeBeanService } from '../../../services/coffee-bean.service';
 import { CoffeeBeanAvgExtractionRating } from '../../../dtos/req/coffee-bean-avg-extraction-rating';
+import { DeleteDialogCoffeeComponent } from '../../components/dialog/delete-dialog-coffee/delete-dialog-coffee.component';
 
 @Component({
   selector: 'app-coffee-bean-detail',
@@ -91,6 +93,7 @@ export class CoffeeBeanDetailComponent implements OnInit {
     private extractionService: ExtractionService,
     private recipeService: RecipeService,
     private router: Router,
+    private dialog: MatDialog,
     private route: ActivatedRoute,
     public keyUp: Subject<KeyboardEvent | Event>,
     private snackBar: MatSnackBar
@@ -367,6 +370,22 @@ export class CoffeeBeanDetailComponent implements OnInit {
   deleteItemEvent(id: number) {
     this.extractions = this.extractions.filter(obj => {
       return obj.id !== id;
+    });
+  }
+
+  deleteDialog(): void {
+    const dialogRef = this.dialog.open(DeleteDialogCoffeeComponent, {
+      width: '300px',
+      hasBackdrop: true,
+      data: {
+        dataKey: this.coffee.id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'closed') {
+        this.router.navigate(['/home/']);
+      }
     });
   }
 }

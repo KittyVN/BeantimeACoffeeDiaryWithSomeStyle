@@ -74,6 +74,16 @@
         </button>
         <button mat-menu-item (click)="exportAllAsCsv()">All as Csv</button>
       </mat-menu>
+      <button mat-stroked-button color="warn" (click)="deleteDialog()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+      <button
+        mat-stroked-button
+        [routerLink]="['/coffee/' + coffee.id + '/edit']">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
       <button
         mat-raised-button
         color="primary"
