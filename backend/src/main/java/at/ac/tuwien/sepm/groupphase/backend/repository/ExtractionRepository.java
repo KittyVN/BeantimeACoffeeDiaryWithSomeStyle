@@ -47,7 +47,7 @@ public interface ExtractionRepository extends JpaRepository<Extraction, Long>, E
     @Query(value = "SELECT CAST(e.EXTRACTION_DATE as DATE), COUNT(e.ID), 0 FROM COFFEE_EXTRACTION e "
         + "JOIN COFFEE_BEAN b on e.COFFEE_BEAN_ID = b.ID JOIN APPLICATION_USER u on u.ID = b.USER_ID "
         + "WHERE u.ID = :id AND e.EXTRACTION_DATE >= (CURRENT_DATE - (ISO_DAY_OF_WEEK(CURRENT_DATE) - 1) - 52 * 7) "
-        + "GROUP BY e.EXTRACTION_DATE ORDER BY CAST(e.EXTRACTION_DATE as DATE)",
+        + "GROUP BY CAST(e.EXTRACTION_DATE as DATE) ORDER BY CAST(e.EXTRACTION_DATE as DATE)",
         nativeQuery = true)
     List<Tuple> findDailyCountsForLast53WeeksByUserId(@Param("id") Long id);
 
