@@ -61,6 +61,9 @@ export class UserService {
    */
   public logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('redditToken');
+    localStorage.removeItem('redditTokenExpiration');
+    localStorage.removeItem('redditAuthString');
     this.router.navigate(['/login']);
   }
 
