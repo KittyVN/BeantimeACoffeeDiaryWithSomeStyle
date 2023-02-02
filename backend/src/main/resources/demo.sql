@@ -21,6 +21,8 @@ VALUES
   (19, 'brian.taylor@example.com', 'briantaylor', '$2a$10$XE2p91vD0ltPUorOCpJqbeTRQBnmJBsOX4QBA2uzZ.sHAncqYGCP6','USER', true),
   (20, 'emma.johnson@example.com', 'emmajohnson', '$2a$10$XE2p91vD0ltPUorOCpJqbeTRQBnmJBsOX4QBA2uzZ.sHAncqYGCP6','USER', true);
 
+ALTER TABLE application_user ALTER COLUMN id RESTART WITH 21;
+
 INSERT INTO coffee_bean (id, name, price, origin, height, coffee_roast, bean_blend, url_to_coffee, description, strength, user_id)
 VALUES
   (1, 'Elevation Blend', 12.99, 'Ethiopia and Brazil', 900, 'MEDIUM', 'Blend of Arabica and Robusta beans', 'https://www.elevationblend.com', 'A well-balanced medium roast coffee with bright acidity, sweet and fruit flavors', 'Balanced', 1),
@@ -52,6 +54,8 @@ VALUES
   (27, 'El Salvadorian Santa Ana', 14.99, 'El Salvador', 55, 'MEDIUM', 'El Salvadorian Arabica', 'https://coffeebean.com/28', 'Balanced and smooth with a medium body and nutty flavors', 'Balanced', 9),
   (28, 'Vietnamese Weasel', 18.99, 'Vietnam', 45, 'DARK', 'Vietnamese Robusta', 'https://coffeebean.com/29', 'Intense and earthy with a full body and notes of dark chocolate and spices', 'Strong', 16),
   (29, 'Tanzanian Peaberry', 17.49, 'Tanzania', 48, 'MEDIUM', 'Tanzanian Arabica', 'https://coffeebean.com/30', 'Mild and sweet with a medium body and fruity flavors', 'Mild', 3);
+
+ALTER TABLE coffee_bean ALTER COLUMN id RESTART WITH 30;
 
 INSERT INTO coffee_extraction (id, extraction_date, brew_method, grind_setting, water_temperature, dose, water_amount, brew_time, body, acidity, aromatics, sweetness, aftertaste, coffee_bean_id)
 VALUES
@@ -112,11 +116,15 @@ VALUES
   (48, '2023-01-26T09:52:30', 'DRIP', 'COARSE', 96.4, 14, 325, 400000, 5, 5, 5, 5, 5, 2, 'I loved the Night Owl brew for its bold, smooth and rich flavor with a perfect balance of body, sweetness and a subtle aftertaste that lingered on my palate.', '<ol><li>Grind 14g of coffee beans to a coarse grind</li><li>Place a coffee filter into a drip coffee maker</li><li>Pour the ground coffee into the filter</li><li>Heat 325ml of water to 96.4°C</li><li>Slowly pour the water over the coffee grounds in the filter, ensuring an even distribution</li><li>Allow the coffee to brew for 6 minutes</li><li>Enjoy your delicious Night Owl brew!</li></ol>'),
   (24, '2023-01-27T12:15:00', 'DRIP', 'COARSE', 96.7, 15.0, 200.0, 250000, 4, 4, 5, 5, 3, 1, 'The Elevation Blend recipe is known for its rich, full-bodied flavor with balanced acidity, hints of dark chocolate and a smooth finish, making it a well-rounded and enjoyable coffee experience for many', null);
 
+ALTER TABLE coffee_extraction ALTER COLUMN id RESTART WITH 54;
+
 INSERT INTO coffee_recipe (id, shared, extraction_id)
 VALUES
   (1, true, 53),
   (2, true, 48),
   (3, false, 24);
+
+ALTER TABLE coffee_recipe ALTER COLUMN id RESTART WITH 4;
 
 INSERT INTO recipe_rating (recipe_id, rating, text, timestamp, user_id)
 VALUES

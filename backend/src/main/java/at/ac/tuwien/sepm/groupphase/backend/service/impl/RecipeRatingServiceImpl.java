@@ -66,7 +66,7 @@ public class RecipeRatingServiceImpl implements RecipeRatingService {
         User user = userRepository.findFirstById(userId);
         RecipeRating recipeRating = recipeRatingRepository.findRecipeRatingById(id);
 
-        if (user.getRole().equals(UserRole.ADMIN) || user.equals(recipeRating.getAuthor())) {
+        if (user.getRole().equals(UserRole.ADMIN) || user.getId().equals(recipeRating.getAuthor().getId())) {
             recipeRatingRepository.deleteById(id);
         } else {
             throw new AuthorizationException();
