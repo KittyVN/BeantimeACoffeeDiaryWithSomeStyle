@@ -266,4 +266,8 @@ export class RecipeDetailComponent implements OnInit {
       },
     });
   }
+
+  changeRating(val: number) {
+    this.newRating.rating = val;
+  }
 }

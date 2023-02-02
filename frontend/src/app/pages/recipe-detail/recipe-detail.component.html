@@ -105,7 +105,9 @@
     </mat-card-header>
     <mat-card-content>
       <form (submit)="createRating()">
-        <app-star-rating [rating]="newRating.rating"></app-star-rating>
+        <app-star-rating
+          [rating]="newRating.rating"
+          (newRatingEvent)="changeRating($event)"></app-star-rating>
         <mat-form-field>
           <mat-label>Remarks (optional)</mat-label>
           <textarea
