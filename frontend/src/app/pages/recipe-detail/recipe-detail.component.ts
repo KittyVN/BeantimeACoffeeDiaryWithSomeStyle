@@ -191,6 +191,7 @@ export class RecipeDetailComponent implements OnInit {
   deleteRecipe(): void {
     this.recipeService.delete(this.recipe.id.toString()).subscribe({
       next: res => {
+        this.router.navigate(['/community/']);
         this.snackBar.open('Successfully deleted recipe', 'Close', {
           duration: 5000,
         });
