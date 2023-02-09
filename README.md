@@ -10,9 +10,11 @@
 
 ### Start the frontend
 
-`cd frontend` and then `npm run dev`
+`cd frontend` and then `npm run dev` or just npm install and then ng serve
 
 ### Start the backend
+
+either start with datagen profile or without
 
 ### Run E2E Tests
 
